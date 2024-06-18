@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="titẹsi.php" class="active">
+                <a href="titẹsi.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -38,11 +38,11 @@
                     <span class="material-icons-sharp">local_library</span>
                     <h3>Products</h3>
                 </a>
-                <a href="akojooja.php">
+                <a href="akojooja.php" class="active">
                     <span class="material-icons-sharp">person_outline</span>
                     <h3>Inventory</h3>
                 </a>
-                
+
 
                 <a href="#">
                     <span class="material-icons-sharp"></span>
@@ -57,7 +57,7 @@
                 <div class="sales">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Partners</h3>
+                            <h3>Total Clients</h3>
                             <div id="link_wrapper">
 
                             </div>
@@ -70,7 +70,7 @@
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Products</h3>
+                            <h3>Total Work</h3>
                             <div id="link_wrapper1">
 
                             </div>
@@ -98,37 +98,43 @@
             </div>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                <h2>Recent Product</h2>
-                <table style="width: 100%;">
+                <h2>Recent Work</h2>
+                <table>
                     <thead>
                         <tr>
-                            <th>Partner</th>
-                            <th>Product</th>
-                            <th>Quantity Details</th>
+                            <th>Client</th>
+                            <th>Style</th>
+                            <th>Sewing</th>
+                            <th>Entry Date</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
+                    <?php
+                    require 'config.php';
+                    $query = mysqli_query($conn, "SELECT fullname, Style, Sewing, Entry_Date, Due_Date, StatusC FROM work ORDER BY fullname DESC LIMIT 10 ");
+                    while ($row = mysqli_fetch_array($query)) {
 
-                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products ORDER BY partner DESC");
-                        while ($row = mysqli_fetch_array($query)) {
-                            $partner = $row['partner'];
-                            $productName = $row['productName'];
-                            $quantity = $row['quantity'];
-                            ?>
+                        $fullname = $row['fullname'];
+                        $Style = $row['Style'];
+                        $Sewing = $row['Sewing'];
+                        $Entry_Date = $row['Entry_Date'];
+                        $Due_Date = $row['Due_Date'];
+                        $StatusC = $row['StatusC'];
+
+                        ?>
+                        <tbody>
                             <tr>
-                                <td> <?php echo $partner; ?></td>
-                                <td><?php echo $productName; ?></td>
-                                <td><?php echo $quantity; ?></td>
-
-                            </tr>
-
-
-
-                        <?php } ?>
-                    </tbody>
+                                <td><?php echo $fullname; ?></td>
+                                <td><?php echo $Style; ?></td>
+                                <td><?php echo $Sewing; ?></td>
+                                <td><?php echo $Entry_Date; ?></td>
+                                <td><?php echo $Due_Date; ?></td>
+                                <td><?php echo $StatusC; ?></td>
+                        </tbody>
+                    <?php } ?>
                 </table>
+
                 <a href="workRecord.php">Show all</a>
         </main>
         <!-- ----------END OF MAIN----------- -->
@@ -144,36 +150,71 @@
                 <div class="profile">
                     <div class="info">
                         <p> <b></b></p>
-                        <!-- <small class="text-muted">Admin</small> -->
+                        <small class="text-muted">Admin</small>
                     </div>
                 </div>
             </div>
 
             <div class="sales-analytics">
-             <a href="newalabasepo.php">
+
+                <a href="newClient.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>New Partner</h3>
-                        </div>
-                    </div>
-                </a>    
-            <a href="ojatitun.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Product</h3>
+                            <h3>New Client</h3>
                         </div>
                     </div>
                 </a>
-                
+
+                <a href="newworkentry.php">
+                    <div class="item add-product">
+                        <div>
+                            <span class="material-icons-sharp">add</span>
+                            <h3>New Work</h3>
+                        </div>
+                    </div>
+                </a>
                 <span>
-                    <h2>Notifications</h2>
+                    <h2>Delivery Focus</h2><span>Deliveries less than 8 Days</span>
                 </span>
                 <div class="item-online">
                     <div class="right">
                         <table style="width: 100%;" class="due_client">
-                            
+                            <thead style="text-align: left;">
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Style</th>
+                                    <th>Sewing</th>
+                                    <th>Due Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sevenDaysFromNow = date('Y-m-d', strtotime('+7 days'));
+
+                                $query = mysqli_query($conn, "SELECT fullname, style, sewing, Due_Date, status FROM work WHERE Due_Date BETWEEN CURDATE() AND '$sevenDaysFromNow' ORDER BY fullname ASC ");
+
+                                while ($row = mysqli_fetch_array($query)) {
+                                    $fullname = $row['fullname'];
+                                    $style = $row['style'];
+                                    $sewing = $row['sewing'];
+                                    $Due_Date = $row['Due_Date'];
+                                    $status = $row['status'];
+
+                                    // Check if status is not equal to 0 before displaying the row
+                                    if ($status != 0) {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $fullname; ?></td>
+                                            <td><?php echo $style; ?></td>
+                                            <td><?php echo $sewing; ?></td>
+                                            <td><?php echo $Due_Date; ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </tbody>
 
                         </table>
 
@@ -184,7 +225,7 @@
         </div>
     </div>
 
-    <script src="../script/scrip.js"></script>
+    <script src="script/scrip.js"></script>
 </body>
 
 </html>
