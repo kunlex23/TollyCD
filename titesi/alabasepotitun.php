@@ -17,12 +17,14 @@ if ($checkResult->num_rows > 0) {
     // The record does not exist, so proceed with inserting the data
     $Name = $_POST['Name'];
     $contact = $_POST['contact'];
-    $accountDetail = $_POST['accountDetail'];
+    $accountNumber = $_POST['accountNumber'];
+    $bank = $_POST['bank'];
+    $accountName = $_POST['accountName'];
   
 
     // Prepare and execute the SQL statement to insert the data
-    $sql = "INSERT INTO alabasepo (Name, contact, accountDetail)
-            VALUES ('$Name', '$contact','$accountDetail')";
+    $sql = "INSERT INTO alabasepo (Name, contact, accountNumber, bank, accountName)
+            VALUES ('$Name', '$contact','$accountNumber','$bank','$accountName')";
 
     if ($conn->query($sql) === TRUE) {
         echo '<script>alert("New record created successfully!");</script>';

@@ -10,23 +10,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
-    <style>
-    table,
-    th,
-    td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
-
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
-    </style>
 </head>
 
 <body>
@@ -67,50 +50,72 @@
 
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                
-                <?php
-        require '../config.php';
-        $Name = $_GET['Name'];
-        echo '<h1><span>'. $Name . "</span>'s Products</h1>";
+                <h1>Batch Product Entry</h1>
+                <form class="five-column-form" action="ojatitunwolepipo.php" method="POST">
+                    <div class="tray0">
+                        <label for="Name">Partner:</label>
+                        <select name="Name" required>
+                            <option value="">Select a Partner</option>
+                            <?php
+                            require '../config.php';
+                            $sql = "SELECT Name, contact FROM alabasepo";
+                            $result = $conn->query($sql);
+                            // Generate options for the combo box
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
+                                }
+                            }
+                            ?>
+                        </select>
 
-        if (isset($_GET['Name'])) {
-            $Name = $conn->real_escape_string($_GET['Name']);
 
-            $sql = "SELECT * FROM products WHERE partner = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $Name);
-            $stmt->execute();
-            $result = $stmt->get_result();
+                    </div>
+                    <div class="tray1">
+                        <label for="productName">Product Name:</label>
+                        <input type="text" name="productName" required><br>
 
-            if ($result->num_rows > 0) {
-                echo '<table border="1">';
-                echo '<tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    </tr>';
-                
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<tr>';
-                        // echo '<td>' . htmlspecialchars($row["partner"]) . '</td>';
-                        echo '<td>' . htmlspecialchars($row["productName"]) . '</td>';
-                        echo '<td>' . htmlspecialchars($row["quantity"]) . '</td>';
+                        <label for="productName1">Product Name:</label>
+                        <input type="text" name="productName1" required><br>
+
+                        <label for="productName2">Product Name:</label>
+                        <input type="text" name="productName2" ><br>
+
+                        <label for="productName3">Product Name:</label>
+                        <input type="text" name="productName3" ><br>
+
+                        <label for="productName4">Product Name:</label>
+                        <input type="text" name="productName4" ><br>
+
                         
-                        echo '</tr>';
-            }
-            
-        
-        echo '</table>';
-    } else {
-        // echo "No record found!";
-    }
+                    </div>
+                    <div class="tray2">
+                        <label for="quantity">Quantity:</label>
+                        <input type="text" name="quantity" required><br>
 
-    $stmt->close();
-    $conn->close();
-}
-?>
+                        <label for="quantity1">Quantity:</label>
+                        <input type="text" name="quantity1" required><br>
+
+                        <label for="quantity2">Quantity:</label>
+                        <input type="text" name="quantity2" ><br>
+
+                        <label for="quantity3">Quantity:</label>
+                        <input type="text" name="quantity3" ><br>
+
+                        <label for="quantity4">Quantity:</label>
+                        <input type="text" name="quantity4" ><br>
+
+                        
+
+                    </div>
 
 
 
+
+                    <div id="notification" class="notification hidden"> New record created successfully!</div>
+                    <div class="job"><input type="submit" value="Submit"></div>
+                </form>
+            </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -122,38 +127,24 @@
                     <span class="material-icons-sharp active">light_mode</span>
                     <span class="material-icons-sharp">dark_mode</span>
                 </div>
-            </div> <!-- -----------END OF RECENT UPDATE--------------- -->
-            <div class="sales-analytics">
-
-                <a href="newWorkentry.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Work</h3>
-                        </div>
-                    </div>
-                </a>
-
             </div>
             <div class="sales-analytics">
-
-                <a href="newClient.php">
+                <a href="newalabasepo.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>New Client</h3>
+                            <h3>New Partner</h3>
                         </div>
                     </div>
                 </a>
-
             </div>
             <form action="./wiwa.php" method="GET">
                 <label for="Name">Partner:</label>
                 <select name="Name" required>
-                    <option value="">Select a Partner</option>
+                    <option value="">Select a partner</option>
                     <?php
                     require '../config.php';
-                    $sql = "SELECT Name, contact FROM alabasepo";
+                    $sql = "SELECT Name FROM alabasepo";
                     $result = $conn->query($sql);
                     // Generate options for the combo box
                     if ($result->num_rows > 0) {

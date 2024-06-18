@@ -3,7 +3,7 @@
 require '../config.php';
 
 // SQL query to sum the total quantity
-$sql = "SELECT SUM(quantity) AS totalQuantity FROM products";
+$sql = "SELECT SUM(productName) AS totalQuantity FROM products";
 
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {

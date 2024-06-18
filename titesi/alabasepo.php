@@ -9,7 +9,7 @@
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styl.css">
 <style>
         table,
         th,
@@ -47,16 +47,12 @@
                     <h3>Dashboard</h3>
                 </a>
                 <a href="alabasepo.php" class="active">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">groups</span>
                     <h3>Partners</h3>
                 </a>
                 <a href="oja.php">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
-                </a>
-                <a href="akojooja.php">
-                    <span class="material-icons-sharp">person_outline</span>
-                    <h3>Inventory</h3>
                 </a>
 
 
@@ -76,7 +72,9 @@
                         <tr>
                             <th>Partners</th>
                             <th>Contact</th>
-                            <th>Account Details</th>
+                            <th>Account Number</th>
+                            <th>Bank Name</th>
+                            <th>Account Name</th>
                             <th>Entry Date</th>
                         </tr>
                     </thead>
@@ -84,23 +82,25 @@
                         <?php
                         require '../config.php';
                        
-                        $query = mysqli_query($conn, "SELECT Name, Contact, accountDetail, date FROM alabasepo ORDER BY Name DESC");
+                        $query = mysqli_query($conn, "SELECT Name, Contact, accountNumber,bank,accountName, date FROM alabasepo ORDER BY Name DESC");
                         while ($row = mysqli_fetch_array($query)) {
                             $Name = $row['Name'];
                             $Contact = $row['Contact'];
-                            $accountDetail = $row['accountDetail'];
+                            $accountNumber = $row['accountNumber'];
+                            $bank = $row['bank'];
+                            $accountName = $row['accountName'];
                             $Entry_Date = $row['date'];
                             ?>
                             <tr>
-                                <td> <?php echo $Name; ?></td>
+                                <td><a href="search-jobs.php?id
+                                =<?php echo urlencode($Name); ?>"><?php echo $Name; ?></a></td>
                                 <td><?php echo $Contact; ?></td>
-                                <td><?php echo $accountDetail; ?></td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
                                 <td><?php echo $Entry_Date; ?></td>
                                 
                             </tr>
-
-
-
                         <?php } ?>
                     </tbody>
                 </table>

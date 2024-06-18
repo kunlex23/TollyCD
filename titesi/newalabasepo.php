@@ -30,16 +30,12 @@
                     <h3>Dashboard</h3>
                 </a>
                 <a href="alabasepo.php" class="active">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">groups</span>
                     <h3>Partners</h3>
                 </a>
                 <a href="oja.php">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
-                </a>
-                <a href="akojooja.php">
-                    <span class="material-icons-sharp">person_outline</span>
-                    <h3>Inventory</h3>
                 </a>
 
 
@@ -60,21 +56,28 @@
                         <label for="Name">Name:</label>
                         <input type="text" name="Name" required><br>
 
-                    </div>
-
-                    <div class="tray0">
                         <label for="contact">Contact:</label>
                         <input type="text" name="contact" required><br>
                     </div>
 
-                    <div class="tray0">
-                        <label for="accountDetail">Account Details:</label>
-                        <input type="text" name="accountDetail" required><br>
+                    <div class="tray1">
+                        
+                        <label for="accountNumber">Account Number:</label>
+                        <input type="text" name="accountNumber" required><br>
+                        
+                        <label for="bank">Bank:</label>
+                        <input type="text" name="bank" required><br>
+                    </div>
+
+                    <div class="tray2">
+                        <label for="accountName">Account Name:</label>
+                        <input type="text" name="accountName" required><br>
+                        <div class="job"><input type="submit" value="Submit"></div>
                     </div>
 
                     
                     <div id="notification" class="notification hidden"> New record created successfully!</div>
-                    <div class="job"><input type="submit" value="Submit"></div>
+                    
                 </form>
             </div>
         </main>

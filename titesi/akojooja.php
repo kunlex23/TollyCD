@@ -31,16 +31,12 @@
                     <h3>Dashboard</h3>
                 </a>
                 <a href="alabasepo.php">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">groups</span>
                     <h3>Partners</h3>
                 </a>
                 <a href="oja.php">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
-                </a>
-                <a href="akojooja.php" class="active">
-                    <span class="material-icons-sharp">person_outline</span>
-                    <h3>Inventory</h3>
                 </a>
 
 

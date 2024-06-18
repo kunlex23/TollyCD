@@ -31,16 +31,12 @@
                     <h3>Dashboard</h3>
                 </a>
                 <a href="alabasepo.php">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">groups</span>
                     <h3>Partners</h3>
                 </a>
                 <a href="oja.php">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
-                </a>
-                <a href="akojooja.php">
-                    <span class="material-icons-sharp">person_outline</span>
-                    <h3>Inventory</h3>
                 </a>
                 
 
@@ -52,7 +48,7 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h1>Data Entry</h1>
+            <h1>Inventory</h1>
             <div class="insight">
                 <div class="sales">
                     <div class="middle">
@@ -84,7 +80,7 @@
                 <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Work in Progress</h3>
+                            <h3>Out of Stock</h3>
                             <div id="link_wrapper2">
 
                             </div>
@@ -98,20 +94,22 @@
             </div>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
+                <div class="spacer"></div>
                 <h2>Recent Product</h2>
+                <div class="spacer"></div>
                 <table style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Partner</th>
                             <th>Product</th>
-                            <th>Quantity Details</th>
+                            <th>Quantity</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products ORDER BY partner DESC");
+                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products ORDER BY partner DESC LIMIT 10");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
                             $productName = $row['productName'];
@@ -129,7 +127,7 @@
                         <?php } ?>
                     </tbody>
                 </table>
-                <a href="workRecord.php">Show all</a>
+                <a href="oja.php">Show all</a>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

@@ -47,16 +47,12 @@
                     <h3>Dashboard</h3>
                 </a>
                 <a href="alabasepo.php">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">groups</span>
                     <h3>Partners</h3>
                 </a>
                 <a href="oja.php" class="active">
-                    <span class="material-icons-sharp">local_library</span>
+                    <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
-                </a>
-                <a href="akojooja.php">
-                    <span class="material-icons-sharp">person_outline</span>
-                    <h3>Inventory</h3>
                 </a>
 
 
@@ -76,7 +72,7 @@
                         <tr>
                             <th>Partner</th>
                             <th>Product</th>
-                            <th>Quantity Details</th>
+                            <th>Quantity</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -125,11 +121,11 @@
                 </a>
             </div>
             <div class="sales-analytics">
-                <a href="newalabasepo.php">
+                <a href="ojatitunpipo.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>New Partner</h3>
+                            <h3>Batch Entry</h3>
                         </div>
                     </div>
                 </a>
