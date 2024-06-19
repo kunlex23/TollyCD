@@ -10,22 +10,22 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
-<style>
-        table,
-        th,
-        td {
-            /* border: 1px solid black; */
-            /* border-collapse: collapse; */
-            padding: 8px;
-        }
+    <style>
+    table,
+    th,
+    td {
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        padding: 8px;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -66,7 +66,7 @@
         <main>
             <div class="recent-sales">
                 <h1>Partners</h1>
-                
+
                 <table style="width: 100%;">
                     <thead>
                         <tr>
@@ -91,16 +91,15 @@
                             $accountName = $row['accountName'];
                             $Entry_Date = $row['date'];
                             ?>
-                            <tr>
-                                <td><a href="search-jobs.php?id
-                                =<?php echo urlencode($Name); ?>"><?php echo $Name; ?></a></td>
-                                <td><?php echo $Contact; ?></td>
-                                <td><?php echo $accountNumber; ?></td>
-                                <td><?php echo $bank; ?></td>
-                                <td><?php echo $accountName; ?></td>
-                                <td><?php echo $Entry_Date; ?></td>
-                                
-                            </tr>
+                        <tr>
+                            <td><?php echo $Name; ?></a></td>
+                            <td><?php echo $Contact; ?></td>
+                            <td><?php echo $accountNumber; ?></td>
+                            <td><?php echo $bank; ?></td>
+                            <td><?php echo $accountName; ?></td>
+                            <td><?php echo $Entry_Date; ?></td>
+
+                        </tr>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -137,7 +136,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <form action="./wiwa.php" method="GET">
                 <label for="Name">Partner:</label>
                 <select name="Name" required>
@@ -155,6 +154,7 @@
                     ?>
                     <input type="submit" value="Search">
             </form>
+
         </div>
     </div>
 
@@ -164,53 +164,54 @@
 </html>
 
 <script>
-    var tbody = document.getElementById('table-body');
-    var rows = tbody.querySelectorAll('tr');
+var tbody = document.getElementById('table-body');
+var rows = tbody.querySelectorAll('tr');
 
-    rows.forEach(function (row) {
-        var fullnameLink = row.querySelector('td:first-child a');
+rows.forEach(function(row) {
+    var fullnameLink = row.querySelector('td:first-child a');
 
-        fullnameLink.addEventListener('click', function (event) {
-            event.preventDefault();
+    fullnameLink.addEventListener('click', function(event) {
+        event.preventDefault();
 
-            var fullname = fullnameLink.textContent;
+        var fullname = fullnameLink.textContent;
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'update_status.php?fullname=' + encodeURIComponent(fullname), true);
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'update_status.php?fullname=' + encodeURIComponent(fullname), true);
 
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        var statusCell = row.querySelector('td:nth-child(7)');
-                        statusCell.textContent = 'Updated Status';
-                    } else {
-                        console.error('Error updating status:', xhr.statusText);
-                    }
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var statusCell = row.querySelector('td:nth-child(7)');
+                    statusCell.textContent = 'Updated Status';
+                } else {
+                    console.error('Error updating status:', xhr.statusText);
                 }
-            };
+            }
+        };
 
-            xhr.send();
-        });
+        xhr.send();
     });
+});
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var statusFilter = document.getElementById('statusFilter');
-        var tableRows = document.querySelectorAll('#table-body tr');
+document.addEventListener('DOMContentLoaded', function() {
+    var statusFilter = document.getElementById('statusFilter');
+    var tableRows = document.querySelectorAll('#table-body tr');
 
-        statusFilter.addEventListener('change', function () {
-            var selectedStatus = statusFilter.value.toLowerCase();
+    statusFilter.addEventListener('change', function() {
+        var selectedStatus = statusFilter.value.toLowerCase();
 
-            tableRows.forEach(function (row) {
-                var rowStatus = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
+        tableRows.forEach(function(row) {
+            var rowStatus = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
 
-                if (selectedStatus === 'all' || (selectedStatus === 'done' && rowStatus === 'done') || (selectedStatus === 'progress' && rowStatus.includes('progress'))) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+            if (selectedStatus === 'all' || (selectedStatus === 'done' && rowStatus ===
+                'done') || (selectedStatus === 'progress' && rowStatus.includes('progress'))) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
         });
     });
+});
 </script>

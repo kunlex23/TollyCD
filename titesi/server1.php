@@ -2,20 +2,17 @@
 
 require '../config.php';
 
-// SQL query to sum the total quantity
-$sql = "SELECT SUM(productName) AS totalQuantity FROM products";
-
+$sql = "SELECT COUNT(*) AS totalClients FROM products";
+// where order_date > now() - interval 1 day;
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
-    $totalQuantity = $row['totalQuantity'];
+    $tClients = $row['totalClients'];
 
     echo '
-            <h1>' . $totalQuantity . '</h1>
-        ';
+                                     <h1>' . $tClients . '</h1>
+                                 ';
   }
   $result->free();
 }
-
 $conn->close();
-
 ?>

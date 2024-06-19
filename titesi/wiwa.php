@@ -123,30 +123,7 @@
                     <span class="material-icons-sharp">dark_mode</span>
                 </div>
             </div> <!-- -----------END OF RECENT UPDATE--------------- -->
-            <div class="sales-analytics">
-
-                <a href="newWorkentry.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Work</h3>
-                        </div>
-                    </div>
-                </a>
-
-            </div>
-            <div class="sales-analytics">
-
-                <a href="newClient.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Client</h3>
-                        </div>
-                    </div>
-                </a>
-
-            </div>
+           
             <form action="./wiwa.php" method="GET">
                 <label for="Name">Partner:</label>
                 <select name="Name" required>
@@ -164,6 +141,60 @@
                     ?>
                     <input type="submit" value="Search">
             </form>
+
+            <?php
+            // require 'config.php'; 
+            // Check if a delete action is requested
+            if (isset($_GET['delete_id'])) {
+                $deleteId = $_GET['delete_id'];
+                $delete_eru = urldecode($_GET['delete_eru']);
+                // Perform the deletion query here
+                $deleteSql = "DELETE FROM alabasepo WHERE id = $deleteId";
+                $deleteSql1 = "DELETE FROM products WHERE partner = $delete_eru";
+
+                if ($conn->query($deleteSql) === TRUE) {
+                    echo '<script>alert("Partner removed successfully!");</script>';
+                    echo '<script>window.location.href = "./alabasepo.php";</script>';
+                } else {
+                    echo "Error deleting record: " . $conn->error;
+                }
+            }
+            
+            $Name = $_GET['Name'];
+
+            $sql = "SELECT * FROM alabasepo WHERE Name LIKE '%$Name%'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<h2>" . $row['Name'] ."'s Profile </h2><br>";
+                    echo "<b>Account Number: " . $row['accountNumber'] . "</b><br>";
+                    echo "<b>Bank: " . $row['bank'] . "</b><br>";
+                    echo "<b>Account Name: " . $row['accountName'] . "</b><br>";
+                    echo "<b>Contact: " . $row['Contact'] . "</b<br>";
+
+                    echo "<div class='sales-analytics'>";
+                    echo "<a href='atunwoalabasepo.php?clientID=" . $row['id'] . "'>";
+                    echo "<div class='item add-product'>";
+                    echo "<div><span class='material-icons-sharp'>edit_note</span>";
+                    echo "<h3>Edit </h3>";
+                    echo "</div></div></a></div>";
+
+                    echo "<div class='sales-analytics'>";
+                    echo "<a href='?delete_id=" . $row['id'] . "&eru=" . $row['Name'] . "&eru=" . $row['Name'] . "' onclick=\"return confirm('Are you sure you want to delete this record? This action is NOT reversible')\">";
+                    echo "<div class='item add-product'>";
+                    echo "<div><span class='material-icons-sharp'>delete_outline</span>";
+                    echo "<h3>Delete Partner</h3>";
+                    echo "</div></div></a></div>";
+
+                }
+            } else {
+                echo "No results found.";
+            }
+
+            $conn->close();
+            ?>
+            
         </div>
     </div>
     <script src="../script/scrip.js"></script>

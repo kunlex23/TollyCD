@@ -50,36 +50,50 @@
 
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                <h1>New Client</h1>
-                <form class="five-column-form" action="alabasepotitun.php" method="POST">
-                    <div class="tray0">
-                        <label for="Name">Name:</label>
-                        <input type="text" name="Name" required><br>
+                <h1>Edit Client Data</h1>
+                <?php
+                require '../config.php';
 
-                        <label for="contact">Contact:</label>
-                        <input type="text" name="contact" required><br>
+                if (isset($_GET['clientID'])) {
+                    $clientID = $_GET['clientID'];
+
+                    // Fetch the client data by clientID
+                    $sql = "SELECT * FROM alabasepo WHERE id = '$clientID'";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        // Display a form with input fields to edit the data
+                        echo '<form method="post" action="gbigbeatunwowole.php">
+                    <input type="hidden" Name="id" value="' . $row['id'] . '">
+
+                    <div class="tray0">
+                        Partner: <input type="text" name="Name" value="' . $row['Name'] . '"><br>
+                        Contact: <input type="text" name="Contact" value="' . $row['Contact'] . '"><br>
                     </div>
 
                     <div class="tray1">
-                        
-                        <label for="accountNumber">Account Number:</label>
-                        <input type="text" name="accountNumber" required><br>
-                        
-                        <label for="bank">Bank:</label>
-                        <input type="text" name="bank" required><br>
+                        Account Number: <input type="text" name="accountNumber" value="' . $row['accountNumber'] . '"><br>
+                        Bank: <input type="text" name="bank" value="' . $row['bank'] . '"><br>
+                    
                     </div>
-
                     <div class="tray2">
-                        <label for="accountName">Account Name:</label>
-                        <input type="text" name="accountName" required><br>
-                        <div class="job"><input type="submit" value="Submit"></div>
-                    </div>
+                        Account Name: <input type="text" name="accountName" value="' . $row['accountName'] . '"><br>
+                        
+                    </div>';
 
-                    
-                    <div id="notification" class="notification hidden"> New record created successfully!</div>
-                    
-                </form>
-            </div>
+                        // Add more input fields for other data as needed
+                        echo '<input type="submit" value="Save Changes">';
+                        echo '</form>';
+                    } else {
+                        echo "Client not found.";
+                    }
+                } else {
+                    echo "Invalid client ID.";
+                }
+
+                $conn->close();
+                ?>
+           </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -92,7 +106,7 @@
                     <span class="material-icons-sharp">dark_mode</span>
                 </div>
             </div> <!-- -----------END OF RECENT UPDATE--------------- -->
-            
+
             <div class="sales-analytics">
                 <a href="ojatitun.php">
                     <div class="item add-product">
@@ -105,7 +119,7 @@
             </div>
         </div>
     </div>
-       <script src="../script/scrip.js"></script>
+    <script src="../script/scrip.js"></script>
 </body>
 
 </html>
