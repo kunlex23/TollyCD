@@ -10,6 +10,25 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
+    <style>
+    .button-container {
+        height: 5rem;
+        /* text-align: center; */
+        margin-top: 20px;
+        display: flex;
+        gap: 5rem;
+    }
+
+    .button-container button {
+        margin-top: 20px;
+        background-color: blue;
+        height: 2.7rem;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        color: white;
+        
+    }
+    </style>
 </head>
 
 <body>
@@ -47,8 +66,6 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-
-            <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <h1>Batch Product Entry</h1>
                 <form class="five-column-form" action="ojatitunwolepipo.php" method="POST">
@@ -57,64 +74,36 @@
                         <select name="Name" required>
                             <option value="">Select a Partner</option>
                             <?php
-                            require '../config.php';
-                            $sql = "SELECT Name, contact FROM alabasepo";
-                            $result = $conn->query($sql);
-                            // Generate options for the combo box
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
-                                }
+                        require '../config.php';
+                        $sql = "SELECT Name, contact FROM alabasepo";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
                             }
-                            ?>
+                        }
+                        ?>
                         </select>
-
-
                     </div>
-                    <div class="tray1">
-                        <label for="productName">Product Name:</label>
-                        <input type="text" name="productName" required><br>
-
-                        <label for="productName1">Product Name:</label>
-                        <input type="text" name="productName1" required><br>
-
-                        <label for="productName2">Product Name:</label>
-                        <input type="text" name="productName2" ><br>
-
-                        <label for="productName3">Product Name:</label>
-                        <input type="text" name="productName3" ><br>
-
-                        <label for="productName4">Product Name:</label>
-                        <input type="text" name="productName4" ><br>
-
-                        
+                    <div id="productsContainer" class="tray1">
+                        <!-- Initial product and quantity fields -->
+                        <div>
+                            <label for="productName0">Product Name:</label>
+                            <input type="text" name="productName[]" required><br>
+                        </div>
+                        <div>
+                            <label for="quantity0">Quantity:</label>
+                            <input type="text" name="quantity[]" required><br>
+                        </div>
                     </div>
-                    <div class="tray2">
-                        <label for="quantity">Quantity:</label>
-                        <input type="text" name="quantity" required><br>
-
-                        <label for="quantity1">Quantity:</label>
-                        <input type="text" name="quantity1" required><br>
-
-                        <label for="quantity2">Quantity:</label>
-                        <input type="text" name="quantity2" ><br>
-
-                        <label for="quantity3">Quantity:</label>
-                        <input type="text" name="quantity3" ><br>
-
-                        <label for="quantity4">Quantity:</label>
-                        <input type="text" name="quantity4" ><br>
-
-                        
-
-                    </div>
-
-
-
-
                     <div id="notification" class="notification hidden"> New record created successfully!</div>
-                    <div class="job"><input type="submit" value="Submit"></div>
+
                 </form>
+                
+                    <div class="button-container">
+                        <div class="job"><input type="submit" value="Submit"></div>
+                        <button type="button" class="add-button" onclick="addProductField()">Add More </button>
+                    </div>
             </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
@@ -161,3 +150,23 @@
 </body>
 
 </html>
+<script>
+function addProductField() {
+    const container = document.getElementById('productsContainer');
+    const index = container.children.length / 2; // Calculate the index based on current number of fields
+
+    const productField = document.createElement('div');
+    productField.innerHTML = `
+                <label for="productName${index}">Product Name:</label>
+                <input type="text" name="productName[]" required><br>
+            `;
+    container.appendChild(productField);
+
+    const quantityField = document.createElement('div');
+    quantityField.innerHTML = `
+                <label for="quantity${index}">Quantity:</label>
+                <input type="text" name="quantity[]" required><br>
+            `;
+    container.appendChild(quantityField);
+}
+</script>

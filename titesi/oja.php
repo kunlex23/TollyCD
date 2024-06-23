@@ -125,7 +125,7 @@
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>Batch Entry</h3>
+                            <h3>Multi Entry</h3>
                         </div>
                     </div>
                 </a>

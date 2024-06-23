@@ -69,45 +69,45 @@
             <div class="recent-sales">
                 
                 <?php
-        require '../config.php';
-        $Name = $_GET['Name'];
-        echo '<h1><span>'. $Name . "</span>'s Products</h1>";
+                    require '../config.php';
+                    $Name = $_GET['Name'];
+                    echo '<h1><span>'. $Name . "</span>'s Products</h1>";
 
-        if (isset($_GET['Name'])) {
-            $Name = $conn->real_escape_string($_GET['Name']);
+                    if (isset($_GET['Name'])) {
+                        $Name = $conn->real_escape_string($_GET['Name']);
 
-            $sql = "SELECT * FROM products WHERE partner = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $Name);
-            $stmt->execute();
-            $result = $stmt->get_result();
+                        $sql = "SELECT * FROM products WHERE partner = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("s", $Name);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
 
-            if ($result->num_rows > 0) {
-                echo '<table border="1">';
-                echo '<tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    </tr>';
-                
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<tr>';
-                        // echo '<td>' . htmlspecialchars($row["partner"]) . '</td>';
-                        echo '<td>' . htmlspecialchars($row["productName"]) . '</td>';
-                        echo '<td>' . htmlspecialchars($row["quantity"]) . '</td>';
+                        if ($result->num_rows > 0) {
+                            echo '<table border="1">';
+                            echo '<tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                </tr>';
+                            
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<tr>';
+                                    // echo '<td>' . htmlspecialchars($row["partner"]) . '</td>';
+                                    echo '<td>' . htmlspecialchars($row["productName"]) . '</td>';
+                                    echo '<td>' . htmlspecialchars($row["quantity"]) . '</td>';
+                                    
+                                    echo '</tr>';
+                        }
                         
-                        echo '</tr>';
-            }
-            
-        
-        echo '</table>';
-    } else {
-        // echo "No record found!";
-    }
+                    
+                    echo '</table>';
+                } else {
+                    // echo "No record found!";
+                }
 
-    $stmt->close();
-    $conn->close();
-}
-?>
+                $stmt->close();
+                $conn->close();
+                }
+            ?>
 
 
 
@@ -171,7 +171,7 @@
                     echo "<b>Account Number: " . $row['accountNumber'] . "</b><br>";
                     echo "<b>Bank: " . $row['bank'] . "</b><br>";
                     echo "<b>Account Name: " . $row['accountName'] . "</b><br>";
-                    echo "<b>Contact: " . $row['Contact'] . "</b<br>";
+                    echo "<b>Contact: " . $row['contact'] . "</b<br>";
 
                     echo "<div class='sales-analytics'>";
                     echo "<a href='atunwoalabasepo.php?clientID=" . $row['id'] . "'>";
