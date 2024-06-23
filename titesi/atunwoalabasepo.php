@@ -68,7 +68,7 @@
 
                     <div class="tray0">
                         Partner: <input type="text" name="Name" value="' . $row['Name'] . '"><br>
-                        Contact: <input type="text" name="Contact" value="' . $row['Contact'] . '"><br>
+                        Contact: <input type="text" name="Contact" value="' . $row['contact'] . '"><br>
                     </div>
 
                     <div class="tray1">

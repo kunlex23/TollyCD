@@ -64,54 +64,52 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
+    <!-- ---------END OF EXAM-------- -->
+    <div class="recent-sales">
+        <?php
+                require '../config.php';
+                $Name = $_GET['Name'];
+                echo '<h1><span>' . htmlspecialchars($Name) . "</span>'s Products</h1>";
 
-            <!-- ---------END OF EXAM-------- -->
-            <div class="recent-sales">
-                
-                <?php
-                    require '../config.php';
-                    $Name = $_GET['Name'];
-                    echo '<h1><span>'. $Name . "</span>'s Products</h1>";
+                if (isset($_GET['Name'])) {
+                    $Name = $conn->real_escape_string($_GET['Name']);
+                    $sql = "SELECT * FROM products WHERE partner = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("s", $Name);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
 
-                    if (isset($_GET['Name'])) {
-                        $Name = $conn->real_escape_string($_GET['Name']);
+                    if ($result->num_rows > 0) {
+                        echo '<input type="text" id="filterInput" placeholder="Search for products..." onkeyup="filterTable()">';
+                        echo '<table id="productTable" border="1">';
+                        echo '<tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Action</th>
+                </tr>';
 
-                        $sql = "SELECT * FROM products WHERE partner = ?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("s", $Name);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-
-                        if ($result->num_rows > 0) {
-                            echo '<table border="1">';
-                            echo '<tr>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                </tr>';
-                            
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<tr>';
-                                    // echo '<td>' . htmlspecialchars($row["partner"]) . '</td>';
-                                    echo '<td>' . htmlspecialchars($row["productName"]) . '</td>';
-                                    echo '<td>' . htmlspecialchars($row["quantity"]) . '</td>';
-                                    
-                                    echo '</tr>';
+                        while ($row = $result->fetch_assoc()) {
+                            $productId = htmlspecialchars($row["id"]); // Assuming you have an "id" column for product identification
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($row["productName"]) . '</td>';
+                            echo '<td>' . htmlspecialchars($row["quantity"]) . '</td>';
+                            echo '<td><a href="ojafifisi.php?productId=' . $productId . '&Name=' . urlencode($Name) . '">Update</a></td>';
+                            echo '</tr>';
                         }
-                        
-                    
-                    echo '</table>';
-                } else {
-                    // echo "No record found!";
+
+                        echo '</table>';
+                    } else {
+                        echo "No record found!";
+                    }
+
+                    $stmt->close();
+                    $conn->close();
                 }
-
-                $stmt->close();
-                $conn->close();
-                }
-            ?>
-
-
-
+                ?>
+            </div>
         </main>
+
+
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">
@@ -123,7 +121,7 @@
                     <span class="material-icons-sharp">dark_mode</span>
                 </div>
             </div> <!-- -----------END OF RECENT UPDATE--------------- -->
-           
+
             <form action="./wiwa.php" method="GET">
                 <label for="Name">Partner:</label>
                 <select name="Name" required>
@@ -177,14 +175,14 @@
                     echo "<a href='atunwoalabasepo.php?clientID=" . $row['id'] . "'>";
                     echo "<div class='item add-product'>";
                     echo "<div><span class='material-icons-sharp'>edit_note</span>";
-                    echo "<h3>Edit </h3>";
+                    echo "<h3>Edit  ". $row['Name'] ." Info</h3>";
                     echo "</div></div></a></div>";
 
                     echo "<div class='sales-analytics'>";
-                    echo "<a href='?delete_id=" . $row['id'] . "&eru=" . $row['Name'] . "&eru=" . $row['Name'] . "' onclick=\"return confirm('Are you sure you want to delete this record? This action is NOT reversible')\">";
+                    echo "<a href='?delete_id=" . $row['id'] . "&eru=" . $row['Name'] . "&eru=" . $row['Name'] . "' onclick=\"return confirm('Are you sure you want to remove  " . $row['Name'] . " as partner? This action is NOT reversible')\">";
                     echo "<div class='item add-product'>";
                     echo "<div><span class='material-icons-sharp'>delete_outline</span>";
-                    echo "<h3>Delete Partner</h3>";
+                    echo "<h3>Remove  " . $row['Name'] . " as partner</h3>";
                     echo "</div></div></a></div>";
 
                 }
@@ -194,10 +192,36 @@
 
             $conn->close();
             ?>
-            
+
         </div>
     </div>
     <script src="../script/scrip.js"></script>
 </body>
 
 </html>
+<script>
+function filterTable() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('productTable');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+</script>
