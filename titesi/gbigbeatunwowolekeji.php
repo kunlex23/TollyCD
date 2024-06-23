@@ -11,14 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clientSql = "UPDATE products SET
                   partner = ?,
                   productName = ?,
-                  quantity = ?
+                  quantity = quantity + ?
                   WHERE id = ?";
 
     // Start a database transaction
     $conn->begin_transaction();
 
     if ($stmt = $conn->prepare($clientSql)) {
-        $stmt->bind_param('sssi', $partner, $productName, $quantity, $id);
+        $stmt->bind_param('ssii', $partner, $productName, $quantity, $id);
 
         if ($stmt->execute()) {
             $conn->commit();
