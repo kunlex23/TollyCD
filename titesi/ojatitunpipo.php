@@ -26,7 +26,7 @@
         border-radius: 0.5rem;
         padding: 1rem;
         color: white;
-        
+
     }
     </style>
 </head>
@@ -97,13 +97,13 @@
                         </div>
                     </div>
                     <div id="notification" class="notification hidden"> New record created successfully!</div>
-
-                </form>
-                
                     <div class="button-container">
                         <div class="job"><input type="submit" value="Submit"></div>
                         <button type="button" class="add-button" onclick="addProductField()">Add More </button>
                     </div>
+                </form>
+
+
             </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
