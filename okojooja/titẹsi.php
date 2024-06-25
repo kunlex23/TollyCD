@@ -30,13 +30,13 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="gbigbe.php">
-                    <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Shipments</h3>
+                <a href="alabasepo.php">
+                    <span class="material-icons-sharp">groups</span>
+                    <h3>Partners</h3>
                 </a>
                 <a href="oja.php">
                     <span class="material-icons-sharp">inventory</span>
-                    <h3>Records</h3>
+                    <h3>Products</h3>
                 </a>
                 
 
@@ -48,12 +48,12 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h1>Data Entry</h1>
+            <h1>Inventory</h1>
             <div class="insight">
                 <div class="sales">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Shipments</h3>
+                            <h3>Total Partners</h3>
                             <div id="link_wrapper">
 
                             </div>
@@ -66,7 +66,7 @@
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Pending Shipments</h3>
+                            <h3>Total Products</h3>
                             <div id="link_wrapper1">
 
                             </div>
@@ -80,7 +80,7 @@
                 <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Completed</h3>
+                            <h3>Out of Stock</h3>
                             <div id="link_wrapper2">
 
                             </div>
@@ -148,11 +148,11 @@
             </div>
 
             <div class="sales-analytics">
-             <a href="gbigbeTitun.php">
+             <a href="newalabasepo.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>New Shipments</h3>
+                            <h3>New Partner</h3>
                         </div>
                     </div>
                 </a>    

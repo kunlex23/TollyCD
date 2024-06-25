@@ -85,7 +85,7 @@
                         echo '<input type="submit" value="Save Changes">';
                         echo '</form>';
                     } else {
-                        echo "Client not found.";
+                        echo "No data found";
                     }
                 } else {
                     echo "Invalid client ID.";

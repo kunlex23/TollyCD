@@ -433,10 +433,18 @@ main .recent-sales a {
 .tray1{
     margin-right: 1.5rem;
     width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
 }
 .tray2, .tray2 input{
     margin-right: 1.5rem;
     width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
 }
 .tray3{
     margin-right: 1.5rem;

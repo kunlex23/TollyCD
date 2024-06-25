@@ -3,7 +3,7 @@
 require '../config.php';
 
 // SQL query to count the number of rows with quantity less than 5
-$sql = "SELECT COUNT(*) AS totalLowQuantity FROM gbigbe WHERE status ='completed'";
+$sql = "SELECT COUNT(*) AS totalLowQuantity FROM products WHERE quantity < 5";
 
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
