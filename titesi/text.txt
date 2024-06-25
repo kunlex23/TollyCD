@@ -1,0 +1,28 @@
+<form class="five-column-form" action="alabasepotitun.php" method="POST">
+                    <div class="tray0">
+                        <label for="Name">Name:</label>
+                        <input type="text" name="Name" required><br>
+
+                        <label for="contact">Contact:</label>
+                        <input type="text" name="contact" required><br>
+                    </div>
+
+                    <div class="tray1">
+                        
+                        <label for="accountNumber">Account Number:</label>
+                        <input type="text" name="accountNumber" required><br>
+                        
+                        <label for="bank">Bank:</label>
+                        <input type="text" name="bank" required><br>
+                    </div>
+
+                    <div class="tray2">
+                        <label for="accountName">Account Name:</label>
+                        <input type="text" name="accountName" required><br>
+                        <div class="job"><input type="submit" value="Submit"></div>
+                    </div>
+
+                    
+                    <div id="notification" class="notification hidden"> New record created successfully!</div>
+                    
+                </form>

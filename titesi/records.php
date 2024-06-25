@@ -26,23 +26,19 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="titẹsi.php" class="active">
+                <a href="titẹsi.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="alabasepo.php">
-                    <span class="material-icons-sharp">local_library</span>
-                    <h3>Partners</h3>
+                <a href="records.php" class="active">
+                    <span class="material-icons-sharp">local_shipping</span>
+                    <h3>Shipments</h3>
                 </a>
-                <a href="oja.php">
-                    <span class="material-icons-sharp">local_library</span>
-                    <h3>Products</h3>
+                <a href="records.php">
+                    <span class="material-icons-sharp">inventory</span>
+                    <h3>Records</h3>
                 </a>
-                <a href="akojooja.php">
-                    <span class="material-icons-sharp">person_outline</span>
-                    <h3>Inventory</h3>
-                </a>
-                
+
 
                 <a href="#">
                     <span class="material-icons-sharp"></span>
@@ -52,76 +48,63 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h1>Data Entry</h1>
-            <div class="insight">
-                <div class="sales">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Partners</h3>
-                            <div id="link_wrapper">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="tex">Last 7 Days</small> -->
-                </div>
-                <!-- END OF STUDENTS -->
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Products</h3>
-                            <div id="link_wrapper1">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
-                </div>
-                <!-- END OF GRADUTE STUDES -->
-
-                <div class="income">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Work in Progress</h3>
-                            <div id="link_wrapper2">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 7 days</small> -->
-                </div>
-
-                <!-- END OF INCOME -->
-            </div>
+            
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                <h2>Recent Product</h2>
+                <div class="spacer"></div>
+                <h2>Shipments Records</h2>
+                <div class="spacer"></div>
                 <table style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Partner</th>
                             <th>Product</th>
-                            <th>Quantity Details</th>
+                            <th>Quantity</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Amount</th>
+                            <th>Destination</th>
+                            <th>Captain</th>
+                            <th>Status</th>
+                            <th>Date</th>
+
+
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products ORDER BY partner DESC");
+                        $query = mysqli_query($conn, "SELECT partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
-                            $productName = $row['productName'];
+                            $product = $row['product'];
+                            $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
+                            $unitPrice = $row['unitPrice'];
+                            $amount = $row['amount'];
+                            $customersName = $row['customersName'];
+                            $destination = $row['destination'];
+                            $customerContact = $row['customerContact'];
+                            $captain = $row['captain'];
+                            $status = $row['status'];
+                            $paymentMethod = $row['paymentMethod'];
+                            $date = $row['date'];
                             ?>
                             <tr>
-                                <td> <?php echo $partner; ?></td>
-                                <td><?php echo $productName; ?></td>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $product; ?></td>
+                                <td><?php echo $availableUnit; ?></td>
                                 <td><?php echo $quantity; ?></td>
-
+                                <td><?php echo $unitPrice; ?></td>
+                                <td><?php echo $amount; ?></td>
+                                <td><?php echo $customersName; ?></td>
+                                <td><?php echo $destination; ?></td>
+                                <td><?php echo $customerContact; ?></td>
+                                <td><?php echo $captain; ?></td>
+                                <td><?php echo $status; ?></td>
+                                <td><?php echo $paymentMethod; ?></td>
+                                <td><?php echo $date; ?></td>
                             </tr>
 
 
@@ -129,7 +112,7 @@
                         <?php } ?>
                     </tbody>
                 </table>
-                <a href="workRecord.php">Show all</a>
+                <a href="oja.php">Show all</a>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -150,15 +133,15 @@
             </div>
 
             <div class="sales-analytics">
-             <a href="newalabasepo.php">
+                <a href="gbigbeTitun.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>New Partner</h3>
+                            <h3>New Shipments</h3>
                         </div>
                     </div>
-                </a>    
-            <a href="ojatitun.php">
+                </a>
+                <a href="ojatitun.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
@@ -166,14 +149,14 @@
                         </div>
                     </div>
                 </a>
-                
+
                 <span>
                     <h2>Notifications</h2>
                 </span>
                 <div class="item-online">
                     <div class="right">
                         <table style="width: 100%;" class="due_client">
-                            
+
 
                         </table>
 

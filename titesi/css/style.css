@@ -67,7 +67,7 @@ body{
     width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto 23rem;
+    grid-template-columns: 14rem auto 14rem;
 }
 
 a{
@@ -366,7 +366,6 @@ main .recent-orders table:hover{
 
 main table thead th {
     text-align: left;
-    font-size: 1.5rem;
 }
 
 main table tbody td{
