@@ -9,8 +9,24 @@
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styl.css">
+<style>
+        table,
+        th,
+        td {
+            /* border: 1px solid black; */
+            /* border-collapse: collapse; */
+            padding: 8px;
+        }
 
+        tr:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
+
+        td:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
+    </style>
 </head>
 
 <body>
@@ -30,15 +46,16 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
+
+                <a href="gbigbeTitun.php">
+                    <span class="material-icons-sharp">add_circle</span>
+                    <h3>New Shipment</h3>
+                </a>
+
                 <a href="records.php" class="active">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
-                <a href="records.php">
-                    <span class="material-icons-sharp">inventory</span>
-                    <h3>Records</h3>
-                </a>
-
 
                 <a href="#">
                     <span class="material-icons-sharp"></span>
@@ -54,18 +71,23 @@
                 <div class="spacer"></div>
                 <h2>Shipments Records</h2>
                 <div class="spacer"></div>
-                <table style="width: 100%;">
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable"style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Partner</th>
                             <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Quantity</th>
+                            <th>Avail. Qty</th>
+                            <th>Qty</th>
                             <th>Unit Price</th>
                             <th>Amount</th>
+                            <th>Client</th>
                             <th>Destination</th>
+                            <th>Contact</th>
                             <th>Captain</th>
                             <th>Status</th>
+                            <th>Payment Method</th>
                             <th>Date</th>
 
 
@@ -75,8 +97,9 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
+                        $query = mysqli_query($conn, "SELECT id, partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
+                            $id = $row['id'];
                             $partner = $row['partner'];
                             $product = $row['product'];
                             $availableUnit = $row['availableUnit'];
@@ -92,6 +115,7 @@
                             $date = $row['date'];
                             ?>
                             <tr>
+                                <td><?php echo $id; ?></td>
                                 <td><?php echo $partner; ?></td>
                                 <td><?php echo $product; ?></td>
                                 <td><?php echo $availableUnit; ?></td>
@@ -112,7 +136,6 @@
                         <?php } ?>
                     </tbody>
                 </table>
-                <a href="oja.php">Show all</a>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -132,38 +155,7 @@
                 </div>
             </div>
 
-            <div class="sales-analytics">
-                <a href="gbigbeTitun.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Shipments</h3>
-                        </div>
-                    </div>
-                </a>
-                <a href="ojatitun.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Product</h3>
-                        </div>
-                    </div>
-                </a>
-
-                <span>
-                    <h2>Notifications</h2>
-                </span>
-                <div class="item-online">
-                    <div class="right">
-                        <table style="width: 100%;" class="due_client">
-
-
-                        </table>
-
-                    </div>
-                </div>
-
-            </div>
+            
         </div>
     </div>
 
@@ -231,4 +223,30 @@
     }, 1000);
 
     window.onload = loadXMLDoc2;
+</script>
+<script>
+function filterTable() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
 </script>

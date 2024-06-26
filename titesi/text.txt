@@ -1,28 +1,70 @@
-<form class="five-column-form" action="alabasepotitun.php" method="POST">
-                    <div class="tray0">
-                        <label for="Name">Name:</label>
-                        <input type="text" name="Name" required><br>
-
-                        <label for="contact">Contact:</label>
-                        <input type="text" name="contact" required><br>
-                    </div>
-
-                    <div class="tray1">
-                        
-                        <label for="accountNumber">Account Number:</label>
-                        <input type="text" name="accountNumber" required><br>
-                        
-                        <label for="bank">Bank:</label>
-                        <input type="text" name="bank" required><br>
-                    </div>
-
-                    <div class="tray2">
-                        <label for="accountName">Account Name:</label>
-                        <input type="text" name="accountName" required><br>
-                        <div class="job"><input type="submit" value="Submit"></div>
-                    </div>
-
-                    
-                    <div id="notification" class="notification hidden"> New record created successfully!</div>
-                    
-                </form>
+<form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
+    <div class="tray0">
+        <label for="Name">Partner:</label>
+        <select name="Name" required onchange="fetchProducts(this.value)">
+            <option value="">Select a Partner</option>
+            <?php
+            require '../config.php';
+            $sql = "SELECT Name FROM alabasepo";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
+                }
+            }
+            ?>
+        </select>
+    </div>
+    <div class="tray1">
+        <div id="productsContainer">
+            <label for="orunoloun">Product:</label>
+            <select name="orunoloun[]" required onchange="fetchQuantity(this.value)">
+                <option value="">Select a Product</option>
+            </select>
+        </div>
+        <div>
+            <label for="availableUnit">Available Unit:</label>
+            <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
+            <label for="quantity">Quantity:</label>
+            <input type="text" name="quantity[]" required><br>
+            <label for="unitPrice">Unit Price:</label>
+            <input type="text" name="unitPrice[]" required><br>
+        </div>
+    </div>
+    <div class="tray2">
+        <div>
+            <label for="amount">Amount:</label>
+            <input type="text" name="amount[]" required><br>
+        </div>
+        <div>
+            <label for="destination">Destination:</label>
+            <input type="text" name="destination[]" required><br>
+        </div>
+        <div>
+            <label for="customersName">Customer Name:</label>
+            <input type="text" name="customersName[]" required><br>
+        </div>
+        <div>
+            <label for="customerContact">Customer Contact:</label>
+            <input type="text" name="customerContact[]" required><br>
+        </div>
+    </div>
+    <div class="tray3">
+        <div>
+            <label for="captain">Captain:</label>
+            <input type="text" name="captain[]" required><br>
+        </div>
+        <div>
+            <label for="status">Status:</label>
+            <input type="text" name="status[]" required><br>
+        </div>
+        <div>
+            <label for="paymentMethod">Payment Method:</label>
+            <input type="text" name="paymentMethod[]" required><br>
+        </div>
+    </div>
+    <div id="notification" class="notification hidden"> New record created successfully!</div>
+    <div class="button-container">
+        <div class="job"><input type="submit" value="Submit"></div>
+    </div>
+</form>

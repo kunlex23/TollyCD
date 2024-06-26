@@ -83,10 +83,10 @@
                         echo '<input type="text" id="filterInput" placeholder="Search for products..." onkeyup="filterTable()">';
                         echo '<table id="productTable" border="1">';
                         echo '<tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Action</th>
-                </tr>';
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                             </tr>';
 
                         while ($row = $result->fetch_assoc()) {
                             $productId = htmlspecialchars($row["id"]); // Assuming you have an "id" column for product identification

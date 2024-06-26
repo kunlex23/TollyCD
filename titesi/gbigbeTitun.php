@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,35 +9,31 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
-
 </head>
-
 <body>
     <div class="container">
         <aside>
             <div class="top">
                 <div class="logo">
                     <img src="./images/logo.png">
-                    <!-- <h2>ZIB<span class="compel">AH</span></h2> -->
-                    <!-- <h2>Name</h2> -->
                 </div>
-                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span>
-                </div>
+                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
             </div>
             <div class="sideBar">
-                <a href="titẹsi.php">
+                 <a href="titẹsi.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="records.php" class="active">
+
+                <a href="gbigbeTitun.php" class="active">
+                    <span class="material-icons-sharp">add_circle</span>
+                    <h3>New Shipment</h3>
+                </a>
+
+                <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
-                <a href="records.php">
-                    <span class="material-icons-sharp">inventory</span>
-                    <h3>Records</h3>
-                </a>
-
 
                 <a href="#">
                     <span class="material-icons-sharp"></span>
@@ -46,13 +41,10 @@
                 </a>
             </div>
         </aside>
-        <!------------ END OF ASIDE ------------>
         <main>
-
-            <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                <h1>New Client</h1>
-                <form class="five-column-form" action="ojatitunwolepipo.php" method="POST">
+                <h1>New Shipment</h1>
+                <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
                     <div class="tray0">
                         <label for="Name">Partner:</label>
                         <select name="Name" required onchange="fetchProducts(this.value)">
@@ -68,29 +60,25 @@
                             }
                             ?>
                         </select>
-                   <div  class="tray1">
-                        <divid="productsContainer">
+                    </div>
+                    <div class="tray1">
+                        <div id="productsContainer">
                             <label for="orunoloun">Product:</label>
-                            <select name="orunoloun" required>
+                            <select name="orunoloun" required onchange="fetchQuantity(this.value)">
                                 <option value="">Select a Product</option>
                             </select>
-                        </divid=>
+                        </div>
                         <div>
                             <label for="availableUnit">Available Unit:</label>
-                            <input type="text" name="availableUnit[]" required><br>
-                            
+                            <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
                             <label for="quantity">Quantity:</label>
                             <input type="text" name="quantity[]" required><br>
-  
-                            
+                            <label for="unitPrice">Unit Price:</label>
+                            <input type="text" name="unitPrice[]" required><br>
                         </div>
-                    </div> </div>
-                    
-
-                    <div  class="tray2">
+                    </div>
+                    <div class="tray2">
                         <div>
-                            <label for="unitPrice">unitPrice:</label>
-                            <input type="text" name="Unit Price[]" required><br>
                             
                             <label for="amount">Amount:</label>
                             <input type="text" name="amount[]" required><br>
@@ -103,14 +91,12 @@
                             <label for="customersName">Customer Name:</label>
                             <input type="text" name="customersName[]" required><br>
                         </div>
-                        
-                    </div>
-                    
-                    <div  class="tray3">
                         <div>
                             <label for="customerContact">Customer Contact:</label>
                             <input type="text" name="customerContact[]" required><br>
                         </div>
+                    </div>
+                    <div class="tray3">
                         <div>
                             <label for="captain">Captain:</label>
                             <input type="text" name="captain[]" required><br>
@@ -123,35 +109,27 @@
                             <label for="paymentMethod">Payment Method:</label>
                             <input type="text" name="paymentMethod[]" required><br>
                         </div>
-                        
                     </div>
-                    
                     <div id="notification" class="notification hidden"> New record created successfully!</div>
                     <div class="button-container">
                         <div class="job"><input type="submit" value="Submit"></div>
-                        <button type="button" class="add-button" onclick="addProductField()">Add More </button>
                     </div>
                 </form>
             </div>
         </main>
-        <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">
-                <button id="menu-btn">
-                    <span class="material-icons-sharp">menu</span>
-                </button>
+                <button id="menu-btn"><span class="material-icons-sharp">menu</span></button>
                 <div class="theme-toggler">
                     <span id="light-mode-icon" class="material-icons-sharp active">light_mode</span>
                     <span id="dark-mode-icon" class="material-icons-sharp">dark_mode</span>
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p> <b></b></p>
-                        <!-- <small class="text-muted">Admin</small> -->
+                        <p><b></b></p>
                     </div>
                 </div>
             </div>
-
             <div class="sales-analytics">
                 <a href="gbigbeTitun.php">
                     <div class="item add-product">
@@ -169,36 +147,19 @@
                         </div>
                     </div>
                 </a>
-
-                <span>
-                    <h2>Notifications</h2>
-                </span>
-                <div class="item-online">
-                    <div class="right">
-                        <table style="width: 100%;" class="due_client">
-
-
-                        </table>
-
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
     <script src="../script/scrip.js"></script>
-</body>
-
-</html>
-
-<script>
+  <script>
 function fetchProducts(partner) {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "get_products.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText); // Log the response for debugging
             const products = JSON.parse(xhr.responseText);
             const productSelect = document.querySelector("select[name='orunoloun']");
             productSelect.innerHTML = '<option value="">Select a Product</option>';
@@ -212,24 +173,22 @@ function fetchProducts(partner) {
     };
     xhr.send("partner=" + partner);
 }
-</script>
-<script>
-function addProductField() {
-    const container = document.getElementById('productsContainer');
-    const index = container.children.length / 2; // Calculate the index based on current number of fields
 
-    const productField = document.createElement('div');
-    productField.innerHTML = `
-                <label for="productName${index}">Product Name:</label>
-                <input type="text" name="productName[]" required><br>
-            `;
-    container.appendChild(productField);
-
-    const quantityField = document.createElement('div');
-    quantityField.innerHTML = `
-                <label for="quantity${index}">Quantity:</label>
-                <input type="text" name="quantity[]" required><br>
-            `;
-    container.appendChild(quantityField);
+function fetchQuantity(product) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "get_quantity.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText); // Log the response for debugging
+            const response = JSON.parse(xhr.responseText);
+            if (response.error) {
+                console.error(response.error);
+            } else {
+                document.getElementById('availableUnit').value = response.quantity;
+            }
+        }
+    };
+    xhr.send("product=" + product);
 }
 </script>
