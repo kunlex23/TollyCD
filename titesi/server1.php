@@ -2,7 +2,7 @@
 
 require '../config.php';
 
-$sql = "SELECT COUNT(*) AS totalClients FROM gbigbe WHERE status ='pending'";
+$sql = "SELECT COUNT(*) AS totalClients FROM gbigbe WHERE status ='Pending'";
 // where order_date > now() - interval 1 day;
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {

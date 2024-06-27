@@ -84,21 +84,7 @@
                     <!-- <small class="tex">Last 7 Days</small> -->
                 </div>
                 <!-- END OF STUDENTS -->
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Pending Shipments</h3>
-                            <div id="link_wrapper1">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
-                </div>
-                <!-- END OF GRADUTE STUDES -->
-
-                <div class="income">
+                 <div class="income">
                     <div class="middle">
                         <div class="left">
                             <h3>Completed</h3>
@@ -111,7 +97,31 @@
                     <!-- <small class="text-muted">Last 7 days</small> -->
                 </div>
 
-                <!-- END OF INCOME -->
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Pending Shipments</h3>
+                            <div id="link_wrapper1">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 24hrs</small> -->
+                </div>
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Return</h3>
+                            <div id="link_wrapper3">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 24hrs</small> -->
+                </div>
+                
             </div>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
@@ -265,4 +275,26 @@ setInterval(function() {
 }, 1000);
 
 window.onload = loadXMLDoc2;
+</script>
+
+</script>
+<!-- Minimum reading -->
+<script>
+function loadXMLDoc3() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper3").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server3.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc3();
+    // 1sec
+}, 1000);
+
+window.onload = loadXMLDoc3;
 </script>

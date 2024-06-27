@@ -90,8 +90,6 @@
                             <th>Status</th>
                             <th>Payment Method</th>
                             <th>Date</th>
-
-
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -100,7 +98,6 @@
 
                         $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
-                            // $id = $row['id'];
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
@@ -129,13 +126,19 @@
                             <td><?php echo $destination; ?></td>
                             <td><?php echo $customerContact; ?></td>
                             <td><?php echo $captain; ?></td>
-                            <td><?php echo $status; ?></td>
+                            <td>
+                                <select class="status-dropdown" data-id="<?php echo $row['id']; ?>">
+                                    <option value="Pending" <?php if ($status == 'Pending')
+                                            echo 'selected'; ?>>Pending</option>
+                                    <option value="Completed" <?php if ($status == 'Completed')
+                                            echo 'selected'; ?>>Completed</option>
+                                    <option value="Return" <?php if ($status == 'Return')
+                                            echo 'selected'; ?>>Return</option>
+                                </select>
+                            </td>
                             <td><?php echo $paymentMethod; ?></td>
                             <td><?php echo $date; ?></td>
                         </tr>
-
-
-
                         <?php } ?>
                     </tbody>
                 </table>
@@ -252,4 +255,22 @@ function filterTable() {
         }
     }
 }
+</script>
+<script>
+    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
+        dropdown.addEventListener('change', function() {
+            var shipmentId = this.getAttribute('data-id');
+            var newStatus = this.value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'update_status.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert('Status updated successfully.');
+                }
+            };
+            xhr.send('id=' + shipmentId + '&status=' + newStatus);
+        });
+    });
 </script>
