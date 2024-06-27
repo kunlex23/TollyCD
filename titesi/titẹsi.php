@@ -118,6 +118,7 @@
                     <thead>
                         <tr>
                             <th>Partner</th>
+                            <th>Type</th>
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
@@ -137,9 +138,10 @@
 
                         // $query = mysqli_query($conn, "SELECT partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
 
-                        $query = mysqli_query($conn, "SELECT partner, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
+                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
+                            $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
                             $quantity = $row['quantity'];
                             $unitPrice = $row['unitPrice'];
@@ -154,6 +156,7 @@
                             ?>
                         <tr>
                             <td><?php echo $partner; ?></td>
+                            <td><?php echo $shipmentType; ?></td>
                             <td><?php echo $product; ?></td>
                             <td><?php echo $quantity; ?></td>
                             <td><?php echo $unitPrice; ?></td>

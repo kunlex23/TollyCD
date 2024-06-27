@@ -10,6 +10,7 @@ require '../config.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Collect data from the form
     $partner = $_POST['Name'];
+    $shipmentType = (array) $_POST['shipmentType'];
     $products = (array) $_POST['orunoloun'];
     $availableUnits = (array) $_POST['availableUnit'];
     $quantities = (array) $_POST['quantity'];
@@ -22,27 +23,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $statuses = (array) $_POST['status'];
     $paymentMethods = (array) $_POST['paymentMethod'];
 
-    // Prepare the SQL statement
-    $sql = "INSERT INTO gbigbe (partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
+    // Prepare the SQL statement for inserting into 'gbigbe' table
+    $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmtInsert = $conn->prepare($sqlInsert);
 
     // Check if the statement was prepared successfully
-    if ($stmt) {
-        // Loop through the products array to insert multiple records
-        for ($i = 0; $i < count($products); $i++) {
-            // Bind parameters to the SQL query
-            $stmt->bind_param("ssiidsssssss", $partner, $products[$i], $availableUnits[$i], $quantities[$i], $unitPrices[$i], $amounts[$i], $customerNames[$i], $destinations[$i], $customerContacts[$i], $captains[$i], $statuses[$i], $paymentMethods[$i]);
+    if ($stmtInsert) {
+        // Prepare the SQL statement for updating the 'products' table
+        $sqlUpdate = "UPDATE products SET quantity = ? WHERE productName = ?";
+        $stmtUpdate = $conn->prepare($sqlUpdate);
 
-            // Execute the statement
-            if (!$stmt->execute()) {
-                echo "Error: " . $stmt->error;
-                exit;
+        // Check if the statement was prepared successfully
+        if ($stmtUpdate) {
+            // Loop through the products array to insert and update records
+            for ($i = 0; $i < count($products); $i++) {
+                // Calculate the new unit
+                $newUnit = $availableUnits[$i] - $quantities[$i];
+
+                // Bind parameters to the insert SQL query
+                $stmtInsert->bind_param("sssiidsssssss", $partner, $shipmentType[$i], $products[$i], $availableUnits[$i], $quantities[$i], $unitPrices[$i], $amounts[$i], $customerNames[$i], $destinations[$i], $customerContacts[$i], $captains[$i], $statuses[$i], $paymentMethods[$i]);
+
+                // Execute the insert statement
+                if (!$stmtInsert->execute()) {
+                    echo "Error: " . $stmtInsert->error;
+                    exit;
+                }
+
+                // Bind parameters to the update SQL query
+                $stmtUpdate->bind_param("is", $newUnit, $products[$i]);
+
+                // Execute the update statement
+                if (!$stmtUpdate->execute()) {
+                    echo "Error: " . $stmtUpdate->error;
+                    exit;
+                }
             }
+            // Close the update statement
+            $stmtUpdate->close();
+        } else {
+            echo "Error: " . $conn->error;
+            exit;
         }
-        // Close the statement
-        $stmt->close();
+
+        // Close the insert statement
+        $stmtInsert->close();
         // Redirect to a success page or show a success message
-        echo "<script>alert('New Shipment  created successfully!'); window.location.href='records.php';</script>";
+        echo "<script>alert('New Shipment created successfully!'); window.location.href='records.php';</script>";
     } else {
         echo "Error: " . $conn->error;
     }

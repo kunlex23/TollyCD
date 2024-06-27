@@ -10,22 +10,22 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
-<style>
-        table,
-        th,
-        td {
-            /* border: 1px solid black; */
-            /* border-collapse: collapse; */
-            padding: 8px;
-        }
+    <style>
+    table,
+    th,
+    td {
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        padding: 8px;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -65,18 +65,19 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            
+
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
                 <h2>Shipments Records</h2>
                 <div class="spacer"></div>
                 <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
-                <table id="shipmentTable"style="width: 100%;">
+                <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <!-- <th>ID</th> -->
                             <th>Partner</th>
+                            <th>Type</th>
                             <th>Product</th>
                             <th>Avail. Qty</th>
                             <th>Qty</th>
@@ -97,10 +98,11 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
-                            $id = $row['id'];
+                            // $id = $row['id'];
                             $partner = $row['partner'];
+                            $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
                             $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
@@ -114,22 +116,23 @@
                             $paymentMethod = $row['paymentMethod'];
                             $date = $row['date'];
                             ?>
-                            <tr>
-                                <td><?php echo $id; ?></td>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $product; ?></td>
-                                <td><?php echo $availableUnit; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                                <td><?php echo $unitPrice; ?></td>
-                                <td><?php echo $amount; ?></td>
-                                <td><?php echo $customersName; ?></td>
-                                <td><?php echo $destination; ?></td>
-                                <td><?php echo $customerContact; ?></td>
-                                <td><?php echo $captain; ?></td>
-                                <td><?php echo $status; ?></td>
-                                <td><?php echo $paymentMethod; ?></td>
-                                <td><?php echo $date; ?></td>
-                            </tr>
+                        <tr>
+                            <!-- <td><?php echo $id; ?></td> -->
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $shipmentType; ?></td>
+                            <td><?php echo $product; ?></td>
+                            <td><?php echo $availableUnit; ?></td>
+                            <td><?php echo $quantity; ?></td>
+                            <td><?php echo $unitPrice; ?></td>
+                            <td><?php echo $amount; ?></td>
+                            <td><?php echo $customersName; ?></td>
+                            <td><?php echo $destination; ?></td>
+                            <td><?php echo $customerContact; ?></td>
+                            <td><?php echo $captain; ?></td>
+                            <td><?php echo $status; ?></td>
+                            <td><?php echo $paymentMethod; ?></td>
+                            <td><?php echo $date; ?></td>
+                        </tr>
 
 
 
@@ -155,7 +158,7 @@
                 </div>
             </div>
 
-            
+
         </div>
     </div>
 
@@ -166,63 +169,63 @@
 
 <!-- live data -->
 <script>
-    function loadXMLDoc() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc();
-        // 1sec
-    }, 1000);
+function loadXMLDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc;
+window.onload = loadXMLDoc;
 </script>
 <!-- Maximum reading -->
 <script>
-    function loadXMLDoc1() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper1").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server1.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc1();
-        // 1sec
-    }, 1000);
+function loadXMLDoc1() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper1").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server1.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc1();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc1;
+window.onload = loadXMLDoc1;
 </script>
 <!-- Minimum reading -->
 <script>
-    function loadXMLDoc2() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper2").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server2.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc2();
-        // 1sec
-    }, 1000);
+function loadXMLDoc2() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper2").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server2.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc2();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc2;
+window.onload = loadXMLDoc2;
 </script>
 <script>
 function filterTable() {

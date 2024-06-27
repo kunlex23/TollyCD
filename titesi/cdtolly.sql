@@ -21,21 +21,6 @@ SET time_zone = "+00:00";
 -- Database: `cdtolly`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `alabasepo`
---
-
-CREATE TABLE `alabasepo` (
-  `id` int(11) NOT NULL,
-  `Name` varchar(50) NOT NULL,
-  `contact` varchar(50) NOT NULL,
-  `accountNumber` varchar(50) NOT NULL,
-  `bank` varchar(50) NOT NULL,
-  `accountName` varchar(50) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `alabasepo`
