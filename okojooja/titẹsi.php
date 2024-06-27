@@ -10,7 +10,23 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/style.css">
+ <style>
+    table,
+    th,
+    td {
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        padding: 8px;
+    }
 
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
+
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
+    </style>
 </head>
 
 <body>
@@ -166,8 +182,39 @@
                 </a>
                 
                 <span>
-                    <h2>Notifications</h2>
+                    <center><h2>Products running low</h2></center>
                 </span>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                        require '../config.php';
+
+                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products WHERE quantity < 5 ORDER BY partner DESC LIMIT 10");
+
+                        while ($row = mysqli_fetch_array($query)) {
+                            $partner = $row['partner'];
+                            $productName = $row['productName'];
+                            $quantity = $row['quantity'];
+                            ?>
+                            <tr>
+                                <td> <?php echo $partner; ?></td>
+                                <td><?php echo $productName; ?></td>
+                                <td><?php echo $quantity; ?></td>
+                
+                            </tr>
+                
+                
+                
+                        <?php } ?>
+                    </tbody>
+                </table>
                 <div class="item-online">
                     <div class="right">
                         <table style="width: 100%;" class="due_client">
