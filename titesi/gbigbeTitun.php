@@ -22,7 +22,7 @@
                 <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
             </div>
             <div class="sideBar">
-                <a href="titẹsi.php">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>

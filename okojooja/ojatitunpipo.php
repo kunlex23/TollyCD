@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="titẹsi.php">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>

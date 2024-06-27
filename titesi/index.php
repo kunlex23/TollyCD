@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="titẹsi.php" class="active">
+                <a href="index.php" class="active">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -56,11 +56,6 @@
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
-                <a href="dapada.php">
-                    <span class="material-icons-sharp">assignment_return</span>
-                    <h3>Return</h3>
-                </a>
-
                 <a href="#">
                     <span class="material-icons-sharp"></span>
                     <h3></h3>
