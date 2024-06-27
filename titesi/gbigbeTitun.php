@@ -1,3 +1,18 @@
+<?php
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: index.php");
+}
+if ($_SESSION['userType'] === 'eru') {
+    header("Location: ./okojooja");
+// } elseif ($_SESSION['userType'] === 'fifisi') {
+//     header("Location: ./titesi");
+} elseif ($_SESSION['userType'] === 'olowo') {
+    header("Location: ./onisiro");
+} elseif ($_SESSION['userType'] === 'alamojuto') {
+    header("Location: ./abojuto");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

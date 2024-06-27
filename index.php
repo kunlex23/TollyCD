@@ -1,19 +1,26 @@
 <?php
 session_start();
-if (isset($_SESSION['unique_id'])) {
-    header("location: home.php");
+if ($_SESSION['userType'] === 'eru') {
+    header("Location: ./okojooja");
+} elseif ($_SESSION['userType'] === 'fifisi') {
+    header("Location: ./titesi");
+} elseif ($_SESSION['userType'] === 'olowo') {
+    header("Location: ./onisiro");
+} elseif ($_SESSION['userType'] === 'alamojuto') {
+    header("Location: ./abojuto");
 }
 ?>
 <html>
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TCD</title>
     <link rel="stylesheet" href="css/login.css">
 </head>
 
 <body>
     <div id="container">
-        <form class="modal-content animate" action="/login.php" method="post">
+        <form class="wole-oruko" action="login.php" method="post" autocomplete="off">
             <div class="imgcontainer">
                 <img src="images/img_avatar.png" alt="Avatar" class="avatar">
             </div>
@@ -25,11 +32,11 @@ if (isset($_SESSION['unique_id'])) {
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required>
 
-                <a href="dashboard.html"></a><button type="submit">Login</button>
-
+                <button type="submit">Login</button>
             </div>
-
-
         </form>
     </div>
 </body>
+<script src="javascript/script_login.js"></script>
+
+</html>
