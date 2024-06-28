@@ -1,13 +1,21 @@
 <?php
 session_start();
-if ($_SESSION['userType'] === 'eru') {
+if (!isset($_SESSION['userType'])) {
+    header("Location: ../index.php");
+    exit();
+} elseif ($_SESSION['userType'] === 'eru') {
     header("Location: ./okojooja");
-// } elseif ($_SESSION['userType'] === 'fifisi') {
-//     header("Location: ./titesi");
+    exit();
 } elseif ($_SESSION['userType'] === 'olowo') {
     header("Location: ./onisiro");
+    exit();
 } elseif ($_SESSION['userType'] === 'alamojuto') {
     header("Location: ./abojuto");
+    exit();
+} else {
+    // Optionally handle the case where userType is set but doesn't match any expected values
+    header("Location: ../index.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
