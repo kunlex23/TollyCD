@@ -1,23 +1,4 @@
- <?php 
-// session_start();
-// if (!isset($_SESSION['userType'])) {
-//     header("Location: ../index.php");
-//     exit();
-// } elseif ($_SESSION['userType'] === 'eru') {
-//     header("Location: ./okojooja");
-//     exit();
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ./onisiro");
-//     exit();
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ./abojuto");
-//     exit();
-// } else {
-//     // Optionally handle the case where userType is set but doesn't match any expected values
-//     header("Location: ../index.php");
-//     exit();
-// }
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,26 +43,21 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="index.php" class="active">
+               <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="gbigbeTitun.php">
-                    <span class="material-icons-sharp">add_circle</span>
-                    <h3>New Shipment</h3>
-                </a>
-
-                <a href="records.php">
+                <a href="records.php" class="active">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
+                </a>
 
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Expenses</h3>
                 </a>
-                
-                </a>
+
                 <a href="#">
                     <span class="material-icons-sharp"></span>
                     <h3></h3>
@@ -90,94 +66,43 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h1>Data Entry</h1>
-            <div class="insight">
-                <div class="sales">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Shipments</h3>
-                            <div id="link_wrapper">
 
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="tex">Last 7 Days</small> -->
-                </div>
-                <!-- END OF STUDENTS -->
-                 <div class="income">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Completed</h3>
-                            <div id="link_wrapper2">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 7 days</small> -->
-                </div>
-
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Pending Shipments</h3>
-                            <div id="link_wrapper1">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
-                </div>
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Returned</h3>
-                            <div id="link_wrapper3">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
-                </div>
-                
-            </div>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Recent Shipments</h2>
+                <h2>Shipments Records</h2>
                 <div class="spacer"></div>
-                <table style="width: 100%;">
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <!-- <th>ID</th> -->
                             <th>Partner</th>
                             <th>Type</th>
                             <th>Product</th>
-                            <th>Quantity</th>
+                            <th>Avail. Qty</th>
+                            <th>Qty</th>
                             <th>Unit Price</th>
                             <th>Amount</th>
-                            <th>Customers Name</th>
+                            <th>Client</th>
                             <th>Destination</th>
+                            <th>Contact</th>
                             <th>Captain</th>
                             <th>Status</th>
+                            <th>Payment Method</th>
                             <th>Date</th>
-
-
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
 
-                        // $query = mysqli_query($conn, "SELECT partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
-
-                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
+                            $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
                             $unitPrice = $row['unitPrice'];
                             $amount = $row['amount'];
@@ -190,25 +115,27 @@
                             $date = $row['date'];
                             ?>
                         <tr>
+                            <!-- <td><?php echo $id; ?></td> -->
                             <td><?php echo $partner; ?></td>
                             <td><?php echo $shipmentType; ?></td>
                             <td><?php echo $product; ?></td>
+                            <td><?php echo $availableUnit; ?></td>
                             <td><?php echo $quantity; ?></td>
                             <td><?php echo $unitPrice; ?></td>
                             <td><?php echo $amount; ?></td>
                             <td><?php echo $customersName; ?></td>
                             <td><?php echo $destination; ?></td>
+                            <td><?php echo $customerContact; ?></td>
                             <td><?php echo $captain; ?></td>
                             <td><?php echo $status; ?></td>
+
+                            </td>
+                            <td><?php echo $paymentMethod; ?></td>
                             <td><?php echo $date; ?></td>
                         </tr>
-
-
-
                         <?php } ?>
                     </tbody>
                 </table>
-                <a href="records.php">Show all</a>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -297,25 +224,47 @@ setInterval(function() {
 
 window.onload = loadXMLDoc2;
 </script>
-
-</script>
-<!-- Minimum reading -->
 <script>
-function loadXMLDoc3() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("link_wrapper3").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "server3.php", true);
-    xhttp.send();
-}
-setInterval(function() {
-    loadXMLDoc3();
-    // 1sec
-}, 1000);
+function filterTable() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput');
+    let filter = input.value.toUpperCase();
 
-window.onload = loadXMLDoc3;
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+</script>
+<script>
+    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
+        dropdown.addEventListener('change', function() {
+            var shipmentId = this.getAttribute('data-id');
+            var newStatus = this.value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'update_status.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert('Status updated successfully.');
+                }
+            };
+            xhr.send('id=' + shipmentId + '&status=' + newStatus);
+        });
+    });
 </script>

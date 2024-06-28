@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($fname) && !empty($userId) && !empty($password)) {
         // Check if the user already exists
-        $sql = mysqli_query($conn, "SELECT * FROM users WHERE fullName = '{$fname}'");
+        $sql = mysqli_query($conn, "SELECT * FROM users WHERE userId = '{$userId}'");
         if (mysqli_num_rows($sql) > 0) {
             echo "This account already exists! Kindly sign in.";
         } else {

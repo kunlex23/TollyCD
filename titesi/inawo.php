@@ -42,7 +42,7 @@
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="gbigbeTitun.php" class="active">
+                <a href="gbigbeTitun.php">
                     <span class="material-icons-sharp">add_circle</span>
                     <h3>New Shipment</h3>
                 </a>
@@ -52,7 +52,7 @@
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="inawo.php">
+                <a href="inawo.php" class="active">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Expenses</h3>
                 </a>
@@ -66,40 +66,13 @@
         <main>
             <div class="recent-sales">
                 <h1>New Shipment</h1>
-                <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
-        <div class="tray0">
-            <label for="Name">Partner:</label>
-            <select name="Name" required onchange="fetchProducts(this.value)">
-                <option value="">Select a Partner</option>
-                <?php
-                            require '../config.php';
-                            $sql = "SELECT Name FROM alabasepo";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
-                                }
-                            }
-                            ?>
-                        </select>
+                <form class="five-column-form" action="inawowole.php" method="POST">
+                    <div class="tray0">
+                        <label for="purpose">Description:</label>
+                        <input type="text" name="purpose[]" required><br>
                     </div>
                     <div class="tray1">
                         <div>
-                            <label for="shipmentType">Shipment Type:</label>
-                            <select name="shipmentType" required>
-                                <option value="delivery">Delivery</option>
-                                <option value="waybill">Waybill</option>
-                            </select><br>
-                        </div>
-                        <div id="productsContainer">
-                            <label for="orunoloun">Product:</label>
-                            <select name="orunoloun" required onchange="fetchQuantity(this.value)">
-                                <option value="">Select a Product</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="availableUnit">Available Unit:</label>
-                            <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
                             <label for="quantity">Quantity:</label>
                             <input type="text" name="quantity[]" required><br>
                         </div>
@@ -108,42 +81,12 @@
                         <div>
                             <label for="unitPrice">Unit Price:</label>
                             <input type="text" name="unitPrice[]" required><br>
-                            <label for="amount">Amount:</label>
-                            <input type="text" name="amount[]" required readonly><br>
-                        </div>
-                        <div>
-                            <label for="destination">Destination:</label>
-                            <input type="text" name="destination[]" required><br>
-                        </div>
-                        <div>
-                            <label for="customersName">Customer Name:</label>
-                            <input type="text" name="customersName[]" required><br>
                         </div>
                     </div>
                     <div class="tray3">
                         <div>
-                            <label for="customerContact">Customer Contact:</label>
-                            <input type="text" name="customerContact[]" required><br>
-                        </div>
-                        <div>
-                            <label for="captain">Captain:</label>
-                            <input type="text" name="captain[]" required><br>
-                        </div>
-                        <div>
-                            <label for="status">Status:</label>
-                            <select name="status" required>
-                                <option value="Pending">Pending</option>
-                                <option value="Completed">Completed</option>
-                            </select><br>
-                        </div>
-                        <div>
-                            <label for="paymentMethod">Payment Method:</label>
-                            <select name="paymentMethod" required>
-                                <option value="Transfer">Transfer</option>
-                                <option value="POS">POS</option>
-                                <option value="Cash">Cash</option>
-                                <option value="Cheque">Cheque</option>
-                            </select><br>
+                            <label for="amount">Amount:</label>
+                            <input type="text" name="amount[]" required readonly><br>
                         </div>
                     </div>
                     <div id="notification" class="notification hidden">New record created successfully!</div>
@@ -151,6 +94,46 @@
                         <div class="job"><input type="submit" value="Submit"></div>
                     </div>
                 </form>
+
+                <div class="spacer"></div>
+                <h2>Shipments Records</h2>
+                <div class="spacer"></div>
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <!-- <th>ID</th> -->
+                            <th>Purpose</th>
+                            <th>Unit</th>
+                            <th>Unit Price</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                        require '../config.php';
+
+                        $query = mysqli_query($conn, "SELECT id, purpose, unit, unitPrice, amount, date  FROM inawo ORDER BY purpose DESC ");
+                        while ($row = mysqli_fetch_array($query)) {
+                            $purpose = $row['purpose'];
+                            $unit = $row['unit'];
+                            $unitPrice = $row['unitPrice'];
+                            $amount = $row['amount'];
+                            $date = $row['date'];
+                            ?>
+                        <tr>
+                            <!-- <td><?php echo $id; ?></td> -->
+                            <td><?php echo $purpose; ?></td>
+                            <td><?php echo $unit; ?></td>
+                            <td><?php echo $unitPrice; ?></td>
+                            <td><?php echo $amount; ?></td>
+                            <td><?php echo $date; ?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+
             </div>
         </main>
         <div class="right">
@@ -211,44 +194,70 @@
         xhr.send("product=" + product);
     }
     </script>
-     <script>
-        function calculateAmount() {
-            const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-            const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-            const amountInputs = document.querySelectorAll('input[name="amount[]"]');
+    <script>
+    function calculateAmount() {
+        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
+        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
+        const amountInputs = document.querySelectorAll('input[name="amount[]"]');
 
-            for (let i = 0; i < quantityInputs.length; i++) {
-                const quantity = parseFloat(quantityInputs[i].value) || 0;
-                const unitPrice = parseFloat(unitPriceInputs[i].value) || 0;
-                amountInputs[i].value = quantity * unitPrice;
+        for (let i = 0; i < quantityInputs.length; i++) {
+            const quantity = parseFloat(quantityInputs[i].value) || 0;
+            const unitPrice = parseFloat(unitPriceInputs[i].value) || 0;
+            amountInputs[i].value = quantity * unitPrice;
+        }
+    }
+
+    function validateForm(event) {
+        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
+        const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
+
+        for (let i = 0; i < quantityInputs.length; i++) {
+            const quantity = parseFloat(quantityInputs[i].value) || 0;
+            const availableUnit = parseFloat(availableUnitInputs[i].value) || 0;
+
+            if (quantity > availableUnit) {
+                alert('Quantity cannot be more than the available unit.');
+                event.preventDefault();
+                return false;
             }
         }
 
-        function validateForm(event) {
-            const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-            const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
+        return true;
+    }
 
-            for (let i = 0; i < quantityInputs.length; i++) {
-                const quantity = parseFloat(quantityInputs[i].value) || 0;
-                const availableUnit = parseFloat(availableUnitInputs[i].value) || 0;
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
+        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
+        const form = document.querySelector('form');
 
-                if (quantity > availableUnit) {
-                    alert('Quantity cannot be more than the available unit.');
-                    event.preventDefault();
-                    return false;
+        quantityInputs.forEach(input => input.addEventListener('input', calculateAmount));
+        unitPriceInputs.forEach(input => input.addEventListener('input', calculateAmount));
+        form.addEventListener('submit', validateForm);
+    });
+    </script>
+    <script>
+    function filterTable() {
+        // Get the value of the input field
+        let input = document.getElementById('filterInput');
+        let filter = input.value.toUpperCase();
+
+        // Get the table and its rows
+        let table = document.getElementById('shipmentTable');
+        let tr = table.getElementsByTagName('tr');
+
+        // Loop through all table rows, except the first (header) row
+        for (let i = 1; i < tr.length; i++) {
+            // Get the first cell (product name) in the row
+            let td = tr[i].getElementsByTagName('td')[0];
+            if (td) {
+                // Check if the product name contains the filter text
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
                 }
             }
-
-            return true;
         }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-            const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-            const form = document.querySelector('form');
-
-            quantityInputs.forEach(input => input.addEventListener('input', calculateAmount));
-            unitPriceInputs.forEach(input => input.addEventListener('input', calculateAmount));
-            form.addEventListener('submit', validateForm);
-        });
+    }
     </script>

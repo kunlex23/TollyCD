@@ -1,14 +1,14 @@
 <?php
-session_start();
-if ($_SESSION['userType'] === 'eru') {
-    header("Location: ../okojooja");
-// } elseif ($_SESSION['userType'] === 'fifisi') {
-//     header("Location: ../titesi");
-} elseif ($_SESSION['userType'] === 'olowo') {
-    header("Location: ../onisiro");
-} elseif ($_SESSION['userType'] === 'alamojuto') {
-    header("Location: ../abojuto");
-}
+// session_start();
+// if ($_SESSION['userType'] === 'eru') {
+//     header("Location: ../okojooja");
+// // } elseif ($_SESSION['userType'] === 'fifisi') {
+// //     header("Location: ../titesi");
+// } elseif ($_SESSION['userType'] === 'olowo') {
+//     header("Location: ../onisiro");
+// } elseif ($_SESSION['userType'] === 'alamojuto') {
+//     header("Location: ../abojuto");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,6 +67,11 @@ if ($_SESSION['userType'] === 'eru') {
                 <a href="records.php" class="active">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
+                </a>
+
+                <a href="inawo.php">
+                    <span class="material-icons-sharp">paid</span>
+                    <h3>Expenses</h3>
                 </a>
 
                 <a href="#">

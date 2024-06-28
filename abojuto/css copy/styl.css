@@ -67,7 +67,7 @@ body {
     width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto 14rem;
+    grid-template-columns: 14rem auto 23rem;
 }
 
 a {
@@ -141,7 +141,6 @@ b {
 
 aside {
     height: 100vh;
-    /* background-color: var(--color-primary); */
 }
 
 aside .top {
@@ -157,8 +156,8 @@ aside .logo {
 }
 
 aside .logo img {
-    width: 180px;
-    height: 80px;
+    width: 14rem;
+    height: 5rem;
 }
 
 aside .closeBTN {
@@ -256,13 +255,9 @@ main .date input[type="date"] {
 
 main .insight {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.6rem;
 
-}
-
-.spacer {
-    height: 2rem;
 }
 
 main .insight>div {
@@ -357,49 +352,194 @@ main .insight small {
     display: block;
 }
 
-/* ====================RECENT ORDERS=============== */
-main .recent-orders {
+/* ====================RECENT SALES=============== */
+#list {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#list td,
+#list th {
+    padding: 8px;
+    border: 1px solid black;
+}
+
+#list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#list tr:hover {
+    background-color: #ddd;
+}
+
+#list th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width: 100px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
+main .recent-sales {
     margin-top: 2rem;
 }
 
-main .recent-orders h2 {
+main .recent-sales h2 {
     margin-bottom: 0.8rem;
 }
 
-main .recent-orders table {
-    margin-top: 3rem;
+main .recent-sales table {
     background: var(--color-white);
     width: 100%;
     border-radius: var(--card-border-radius);
     padding: var(--card-padding);
-    text-align: left;
+    text-align: center;
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
+    
 }
 
-main .recent-orders table:hover {
+main .recent-sales table:hover {
     box-shadow: none;
-}
-
-main table thead th {
-    text-align: left;
 }
 
 main table tbody td {
     height: 2.8rem;
     border-bottom: 1px solid var(--color-light);
     color: var(--color-dark-variant);
+    text-align: left;
 }
 
 main table tbody tr:last-child td {
     border: none;
 }
 
-main .recent-orders a {
+main .recent-sales a {
     text-align: center;
     display: block;
     margin: 1rem auto;
     color: var(--color-primary);
+}
+.tray0{
+    margin-right: 1.5rem;
+    width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+}
+.tray1{
+    margin-right: 1.5rem;
+    width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+}
+.tray2, .tray2 input{
+    margin-right: 1.5rem;
+    width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+}
+.tray3{
+    margin-right: 1.5rem;
+}
+.tray4{
+    margin-right: 1.5rem;
+}
+.job{
+    margin-top: 1.5rem;
+}
+/* ============================ */
+/* Apply CSS Grid for a three-column layout */
+/* Apply Flexbox for a three-column layout */
+.five-column-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* Adjust this value to control the space between columns */
+}
+
+/* Style for labels */
+label {
+    flex-basis: 33.33%; /* Distribute labels evenly in the three columns */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Style for input fields */
+input[type="text"],
+input[type="date"] {
+    flex-basis: 33.33%; /* Distribute input fields evenly in the three columns */
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Adjust styles for smaller screen sizes if necessary */
+/* @media screen and (max-width: 768px) {
+    .three-column-form {
+        flex-direction: column; /* Switch to a single column for smaller screens 
+    }
+} */
+
+/* ============================ */
+form {
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+select {
+    height: 35px;
+}
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+.notification {
+    position: fixed;
+    font-size: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px 80px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: none;
+}
+
+.notification.show {
+    display: block;
 }
 
 /* ===================RIGHT================== */
@@ -479,14 +619,20 @@ main .recent-orders a {
 
 /* =================SALES ANALYTICS============ */
 .right .sales-analytics {
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .right .sales-analytics h2 {
     margin-bottom: 0.5rem;
 }
+.due_client{
+    background-color:var(--color-white);
+    padding: 0.8rem;
+    border-radius: 1rem;
+}
 
 .right .sales-analytics .item {
+    margin-top: 2rem;
     background: var(--color-white);
     display: flex;
     align-items: center;
@@ -496,6 +642,7 @@ main .recent-orders a {
     border-radius: var(--border-radius-3);
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
+    font-size: 1.2rem;
 }
 
 .right .sales-analytics.item:hover {
@@ -536,6 +683,8 @@ main .recent-orders a {
 .right .sales-analytics .add-productdiv div h3 {
     font-weight: 600;
 }
+
+/* ===================CARTS=================== */
 
 /* ======================MEDIA QUERIES=================== */
 @media screen and (max-width:1200px) {
