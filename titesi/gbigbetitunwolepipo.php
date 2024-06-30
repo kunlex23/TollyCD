@@ -22,9 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $captains = (array) $_POST['captain'];
     $statuses = (array) $_POST['status'];
     $paymentMethods = (array) $_POST['paymentMethod'];
+    $accPartner = (array) $_POST['accPartner'];
+    $accCaptain = (array) $_POST['accCaptain'];
 
     // Prepare the SQL statement for inserting into 'gbigbe' table
-    $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, accCaptain, accPartner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
     $stmtInsert = $conn->prepare($sqlInsert);
 
     // Check if the statement was prepared successfully
@@ -41,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $newUnit = $availableUnits[$i] - $quantities[$i];
 
                 // Bind parameters to the insert SQL query
-                $stmtInsert->bind_param("sssiidsssssss", $partner, $shipmentType[$i], $products[$i], $availableUnits[$i], $quantities[$i], $unitPrices[$i], $amounts[$i], $customerNames[$i], $destinations[$i], $customerContacts[$i], $captains[$i], $statuses[$i], $paymentMethods[$i]);
+                $stmtInsert->bind_param("sssiidsssssssss", $partner, $shipmentType[$i], $products[$i], $availableUnits[$i], $quantities[$i], $unitPrices[$i], $amounts[$i], $customerNames[$i], $destinations[$i], $customerContacts[$i], $captains[$i], $statuses[$i], $paymentMethods[$i], $accCaptain[$i], $accPartner[$i]);
 
                 // Execute the insert statement
                 if (!$stmtInsert->execute()) {

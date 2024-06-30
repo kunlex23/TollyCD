@@ -67,11 +67,11 @@
             <div class="recent-sales">
                 <h1>New Shipment</h1>
                 <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
-        <div class="tray0">
-            <label for="Name">Partner:</label>
-            <select name="Name" required onchange="fetchProducts(this.value)">
-                <option value="">Select a Partner</option>
-                <?php
+                    <div class="tray0">
+                        <label for="Name">Partner:</label>
+                        <select name="Name" required onchange="fetchProducts(this.value)">
+                            <option value="">Select a Partner</option>
+                            <?php
                             require '../config.php';
                             $sql = "SELECT Name FROM alabasepo";
                             $result = $conn->query($sql);
@@ -211,44 +211,44 @@
         xhr.send("product=" + product);
     }
     </script>
-     <script>
-        function calculateAmount() {
-            const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-            const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-            const amountInputs = document.querySelectorAll('input[name="amount[]"]');
+    <script>
+    function calculateAmount() {
+        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
+        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
+        const amountInputs = document.querySelectorAll('input[name="amount[]"]');
 
-            for (let i = 0; i < quantityInputs.length; i++) {
-                const quantity = parseFloat(quantityInputs[i].value) || 0;
-                const unitPrice = parseFloat(unitPriceInputs[i].value) || 0;
-                amountInputs[i].value = quantity * unitPrice;
+        for (let i = 0; i < quantityInputs.length; i++) {
+            const quantity = parseFloat(quantityInputs[i].value) || 0;
+            const unitPrice = parseFloat(unitPriceInputs[i].value) || 0;
+            amountInputs[i].value = quantity * unitPrice;
+        }
+    }
+
+    function validateForm(event) {
+        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
+        const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
+
+        for (let i = 0; i < quantityInputs.length; i++) {
+            const quantity = parseFloat(quantityInputs[i].value) || 0;
+            const availableUnit = parseFloat(availableUnitInputs[i].value) || 0;
+
+            if (quantity > availableUnit) {
+                alert('Quantity cannot be more than the available unit.');
+                event.preventDefault();
+                return false;
             }
         }
 
-        function validateForm(event) {
-            const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-            const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
+        return true;
+    }
 
-            for (let i = 0; i < quantityInputs.length; i++) {
-                const quantity = parseFloat(quantityInputs[i].value) || 0;
-                const availableUnit = parseFloat(availableUnitInputs[i].value) || 0;
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
+        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
+        const form = document.querySelector('form');
 
-                if (quantity > availableUnit) {
-                    alert('Quantity cannot be more than the available unit.');
-                    event.preventDefault();
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-            const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-            const form = document.querySelector('form');
-
-            quantityInputs.forEach(input => input.addEventListener('input', calculateAmount));
-            unitPriceInputs.forEach(input => input.addEventListener('input', calculateAmount));
-            form.addEventListener('submit', validateForm);
-        });
+        quantityInputs.forEach(input => input.addEventListener('input', calculateAmount));
+        unitPriceInputs.forEach(input => input.addEventListener('input', calculateAmount));
+        form.addEventListener('submit', validateForm);
+    });
     </script>

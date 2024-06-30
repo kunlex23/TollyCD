@@ -89,38 +89,39 @@
 
                 <div class="spacer"></div>
                 <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>location</th>
-                            <th>partnerPrice</th>
-                            <th>dispatcherPrice</th>
-                            <th>profit</th>
+    <thead>
+        <tr>
+            <th>location</th>
+            <th>partnerPrice</th>
+            <th>dispatcherPrice</th>
+            <th>profit</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <?php
+        require '../config.php';
 
+        $query = mysqli_query($conn, "SELECT location, partnerPrice, dispatcherPrice, profit FROM ninawo ORDER BY location DESC");
+        if (!$query) {
+            die('Query Failed: ' . mysqli_error($conn));
+        }
 
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                                require '../config.php';
+        while ($row = mysqli_fetch_array($query)) {
+            $location = $row['location'];
+            $partnerPrice = $row['partnerPrice'];
+            $dispatcherPrice = $row['dispatcherPrice'];
+            $profit = $row['profit'];
+        ?>
+            <tr>
+                <td><?php echo htmlspecialchars($location); ?></td>
+                <td><?php echo htmlspecialchars($partnerPrice); ?></td>
+                <td><?php echo htmlspecialchars($dispatcherPrice); ?></td>
+                <td><?php echo htmlspecialchars($profit); ?></td>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
 
-
-                                $query = mysqli_query($conn, "SELECT id, location, partnerPrice, , dispatcherPrice, profit  FROM ninawo ORDER BY location  DESC ");
-                                while ($row = mysqli_fetch_array($query)) {
-                                    $location = $row['location'];
-                                    $partnerPrice = $row['partnerPrice'];
-                                    $dispatcherPrice = $row['dispatcherPrice'];
-                                    $profit = $row['profit'];
-                                    ?>
-                                        <tr>
-                                            <!-- <td><?php echo $id; ?></td> -->
-                                            <td><?php echo $location; ?></td>
-                                            <td><?php echo $partnerPrice; ?></td>
-                                            <td><?php echo $dispatcherPrice; ?></td>
-                                            <td><?php echo $profit; ?></td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                            </table>
             </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
