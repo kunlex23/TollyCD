@@ -11,6 +11,8 @@
 // }
 ?>
 <!DOCTYPE html>
+
+
 <html lang="en">
 
 <head>
@@ -105,7 +107,6 @@
                             <th>Contact</th>
                             <th>Captain</th>
                             <th>Status</th>
-                            <th>Payment Method</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -127,7 +128,6 @@
                             $customerContact = $row['customerContact'];
                             $captain = $row['captain'];
                             $status = $row['status'];
-                            $paymentMethod = $row['paymentMethod'];
                             $date = $row['date'];
                             ?>
                         <tr>
@@ -153,7 +153,6 @@
                                             echo 'selected'; ?>>Return</option>
                                 </select>
                             </td>
-                            <td><?php echo $paymentMethod; ?></td>
                             <td><?php echo $date; ?></td>
                         </tr>
                         <?php } ?>

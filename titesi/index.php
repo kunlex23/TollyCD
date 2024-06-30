@@ -1,23 +1,11 @@
- <?php 
+<?php
 // session_start();
+// include_once "php/config.php";
 // if (!isset($_SESSION['userType'])) {
-//     header("Location: ../index.php");
-//     exit();
-// } elseif ($_SESSION['userType'] === 'eru') {
-//     header("Location: ./okojooja");
-//     exit();
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ./onisiro");
-//     exit();
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ./abojuto");
-//     exit();
-// } else {
-//     // Optionally handle the case where userType is set but doesn't match any expected values
-//     header("Location: ../index.php");
-//     exit();
+//     header("location: ../index.php");
 // }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,8 +71,8 @@
                 
                 </a>
                 <a href="#">
-                    <span class="material-icons-sharp"></span>
-                    <h3></h3>
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
                 </a>
             </div>
         </aside>

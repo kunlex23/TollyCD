@@ -42,17 +42,17 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="index.php" class="active">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="alabasepo.php">
-                    <span class="material-icons-sharp">groups</span>
-                    <h3>Partners</h3>
-                </a>
-                <a href="oja.php">
+                <a href="ninan.php">
                     <span class="material-icons-sharp">inventory</span>
-                    <h3>Products</h3>
+                    <h3>Pricing</h3>
+                </a>
+                <a href="newUser.php">
+                    <span class="material-icons-sharp">inventory</span>
+                    <h3>New User</h3>
                 </a>
                 
 
@@ -65,86 +65,7 @@
         <!------------ END OF ASIDE ------------>
         <main>
             <h1>Admin Dashboard</h1>
-            <div class="insight">
-                <div class="sales">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Partners</h3>
-                            <div id="link_wrapper">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="tex">Last 7 Days</small> -->
-                </div>
-                <!-- END OF STUDENTS -->
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Products</h3>
-                            <div id="link_wrapper1">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
-                </div>
-                <!-- END OF GRADUTE STUDES -->
-
-                <div class="income">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Out of Stock</h3>
-                            <div id="link_wrapper2">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 7 days</small> -->
-                </div>
-
-                <!-- END OF INCOME -->
-            </div>
-            <!-- ---------END OF EXAM-------- -->
-            <div class="recent-sales">
-                <div class="spacer"></div>
-                <h2>Recent Product</h2>
-                <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Partner</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
-
-                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products ORDER BY partner DESC LIMIT 10");
-                        while ($row = mysqli_fetch_array($query)) {
-                            $partner = $row['partner'];
-                            $productName = $row['productName'];
-                            $quantity = $row['quantity'];
-                            ?>
-                            <tr>
-                                <td> <?php echo $partner; ?></td>
-                                <td><?php echo $productName; ?></td>
-                                <td><?php echo $quantity; ?></td>
-
-                            </tr>
-
-
-
-                        <?php } ?>
-                    </tbody>
-                </table>
-                <a href="oja.php">Show all</a>
-        </main>
+          </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">
