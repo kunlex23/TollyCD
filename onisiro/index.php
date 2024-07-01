@@ -71,7 +71,7 @@
                 <div class="sales">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Sales</h3>
+                            <h3>Total Income</h3>
                             <div id="link_wrapper">
 
                             </div>
@@ -84,7 +84,7 @@
                 <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Acutal Sales</h3>
+                            <h3>Total Remittance to Partner</h3>
                             <div id="link_wrapper1">
 
                             </div>
@@ -97,7 +97,7 @@
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Pending Sales</h3>
+                            <h3>Total Payment for Captains</h3>
                             <div id="link_wrapper2">
 
                             </div>
@@ -111,6 +111,18 @@
                         <div class="left">
                             <h3>Total Expenses</h3>
                             <div id="link_wrapper3">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                    <!-- <small class="text-muted">Last 24hrs</small> -->
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Total Profit</h3>
+                            <div id="link_wrapper4">
 
                             </div>
                         </div>
@@ -327,4 +339,23 @@
     }, 1000);
 
     window.onload = loadXMLDoc3;
+</script>
+<script>
+    function loadXMLDoc4() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper4").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server4.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc4();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc4;
 </script>

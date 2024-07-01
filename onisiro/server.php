@@ -1,12 +1,12 @@
-							<?php
+<?php
 
-                            require '../config.php';
+  require '../config.php';
                             
-                            $sql = "SELECT SUM(amount) AS amountIn FROM gbigbe ";
+                            $sql = "SELECT SUM(partnerReward) AS partnerReward FROM gbigbe ";
                             // where order_date > now() - interval 1 day;
                             if ($result = $conn->query($sql)) {
                               while ($row = $result->fetch_assoc()) {
-                                  $tClients = $row['amountIn']; 
+                                  $tClients = $row['partnerReward']; 
                                   
                                  echo'
                                      <h1>'.$tClients.'</h1>
