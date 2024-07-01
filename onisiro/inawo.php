@@ -46,7 +46,32 @@
         </aside>
         <main>
             <div class="recent-sales">
-                <h1>Shipments Records</h1>
+                <h1>New Expenses</h1>
+                <form class="five-column-form" action="inawowole.php" method="POST">
+                    <div class="tray0">
+                        <label for="purpose">Description:</label>
+                        <input type="text" name="purpose[]" required><br>
+                    </div>
+                    <div class="tray1">
+                        <div>
+                            <label for="quantity">Quantity:</label>
+                            <input type="text" name="quantity[]" required><br>
+                        </div>
+                    </div>
+                    <div class="tray2">
+                        <div>
+                            <label for="amount">Amount:</label>
+                            <input type="text" name="amount[]" required ><br>
+                        </div>
+                    </div>
+                    <div id="notification" class="notification hidden">New record created successfully!</div>
+                    <div class="button-container">
+                        <div class="job"><input type="submit" value="Submit"></div>
+                    </div>
+                </form>
+
+                <div class="spacer"></div>
+                <h2>Expenses Records</h2>
                 <div class="spacer"></div>
                 <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
@@ -104,87 +129,8 @@
     </div>
 
     <script src="../script/scrip.js"></script>
-    <script>
-    function fetchProducts(partner) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "get_products.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
-                const products = JSON.parse(xhr.responseText);
-                const productSelect = document.querySelector("select[name='orunoloun']");
-                productSelect.innerHTML = '<option value="">Select a Product</option>';
-                products.forEach(product => {
-                    const option = document.createElement("option");
-                    option.value = product;
-                    option.textContent = product;
-                    productSelect.appendChild(option);
-                });
-            }
-        };
-        xhr.send("partner=" + partner);
-    }
-
-    function fetchQuantity(product) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "get_quantity.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
-                const response = JSON.parse(xhr.responseText);
-                if (response.error) {
-                    console.error(response.error);
-                } else {
-                    document.getElementById('availableUnit').value = response.quantity;
-                }
-            }
-        };
-        xhr.send("product=" + product);
-    }
-    </script>
-    <script>
-    function calculateAmount() {
-        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-        const amountInputs = document.querySelectorAll('input[name="amount[]"]');
-
-        for (let i = 0; i < quantityInputs.length; i++) {
-            const quantity = parseFloat(quantityInputs[i].value) || 0;
-            const unitPrice = parseFloat(unitPriceInputs[i].value) || 0;
-            amountInputs[i].value = quantity * unitPrice;
-        }
-    }
-
-    function validateForm(event) {
-        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-        const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
-
-        for (let i = 0; i < quantityInputs.length; i++) {
-            const quantity = parseFloat(quantityInputs[i].value) || 0;
-            const availableUnit = parseFloat(availableUnitInputs[i].value) || 0;
-
-            if (quantity > availableUnit) {
-                alert('Quantity cannot be more than the available unit.');
-                event.preventDefault();
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-        const form = document.querySelector('form');
-
-        quantityInputs.forEach(input => input.addEventListener('input', calculateAmount));
-        unitPriceInputs.forEach(input => input.addEventListener('input', calculateAmount));
-        form.addEventListener('submit', validateForm);
-    });
-    </script>
+   
+   
     <script>
     function filterTable() {
         // Get the value of the input field

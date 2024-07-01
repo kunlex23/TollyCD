@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +11,39 @@
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
+     /* Tab styles */
+        .tab {
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     table,
     th,
     td {
@@ -65,28 +97,169 @@
             </div>
         </aside>
         <!------------ END OF ASIDE ------------>
-        <main>
+         <main>
+        <!-- Tab navigation -->
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'AllShipments')" id="defaultOpen">All Shipments</button>
+            <button class="tablinks" onclick="openTab(event, 'UnprocessedShipments')">Unprocessed Shipments</button>
+            <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Processed Shipments</button>
+        </div>
 
-            <!-- ---------END OF EXAM-------- -->
+        <!-- All Shipments content -->
+        <div id="AllShipments" class="tab-content">
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Shipments Records</h2>
-                <div class="spacer"></div>
+                <h2>All Shipments</h2>
+
                 <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <!-- <th>ID</th> -->
                             <th>Partner</th>
                             <th>Type</th>
                             <th>Product</th>
-                            <th>Avail. Qty</th>
                             <th>Qty</th>
-                            <th>Unit Price</th>
                             <th>Amount</th>
                             <th>Client</th>
-                            <th>Destination</th>
-                            <th>Contact</th>
+                            <th>Location</th>
+                            <th>Captain</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date  FROM gbigbe WHERE status = 'Completed' ORDER BY partner DESC ");
+                            while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $shipmentType = $row['shipmentType'];
+                                $product = $row['product'];
+                                $quantity = $row['quantity'];
+                                $unitPrice = $row['unitPrice'];
+                                $amount = $row['amount'];
+                                $customersName = $row['customersName'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $captain = $row['captain'];
+                                $paymentMethod = $row['paymentMethod'];
+                                $date = $row['date'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $shipmentType; ?></td>
+                                    <td><?php echo $product; ?></td>
+                                    <td><?php echo $quantity; ?></td>
+                                    <td><?php echo $amount; ?></td>
+                                    <td><?php echo $customersName; ?></td>
+                                    <td><?php echo $destination; ?></td>
+                                    <td><?php echo $captain; ?></td>
+                                    <td><?php echo $paymentMethod; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    <td style{background-color:blue;}>Confirm</td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            <!-- Unprocessed Shipments content -->
+            <div id="UnprocessedShipments" class="tab-content">
+                <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Unprocessed Shipments</h2>
+
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Type</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                            <th>Client</th>
+                            <th>Location</th>
+                            <th>Captain</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                            <th>Confirm</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date FROM gbigbe WHERE status = 'completed' AND accCaptain = 'rara' ORDER BY partner DESC");
+
+                        while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $shipmentType = $row['shipmentType'];
+                                $product = $row['product'];
+                                $quantity = $row['quantity'];
+                                $unitPrice = $row['unitPrice'];
+                                $amount = $row['amount'];
+                                $customersName = $row['customersName'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $captain = $row['captain'];
+                                $paymentMethod = $row['paymentMethod'];
+                                $date = $row['date'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $shipmentType; ?></td>
+                                    <td><?php echo $product; ?></td>
+                                    <td><?php echo $quantity; ?></td>
+                                    <td><?php echo $amount; ?></td>
+                                    <td><?php echo $customersName; ?></td>
+                                    <td><?php echo $destination; ?></td>
+                                    <td><?php echo $captain; ?></td>
+                                    <td>
+                                        <select class="paymentMethod-dropdown" data-id="<?php echo $id; ?>">
+                                            <option value="Transfer" <?php if ($paymentMethod == 'Transfer')
+                                                echo 'selected'; ?>>Transfer</option>
+                                            <option value="POS" <?php if ($paymentMethod == 'POS')
+                                                echo 'selected'; ?>>POS</option>
+                                            <option value="Cash" <?php if ($paymentMethod == 'Cash')
+                                                echo 'selected'; ?>>Cash</option>
+                                            <option value="Cheque" <?php if ($paymentMethod == 'Cheque')
+                                                echo 'selected'; ?>>Cheque</option>
+                                        </select>
+                                    </td>
+                                    <td><?php echo $date; ?></td>
+                                    <td><button onclick="confirmShipment(<?php echo $id; ?>)" style="background-color:blue; color:white;">Confirm</button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        
+            <!-- Processed Shipments content -->
+            <div id="ProcessedShipments" class="tab-content">
+                <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Processed Shipments</h2>
+
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Type</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                            <th>Client</th>
+                            <th>Location</th>
                             <th>Captain</th>
                             <th>Payment Method</th>
                             <th>Date</th>
@@ -94,44 +267,43 @@
                     </thead>
                     <tbody id="table-body">
                         <?php
-                        require '../config.php';
+                            require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date  FROM gbigbe WHERE status = 'Completed' ORDER BY partner DESC ");
-                        while ($row = mysqli_fetch_array($query)) {
-                            $partner = $row['partner'];
-                            $shipmentType = $row['shipmentType'];
-                            $product = $row['product'];
-                            $availableUnit = $row['availableUnit'];
-                            $quantity = $row['quantity'];
-                            $unitPrice = $row['unitPrice'];
-                            $amount = $row['amount'];
-                            $customersName = $row['customersName'];
-                            $destination = $row['destination'];
-                            $customerContact = $row['customerContact'];
-                            $captain = $row['captain'];
-                            $paymentMethod = $row['paymentMethod'];
-                            $date = $row['date'];
-                            ?>
-                        <tr>
-                            <!-- <td><?php echo $id; ?></td> -->
-                            <td><?php echo $partner; ?></td>
-                            <td><?php echo $shipmentType; ?></td>
-                            <td><?php echo $product; ?></td>
-                            <td><?php echo $availableUnit; ?></td>
-                            <td><?php echo $quantity; ?></td>
-                            <td><?php echo $unitPrice; ?></td>
-                            <td><?php echo $amount; ?></td>
-                            <td><?php echo $customersName; ?></td>
-                            <td><?php echo $destination; ?></td>
-                            <td><?php echo $customerContact; ?></td>
-                            <td><?php echo $captain; ?></td>
-                            <td><?php echo $paymentMethod; ?></td>
-                            <td><?php echo $date; ?></td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date  FROM gbigbe WHERE status = 'completed' AND accCaptain = 'beni' ORDER BY partner DESC ");
+                            while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $shipmentType = $row['shipmentType'];
+                                $product = $row['product'];
+                                $quantity = $row['quantity'];
+                                $unitPrice = $row['unitPrice'];
+                                $amount = $row['amount'];
+                                $customersName = $row['customersName'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $captain = $row['captain'];
+                                $paymentMethod = $row['paymentMethod'];
+                                $date = $row['date'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $shipmentType; ?></td>
+                                    <td><?php echo $product; ?></td>
+                                    <td><?php echo $quantity; ?></td>
+                                    <td><?php echo $amount; ?></td>
+                                    <td><?php echo $customersName; ?></td>
+                                    <td><?php echo $destination; ?></td>
+                                    <td><?php echo $captain; ?></td>
+                                    <td><?php echo $paymentMethod; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                            </div>
+            </div>
         </main>
+
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">
@@ -159,66 +331,7 @@
 
 </html>
 
-<!-- live data -->
-<script>
-function loadXMLDoc() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("link_wrapper").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "server.php", true);
-    xhttp.send();
-}
-setInterval(function() {
-    loadXMLDoc();
-    // 1sec
-}, 1000);
 
-window.onload = loadXMLDoc;
-</script>
-<!-- Maximum reading -->
-<script>
-function loadXMLDoc1() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("link_wrapper1").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "server1.php", true);
-    xhttp.send();
-}
-setInterval(function() {
-    loadXMLDoc1();
-    // 1sec
-}, 1000);
-
-window.onload = loadXMLDoc1;
-</script>
-<!-- Minimum reading -->
-<script>
-function loadXMLDoc2() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("link_wrapper2").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "server2.php", true);
-    xhttp.send();
-}
-setInterval(function() {
-    loadXMLDoc2();
-    // 1sec
-}, 1000);
-
-window.onload = loadXMLDoc2;
-</script>
 <script>
 function filterTable() {
     // Get the value of the input field
@@ -246,20 +359,59 @@ function filterTable() {
 }
 </script>
 <script>
-    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
-        dropdown.addEventListener('change', function() {
-            var shipmentId = this.getAttribute('data-id');
-            var newStatus = this.value;
+    document.querySelectorAll('.paymentMethod-dropdown').forEach(function(dropdown) {
+    dropdown.addEventListener('change', function() {
+        var shipmentId = this.getAttribute('data-id');
+        var newPaymentMethod = this.value;
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'update_status.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert('Status updated successfully.');
-                }
-            };
-            xhr.send('id=' + shipmentId + '&status=' + newStatus);
-        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'update_paymentMethod.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Payment method updated successfully.');
+            }
+        };
+        xhr.send('id=' + shipmentId + '&paymentMethod=' + newPaymentMethod);
     });
+});
+
 </script>
+
+ <script>
+        // Function to open a tab
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Set default tab to be opened
+        document.getElementById("defaultOpen").click();
+    </script>
+    <script>
+        function confirmShipment(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'update_captain.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log()
+            alert('Shipment confirmed successfully.');
+            // Optionally, update the UI to reflect the change
+        }
+    };
+    xhr.send('id=' + id);
+}
+    </script>

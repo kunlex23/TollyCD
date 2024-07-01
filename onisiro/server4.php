@@ -2,7 +2,7 @@
 
 require '../config.php';
 
-$sql = "SELECT SUM(amount) AS amountIn FROM gbigbe";
+$sql = "SELECT SUM(profitReward) AS amountIn FROM gbigbe WHERE status = 'Completed'";
 // where order_date > now() - interval 1 day;
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
