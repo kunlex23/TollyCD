@@ -67,6 +67,9 @@
             <div class="recent-sales">
                 <h1>New Shipment</h1>
                 <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
+                    <input type="hidden" name="accPartner" value="rara">
+                    <input type="hidden" name="accCaptain" value="rara">
+
                     <div class="tray0">
                         <label for="Name">Partner:</label>
                         <select name="Name" required onchange="fetchProducts(this.value)">
@@ -82,6 +85,9 @@
                             }
                             ?>
                         </select>
+                        <label for="availableUnit">Available Unit:</label>
+                        <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
+
                     </div>
                     <div class="tray1">
                         <div>
@@ -98,22 +104,31 @@
                             </select>
                         </div>
                         <div>
-                            <label for="availableUnit">Available Unit:</label>
-                            <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
                             <label for="quantity">Quantity:</label>
                             <input type="text" name="quantity[]" required><br>
                         </div>
                     </div>
                     <div class="tray2">
                         <div>
-                            <label for="unitPrice">Unit Price:</label>
-                            <input type="text" name="unitPrice[]" required><br>
                             <label for="amount">Amount:</label>
-                            <input type="text" name="amount[]" required readonly><br>
+                            <input type="text" name="amount[]" required><br>
                         </div>
                         <div>
-                            <label for="destination">Destination:</label>
-                            <input type="text" name="destination[]" required><br>
+                            <label for="destination">Location:</label>
+                            <select name="destination" onchange="fetchPrice(this.value)">
+                                <option value=""></option>
+                                <?php
+                                require '../config.php';
+                                $sql = "SELECT location FROM ninawo";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["location"] . '">' . $row["location"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
+
                         </div>
                         <div>
                             <label for="customersName">Customer Name:</label>
@@ -132,11 +147,11 @@
                         <div>
                             <label for="status">Status:</label>
                             <select name="status" required>
-                                <option value="Pending">Pending</option>
-                                <option value="Completed">Completed</option>
+                                <option value="Pending">Out for Delivery</option>
+                                <option value="Completed">Delivered</option>
                             </select><br>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label for="paymentMethod">Payment Method:</label>
                             <select name="paymentMethod" required>
                                 <option value="Transfer">Transfer</option>
@@ -144,7 +159,16 @@
                                 <option value="Cash">Cash</option>
                                 <option value="Cheque">Cheque</option>
                             </select><br>
-                        </div>
+                        </div> -->
+                    </div>
+                    <div>
+                        <label for="customersName">Partner price:</label>
+                        <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
+                        <label for="customersName">Dispatch Price:</label>
+                        <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
+                        <label for="customersName">Profit:</label>
+                        <input type="text" id="profit" name="profit[]" required readonly><br>
+
                     </div>
                     <div id="notification" class="notification hidden">New record created successfully!</div>
                     <div class="button-container">
@@ -172,58 +196,46 @@
 
     <script src="../script/scrip.js"></script>
     <script>
-    function fetchProducts(partner) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "get_products.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
-                const products = JSON.parse(xhr.responseText);
-                const productSelect = document.querySelector("select[name='orunoloun']");
-                productSelect.innerHTML = '<option value="">Select a Product</option>';
-                products.forEach(product => {
-                    const option = document.createElement("option");
-                    option.value = product;
-                    option.textContent = product;
-                    productSelect.appendChild(option);
-                });
-            }
-        };
-        xhr.send("partner=" + partner);
-    }
-
-    function fetchQuantity(product) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "get_quantity.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
-                const response = JSON.parse(xhr.responseText);
-                if (response.error) {
-                    console.error(response.error);
-                } else {
-                    document.getElementById('availableUnit').value = response.quantity;
+        function fetchProducts(partner) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "get_products.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText); // Log the response for debugging
+                    const products = JSON.parse(xhr.responseText);
+                    const productSelect = document.querySelector("select[name='orunoloun']");
+                    productSelect.innerHTML = '<option value="">Select a Product</option>';
+                    products.forEach(product => {
+                        const option = document.createElement("option");
+                        option.value = product;
+                        option.textContent = product;
+                        productSelect.appendChild(option);
+                    });
                 }
-            }
-        };
-        xhr.send("product=" + product);
-    }
+            };
+            xhr.send("partner=" + partner);
+        }
+
+        function fetchQuantity(product) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "get_quantity.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText); // Log the response for debugging
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.error) {
+                        console.error(response.error);
+                    } else {
+                        document.getElementById('availableUnit').value = response.quantity;
+                    }
+                }
+            };
+            xhr.send("product=" + product);
+        }
     </script>
     <script>
-    function calculateAmount() {
-        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-        const amountInputs = document.querySelectorAll('input[name="amount[]"]');
-
-        for (let i = 0; i < quantityInputs.length; i++) {
-            const quantity = parseFloat(quantityInputs[i].value) || 0;
-            const unitPrice = parseFloat(unitPriceInputs[i].value) || 0;
-            amountInputs[i].value = quantity * unitPrice;
-        }
-    }
-
     function validateForm(event) {
         const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
         const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
@@ -247,8 +259,27 @@
         const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
         const form = document.querySelector('form');
 
-        quantityInputs.forEach(input => input.addEventListener('input', calculateAmount));
-        unitPriceInputs.forEach(input => input.addEventListener('input', calculateAmount));
         form.addEventListener('submit', validateForm);
     });
+    </script>
+    <script>
+    function fetchPrice(location) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_price.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText); // Log the response for debugging
+                const response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    document.getElementById('partnerPrice').value = response.partnerPrice;
+                    document.getElementById('dispatcherPrice').value = response.dispatcherPrice;
+                    document.getElementById('profit').value = response.profit;
+                }
+            }
+        };
+        xhr.send("location=" + location);
+    }
     </script>

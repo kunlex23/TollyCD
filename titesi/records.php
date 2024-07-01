@@ -146,9 +146,9 @@
                             <td>
                                 <select class="status-dropdown" data-id="<?php echo $row['id']; ?>">
                                     <option value="Pending" <?php if ($status == 'Pending')
-                                            echo 'selected'; ?>>Pending</option>
+                                            echo 'selected'; ?>>Out for delivery</option>
                                     <option value="Completed" <?php if ($status == 'Completed')
-                                            echo 'selected'; ?>>Completed</option>
+                                            echo 'selected'; ?>>Delivered</option>
                                     <option value="Return" <?php if ($status == 'Return')
                                             echo 'selected'; ?>>Return</option>
                                 </select>

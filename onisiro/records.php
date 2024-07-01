@@ -88,7 +88,6 @@
                             <th>Destination</th>
                             <th>Contact</th>
                             <th>Captain</th>
-                            <th>Status</th>
                             <th>Payment Method</th>
                             <th>Date</th>
                         </tr>
@@ -97,7 +96,7 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date  FROM gbigbe WHERE status = 'Completed' ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
@@ -110,7 +109,6 @@
                             $destination = $row['destination'];
                             $customerContact = $row['customerContact'];
                             $captain = $row['captain'];
-                            $status = $row['status'];
                             $paymentMethod = $row['paymentMethod'];
                             $date = $row['date'];
                             ?>
@@ -127,9 +125,6 @@
                             <td><?php echo $destination; ?></td>
                             <td><?php echo $customerContact; ?></td>
                             <td><?php echo $captain; ?></td>
-                            <td><?php echo $status; ?></td>
-
-                            </td>
                             <td><?php echo $paymentMethod; ?></td>
                             <td><?php echo $date; ?></td>
                         </tr>
