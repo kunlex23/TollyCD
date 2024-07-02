@@ -401,17 +401,29 @@ function filterTable() {
         document.getElementById("defaultOpen").click();
     </script>
     <script>
-        function confirmShipment(id) {
+    function confirmShipment(id) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'update_captain.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log()
-            alert('Shipment confirmed successfully.');
-            // Optionally, update the UI to reflect the change
+            alert('Shipment confirmed');
+            // Reload the table data
+            loadTableData();
         }
     };
     xhr.send('id=' + id);
 }
+
+function loadTableData() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'fetch_table_data.php', true); // Replace with your endpoint to fetch table data
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            document.getElementById('table-body').innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send();
+}
+
     </script>
