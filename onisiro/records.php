@@ -101,8 +101,10 @@
         <!-- Tab navigation -->
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'AllShipments')" id="defaultOpen">All Shipments</button>
-            <button class="tablinks" onclick="openTab(event, 'UnprocessedShipments')">Unprocessed Shipments</button>
-            <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Processed Shipments</button>
+            <button class="tablinks" onclick="openTab(event, 'UnprocessedShipments')">Unconfirmed Shipments</button>
+            <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Confirmed Shipments</button>
+            <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
+            <button class="tablinks" onclick="openTab(event, 'riderPayment')">Rider Payment</button>
         </div>
 
         <!-- All Shipments content -->
@@ -125,7 +127,6 @@
                             <th>Captain</th>
                             <th>Payment Method</th>
                             <th>Date</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -159,7 +160,6 @@
                                     <td><?php echo $captain; ?></td>
                                     <td><?php echo $paymentMethod; ?></td>
                                     <td><?php echo $date; ?></td>
-                                    <td style{background-color:blue;}>Confirm</td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -171,7 +171,7 @@
             <div id="UnprocessedShipments" class="tab-content">
                 <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Unprocessed Shipments</h2>
+                <h2>Unconfirmed Shipments</h2>
 
                 <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
@@ -233,7 +233,7 @@
                                         </select>
                                     </td>
                                     <td><?php echo $date; ?></td>
-                                    <td><button onclick="confirmShipment(<?php echo $id; ?>)" style="background-color:blue; color:white;">Confirm</button>
+                                    <td><button onclick="confirmShipment(<?php echo $id; ?>)" style="background-color:blue; color:white;">Confirm</button></td>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -247,7 +247,7 @@
             <div id="ProcessedShipments" class="tab-content">
                 <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Processed Shipments</h2>
+                <h2>Confirmed Shipments</h2>
 
                 <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
@@ -301,6 +301,122 @@
                         </tbody>
                     </table>
                             </div>
+            </div>
+            
+            <div id="partnerPayment" class="tab-content">
+                <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Partner Payment</h2>
+
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Type</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                            <th>Client</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date  FROM gbigbe WHERE status = 'completed' AND accPartner = 'rara' ORDER BY partner DESC ");
+                            while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $shipmentType = $row['shipmentType'];
+                                $product = $row['product'];
+                                $quantity = $row['quantity'];
+                                $unitPrice = $row['unitPrice'];
+                                $amount = $row['amount'];
+                                $customersName = $row['customersName'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $captain = $row['captain'];
+                                $paymentMethod = $row['paymentMethod'];
+                                $date = $row['date'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $shipmentType; ?></td>
+                                    <td><?php echo $product; ?></td>
+                                    <td><?php echo $quantity; ?></td>
+                                    <td><?php echo $amount; ?></td>
+                                    <td><?php echo $customersName; ?></td>
+                                    <td><?php echo $destination; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    <td>Paid</td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="riderPayment" class="tab-content">
+                <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Confirmed Shipments</h2>
+
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Type</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                            <th>Client</th>
+                            <th>Location</th>
+                            <th>Captain</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date  FROM gbigbe WHERE status = 'completed' AND accCaptain = 'beni' ORDER BY partner DESC ");
+                            while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $shipmentType = $row['shipmentType'];
+                                $product = $row['product'];
+                                $quantity = $row['quantity'];
+                                $unitPrice = $row['unitPrice'];
+                                $amount = $row['amount'];
+                                $customersName = $row['customersName'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $captain = $row['captain'];
+                                $paymentMethod = $row['paymentMethod'];
+                                $date = $row['date'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $shipmentType; ?></td>
+                                    <td><?php echo $product; ?></td>
+                                    <td><?php echo $quantity; ?></td>
+                                    <td><?php echo $amount; ?></td>
+                                    <td><?php echo $customersName; ?></td>
+                                    <td><?php echo $destination; ?></td>
+                                    <td><?php echo $captain; ?></td>
+                                    <td><?php echo $paymentMethod; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
 
@@ -401,19 +517,24 @@ function filterTable() {
         document.getElementById("defaultOpen").click();
     </script>
     <script>
-    function confirmShipment(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'update_captain.php', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            alert('Shipment confirmed');
-            // Reload the table data
-            loadTableData();
-        }
-    };
-    xhr.send('id=' + id);
+function confirmShipment(id) {
+    if (confirm("Please confirm the data is correct before proceeding")) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'update_captain.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Shipment confirmed');
+                // Reload the table data
+                loadTableData();
+            }
+        };
+        xhr.send('id=' + id);
+    } else {
+        alert("Shipment confirmation canceled.");
+    }
 }
+
 
 function loadTableData() {
     var xhr = new XMLHttpRequest();

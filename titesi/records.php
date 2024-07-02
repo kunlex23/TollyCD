@@ -40,6 +40,70 @@
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
     }
+
+    /* Center the modal content */
+    #returnReasonModal {
+        padding-top: 15%;
+        padding-left: 35%;
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        /* Rounded corners for a modern look */
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-content form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-content textarea {
+        resize: vertical;
+        min-height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .modal-content button {
+        align-self: flex-end;
+    }
     </style>
 </head>
 
@@ -114,7 +178,7 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
@@ -158,6 +222,17 @@
                         <?php } ?>
                     </tbody>
                 </table>
+                <div id="returnReasonModal" style="display:none;">
+                    <div class="modal-content">
+                        <span id="closeModal" class="close">&times;</span>
+                        <form id="returnReasonForm">
+                            <label for="returnReason">Reason for return:</label>
+                            <textarea id="returnReason" name="returnReason" required></textarea>
+                            <input type="hidden" id="returnShipmentId" name="shipmentId">
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -186,66 +261,6 @@
 
 </html>
 
-<!-- live data -->
-<script>
-function loadXMLDoc() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("link_wrapper").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "server.php", true);
-    xhttp.send();
-}
-setInterval(function() {
-    loadXMLDoc();
-    // 1sec
-}, 1000);
-
-window.onload = loadXMLDoc;
-</script>
-<!-- Maximum reading -->
-<script>
-function loadXMLDoc1() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("link_wrapper1").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "server1.php", true);
-    xhttp.send();
-}
-setInterval(function() {
-    loadXMLDoc1();
-    // 1sec
-}, 1000);
-
-window.onload = loadXMLDoc1;
-</script>
-<!-- Minimum reading -->
-<script>
-function loadXMLDoc2() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("link_wrapper2").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "server2.php", true);
-    xhttp.send();
-}
-setInterval(function() {
-    loadXMLDoc2();
-    // 1sec
-}, 1000);
-
-window.onload = loadXMLDoc2;
-</script>
 <script>
 function filterTable() {
     // Get the value of the input field
@@ -273,20 +288,50 @@ function filterTable() {
 }
 </script>
 <script>
-    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
-        dropdown.addEventListener('change', function() {
-            var shipmentId = this.getAttribute('data-id');
-            var newStatus = this.value;
+document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
+    dropdown.addEventListener('change', function() {
+        var shipmentId = this.getAttribute('data-id');
+        var newStatus = this.value;
 
+        if (newStatus === 'Return') {
+            // Show the modal
+            document.getElementById('returnReasonModal').style.display = 'block';
+            document.getElementById('returnShipmentId').value = shipmentId;
+        } else {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'update_status.php', true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
+            xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     alert('Status updated successfully.');
                 }
             };
             xhr.send('id=' + shipmentId + '&status=' + newStatus);
-        });
+        }
     });
+});
+
+// Handle modal close
+document.getElementById('closeModal').addEventListener('click', function() {
+    document.getElementById('returnReasonModal').style.display = 'none';
+});
+
+// Handle form submission
+document.getElementById('returnReasonForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var shipmentId = document.getElementById('returnShipmentId').value;
+    var returnReason = document.getElementById('returnReason').value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'updateStatus.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            alert('Return reason saved successfully.');
+            document.getElementById('returnReasonModal').style.display = 'none';
+        }
+    };
+    xhr.send('id=' + shipmentId + '&status=Return&returnReason=' + encodeURIComponent(returnReason));
+});
 </script>

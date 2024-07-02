@@ -84,7 +84,7 @@
                 <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Remittance to Partner</h3>
+                            <h3>Partner Remittance</h3>
                             <div id="link_wrapper1">
 
                             </div>
@@ -109,18 +109,6 @@
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Expenses</h3>
-                            <div id="link_wrapper3">
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
                             <h3>Total Profit</h3>
                             <div id="link_wrapper4">
 
@@ -128,7 +116,18 @@
                         </div>
 
                     </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
+                </div>
+               
+                 <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Total Expenses</h3>
+                            <div id="link_wrapper3">
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
