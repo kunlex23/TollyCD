@@ -69,6 +69,8 @@
                 <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
                     <input type="hidden" name="accPartner" value="rara">
                     <input type="hidden" name="accCaptain" value="rara">
+                    <input type="hidden" name="partnerPayStatus" value="rara">
+                    <input type="hidden" name="captainPayStatus" value="rara">
 
                     <div class="tray0">
                         <label for="Name">Partner:</label>
@@ -162,12 +164,10 @@
                         </div> -->
                     </div>
                     <div>
-                        <label for="customersName">Partner price:</label>
-                        <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
-                        <label for="customersName">Dispatch Price:</label>
-                        <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
-                        <label for="customersName">Profit:</label>
-                        <input type="text" id="profit" name="profit[]" required readonly><br>
+                        
+                        <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
+                        <input type="hidden" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
+                        <input type="hidden" id="profit" name="profit[]" required readonly><br>
 
                     </div>
                     <div id="notification" class="notification hidden">New record created successfully!</div>

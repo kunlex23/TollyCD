@@ -304,6 +304,7 @@ document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     alert('Status updated successfully.');
+                    window.location.href='records.php';
                 }
             };
             xhr.send('id=' + shipmentId + '&status=' + newStatus);
