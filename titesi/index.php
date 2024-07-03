@@ -70,7 +70,7 @@
                 </a>
                 
                 </a>
-                <a href="#">
+                <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
                 </a>

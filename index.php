@@ -24,8 +24,7 @@ if ($_SESSION['userType'] === 'eru') {
             <div class="imgcontainer">
                 <img src="images/img_avatar.png" alt="Avatar" class="avatar">
             </div>
-
-            <div class="container">
+            <center><div class="container">
                 <label for="uname"><b>Username</b></label>
                 <input type="text" placeholder="Enter Username" name="uname" required>
 
@@ -33,7 +32,8 @@ if ($_SESSION['userType'] === 'eru') {
                 <input type="password" placeholder="Enter Password" name="psw" required>
 
                 <button type="submit">Login</button>
-            </div>
+            </div></center>
+            
         </form>
     </div>
 </body>

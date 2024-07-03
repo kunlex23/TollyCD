@@ -51,6 +51,10 @@
                     <span class="material-icons-sharp">inventory</span>
                     <h3>New User</h3>
                 </a>
+                <a href="../logout.php">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
             </div>
         </aside>
         <!------------ END OF ASIDE ------------>

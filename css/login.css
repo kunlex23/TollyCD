@@ -37,8 +37,9 @@ button:hover {
 }
 
 img.avatar {
-    width: 20%;
-    border-radius: 50%;
+    width: 200px;
+    height: 100px;
+    
 }
 
 .container {
@@ -51,7 +52,7 @@ img.avatar {
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #000000;
+    /* background-color: #000000; */
     margin: 5% auto 15% auto;
     /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid rgb(9, 255, 0);

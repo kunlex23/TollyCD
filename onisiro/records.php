@@ -91,9 +91,9 @@
                     <h3>Expenses</h3>
                 </a>
 
-                <a href="#">
-                    <span class="material-icons-sharp"></span>
-                    <h3></h3>
+                <a href="../logout.php">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
                 </a>
             </div>
         </aside>
@@ -354,7 +354,7 @@
                                 <td><?php echo $accountNumber; ?></td>
                                 <td><?php echo $bank; ?></td>
                                 <td><?php echo $accountName; ?></td>
-                                <td>Paid</td>
+                                <td><a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a></td>
                             </tr>
                             <?php } ?>
                         </tbody>
@@ -394,7 +394,8 @@
                             <tr>
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $riderReward; ?></td>
-                                <td>Pay</td>
+                                <td><a href="save_paymentCap.php?captain=<?php echo urlencode($captain); ?>&riderReward=<?php echo urlencode($riderReward); ?>">Make Payment</a>
+                                </td>
                             </tr>
                             <?php } ?>
                         </tbody>

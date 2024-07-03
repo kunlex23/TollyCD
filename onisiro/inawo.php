@@ -38,9 +38,9 @@
                     <h3>Expenses</h3>
                 </a>
 
-                <a href="#">
-                    <span class="material-icons-sharp"></span>
-                    <h3></h3>
+                <a href="../logout.php">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
                 </a>
             </div>
         </aside>

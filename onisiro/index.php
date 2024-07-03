@@ -1,4 +1,15 @@
-
+<?php
+// session_start();
+// if ($_SESSION['userType'] === 'eru') {
+//     header("Location: ../okojooja");
+// } elseif ($_SESSION['userType'] === 'fifisi') {
+//     header("Location: ../titesi");
+// } elseif ($_SESSION['userType'] === 'olowo') {
+//     header("Location: ../onisiro");
+// } elseif ($_SESSION['userType'] === 'alamojuto') {
+//     header("Location: ../abojuto");
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,9 +69,9 @@
                     <h3>Expenses</h3>
                 </a>
 
-                <a href="#">
-                    <span class="material-icons-sharp"></span>
-                    <h3></h3>
+                <a href="../logout.php">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
                 </a>
             </div>
         </aside>

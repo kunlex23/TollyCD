@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 include_once "config.php";
 
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $encrypt_pass = md5($password);
 
         // Prepare the select statement
-        $stmt = $conn->prepare("SELECT userId, userType FROM users WHERE userId = ? AND password = ?");
+        $stmt = $conn->prepare("SELECT userType FROM users WHERE userId = ? AND password = ?");
         $stmt->bind_param("ss", $uname, $encrypt_pass);
 
         // Execute the statement
@@ -23,11 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if the user exists
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($userId, $userType);
+            $stmt->bind_result($userType);
             $stmt->fetch();
 
+
             
-            $_SESSION['userId'] = $userId;
             $_SESSION['userType'] = $userType;
 
             echo "Login successful!";
