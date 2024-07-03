@@ -386,7 +386,7 @@
                                 $captain = $row['captain'];
 
                                 // Query to calculate total partner reward
-                                $sqla = "SELECT SUM(riderReward) AS totalReward FROM gbigbe WHERE captain = '$captain' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                                $sqla = "SELECT SUM(riderReward) AS totalReward FROM gbigbe WHERE captain = '$captain' AND status = 'completed' AND accCaptain = 'beni' AND captainPayStatus = 'rara'";
                                 $resulta = mysqli_query($conn, $sqla);
                                 $rowa = mysqli_fetch_array($resulta);
                                 $riderReward = $rowa['totalReward'];
