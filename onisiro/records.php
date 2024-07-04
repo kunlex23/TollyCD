@@ -86,6 +86,17 @@
                     <h3>Shipments</h3>
                 </a>
 
+                 <a href="sisanwo.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Partner Payment History</h3>
+                </a>
+
+                 <a href="sisanwokeji.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Captain Payment History</h3>
+                </a>
+
+
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Expenses</h3>
@@ -175,7 +186,6 @@
                     <div class="spacer"></div>
                     <h2>Unconfirmed Shipments</h2>
 
-                    <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
                         <thead>
                             <tr>
@@ -254,7 +264,6 @@
                     <div class="spacer"></div>
                     <h2>Confirmed Shipments</h2>
 
-                    <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
                         <thead>
                             <tr>

@@ -23,10 +23,37 @@
     <!-- style -->
     <link rel="stylesheet" href="css/style.css">
     <style>
+        .date-filter-form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .date-filter-form label,
+        .date-filter-form input {
+            margin-right: 10px;
+        }
+
+        .date-filter-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            /* Green background */
+            color: white;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .date-filter-form button:hover {
+            background-color: #45a049;
+            /* Darker green background on hover */
+        }
+
         table,
         th,
         td {
-            border: 1px solid blanchedalmond; 
+            border: 1px solid blanchedalmond;
             border-collapse: collapse;
             padding: 2px;
         }
@@ -54,7 +81,7 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="index.php" class="active">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -64,16 +91,15 @@
                     <h3>Shipments</h3>
                 </a>
 
-                 <a href="sisanwo.php">
+                <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
                 </a>
 
-                 <a href="sisanwokeji.php">
+                <a href="sisanwokeji.php" class="active">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
                 </a>
-                
 
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
@@ -88,170 +114,74 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h1>Accounting</h1>
-            <div class="insight">
-                <div class="sales">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Income</h3>
-                            <div id="link_wrapper">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="tex">Last 7 Days</small> -->
-                </div>
-                <!-- END OF STUDENTS -->
-                <div class="income">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Partner Remittance</h3>
-                            <div id="link_wrapper1">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 7 days</small> -->
-                </div>
-
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Payment for Captains</h3>
-                            <div id="link_wrapper2">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
-                </div>
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Profit</h3>
-                            <div id="link_wrapper4">
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-               
-                 <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Expenses</h3>
-                            <div id="link_wrapper3">
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Recent Sales</h2>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Partner</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Unit Price</th>
-                            <th>Amount</th>
-                            <th>Customers Name</th>
-                            <th>Destination</th>
-                            <th>Captain</th>
-                            <th>paymentMethod</th>
-                            <th>Date</th>
+                <h2>Captain Payment History</h2>
 
-
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
-
-
-                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status = 'Completed' ORDER BY partner DESC LIMIT 10");
-                        while ($row = mysqli_fetch_array($query)) {
-                            $partner = $row['partner'];
-                            $product = $row['product'];
-                            $quantity = $row['quantity'];
-                            $unitPrice = $row['unitPrice'];
-                            $amount = $row['amount'];
-                            $customersName = $row['customersName'];
-                            $destination = $row['destination'];
-                            $captain = $row['captain'];
-                            $paymentMethod = $row['paymentMethod'];
-                            $date = $row['date'];
-                            ?>
-                            <tr>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $product; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                                <td><?php echo $unitPrice; ?></td>
-                                <td><?php echo $amount; ?></td>
-                                <td><?php echo $customersName; ?></td>
-                                <td><?php echo $destination; ?></td>
-                                <td><?php echo $captain; ?></td>
-                                <td><?php echo $paymentMethod; ?></td>
-                                <td><?php echo $date; ?></td>
-                            </tr>
-                
-                
-                
-                        <?php } ?>
-                    </tbody>
-                </table>
-                <a href="records.php">Show all</a>
+                <!-- Date Range Form -->
+                <div class="spacer"></div>
+                <form method="post" action="">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form>
 
                 <div class="spacer"></div>
-                <h2>Recent Expenses</h2>
                 <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Purpose</th>
-                            <th>Unit</th>
-                            <th>Unit Price</th>
+                            <th>Captain</th>
                             <th>Amount</th>
                             <th>Date</th>
-
-
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
 
+                        // Initialize variables for the date range
+                        $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                        $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
 
-                        $query = mysqli_query($conn, "SELECT id, purpose, unit, unitPrice, amount, date  FROM inawo ORDER BY purpose  DESC LIMIT 4");
+                        // Debugging: Print the received dates
+                        //echo "Start Date: $start_date, End Date: $end_date";
+                        
+                        // Build the query based on the date range
+                        $query_string = "SELECT captain, amount, date FROM olokadahistory";
+                        if ($start_date && $end_date) {
+                            $query_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                        }
+                        $query_string .= " ORDER BY captain DESC";
+
+                        // Debugging: Print the query string
+                        //echo $query_string;
+                        
+                        $query = mysqli_query($conn, $query_string);
+
+                        if (!$query) {
+                            // Debugging: Print the MySQL error
+                            //echo "Error: " . mysqli_error($conn);
+                        }
+
                         while ($row = mysqli_fetch_array($query)) {
-                            $purpose = $row['purpose'];
-                            $unit = $row['unit'];
-                            $unitPrice = $row['unitPrice'];
+                            $captain = $row['captain'];
                             $amount = $row['amount'];
                             $date = $row['date'];
                             ?>
                             <tr>
-                                <!-- <td><?php echo $id; ?></td> -->
-                                <td><?php echo $purpose; ?></td>
-                                <td><?php echo $unit; ?></td>
-                                <td><?php echo $unitPrice; ?></td>
+                                <td><?php echo $captain; ?></td>
                                 <td><?php echo $amount; ?></td>
                                 <td><?php echo $date; ?></td>
-                        </tr>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>
-                <a href="inawo.php">Show all</a>
+            </div>
         </main>
+
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">

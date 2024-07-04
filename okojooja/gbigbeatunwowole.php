@@ -2,14 +2,16 @@
 require '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve and sanitize input
     $id = $_POST['id'];
-    $Name = $_POST['Name'];
-    $Contact = $_POST['Contact'];
-    $accountNumber = $_POST['accountNumber'];
-    $bank = $_POST['bank'];
-    $accountName = $_POST['accountName'];
+    $Name = mysqli_real_escape_string($conn, $_POST['Name']);
+    $Contact = mysqli_real_escape_string($conn, $_POST['Contact']);
+    $accountNumber = mysqli_real_escape_string($conn, $_POST['accountNumber']);
+    $bank = mysqli_real_escape_string($conn, $_POST['bank']);
+    $accountName = mysqli_real_escape_string($conn, $_POST['accountName']);
+    $oldName = mysqli_real_escape_string($conn, $_POST['oldName']);
 
-    // Prepare the update query to prevent SQL injection
+    // Prepare the update queries to prevent SQL injection
     $clientSql = "UPDATE alabasepo SET
                   Name = ?,
                   Contact = ?,
@@ -17,26 +19,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   bank = ?,
                   accountName = ?
                   WHERE id = ?";
+    $updateProductsQuery = "UPDATE products SET partner = ? WHERE partner = ?";
 
     // Start a database transaction
     $conn->begin_transaction();
 
-    if ($stmt = $conn->prepare($clientSql)) {
-        $stmt->bind_param('sssssi', $Name, $Contact, $accountNumber, $bank, $accountName, $id);
-
-        if ($stmt->execute()) {
-            $conn->commit();
-            echo '<script>alert("Record updated successfully!");</script>';
-            echo '<script>window.location.href = "./alabasepo.php";</script>';
-        } else {
-            // If the query fails, roll back the transaction and display an error message
-            $conn->rollback();
-            echo "Error updating client data: " . $stmt->error;
+    try {
+        // Update products table
+        $stmtProducts = $conn->prepare($updateProductsQuery);
+        $stmtProducts->bind_param('ss', $Name, $oldName);
+        if (!$stmtProducts->execute()) {
+            throw new Exception("Error updating products: " . $stmtProducts->error);
         }
+        $stmtProducts->close();
 
-        $stmt->close();
-    } else {
-        echo "Error preparing the statement: " . $conn->error;
+        // Update alabasepo table
+        $stmtClient = $conn->prepare($clientSql);
+        $stmtClient->bind_param('sssssi', $Name, $Contact, $accountNumber, $bank, $accountName, $id);
+        if (!$stmtClient->execute()) {
+            throw new Exception("Error updating client data: " . $stmtClient->error);
+        }
+        $stmtClient->close();
+
+        // Commit transaction if all queries succeed
+        $conn->commit();
+        echo '<script>alert("Record updated successfully!");</script>';
+        echo '<script>window.location.href = "./alabasepo.php";</script>';
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        $conn->rollback();
+        echo "Transaction failed: " . $e->getMessage();
     }
 } else {
     echo "Invalid request method.";

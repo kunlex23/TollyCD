@@ -33,6 +33,17 @@
                     <h3>Shipments</h3>
                 </a>
 
+                 <a href="sisanwo.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Partner Payment History</h3>
+                </a>
+
+                 <a href="sisanwokeji.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Captain Payment History</h3>
+                </a>
+
+
                 <a href="inawo.php" class="active">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Expenses</h3>
