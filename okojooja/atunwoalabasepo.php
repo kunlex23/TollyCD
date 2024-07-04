@@ -65,6 +65,7 @@
                         // Display a form with input fields to edit the data
                         echo '<form method="post" action="gbigbeatunwowole.php">
                     <input type="hidden" Name="id" value="' . $row['id'] . '">
+                    <input type="hidden" Name="oldName" value="' . $row['Name'] . '">
 
                     <div class="tray0">
                         Partner: <input type="text" name="Name" value="' . $row['Name'] . '"><br>
@@ -93,7 +94,7 @@
 
                 $conn->close();
                 ?>
-           </div>
+            </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

@@ -52,6 +52,11 @@
                     <h3>Shipments</h3>
                 </a>
 
+                <a href="dapada.php">
+                    <span class="material-icons-sharp">assignment_return</span>
+                    <h3>Returned Shipments</h3>
+                </a>
+
                 <a href="inawo.php" class="active">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Expenses</h3>

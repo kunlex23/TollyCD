@@ -130,12 +130,12 @@
                     <h3>New Shipment</h3>
                 </a>
 
-                <a href="records.php" class="active">
+                <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="dapada.php">
+                <a href="dapada.php" class="active">
                     <span class="material-icons-sharp">assignment_return</span>
                     <h3>Returned Shipments</h3>
                 </a>
@@ -153,92 +153,95 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Shipments Records</h2>
+                <h2>Returned Shipments</h2>
+
+                <!-- Date Range Form -->
                 <div class="spacer"></div>
-                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
-                <table id="shipmentTable" style="width: 100%;">
+                <form method="post" action="">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form>
+
+                <div class="spacer"></div>
+                <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <!-- <th>ID</th> -->
                             <th>Partner</th>
                             <th>Type</th>
                             <th>Product</th>
-                            <th>Avail. Qty</th>
                             <th>Qty</th>
-                            <th>Unit Price</th>
                             <th>Amount</th>
                             <th>Client</th>
-                            <th>Destination</th>
+                            <th>Location</th>
                             <th>Contact</th>
                             <th>Captain</th>
-                            <th>Status</th>
+                            <th>Reason</th>
                             <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
+                   <tbody id="table-body">
+    <?php
+                    require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
+                    // Initialize variables for the date range
+                    $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                    $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                    // Build the query based on the date range
+                    $query_string = "SELECT partner, shipmentType, product, quantity, amount, customersName, destination, customerContact, captain, returnReason, date FROM gbigbe WHERE status = 'return'";
+
+                    if ($start_date && $end_date) {
+                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                    }
+
+                    $query_string .= " ORDER BY partner DESC";
+
+                    // Execute the query
+                    $query = mysqli_query($conn, $query_string);
+
+                    if (!$query) {
+                        echo "Error fetching data: " . mysqli_error($conn);
+                    } else {
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
-                            $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
-                            $unitPrice = $row['unitPrice'];
                             $amount = $row['amount'];
                             $customersName = $row['customersName'];
                             $destination = $row['destination'];
                             $customerContact = $row['customerContact'];
                             $captain = $row['captain'];
-                            $status = $row['status'];
+                            $returnReason = $row['returnReason'];
                             $date = $row['date'];
                             ?>
-                        <tr>
-                            <!-- <td><?php echo $id; ?></td> -->
-                            <td><?php echo $partner; ?></td>
-                            <td><?php echo $shipmentType; ?></td>
-                            <td><?php echo $product; ?></td>
-                            <td><?php echo $availableUnit; ?></td>
-                            <td><?php echo $quantity; ?></td>
-                            <td><?php echo $unitPrice; ?></td>
-                            <td><?php echo $amount; ?></td>
-                            <td><?php echo $customersName; ?></td>
-                            <td><?php echo $destination; ?></td>
-                            <td><?php echo $customerContact; ?></td>
-                            <td><?php echo $captain; ?></td>
-                            <td>
-                                 <select class="status-dropdown" data-id="<?php echo $row['id']; ?>" data-partner="<?php echo $partner; ?>"
-                                    data-product="<?php echo $product; ?>" data-quantity="<?php echo $quantity; ?>">
-                                    <option value="Pending" <?php if ($status == 'Pending')
-                                        echo 'selected'; ?>>Out for delivery</option>
-                                    <option value="Completed" <?php if ($status == 'Completed')
-                                        echo 'selected'; ?>>Delivered</option>
-                                    <option value="Return" <?php if ($status == 'Return')
-                                        echo 'selected'; ?>>Return</option>
-                                </select>
-                            </td>
-                            <td><?php echo $date; ?></td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
+                            <tr>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $shipmentType; ?></td>
+                                <td><?php echo $product; ?></td>
+                                <td><?php echo $quantity; ?></td>
+                                <td><?php echo $amount; ?></td>
+                                <td><?php echo $customersName; ?></td>
+                                <td><?php echo $destination; ?></td>
+                                <td><?php echo $customerContact; ?></td>
+                                <td><?php echo $captain; ?></td>
+                                <td><?php echo $returnReason; ?></td>
+                                <td><?php echo $date; ?></td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+
                 </table>
-                <div id="returnReasonModal" style="display:none;">
-                    <div class="modal-content">
-                        <span id="closeModal" class="close">&times;</span>
-                        <form id="returnReasonForm">
-                            <label for="returnReason">Reason for return:</label>
-                            <textarea id="returnReason" name="returnReason" required></textarea>
-                            <input type="hidden" id="returnShipmentId" name="shipmentId">
-                            <button type="submit">Submit</button>
-                        </form>
-                    </div>
-                </div>
+            </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -292,65 +295,4 @@ function filterTable() {
         }
     }
 }
-</script>
-<script>document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
-    dropdown.addEventListener('change', function() {
-        var shipmentId = this.getAttribute('data-id');
-        var newStatus = this.value;
-        var quantity = this.getAttribute('data-quantity');
-        var partner = this.getAttribute('data-partner');
-        var product = this.getAttribute('data-product');
-
-        if (newStatus === 'Return') {
-            // Show the modal
-            var modal = document.getElementById('returnReasonModal');
-            modal.style.display = 'block';
-            document.getElementById('returnShipmentId').value = shipmentId;
-            modal.setAttribute('data-quantity', quantity);
-            modal.setAttribute('data-partner', partner);
-            modal.setAttribute('data-product', product);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'update_status.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert('Status updated successfully.');
-                    window.location.href = 'records.php';
-                }
-            };
-            xhr.send('id=' + shipmentId + '&status=' + newStatus + '&quantity=' + quantity + '&partner=' + partner + '&product=' + product);
-        }
-    });
-});
-
-// Handle modal close
-document.getElementById('closeModal').addEventListener('click', function() {
-    document.getElementById('returnReasonModal').style.display = 'none';
-});
-
-// Handle form submission
-document.getElementById('returnReasonForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    var modal = document.getElementById('returnReasonModal');
-    var shipmentId = document.getElementById('returnShipmentId').value;
-    var returnReason = document.getElementById('returnReason').value;
-    var quantity = modal.getAttribute('data-quantity');
-    var partner = modal.getAttribute('data-partner');
-    var product = modal.getAttribute('data-product');
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'update_status.php', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            alert('Return reason saved successfully.');
-            modal.style.display = 'none';
-            window.location.href = 'records.php';
-        }
-    };
-    xhr.send('id=' + shipmentId + '&status=Return&returnReason=' + encodeURIComponent(returnReason) + '&quantity=' + quantity + '&partner=' + partner + '&product=' + product);
-});
-
 </script>
