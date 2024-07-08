@@ -169,7 +169,7 @@
                             <th>Product</th>
                             <th>Avail. Qty</th>
                             <th>Qty</th>
-                            <th>Unit Price</th>
+                            <!-- <th>Unit Price</th> -->
                             <th>Amount</th>
                             <th>Client</th>
                             <th>Destination</th>
@@ -206,7 +206,6 @@
                             <td><?php echo $product; ?></td>
                             <td><?php echo $availableUnit; ?></td>
                             <td><?php echo $quantity; ?></td>
-                            <td><?php echo $unitPrice; ?></td>
                             <td><?php echo $amount; ?></td>
                             <td><?php echo $customersName; ?></td>
                             <td><?php echo $destination; ?></td>
@@ -293,22 +292,15 @@ function filterTable() {
     }
 }
 </script>
-<script>document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
+<script>
+document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
     dropdown.addEventListener('change', function() {
         var shipmentId = this.getAttribute('data-id');
         var newStatus = this.value;
-        var quantity = this.getAttribute('data-quantity');
-        var partner = this.getAttribute('data-partner');
-        var product = this.getAttribute('data-product');
-
         if (newStatus === 'Return') {
             // Show the modal
-            var modal = document.getElementById('returnReasonModal');
-            modal.style.display = 'block';
+            document.getElementById('returnReasonModal').style.display = 'block';
             document.getElementById('returnShipmentId').value = shipmentId;
-            modal.setAttribute('data-quantity', quantity);
-            modal.setAttribute('data-partner', partner);
-            modal.setAttribute('data-product', product);
         } else {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'update_status.php', true);
@@ -316,10 +308,10 @@ function filterTable() {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     alert('Status updated successfully.');
-                    window.location.href = 'records.php';
+                    window.location.href='records.php';
                 }
             };
-            xhr.send('id=' + shipmentId + '&status=' + newStatus + '&quantity=' + quantity + '&partner=' + partner + '&product=' + product);
+            xhr.send('id=' + shipmentId + '&status=' + newStatus);
         }
     });
 });
@@ -341,7 +333,7 @@ document.getElementById('returnReasonForm').addEventListener('submit', function(
     var product = modal.getAttribute('data-product');
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'update_status.php', true);
+    xhr.open('POST', 'updateStatus.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {

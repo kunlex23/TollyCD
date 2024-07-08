@@ -2,20 +2,15 @@
 
 require '../config.php';
 
-// SQL query to count the number of rows with quantity less than 5
-$sql = "SELECT COUNT(*) AS totalLowQuantity FROM products WHERE quantity < 5";
-
+$sql = "SELECT SUM(riderReward) AS amountIn FROM gbigbe WHERE status = 'Completed' AND captainPayStatus = 'rara'";
+// where order_date > now() - interval 1 day;
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
-    $totalLowQuantity = $row['totalLowQuantity'];
+    $tClients = $row['amountIn'];
 
-    echo '
-            <h1>' . $totalLowQuantity . '</h1>
-        ';
+    echo '<h1>' . $tClients . '</h1>';
   }
   $result->free();
 }
-
 $conn->close();
-
 ?>

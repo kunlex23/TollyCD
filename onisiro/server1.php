@@ -8,9 +8,7 @@ if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
     $tClients = $row['amountIn'];
 
-    echo '
-                                     <h1>' . $tClients . '</h1>
-                                 ';
+    echo '<h1>' . $tClients . '</h1>';
   }
   $result->free();
 }

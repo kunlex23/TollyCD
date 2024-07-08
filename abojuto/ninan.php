@@ -43,14 +43,37 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="ninan.php">
+                
+                <a href="records.php">
+                    <span class="material-icons-sharp">local_shipping</span>
+                    <h3>Shipments</h3>
+                </a>
+                
+
+                 <a href="sisanwo.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Partner Payment History</h3>
+                </a>
+
+                 <a href="sisanwokeji.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Captain Payment History</h3>
+                </a> 
+
+                <a href="inawo.php">
+                    <span class="material-icons-sharp">paid</span>
+                    <h3>Expenses</h3>
+                </a>
+                <a href="ninan.php" class="active">
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Pricing</h3>
                 </a>
                 <a href="newUser.php">
-                    <span class="material-icons-sharp">inventory</span>
-                    <h3>New User</h3>
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Users</h3>
                 </a>
+                
+
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -237,3 +260,24 @@ function addDataField() {
     fieldsContainer.appendChild(newFieldContainer);
 }
 </script>
+
+
+
+<form action="signup.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <h1>Create Account</h1>
+    <div class="error-text"></div>
+    <input type="text" name="fullName" placeholder="fullName" required>
+    <input type="text" name="userId" placeholder="userId" required>
+    <input type="password" name="password" placeholder="Enter new password" required>
+    
+    <select name="user" required>
+        <option value="">Select user type...</option>
+        <option value="olowo">Accountant</option>
+        <option value="fifisi">Data Entry</option>
+        <option value="eru">Inventory</option>
+        <option value="alamojuto">Admin</option>
+    </select>
+    <div class="field button">
+        <input type="submit" name="submit" value="Sign Up" style="background-color: #025a1a; color:white">
+    </div>
+</form>

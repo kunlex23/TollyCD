@@ -14,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if the user already exists
         $sql = mysqli_query($conn, "SELECT * FROM users WHERE userId = '{$userId}'");
         if (mysqli_num_rows($sql) > 0) {
-            echo "This account already exists! Kindly sign in.";
+            echo '<script>alert("This account already exists! Kindly sign in.");</script>';
+            echo '<script>window.location.href = "./newUser.php";</script>';
         } else {
             // Encrypt the password
             $encrypt_pass = md5($password);
@@ -25,7 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Execute the statement
             if ($stmt->execute()) {
-                echo "Account successfully created!";
+                echo '<script>alert("New User Created!");</script>';
+                echo '<script>window.location.href = "./newUser.php";</script>';
             } else {
                 echo "Error: " . $stmt->error;
             }

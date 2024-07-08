@@ -42,17 +42,38 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="index.php">
+                <a href="index.php" class="active">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
+                </a>
+                
+                <a href="records.php">
+                    <span class="material-icons-sharp">local_shipping</span>
+                    <h3>Shipments</h3>
+                </a>
+                
+
+                 <a href="sisanwo.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Partner Payment History</h3>
+                </a>
+
+                 <a href="sisanwokeji.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Captain Payment History</h3>
+                </a> 
+
+                <a href="inawo.php">
+                    <span class="material-icons-sharp">paid</span>
+                    <h3>Expenses</h3>
                 </a>
                 <a href="ninan.php">
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Pricing</h3>
                 </a>
                 <a href="newUser.php">
-                    <span class="material-icons-sharp">inventory</span>
-                    <h3>New User</h3>
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Users</h3>
                 </a>
                 
 
@@ -65,7 +86,195 @@
         <!------------ END OF ASIDE ------------>
         <main>
             <h1>Admin Dashboard</h1>
-          </main>
+        <div class="insight">
+                <div class="sales">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Gross Profit</h3>
+                            <div id="link_wrapper">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="tex">Last 7 Days</small> -->
+                </div>
+                <!-- END OF STUDENTS -->
+                <div class="income">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Partner Remittance</h3>
+                            <div id="link_wrapper1">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 7 days</small> -->
+                </div>
+
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Captains Payment</h3>
+                            <div id="link_wrapper2">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 24hrs</small> -->
+                </div>
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Total Profit</h3>
+                            <div id="link_wrapper4">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+               
+                 <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Total Expenses</h3>
+                            <div id="link_wrapper3">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="sales">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Partners</h3>
+                            <div id="link_wrapper5">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="tex">Last 7 Days</small> -->
+                </div>
+                <!-- END OF STUDENTS -->
+                <div class="income">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Products</h3>
+                            <div id="link_wrapper6">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 7 days</small> -->
+                </div>
+
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Low Stocks</h3>
+                            <div id="link_wrapper7">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 24hrs</small> -->
+                </div>
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Shipments</h3>
+                            <div id="link_wrapper8">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+               
+                 <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Returned Shipments</h3>
+                            <div id="link_wrapper9">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        
+        <h2>Recent Shipments</h2>
+                <div class="spacer"></div>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Type</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Amount</th>
+                            <th>Customers Name</th>
+                            <th>Destination</th>
+                            <th>Captain</th>
+                            <th>Status</th>
+                            <th>Date</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                        require '../config.php';
+
+                        // $query = mysqli_query($conn, "SELECT partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
+
+                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
+                        while ($row = mysqli_fetch_array($query)) {
+                            $partner = $row['partner'];
+                            $shipmentType = $row['shipmentType'];
+                            $product = $row['product'];
+                            $quantity = $row['quantity'];
+                            $unitPrice = $row['unitPrice'];
+                            $amount = $row['amount'];
+                            $customersName = $row['customersName'];
+                            $destination = $row['destination'];
+                            $customerContact = $row['customerContact'];
+                            $captain = $row['captain'];
+                            $status = $row['status'];
+                            $paymentMethod = $row['paymentMethod'];
+                            $date = $row['date'];
+                            ?>
+                        <tr>
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $shipmentType; ?></td>
+                            <td><?php echo $product; ?></td>
+                            <td><?php echo $quantity; ?></td>
+                            <td><?php echo $unitPrice; ?></td>
+                            <td><?php echo $amount; ?></td>
+                            <td><?php echo $customersName; ?></td>
+                            <td><?php echo $destination; ?></td>
+                            <td><?php echo $captain; ?></td>
+                            <td><?php echo $status; ?></td>
+                            <td><?php echo $date; ?></td>
+                        </tr>
+
+
+
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <a href="records.php">Show all</a>
+        </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">
@@ -214,4 +423,141 @@
     }, 1000);
 
     window.onload = loadXMLDoc2;
+</script>
+<script>
+    function loadXMLDoc3() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper3").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server3.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc3();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc3;
+</script>
+<script>
+    function loadXMLDoc4() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper4").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server4.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc4();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc4;
+</script>
+
+<!-- live data -->
+<script>
+    function loadXMLDoc5() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper5").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server5.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc5();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc5;
+</script>
+<!-- Maximum reading -->
+<script>
+    function loadXMLDoc6() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper6").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server6.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc6();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc6;
+</script>
+<!-- Minimum reading -->
+<script>
+    function loadXMLDoc7() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper7").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server7.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc7();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc7;
+</script>
+<script>
+    function loadXMLDoc8() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper8").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server8.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc8();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc8;
+</script>
+<script>
+    function loadXMLDoc9() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper9").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server9.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc9();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc9;
 </script>
