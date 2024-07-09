@@ -221,7 +221,6 @@
                             <th>Type</th>
                             <th>Product</th>
                             <th>Quantity</th>
-                            <th>Unit Price</th>
                             <th>Amount</th>
                             <th>Customers Name</th>
                             <th>Destination</th>
@@ -244,7 +243,6 @@
                             $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
                             $quantity = $row['quantity'];
-                            $unitPrice = $row['unitPrice'];
                             $amount = $row['amount'];
                             $customersName = $row['customersName'];
                             $destination = $row['destination'];
@@ -259,7 +257,6 @@
                             <td><?php echo $shipmentType; ?></td>
                             <td><?php echo $product; ?></td>
                             <td><?php echo $quantity; ?></td>
-                            <td><?php echo $unitPrice; ?></td>
                             <td><?php echo $amount; ?></td>
                             <td><?php echo $customersName; ?></td>
                             <td><?php echo $destination; ?></td>
