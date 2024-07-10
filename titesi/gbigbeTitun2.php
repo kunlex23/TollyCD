@@ -42,12 +42,12 @@ session_start();
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="gbigbeTitun.php" class="active">
+                <a href="gbigbeTitun.php">
                     <span class="material-icons-sharp">add_circle</span>
                     <h3>New Delivery</h3>
                 </a>
 
-                <a href="gbigbeTitun2.php">
+                <a href="gbigbeTitun2.php" class="active">
                     <span class="material-icons-sharp">add</span>
                     <h3>New Waybill</h3>
                 </a>
@@ -70,13 +70,13 @@ session_start();
         </aside>
         <main>
             <div class="recent-sales">
-                <h1>New Delivery</h1>
+                <h1>New Waybill</h1>
                 <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
                     <input type="hidden" name="accPartner" value="rara">
                     <input type="hidden" name="accCaptain" value="rara">
                     <input type="hidden" name="partnerPayStatus" value="rara">
                     <input type="hidden" name="captainPayStatus" value="rara">
-                    <input type="hidden" name="shipmentType" value="Delivery">
+                    <input type="hidden" name="shipmentType" value="Waybill">
 
                     <div class="tray0">
                         <label for="Name">Partner:</label>
@@ -98,6 +98,7 @@ session_start();
 
                     </div>
                     <div class="tray1">
+
                         <div id="productsContainer">
                             <label for="orunoloun">Product:</label>
                             <select name="orunoloun" required onchange="fetchQuantity(this.value)">
@@ -115,8 +116,17 @@ session_start();
                     </div>
                     <div class="tray2">
                         <div>
-                            <label for="state">State:</label>
-                            <select name="state" required>
+                            <label for="customersName">Receivers Name:</label>
+                            <input type="text" name="customersName[]" required><br>
+                        </div>
+                        <div>
+                            <label for="customerContact">Receivers Contact:</label>
+                            <input type="text" name="customerContact[]" required><br>
+                        </div>
+
+                        <div>
+                            <label for="Location">location:</label>
+                            <select name="Location" required>
                                 <option value="">...</option>
                                 <option value="FCT">Federal Capital Territory</option>
                                 <option value="Abia">Abia</option>
@@ -155,41 +165,12 @@ session_start();
                                 <option value="Taraba">Taraba</option>
                                 <option value="Yobe">Yobe</option>
                                 <option value="Zamfara">Zamfara</option>
-                                <option value="FCT">Federal Capital Territory</option>
                             </select><br>
+                        </div>
 
-                        </div>
-                        <div>
-                            <label for="destination">Location:</label>
-                            <select name="destination" onchange="fetchPrice(this.value)">
-                                <option value=""></option>
-                                <?php
-                                require '../config.php';
-                                $sql = "SELECT location FROM ninawo";
-                                $result = $conn->query($sql);
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo '<option value="' . $row["location"] . '">' . $row["location"] . '</option>';
-                                    }
-                                }
-                                ?>
-                            </select>
 
-                        </div>
-                        <div>
-                            <label for="customersName">Customer Name:</label>
-                            <input type="text" name="customersName[]" required><br>
-                        </div>
                     </div>
                     <div class="tray3">
-                        <div>
-                            <label for="customerContact">Customer Contact:</label>
-                            <input type="text" name="customerContact[]" required><br>
-                        </div>
-                        <div>
-                            <label for="captain">Captain:</label>
-                            <input type="text" name="captain[]" required><br>
-                        </div>
                         <div>
                             <label for="status">Status:</label>
                             <select name="status" required>
@@ -197,22 +178,15 @@ session_start();
                                 <option value="Completed">Delivered</option>
                             </select><br>
                         </div>
-                        <!-- <div>
-                            <label for="paymentMethod">Payment Method:</label>
-                            <select name="paymentMethod" required>
-                                <option value="Transfer">Transfer</option>
-                                <option value="POS">POS</option>
-                                <option value="Cash">Cash</option>
-                                <option value="Cheque">Cheque</option>
-                            </select><br>
-                        </div> -->
                     </div>
                     <div>
-
-                        <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
-                        <input type="hidden" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
-                        <input type="hidden" id="profit" name="profit[]" required readonly><br>
-
+                        <label for="waybillFee">Waybill Fee:</label>
+                        <input type="text" id="waybillFee" name="waybillFee[]" required><br>
+                        <label for="driverFee">Driver Fee:</label>
+                        <input type="text" id="driverFee" name="driverFee[]" required><br>
+                        <label for="partnerPrice">Partner Price:</label>
+                        <input type="text" id="partnerPrice" name="partnerPrice[]" required><br>
+                        
                     </div>
                     <div id="notification" class="notification hidden">New record created successfully!</div>
                     <div class="button-container">

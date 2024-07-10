@@ -62,10 +62,15 @@
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
                 </a> 
-
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Expenses</h3>
+                </a>
+                
+                <a href="#">
+                    <span class="material-icons-sharp">mail_outline</span> 
+                    <h3>Message</h3>
+                    <span class="msgCount">28</span>
                 </a>
                 <a href="ninan.php">
                     <span class="material-icons-sharp">inventory</span>

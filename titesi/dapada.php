@@ -127,7 +127,12 @@
 
                 <a href="gbigbeTitun.php">
                     <span class="material-icons-sharp">add_circle</span>
-                    <h3>New Shipment</h3>
+                    <h3>New Delivery</h3>
+                </a>
+
+                <a href="gbigbeTitun2.php">
+                    <span class="material-icons-sharp">add</span>
+                    <h3>New Waybill</h3>
                 </a>
 
                 <a href="records.php">
@@ -138,11 +143,6 @@
                 <a href="dapada.php" class="active">
                     <span class="material-icons-sharp">assignment_return</span>
                     <h3>Returned Shipments</h3>
-                </a>
-
-                <a href="inawo.php">
-                    <span class="material-icons-sharp">paid</span>
-                    <h3>Expenses</h3>
                 </a>
 
                 <a href="../logout.php">
