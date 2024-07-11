@@ -293,14 +293,24 @@ function filterTable() {
 }
 </script>
 <script>
-document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
+    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
     dropdown.addEventListener('change', function() {
         var shipmentId = this.getAttribute('data-id');
         var newStatus = this.value;
+        var partner = this.getAttribute('data-partner');
+        var product = this.getAttribute('data-product');
+        var quantity = this.getAttribute('data-quantity');
+        
         if (newStatus === 'Return') {
             // Show the modal
-            document.getElementById('returnReasonModal').style.display = 'block';
+            var modal = document.getElementById('returnReasonModal');
+            modal.style.display = 'block';
             document.getElementById('returnShipmentId').value = shipmentId;
+            
+            // Set data attributes on the modal
+            modal.setAttribute('data-partner', partner);
+            modal.setAttribute('data-product', product);
+            modal.setAttribute('data-quantity', quantity);
         } else {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'update_status.php', true);
@@ -308,7 +318,7 @@ document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     alert('Status updated successfully.');
-                    window.location.href='records.php';
+                    window.location.href = 'records.php';
                 }
             };
             xhr.send('id=' + shipmentId + '&status=' + newStatus);
@@ -332,6 +342,7 @@ document.getElementById('returnReasonForm').addEventListener('submit', function(
     var partner = modal.getAttribute('data-partner');
     var product = modal.getAttribute('data-product');
 
+    console.log(partner, product, quantity);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'updateStatus.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');

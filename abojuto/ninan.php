@@ -43,22 +43,22 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                
+
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
-                
 
-                 <a href="sisanwo.php">
+
+                <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
                 </a>
 
-                 <a href="sisanwokeji.php">
+                <a href="sisanwokeji.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
-                </a> 
+                </a>
 
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
@@ -72,7 +72,7 @@
                     <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Users</h3>
                 </a>
-                
+
 
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
@@ -116,16 +116,16 @@
 
                 <div class="spacer"></div>
                 <table style="width: 100%;">
-    <thead>
-        <tr>
-            <th>location</th>
-            <th>partnerPrice</th>
-            <th>dispatcherPrice</th>
-            <th>profit</th>
-        </tr>
-    </thead>
-    <tbody id="table-body">
-        <?php
+                    <thead>
+                        <tr>
+                            <th>location</th>
+                            <th>partnerPrice</th>
+                            <th>dispatcherPrice</th>
+                            <th>profit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
         require '../config.php';
 
         $query = mysqli_query($conn, "SELECT location, partnerPrice, dispatcherPrice, profit FROM ninawo ORDER BY location DESC");
@@ -139,15 +139,15 @@
             $dispatcherPrice = $row['dispatcherPrice'];
             $profit = $row['profit'];
         ?>
-            <tr>
-                <td><?php echo htmlspecialchars($location); ?></td>
-                <td><?php echo htmlspecialchars($partnerPrice); ?></td>
-                <td><?php echo htmlspecialchars($dispatcherPrice); ?></td>
-                <td><?php echo htmlspecialchars($profit); ?></td>
-            </tr>
-        <?php } ?>
-    </tbody>
-</table>
+                        <tr>
+                            <td><?php echo htmlspecialchars($location); ?></td>
+                            <td><?php echo htmlspecialchars($partnerPrice); ?></td>
+                            <td><?php echo htmlspecialchars($dispatcherPrice); ?></td>
+                            <td><?php echo htmlspecialchars($profit); ?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
 
             </div>
         </main>
@@ -233,51 +233,3 @@
 
 </html>
 <script>
-function addDataField() {
-    const fieldsContainer = document.getElementById('fields-container');
-    const newFieldContainer = document.createElement('div');
-    newFieldContainer.classList.add('field-container');
-
-    newFieldContainer.innerHTML = `
-        <div class="field-group">
-            <label for="location">Location:</label>
-            <input type="text" name="location[]" required>
-        </div>
-        <div class="field-group">
-            <label for="partnerPrice">Partner Price:</label>
-            <input type="text" name="partnerPrice[]" required>
-        </div>
-        <div class="field-group">
-            <label for="dispatcherPrice">Dispatcher Price:</label>
-            <input type="text" name="dispatcherPrice[]" required>
-        </div>
-        <div class="field-group">
-            <label for="profit">Profit:</label>
-            <input type="text" name="profit[]" required>
-        </div>
-    `;
-
-    fieldsContainer.appendChild(newFieldContainer);
-}
-</script>
-
-
-
-<form action="signup.php" method="POST" enctype="multipart/form-data" autocomplete="off">
-    <h1>Create Account</h1>
-    <div class="error-text"></div>
-    <input type="text" name="fullName" placeholder="fullName" required>
-    <input type="text" name="userId" placeholder="userId" required>
-    <input type="password" name="password" placeholder="Enter new password" required>
-    
-    <select name="user" required>
-        <option value="">Select user type...</option>
-        <option value="olowo">Accountant</option>
-        <option value="fifisi">Data Entry</option>
-        <option value="eru">Inventory</option>
-        <option value="alamojuto">Admin</option>
-    </select>
-    <div class="field button">
-        <input type="submit" name="submit" value="Sign Up" style="background-color: #025a1a; color:white">
-    </div>
-</form>
