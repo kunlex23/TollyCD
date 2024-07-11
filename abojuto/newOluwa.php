@@ -43,22 +43,22 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                
+
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
-                
 
-                 <a href="sisanwo.php">
+
+                <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
                 </a>
 
-                 <a href="sisanwokeji.php">
+                <a href="sisanwokeji.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
-                </a> 
+                </a>
 
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
@@ -68,15 +68,15 @@
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Pricing</h3>
                 </a>
-                <a href="newUser.php" class="active">
+                <a href="newUser.php">
                     <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Users</h3>
                 </a>
-                <a href="newCaptain.php">
+                <a href="newCaptain.php" class="active">
                     <span class="material-icons-sharp">pedal_bike</span>
                     <h3>Captain</h3>
                 </a>
-                
+
 
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
@@ -87,79 +87,71 @@
         <!------------ END OF ASIDE ------------>
         <main>
             <div class="recent-sales">
-                <h1>Create Account</h1>
+                <h1> New Captain</h1><br>
+                <div></div><br>
 
-                <form class="five-column-form" action="signup.php" method="POST" enctype="multipart/form-data"
-                    autocomplete="off">
-                    <div class="error-text"></div>
+                <form class="five-column-form" action="okadaTitun.php" method="POST">
                     <div id="fields-container">
                         <div class="field-container">
                             <div class="field-group">
-                                <label for="name">Full Name:</label>
-                                <input type="text" name="fullName" required>
+                                <label for="fullname">Fullname:</label>
+                                <input type="text" name="fullname[]" required><br>
+
+                                <label for="contact">Contact:</label>
+                                <input type="text" name="contact[]" required><br>
                             </div>
                             <div class="field-group">
-                                <label for="userId">User ID:</label>
-                                <input type="text" name="userId" required>
+                                <label for="Address">Address:</label>
+                                <input type="text" name="Address[]" required><br>
+
+                                <label for="accountNumber">Account Number:</label>
+                                <input type="text" name="accountNumber[]" required><br>
+
+
                             </div>
                             <div class="field-group">
-                                <label for="password">New Password:</label>
-                                <input type="text" name="password" required>
+                                <label for="accountName">Account Name:</label>
+                                <input type="text" name="accountName[]" required><br>
+
+                                <label for="bankName">Bank Name:</label>
+                                <input type="text" name="bankName[]" required><br>
+
                             </div>
+
+                        </div><br>
+                        <h2>Guarantor's Details</h2>
+                        <div class="field-container">
                             <div class="field-group">
-                                <label for="user">user:</label>
-                                <select name="user" required>
-                                    <option value="">Select user type...</option>
-                                    <option value="Accountant">Accountant</option>
-                                    <option value="Data_Entry">Data Entry</option>
-                                    <option value="Inventory">Inventory</option>
-                                    <option value="Admin">Admin</option>
-                                </select>
+                                <label for="gFullname">Fullname:</label>
+                                <input type="text" name="gFullname[]" required>
+
+                                <label for="gFontact">Contact:</label>
+                                <input type="text" name="gFontact[]" required>
+                           
+                                <label for="gAddress">Address:</label>
+                                <input type="text" name="gAddress[]" required>
+
+                                <label for="occupation">Occupation:</label>
+                                <input type="text" name="occupation[]" required>
+                                
+                                <label for="relationship">Relationship:</label>
+                                <input type="text" name="relationship[]" required>
                             </div>
+
+
+
                         </div>
                     </div>
                     <div class="button-container">
                         <div class="job">
-                            <input type="submit" name="submit" value="Sign Up" style="background-color: #025a1a; color:white">
+                            <input type="submit" value="Submit">
                         </div>
-                        
                     </div>
+                    
+
                 </form>
 
                 <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>User ID</th>
-                            <th>User Type</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
-
-                        $query = mysqli_query($conn, "SELECT fullName, userId, userType, date FROM users ORDER BY fullName DESC");
-                        if (!$query) {
-                            die('Query Failed: ' . mysqli_error($conn));
-                        }
-
-                        while ($row = mysqli_fetch_array($query)) {
-                            $fullName = $row['fullName'];
-                            $userId = $row['userId'];
-                            $userType = $row['userType'];
-                            $date = $row['date'];
-                            ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($fullName); ?></td>
-                            <td><?php echo htmlspecialchars($userId); ?></td>
-                            <td><?php echo htmlspecialchars($userType); ?></td>
-                            <td><?php echo htmlspecialchars($date); ?></td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
 
             </div>
         </main>
@@ -181,22 +173,15 @@
             </div>
 
             <div class="sales-analytics">
-                <a href="newalabasepo.php">
+                <a href="newOluwa.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>New Partner</h3>
+                            <h3>New Captain</h3>
                         </div>
                     </div>
                 </a>
-                <a href="ojatitun.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Product</h3>
-                        </div>
-                    </div>
-                </a>
+
 
                 <span>
                     <center>

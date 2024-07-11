@@ -5,25 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TCD</title>
+    <title>Edit Location and Pricing</title>
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styls.css">
     <style>
-    table,
-    th,
-    td {
-        padding: 8px;
-    }
+        table,
+        th,
+        td {
+            padding: 8px;
+        }
 
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        tr:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
 
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        td:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
     </style>
 </head>
 
@@ -49,7 +49,6 @@
                     <h3>Shipments</h3>
                 </a>
 
-
                 <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
@@ -62,100 +61,104 @@
 
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
-                    <h3>Expenses</span></h3>
-                    <a href="ninan.php" class="active">
-                        <span class="material-icons-sharp">inventory</span>
-                        <h3>Pricing</h3>
-                    </a>
-                    <a href="newUser.php">
-                        <span class="material-icons-sharp">manage_accounts</span>
-                        <h3>Users</h3>
-                    </a>
+                    <h3>Expenses</h3>
+                </a>
+                <a href="ninan.php" class="active">
+                    <span class="material-icons-sharp">inventory</span>
+                    <h3>Pricing</h3>
+                </a>
+                <a href="newUser.php">
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Users</h3>
+                </a>
+                <a href="newCaptain.php">
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Captain</h3>
+                </a>
                 <a href="newCaptain.php">
                     <span class="material-icons-sharp">pedal_bike</span>
                     <h3>Captain</h3>
                 </a>
 
-
-                    <a href="../logout.php">
-                        <span class="material-icons-sharp">logout</span>
-                        <h3>Logout</h3>
-                    </a>
+                <a href="../logout.php">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
             </div>
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
             <div class="recent-sales">
-                <h1>Location and Pricing</h1>
-                <form class="five-column-form" action="ninawowole.php" method="POST">
+                <h1>Edit Location and Pricing</h1>
+                <div class="spacer"></div>
+                <div class="spacer"></div>
+
+                <?php
+                require '../config.php';
+
+                if (isset($_GET['location'])) {
+                    $location = urldecode($_GET['location']);
+
+                    // Fetch the current data
+                    $query = mysqli_query($conn, "SELECT * FROM ninawo WHERE location = '$location'");
+                    if (!$query) {
+                        die('Query Failed: ' . mysqli_error($conn));
+                    }
+
+                    $row = mysqli_fetch_array($query);
+
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $newPartnerPrice = $_POST['partnerPrice'];
+                        $newDispatcherPrice = $_POST['dispatcherPrice'];
+                        $newProfit = $newPartnerPrice - $newDispatcherPrice;
+
+                        // Update the record
+                        $updateQuery = "UPDATE ninawo SET partnerPrice = '$newPartnerPrice', dispatcherPrice = '$newDispatcherPrice', profit = '$newProfit' WHERE location = '$location'";
+                        if (mysqli_query($conn, $updateQuery)) {
+                            echo '<script>alert("Record updated successfully!");</script>';
+                            echo '<script>window.location.href = "ninan.php";</script>';
+                            exit();
+                        } else {
+                            die('Update Failed: ' . mysqli_error($conn));
+                        }
+                    }
+                } else {
+                    echo 'No location specified.';
+                    exit();
+                }
+                ?>
+
+                <form class="five-column-form" action="" method="POST">
                     <div id="fields-container">
                         <div class="field-container">
                             <div class="field-group">
                                 <label for="location">Location:</label>
-                                <input type="text" name="location[]" required>
-                            </div>
-                            <div class="field-group">
+                                <input type="text" name="location"
+                                    value="<?php echo htmlspecialchars($row['location']); ?>" readonly>
+
                                 <label for="partnerPrice">Partner Price:</label>
-                                <input type="text" id="partnerPrice" name="partnerPrice[]" required
+                                <input type="text" id="partnerPrice" name="partnerPrice"
+                                    value="<?php echo htmlspecialchars($row['partnerPrice']); ?>" required
                                     oninput="calculateProfit(this)">
-                            </div>
-                            <div class="field-group">
+
                                 <label for="dispatcherPrice">Dispatcher Price:</label>
-                                <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required
+                                <input type="text" id="dispatcherPrice" name="dispatcherPrice"
+                                    value="<?php echo htmlspecialchars($row['dispatcherPrice']); ?>" required
                                     oninput="calculateProfit(this)">
-                            </div>
-                            <div class="field-group">
+
                                 <label for="profit">Profit:</label>
-                                <input type="text" id="profit" name="profit[]" readonly>
+                                <input type="text" id="profit" name="profit"
+                                    value="<?php echo htmlspecialchars($row['profit']); ?>" readonly>
                             </div>
                         </div>
                     </div>
                     <div id="notification" class="notification hidden">New record created successfully!</div>
                     <div class="button-container">
                         <div class="job">
-                            <input type="submit" value="Submit">
+                            <input type="submit" value="Update">
                         </div>
-                        <button type="button" class="add-button" onclick="addDataField()">Add More</button>
                     </div>
                 </form>
-
-                <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>location</th>
-                            <th>partnerPrice</th>
-                            <th>dispatcherPrice</th>
-                            <th>profit</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
-
-                        $query = mysqli_query($conn, "SELECT location, partnerPrice, dispatcherPrice, profit FROM ninawo ORDER BY location DESC");
-                        if (!$query) {
-                            die('Query Failed: ' . mysqli_error($conn));
-                        }
-
-                        while ($row = mysqli_fetch_array($query)) {
-                            $location = $row['location'];
-                            $partnerPrice = $row['partnerPrice'];
-                            $dispatcherPrice = $row['dispatcherPrice'];
-                            $profit = $row['profit'];
-                            ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($location); ?></td>
-                            <td><?php echo htmlspecialchars($partnerPrice); ?></td>
-                            <td><?php echo htmlspecialchars($dispatcherPrice); ?></td>
-                            <td><?php echo htmlspecialchars($profit); ?></td>
-                            <td><a href="tunse.php?location=<?php echo urlencode($location); ?>">Edit</a></td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-
             </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
@@ -208,8 +211,6 @@
                     </thead>
                     <tbody id="table-body">
                         <?php
-                        require '../config.php';
-
                         $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products WHERE quantity < 5 ORDER BY partner DESC LIMIT 10");
 
                         while ($row = mysqli_fetch_array($query)) {
@@ -217,11 +218,11 @@
                             $productName = $row['productName'];
                             $quantity = $row['quantity'];
                             ?>
-                        <tr>
-                            <td><?php echo $partner; ?></td>
-                            <td><?php echo $productName; ?></td>
-                            <td><?php echo $quantity; ?></td>
-                        </tr>
+                            <tr>
+                                <td><?php echo htmlspecialchars($partner); ?></td>
+                                <td><?php echo htmlspecialchars($productName); ?></td>
+                                <td><?php echo htmlspecialchars($quantity); ?></td>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -236,49 +237,14 @@
     </div>
 
     <script src="../script/scrip.js"></script>
+    <script>
+        function calculateProfit(element) {
+            const partnerPrice = parseFloat(document.getElementById('partnerPrice').value) || 0;
+            const dispatcherPrice = parseFloat(document.getElementById('dispatcherPrice').value) || 0;
+            const profit = partnerPrice - dispatcherPrice;
+            document.getElementById('profit').value = profit.toFixed(2);
+        }
+    </script>
 </body>
 
 </html>
-<script>
-function addDataField() {
-    const fieldsContainer = document.getElementById('fields-container');
-    const newFieldContainer = document.createElement('div');
-    newFieldContainer.classList.add('field-container');
-
-    newFieldContainer.innerHTML = `
-        <div class="field-group">
-            <label for="location">Location:</label>
-            <input type="text" name="location[]" required>
-        </div>
-        <div class="field-group">
-            <label for="partnerPrice">Partner Price:</label>
-            <input type="text" name="partnerPrice[]" required oninput="calculateProfit(this)">
-        </div>
-        <div class="field-group">
-            <label for="dispatcherPrice">Dispatcher Price:</label>
-            <input type="text" name="dispatcherPrice[]" required oninput="calculateProfit(this)">
-        </div>
-        <div class="field-group">
-            <label for="profit">Profit:</label>
-            <input type="text" name="profit[]" readonly>
-        </div>
-    `;
-
-    fieldsContainer.appendChild(newFieldContainer);
-}
-
-function calculateProfit(element) {
-    // Get the container of the current input fields
-    const container = element.closest('.field-container');
-
-    // Get the values of partnerPrice and dispatcherPrice
-    const partnerPrice = parseFloat(container.querySelector('input[name="partnerPrice[]"]').value) || 0;
-    const dispatcherPrice = parseFloat(container.querySelector('input[name="dispatcherPrice[]"]').value) || 0;
-
-    // Calculate the profit
-    const profit = partnerPrice - dispatcherPrice;
-
-    // Set the value of the profit field
-    container.querySelector('input[name="profit[]"]').value = profit.toFixed(2);
-}
-</script>

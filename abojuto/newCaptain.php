@@ -11,19 +11,19 @@
     <!-- style -->
     <link rel="stylesheet" href="css/styls.css">
     <style>
-    table,
-    th,
-    td {
-        padding: 8px;
-    }
+        table,
+        th,
+        td {
+            padding: 8px;
+        }
 
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        tr:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
 
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        td:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
     </style>
 </head>
 
@@ -43,22 +43,22 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                
+
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
-                
 
-                 <a href="sisanwo.php">
+
+                <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
                 </a>
 
-                 <a href="sisanwokeji.php">
+                <a href="sisanwokeji.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
-                </a> 
+                </a>
 
                 <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
@@ -68,15 +68,15 @@
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Pricing</h3>
                 </a>
-                <a href="newUser.php" class="active">
+                <a href="newUser.php">
                     <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Users</h3>
                 </a>
-                <a href="newCaptain.php">
+                <a href="newCaptain.php" class="active">
                     <span class="material-icons-sharp">pedal_bike</span>
                     <h3>Captain</h3>
                 </a>
-                
+
 
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
@@ -87,80 +87,67 @@
         <!------------ END OF ASIDE ------------>
         <main>
             <div class="recent-sales">
-                <h1>Create Account</h1>
-
-                <form class="five-column-form" action="signup.php" method="POST" enctype="multipart/form-data"
-                    autocomplete="off">
-                    <div class="error-text"></div>
-                    <div id="fields-container">
-                        <div class="field-container">
-                            <div class="field-group">
-                                <label for="name">Full Name:</label>
-                                <input type="text" name="fullName" required>
-                            </div>
-                            <div class="field-group">
-                                <label for="userId">User ID:</label>
-                                <input type="text" name="userId" required>
-                            </div>
-                            <div class="field-group">
-                                <label for="password">New Password:</label>
-                                <input type="text" name="password" required>
-                            </div>
-                            <div class="field-group">
-                                <label for="user">user:</label>
-                                <select name="user" required>
-                                    <option value="">Select user type...</option>
-                                    <option value="Accountant">Accountant</option>
-                                    <option value="Data_Entry">Data Entry</option>
-                                    <option value="Inventory">Inventory</option>
-                                    <option value="Admin">Admin</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="button-container">
-                        <div class="job">
-                            <input type="submit" name="submit" value="Sign Up" style="background-color: #025a1a; color:white">
-                        </div>
-                        
-                    </div>
-                </form>
-
+                <h1>Captains</h1><br>
+                
                 <div class="spacer"></div>
                 <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>User ID</th>
-                            <th>User Type</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
+    <thead>
+        <tr>
+            <th>Fullname</th>
+            <th>Contact</th>
+            <th>Address</th>
+            <th>Acc. Number</th>
+            <th>Acc. Name</th>
+            <th>Bank</th>
+            <th>Guarantor's Fullname</th>
+            <th>Guarantor's Contact</th>
+            <th>Guarantor's Address</th>
+            <th>Occupation</th>
+            <th>Relationship</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT fullName, userId, userType, date FROM users ORDER BY fullName DESC");
+                        $query = mysqli_query($conn, "SELECT fullname, contact, address, accountNumber, accountName, bankName, gFullname, gContact, gAddress, occupation, relationship FROM oluwa ORDER BY fullname ASC");
                         if (!$query) {
                             die('Query Failed: ' . mysqli_error($conn));
                         }
 
                         while ($row = mysqli_fetch_array($query)) {
-                            $fullName = $row['fullName'];
-                            $userId = $row['userId'];
-                            $userType = $row['userType'];
-                            $date = $row['date'];
+                            $fullname = $row['fullname'];
+                            $contact = $row['contact'];
+                            $address = $row['address'];
+                            $accountNumber = $row['accountNumber'];
+                            $accountName = $row['accountName'];
+                            $bankName = $row['bankName'];
+                            $gFullname = $row['gFullname'];
+                            $gContact = $row['gContact'];
+                            $gAddress = $row['gAddress'];
+                            $occupation = $row['occupation'];
+                            $relationship = $row['relationship'];
                             ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($fullName); ?></td>
-                            <td><?php echo htmlspecialchars($userId); ?></td>
-                            <td><?php echo htmlspecialchars($userType); ?></td>
-                            <td><?php echo htmlspecialchars($date); ?></td>
-                        </tr>
+                            <tr>
+                                <td><?php echo htmlspecialchars($fullname); ?></td>
+                                <td><?php echo htmlspecialchars($contact); ?></td>
+                                <td><?php echo htmlspecialchars($address); ?></td>
+                                <td><?php echo htmlspecialchars($accountNumber); ?></td>
+                                <td><?php echo htmlspecialchars($accountName); ?></td>
+                                <td><?php echo htmlspecialchars($bankName); ?></td>
+                                <td><?php echo htmlspecialchars($gFullname); ?></td>
+                                <td><?php echo htmlspecialchars($gContact); ?></td>
+                                <td><?php echo htmlspecialchars($gAddress); ?></td>
+                                <td><?php echo htmlspecialchars($occupation); ?></td>
+                                <td><?php echo htmlspecialchars($relationship); ?></td>
+                                <td><a href="tunokadase.php?fullname=<?php echo urlencode($fullname); ?>">Edit</a></td>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>
 
+        
             </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
@@ -181,22 +168,15 @@
             </div>
 
             <div class="sales-analytics">
-                <a href="newalabasepo.php">
+                <a href="newOluwa.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
-                            <h3>New Partner</h3>
+                            <h3>New Captain</h3>
                         </div>
                     </div>
                 </a>
-                <a href="ojatitun.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Product</h3>
-                        </div>
-                    </div>
-                </a>
+                
 
                 <span>
                     <center>
@@ -222,11 +202,11 @@
                             $productName = $row['productName'];
                             $quantity = $row['quantity'];
                             ?>
-                        <tr>
-                            <td><?php echo $partner; ?></td>
-                            <td><?php echo $productName; ?></td>
-                            <td><?php echo $quantity; ?></td>
-                        </tr>
+                            <tr>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $productName; ?></td>
+                                <td><?php echo $quantity; ?></td>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>

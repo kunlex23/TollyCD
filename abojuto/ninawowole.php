@@ -8,15 +8,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dispatcherPrices = $_POST['dispatcherPrice'];
     $profits = $_POST['profit'];
 
-    // Prepare the SQL statement
-    $stmt = $conn->prepare("INSERT INTO ninawo (location, partnerPrice, dispatcherPrice, profit) VALUES (?, ?, ?, ?)");
+    // Prepare the SQL statements
+    $checkStmt = $conn->prepare("SELECT 1 FROM ninawo WHERE location = ?");
+    $insertStmt = $conn->prepare("INSERT INTO ninawo (location, partnerPrice, dispatcherPrice, profit) VALUES (?, ?, ?, ?)");
 
-    if ($stmt === false) {
-        die("Error preparing statement: " . $conn->error);
+    if ($checkStmt === false || $insertStmt === false) {
+        die("Error preparing statements: " . $conn->error);
     }
 
-    // Bind parameters
-    $stmt->bind_param("ssss", $location, $partnerPrice, $dispatcherPrice, $profit);
+    // Bind parameters for insert statement
+    $insertStmt->bind_param("ssss", $location, $partnerPrice, $dispatcherPrice, $profit);
 
     // Insert each set of form data
     for ($i = 0; $i < count($locations); $i++) {
@@ -31,14 +32,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             continue;  // Skip this entry and continue with the next one
         }
 
-        $stmt->execute();
+        // Check if the location already exists
+        $checkStmt->bind_param("s", $location);
+        $checkStmt->execute();
+        $checkStmt->store_result();
 
-        if ($stmt->error) {
-            echo "Error executing statement: " . $stmt->error;
+        if ($checkStmt->num_rows > 0) {
+            echo '<script>alert("Location ' . htmlspecialchars($location) . ' already exists.");</script>';
+            continue;  // Skip this entry and continue with the next one
+        }
+
+        // Insert the new location
+        $insertStmt->execute();
+
+        if ($insertStmt->error) {
+            echo "Error executing statement: " . $insertStmt->error;
         }
     }
 
-    $stmt->close();
+    $checkStmt->close();
+    $insertStmt->close();
     $conn->close();
 
     echo '<script>alert("New location(s) added successfully!");</script>';

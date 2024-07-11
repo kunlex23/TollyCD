@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/style.css">
- <style>
+    <style>
     table,
     th,
     td {
@@ -54,7 +54,7 @@
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
                 </a>
-                
+
 
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
@@ -96,8 +96,20 @@
                 <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Out of Stock</h3>
+                            <h3>Low Stock</h3>
                             <div id="link_wrapper2">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 7 days</small> -->
+                </div>
+                <div class="income">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Out of Stock</h3>
+                            <div id="link_wrapper3">
 
                             </div>
                         </div>
@@ -131,12 +143,12 @@
                             $productName = $row['productName'];
                             $quantity = $row['quantity'];
                             ?>
-                            <tr>
-                                <td> <?php echo $partner; ?></td>
-                                <td><?php echo $productName; ?></td>
-                                <td><?php echo $quantity; ?></td>
+                        <tr>
+                            <td> <?php echo $partner; ?></td>
+                            <td><?php echo $productName; ?></td>
+                            <td><?php echo $quantity; ?></td>
 
-                            </tr>
+                        </tr>
 
 
 
@@ -164,15 +176,15 @@
             </div>
 
             <div class="sales-analytics">
-             <a href="newalabasepo.php">
+                <a href="newalabasepo.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
                             <h3>New Partner</h3>
                         </div>
                     </div>
-                </a>    
-            <a href="ojatitun.php">
+                </a>
+                <a href="ojatitun.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
@@ -180,9 +192,11 @@
                         </div>
                     </div>
                 </a>
-                
+
                 <span>
-                    <center><h2>Products running low</h2></center>
+                    <center>
+                        <h2>Products running low</h2>
+                    </center>
                 </span>
                 <table style="width: 100%;">
                     <thead>
@@ -203,22 +217,22 @@
                             $productName = $row['productName'];
                             $quantity = $row['quantity'];
                             ?>
-                            <tr>
-                                <td> <?php echo $partner; ?></td>
-                                <td><?php echo $productName; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                
-                            </tr>
-                
-                
-                
+                        <tr>
+                            <td> <?php echo $partner; ?></td>
+                            <td><?php echo $productName; ?></td>
+                            <td><?php echo $quantity; ?></td>
+
+                        </tr>
+
+
+
                         <?php } ?>
                     </tbody>
                 </table>
                 <div class="item-online">
                     <div class="right">
                         <table style="width: 100%;" class="due_client">
-                            
+
 
                         </table>
 
@@ -236,61 +250,80 @@
 
 <!-- live data -->
 <script>
-    function loadXMLDoc() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc();
-        // 1sec
-    }, 1000);
+function loadXMLDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc;
+window.onload = loadXMLDoc;
 </script>
 <!-- Maximum reading -->
 <script>
-    function loadXMLDoc1() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper1").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server1.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc1();
-        // 1sec
-    }, 1000);
+function loadXMLDoc1() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper1").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server1.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc1();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc1;
+window.onload = loadXMLDoc1;
 </script>
 <!-- Minimum reading -->
 <script>
-    function loadXMLDoc2() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper2").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server2.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc2();
-        // 1sec
-    }, 1000);
+function loadXMLDoc2() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper2").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server2.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc2();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc2;
+window.onload = loadXMLDoc2;
+</script>
+<script>
+function loadXMLDoc3() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper3").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server3.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc3();
+    // 1sec
+}, 1000);
+
+window.onload = loadXMLDoc3;
 </script>

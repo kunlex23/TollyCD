@@ -111,6 +111,10 @@
                     <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Users</h3>
                 </a>
+                <a href="newCaptain.php">
+                    <span class="material-icons-sharp">pedal_bike</span>
+                    <h3>Captain</h3>
+                </a>
                 
 
                 <a href="../logout.php">
