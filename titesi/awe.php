@@ -139,16 +139,15 @@
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Active Shipments</h3>
                 </a>
-                
-                <a href="dapada.php" class="active">
+                <a href="dapada.php">
                     <span class="material-icons-sharp">assignment_return</span>
                     <h3>Returned Shipments</h3>
                 </a>
-                <a href="awe.php">
+
+                <a href="awe.php" class="active">
                     <span class="material-icons-sharp">history</span>
                     <h3>Shipments History</h3>
                 </a>
-
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -157,95 +156,72 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
+
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Returned Shipments</h2>
-
-                <!-- Date Range Form -->
+                <h2>Shipments Records</h2>
                 <div class="spacer"></div>
-                <form method="post" action="">
-                    <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start-date" required>
-                    <label for="end-date">End Date:</label>
-                    <input type="date" id="end-date" name="end-date" required>
-                    <button type="submit">Filter</button>
-                </form>
-
-                <div class="spacer"></div>
-                <table style="width: 100%;">
+                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
+                            <!-- <th>ID</th> -->
                             <th>Partner</th>
                             <th>Type</th>
                             <th>Product</th>
+                            <th>Avail. Qty</th>
                             <th>Qty</th>
                             <th>Amount</th>
                             <th>Client</th>
-                            <th>Location</th>
+                            <th>Destination</th>
                             <th>Contact</th>
                             <th>Captain</th>
-                            <th>Reason</th>
+                            <th>Status</th>
                             <th>Date</th>
                         </tr>
                     </thead>
-                   <tbody id="table-body">
-    <?php
-                    require '../config.php';
+                    <tbody id="table-body">
+                        <?php
+                        require '../config.php';
 
-                    // Initialize variables for the date range
-                    $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
-                    $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
-
-                    // Build the query based on the date range
-                    $query_string = "SELECT partner, shipmentType, product, quantity, amount, customersName, destination, customerContact, captain, returnReason, date FROM gbigbe WHERE status = 'return'";
-
-                    if ($start_date && $end_date) {
-                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
-                    }
-
-                    $query_string .= " ORDER BY partner DESC";
-
-                    // Execute the query
-                    $query = mysqli_query($conn, $query_string);
-
-                    if (!$query) {
-                        echo "Error fetching data: " . mysqli_error($conn);
-                    } else {
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
+                            $id = $row['id'];
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
+                            $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
+                            $unitPrice = $row['unitPrice'];
                             $amount = $row['amount'];
                             $customersName = $row['customersName'];
                             $destination = $row['destination'];
                             $customerContact = $row['customerContact'];
                             $captain = $row['captain'];
-                            $returnReason = $row['returnReason'];
+                            $status = $row['status'];
                             $date = $row['date'];
                             ?>
-                            <tr>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $shipmentType; ?></td>
-                                <td><?php echo $product; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                                <td><?php echo $amount; ?></td>
-                                <td><?php echo $customersName; ?></td>
-                                <td><?php echo $destination; ?></td>
-                                <td><?php echo $customerContact; ?></td>
-                                <td><?php echo $captain; ?></td>
-                                <td><?php echo $returnReason; ?></td>
-                                <td><?php echo $date; ?></td>
-                            </tr>
-                            <?php
-                        }
-                    }
-                    ?>
-                </tbody>
-
+                        <tr>
+                            <!-- <td><?php echo $id; ?></td> -->
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $shipmentType; ?></td>
+                            <td><?php echo $product; ?></td>
+                            <td><?php echo $availableUnit; ?></td>
+                            <td><?php echo $quantity; ?></td>
+                            <td><?php echo $amount; ?></td>
+                            <td><?php echo $customersName; ?></td>
+                            <td><?php echo $destination; ?></td>
+                            <td><?php echo $customerContact; ?></td>
+                            <td><?php echo $captain; ?></td>
+                             <td><?php echo $status; ?></td>
+                            <td><?php echo $date; ?></td>
+                            
+                        </tr>
+                        <?php } ?>
+                    </tbody>
                 </table>
-            </div>
+                
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +22,7 @@
                 <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
             </div>
             <div class="sideBar">
-                 <a href="index.php">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -33,23 +32,23 @@
                     <h3>Shipments</h3>
                 </a>
 
-                 <a href="sisanwo.php">
+                <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
                 </a>
 
-                 <a href="sisanwokeji.php">
+                <a href="sisanwokeji.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
                 </a>
 
-                <a href="owoofe.php">
+                <a href="owoofe.php" class="active">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Gifts</h3>
                 </a>
 
-                
-                <a href="inawo.php" class="active">
+
+                <a href="inawo.php">
                     <span class="material-icons-sharp">payments</span>
                     <h3>Expenses</h3>
                 </a>
@@ -62,28 +61,22 @@
         </aside>
         <main>
             <div class="recent-sales">
-                <h1>New Expenses</h1>
-                <form class="five-column-form" action="inawowole.php" method="POST">
-                        <div>
-                            <label for="name">Name:</label>
-                            <input type="text" name="name[]" required><br>
-                        </div>
-                    <div class="tray1">
-                        <div class="tray0">
-                        <label for="purpose">Purpose:</label>
-                        <input type="text" name="purpose[]" required><br>
+                <h1>Gifts & Others</h1><br>
+                <form class="five-column-form" action="ofe.php" method="POST">
+                    <div>
+                        <label for="fromW">From:</label>
+                        <input type="text" name="fromW[]" required><br>
                     </div>
+                    <div class="tray1">
+                        <div>
+                            <label for="amount">Amount:</label>
+                            <input type="text" name="amount[]" required><br>
+                        </div>
                     </div>
                     <div class="tray2">
                         <div>
-                            <label for="amount">Amount:</label>
-                            <input type="text" name="amount[]" required ><br>
-                        </div>
-                    </div>
-                    <div class="tray3">
-                        <div>
-                            <label for="approvedBy">Approved By:</label>
-                            <input type="text" name="approvedBy[]" required ><br>
+                            <label for="purpose">Purpose:</label>
+                            <input type="text" name="purpose[]" required><br>
                         </div>
                     </div>
                     <div id="notification" class="notification hidden">New record created successfully!</div>
@@ -92,18 +85,17 @@
                     </div>
                 </form>
 
-                <div class="spacer"></div>
-                <h2>Expenses Records</h2>
+                <div class="spacer"></div><br>  
+                <h2>Gifts Records</h2>
                 <div class="spacer"></div>
                 <input type="text" id="filterInput" placeholder="Search..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
                             <!-- <th>ID</th> -->
-                            <th>Name</th>
-                            <th>Purpose</th>
+                            <th>From</th>
                             <th>Amount</th>
-                            <th>Approved By</th>
+                            <th>Purpose</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -111,21 +103,19 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, name, purpose, amount, approvedBy, date  FROM inawo ORDER BY purpose DESC ");
+                        $query = mysqli_query($conn, "SELECT id, fromW, amount, purpose, date  FROM others_gifts ORDER BY purpose DESC ");
                         while ($row = mysqli_fetch_array($query)) {
-                            $name = $row['name'];
-                            $purpose = $row['purpose'];
+                            $fromW = $row['fromW'];
                             $amount = $row['amount'];
-                            $approvedBy = $row['approvedBy'];
+                            $purpose = $row['purpose'];
                             $date = $row['date'];
                             ?>
-                        <tr>
-                            <td><?php echo $name; ?></td>
-                            <td><?php echo $purpose; ?></td>
-                            <td><?php echo $amount; ?></td>
-                            <td><?php echo $approvedBy; ?></td>
-                            <td><?php echo $date; ?></td>
-                        </tr>
+                            <tr>
+                                <td><?php echo $fromW; ?></td>
+                                <td><?php echo $amount; ?></td>
+                                <td><?php echo $purpose; ?></td>
+                                <td><?php echo $date; ?></td>
+                            </tr>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -150,31 +140,31 @@
     </div>
 
     <script src="../script/scrip.js"></script>
-   
-   
+
+
     <script>
-    function filterTable() {
-        // Get the value of the input field
-        let input = document.getElementById('filterInput');
-        let filter = input.value.toUpperCase();
+        function filterTable() {
+            // Get the value of the input field
+            let input = document.getElementById('filterInput');
+            let filter = input.value.toUpperCase();
 
-        // Get the table and its rows
-        let table = document.getElementById('shipmentTable');
-        let tr = table.getElementsByTagName('tr');
+            // Get the table and its rows
+            let table = document.getElementById('shipmentTable');
+            let tr = table.getElementsByTagName('tr');
 
-        // Loop through all table rows, except the first (header) row
-        for (let i = 1; i < tr.length; i++) {
-            // Get the first cell (product name) in the row
-            let td = tr[i].getElementsByTagName('td')[0];
-            if (td) {
-                // Check if the product name contains the filter text
-                let txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = '';
-                } else {
-                    tr[i].style.display = 'none';
+            // Loop through all table rows, except the first (header) row
+            for (let i = 1; i <script tr.length; i++) {
+                // Get the first cell (product name) in the row
+                let td = tr[i].getElementsByTagName('td')[0];
+                if (td) {
+                    // Check if the product name contains the filter text
+                    let txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
                 }
             }
         }
-    }
     </script>

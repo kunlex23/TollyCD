@@ -137,12 +137,16 @@
 
                 <a href="records.php" class="active">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Shipments</h3>
+                    <h3>Active Shipments</h3>
                 </a>
-
                 <a href="dapada.php">
                     <span class="material-icons-sharp">assignment_return</span>
                     <h3>Returned Shipments</h3>
+                </a>
+
+                <a href="awe.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Shipments History</h3>
                 </a>
 
                 <a href="../logout.php">
@@ -177,6 +181,7 @@
                             <th>Captain</th>
                             <th>Status</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -185,6 +190,7 @@
 
                         $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
                         while ($row = mysqli_fetch_array($query)) {
+                            $id =$row['id'];
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
@@ -223,6 +229,7 @@
                                 </select>
                             </td>
                             <td><?php echo $date; ?></td>
+                            <td><a href="tunojadase.php?rira=<?php echo urlencode($id); ?>&id=<?php echo urlencode($partner); ?>">Edit</a></td>
                         </tr>
                         <?php } ?>
                     </tbody>

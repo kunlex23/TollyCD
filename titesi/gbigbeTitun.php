@@ -54,12 +54,16 @@ session_start();
 
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Shipments</h3>
+                    <h3>Active Shipments</h3>
                 </a>
-
                 <a href="dapada.php">
                     <span class="material-icons-sharp">assignment_return</span>
                     <h3>Returned Shipments</h3>
+                </a>
+
+                <a href="awe.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Shipments History</h3>
                 </a>
 
                 <a href="../logout.php">
@@ -188,7 +192,19 @@ session_start();
                         </div>
                         <div>
                             <label for="captain">Captain:</label>
-                            <input type="text" name="captain[]" required><br>
+                            <select name="captain" required onchange="fetchCaptain(this.value)">
+                            <option value="">Select a Captain</option>
+                            <?php
+                            require '../config.php';
+                            $sql = "SELECT fullname FROM oluwa";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row["fullname"] . '">' . $row["fullname"] . '</option>';
+                                }
+                            }
+                            ?>
+                        </select>
                         </div>
                         <div>
                             <label for="status">Status:</label>
@@ -197,15 +213,6 @@ session_start();
                                 <option value="Completed">Delivered</option>
                             </select><br>
                         </div>
-                        <!-- <div>
-                            <label for="paymentMethod">Payment Method:</label>
-                            <select name="paymentMethod" required>
-                                <option value="Transfer">Transfer</option>
-                                <option value="POS">POS</option>
-                                <option value="Cash">Cash</option>
-                                <option value="Cheque">Cheque</option>
-                            </select><br>
-                        </div> -->
                     </div>
                     <div>
 

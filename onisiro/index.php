@@ -75,8 +75,13 @@
                 </a>
                 
 
-                <a href="inawo.php">
+                 <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
+                    <h3>Gifts</h3>
+                </a>
+
+                <a href="inawo.php">
+                    <span class="material-icons-sharp">payments</span>
                     <h3>Expenses</h3>
                 </a>
 
@@ -155,8 +160,8 @@
             </div>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                <div class="spacer"></div>
-                <h2>Recent Sales</h2>
+                <div class="spacer"></div><br>
+                <h2>Recent Sales</h2><br>
                 <table style="width: 100%;">
                     <thead>
                         <tr>
@@ -211,46 +216,7 @@
                     </tbody>
                 </table>
                 <a href="records.php">Show all</a>
-
-                <div class="spacer"></div>
-                <h2>Recent Expenses</h2>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Purpose</th>
-                            <th>Unit</th>
-                            <th>Unit Price</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-
-
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
-
-
-                        $query = mysqli_query($conn, "SELECT id, purpose, unit, unitPrice, amount, date  FROM inawo ORDER BY purpose  DESC LIMIT 4");
-                        while ($row = mysqli_fetch_array($query)) {
-                            $purpose = $row['purpose'];
-                            $unit = $row['unit'];
-                            $unitPrice = $row['unitPrice'];
-                            $amount = $row['amount'];
-                            $date = $row['date'];
-                            ?>
-                            <tr>
-                                <!-- <td><?php echo $id; ?></td> -->
-                                <td><?php echo $purpose; ?></td>
-                                <td><?php echo $unit; ?></td>
-                                <td><?php echo $unitPrice; ?></td>
-                                <td><?php echo $amount; ?></td>
-                                <td><?php echo $date; ?></td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-                <a href="inawo.php">Show all</a>
+ 
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

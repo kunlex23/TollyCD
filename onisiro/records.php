@@ -97,8 +97,13 @@
                 </a>
 
 
-                <a href="inawo.php">
+                 <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
+                    <h3>Gifts</h3>
+                </a>
+
+                <a href="inawo.php">
+                    <span class="material-icons-sharp">payments</span>
                     <h3>Expenses</h3>
                 </a>
 

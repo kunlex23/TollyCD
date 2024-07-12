@@ -4,19 +4,18 @@ require '../config.php';
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Collect data from the form
-    $names = $_POST['name'];
-    $purposes = $_POST['purpose'];
+    $fromWs = $_POST['fromW'];
     $amounts = $_POST['amount'];
-    $approvedBys = $_POST['approvedBy'];
+    $purposes = $_POST['purpose'];
 
-    $sqlInsert = "INSERT INTO inawo (name, purpose, amount, approvedBy) VALUES (?, ?, ?, ?)";
+    $sqlInsert = "INSERT INTO others_gifts (fromW, amount, purpose) VALUES (?, ?, ?)";
     $stmtInsert = $conn->prepare($sqlInsert);
 
     // Check if the statement was prepared successfully
     if ($stmtInsert) {
-        for ($i = 0; $i < count($names); $i++) {
+        for ($i = 0; $i < count($fromWs); $i++) {
             // Bind parameters to the insert SQL query
-            $stmtInsert->bind_param("ssss", $names[$i], $purposes[$i], $amounts[$i], $approvedBys[$i]);
+            $stmtInsert->bind_param("sss", $fromWs[$i], $amounts[$i], $purposes[$i]);
 
             // Execute the insert statement
             if (!$stmtInsert->execute()) {
@@ -28,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmtInsert->close();
 
         // Redirect to a success page or show a success message
-        echo "<script>alert('Record created successfully!'); window.location.href='inawo.php';</script>";
+        echo "<script>alert('Record created successfully!'); window.location.href='owoofe.php';</script>";
     } else {
         echo "Error: Could not prepare the statement.";
     }

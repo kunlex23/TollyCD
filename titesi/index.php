@@ -67,14 +67,18 @@
 
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Shipments</h3>
-
+                    <h3>Active Shipments</h3>
+                </a>
                 <a href="dapada.php">
                     <span class="material-icons-sharp">assignment_return</span>
                     <h3>Returned Shipments</h3>
                 </a>
-                
+
+                <a href="awe.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Shipments History</h3>
                 </a>
+                
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
