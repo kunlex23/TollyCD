@@ -60,11 +60,6 @@
                     <h3>New Delivery</h3>
                 </a>
 
-                <a href="gbigbeTitun2.php">
-                    <span class="material-icons-sharp">add</span>
-                    <h3>New Waybill</h3>
-                </a>
-
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Active Shipments</h3>

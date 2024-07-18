@@ -55,6 +55,11 @@
                     <h3>Products</h3>
                 </a>
 
+                <a href="gbigbeTitun2.php">
+                    <span class="material-icons-sharp">add</span>
+                    <h3>New Waybill</h3>
+                </a>
+
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>

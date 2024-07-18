@@ -47,11 +47,6 @@ session_start();
                     <h3>New Delivery</h3>
                 </a>
 
-                <a href="gbigbeTitun2.php">
-                    <span class="material-icons-sharp">add</span>
-                    <h3>New Waybill</h3>
-                </a>
-
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Active Shipments</h3>
@@ -76,17 +71,17 @@ session_start();
             <div class="recent-sales">
                 <h1>New Delivery</h1>
                 <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
-                    <input type="hidden" name="accPartner" value="rara">
-                    <input type="hidden" name="accCaptain" value="rara">
-                    <input type="hidden" name="partnerPayStatus" value="rara">
-                    <input type="hidden" name="captainPayStatus" value="rara">
-                    <input type="hidden" name="shipmentType" value="Delivery">
+    <input type="hidden" name="accPartner" value="rara">
+    <input type="hidden" name="accCaptain" value="rara">
+    <input type="hidden" name="partnerPayStatus" value="rara">
+    <input type="hidden" name="captainPayStatus" value="rara">
+    <input type="hidden" name="shipmentType" value="Delivery">
 
-                    <div class="tray0">
-                        <label for="Name">Partner:</label>
-                        <select name="Name" required onchange="fetchProducts(this.value)">
-                            <option value="">Select a Partner</option>
-                            <?php
+    <div class="tray0">
+        <label for="Name">Partner:</label>
+        <select name="Name" required onchange="fetchProducts(this.value)">
+            <option value="">Select a Partner</option>
+            <?php
                             require '../config.php';
                             $sql = "SELECT Name FROM alabasepo";
                             $result = $conn->query($sql);
@@ -99,8 +94,8 @@ session_start();
                         </select>
                         <label for="availableUnit">Available Unit:</label>
                         <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
-
                     </div>
+                
                     <div class="tray1">
                         <div id="productsContainer">
                             <label for="orunoloun">Product:</label>
@@ -117,10 +112,11 @@ session_start();
                             <input type="text" name="amount[]" required><br>
                         </div>
                     </div>
+                
                     <div class="tray2">
                         <div>
                             <label for="state">State:</label>
-                            <select name="state" required>
+                            <select id="state" name="state" required onchange="toggleLocationInput(this.value)">
                                 <option value="">...</option>
                                 <option value="FCT">Federal Capital Territory</option>
                                 <option value="Abia">Abia</option>
@@ -161,11 +157,10 @@ session_start();
                                 <option value="Zamfara">Zamfara</option>
                                 <option value="FCT">Federal Capital Territory</option>
                             </select><br>
-
                         </div>
                         <div>
                             <label for="destination">Location:</label>
-                            <select name="destination" onchange="fetchPrice(this.value)">
+                            <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)" style="display: none;">
                                 <option value=""></option>
                                 <?php
                                 require '../config.php';
@@ -178,13 +173,14 @@ session_start();
                                 }
                                 ?>
                             </select>
-
+                            <input type="text" id="locationInput" name="destinationText" style="display: block;">
                         </div>
                         <div>
                             <label for="customersName">Customer Name:</label>
                             <input type="text" name="customersName[]" required><br>
                         </div>
                     </div>
+                
                     <div class="tray3">
                         <div>
                             <label for="customerContact">Customer Contact:</label>
@@ -193,18 +189,18 @@ session_start();
                         <div>
                             <label for="captain">Captain:</label>
                             <select name="captain" required onchange="fetchCaptain(this.value)">
-                            <option value="">Select a Captain</option>
-                            <?php
-                            require '../config.php';
-                            $sql = "SELECT fullname FROM oluwa";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row["fullname"] . '">' . $row["fullname"] . '</option>';
+                                <option value="">Select a Captain</option>
+                                <?php
+                                require '../config.php';
+                                $sql = "SELECT fullname FROM oluwa";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["fullname"] . '">' . $row["fullname"] . '</option>';
+                                    }
                                 }
-                            }
-                            ?>
-                        </select>
+                                ?>
+                            </select>
                         </div>
                         <div>
                             <label for="status">Status:</label>
@@ -214,18 +210,40 @@ session_start();
                             </select><br>
                         </div>
                     </div>
+                
                     <div>
-
-                        <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
-                        <input type="hidden" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
-                        <input type="hidden" id="profit" name="profit[]" required readonly><br>
-
+                        <label for="partnerPrice">Partner Price:</label>
+                        <input type="text" id="partnerPrice" name="partnerPrice[]" required><br>
+                        <label for="dispatcherPrice">Dispatcher Price:</label>
+                        <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
+                        <label for="profit">Profit:</label>
+                        <input type="text" id="profit" name="profit[]" required><br>
                     </div>
+                
                     <div id="notification" class="notification hidden">New record created successfully!</div>
                     <div class="button-container">
                         <div class="job"><input type="submit" value="Submit"></div>
                     </div>
                 </form>
+                
+                <script>
+                    function toggleLocationInput(value) {
+                        var locationDropdown = document.getElementById('locationDropdown');
+                        var locationInput = document.getElementById('locationInput');
+                        if (value === 'FCT') {
+                            locationDropdown.style.display = 'block';
+                            locationDropdown.disabled = false;
+                            locationInput.style.display = 'none';
+                            locationInput.disabled = true;
+                        } else {
+                            locationDropdown.style.display = 'none';
+                            locationDropdown.disabled = true;
+                            locationInput.style.display = 'block';
+                            locationInput.disabled = false;
+                        }
+                    }
+                </script>
+
             </div>
         </main>
         <div class="right">
@@ -334,3 +352,20 @@ session_start();
         xhr.send("location=" + location);
     }
     </script>
+  <script>
+function toggleLocationInput(value) {
+    var locationDropdown = document.getElementById('locationDropdown');
+    var locationInput = document.getElementById('locationInput');
+    if (value === 'FCT') {
+        locationDropdown.style.display = 'block';
+        locationDropdown.disabled = false;
+        locationInput.style.display = 'none';
+        locationInput.disabled = true;
+    } else {
+        locationDropdown.style.display = 'none';
+        locationDropdown.disabled = true;
+        locationInput.style.display = 'block';
+        locationInput.disabled = false;
+    }
+}
+</script>

@@ -41,29 +41,18 @@ session_start();
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-
-                <a href="gbigbeTitun.php">
-                    <span class="material-icons-sharp">add_circle</span>
-                    <h3>New Delivery</h3>
+                <a href="alabasepo.php">
+                    <span class="material-icons-sharp">groups</span>
+                    <h3>Partners</h3>
+                </a>
+                <a href="oja.php">
+                    <span class="material-icons-sharp">inventory</span>
+                    <h3>Products</h3>
                 </a>
 
                 <a href="gbigbeTitun2.php" class="active">
                     <span class="material-icons-sharp">add</span>
                     <h3>New Waybill</h3>
-                </a>
-
-                <a href="records.php">
-                    <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Active Shipments</h3>
-                </a>
-                <a href="dapada.php">
-                    <span class="material-icons-sharp">assignment_return</span>
-                    <h3>Returned Shipments</h3>
-                </a>
-
-                <a href="awe.php">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Shipments History</h3>
                 </a>
 
                 <a href="../logout.php">
@@ -74,7 +63,7 @@ session_start();
         </aside>
         <main>
             <div class="recent-sales">
-                <h1>New Waybill</h1>
+                <h1>New Waybill</h1><br>
                 <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
                     <input type="hidden" name="accPartner" value="rara">
                     <input type="hidden" name="accCaptain" value="rara">
@@ -82,7 +71,7 @@ session_start();
                     <input type="hidden" name="captainPayStatus" value="rara">
                     <input type="hidden" name="shipmentType" value="Waybill">
 
-                    <div class="tray0">
+                    <div>
                         <label for="Name">Partner:</label>
                         <select name="Name" required onchange="fetchProducts(this.value)">
                             <option value="">Select a Partner</option>
@@ -97,18 +86,19 @@ session_start();
                             }
                             ?>
                         </select>
-                        <label for="availableUnit">Available Unit:</label>
-                        <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
-
-                    </div>
-                    <div class="tray1">
-
                         <div id="productsContainer">
                             <label for="orunoloun">Product:</label>
                             <select name="orunoloun" required onchange="fetchQuantity(this.value)">
                                 <option value="">Select a Product</option>
                             </select>
                         </div>
+                        <label for="availableUnit">Available Unit:</label>
+                        <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
+
+                    </div>
+                    <div>
+
+
                         <div>
                             <label for="quantity">Quantity:</label>
                             <input type="text" name="quantity[]" required><br>
@@ -117,20 +107,9 @@ session_start();
                             <label for="amount">Amount:</label>
                             <input type="text" name="amount[]" required><br>
                         </div>
-                    </div>
-                    <div class="tray2">
                         <div>
-                            <label for="customersName">Receivers Name:</label>
-                            <input type="text" name="customersName[]" required><br>
-                        </div>
-                        <div>
-                            <label for="customerContact">Receivers Contact:</label>
-                            <input type="text" name="customerContact[]" required><br>
-                        </div>
-
-                        <div>
-                            <label for="Location">location:</label>
-                            <select name="Location" required>
+                            <label for="location">Location:</label>
+                            <select name="location" required>
                                 <option value="">...</option>
                                 <option value="FCT">Federal Capital Territory</option>
                                 <option value="Abia">Abia</option>
@@ -171,10 +150,17 @@ session_start();
                                 <option value="Zamfara">Zamfara</option>
                             </select><br>
                         </div>
-
-
                     </div>
-                    <div class="tray3">
+                    <div>
+                        <div>
+                            <label for="customersName">Receivers Name:</label>
+                            <input type="text" name="customersName[]" required><br>
+                        </div>
+                        <div>
+                            <label for="customerContact">Receivers Contact:</label>
+                            <input type="text" name="customerContact[]" required><br>
+                        </div>
+
                         <div>
                             <label for="status">Status:</label>
                             <select name="status" required>
@@ -182,15 +168,20 @@ session_start();
                                 <option value="Completed">Delivered</option>
                             </select><br>
                         </div>
+
+
                     </div>
                     <div>
+
+                    </div>
+                    <div class="field-container">
                         <label for="waybillFee">Waybill Fee:</label>
-                        <input type="text" id="waybillFee" name="waybillFee[]" required><br>
+                        <input type="text" id="waybillFee" name="waybillFee[]" required oninput="calculateProfit(this)"><br>
                         <label for="driverFee">Driver Fee:</label>
-                        <input type="text" id="driverFee" name="driverFee[]" required><br>
+                        <input type="text" id="driverFee" name="driverFee[]" required oninput="calculateProfit(this)"><br>
                         <label for="partnerPrice">Partner Price:</label>
-                        <input type="text" id="partnerPrice" name="partnerPrice[]" required><br>
-                        
+                        <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
+
                     </div>
                     <div id="notification" class="notification hidden">New record created successfully!</div>
                     <div class="button-container">
@@ -199,20 +190,56 @@ session_start();
                 </form>
             </div>
         </main>
+
         <div class="right">
             <div class="top">
-                <button id="menu-btn"><span class="material-icons-sharp">menu</span></button>
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">menu</span>
+                </button>
                 <div class="theme-toggler">
-                    <span id="light-mode-icon" class="material-icons-sharp active">light_mode</span>
-                    <span id="dark-mode-icon" class="material-icons-sharp">dark_mode</span>
-                </div>
-                <div class="profile">
-                    <div class="info">
-                        <p><b></b></p>
-                    </div>
+                    <span class="material-icons-sharp active">light_mode</span>
+                    <span class="material-icons-sharp">dark_mode</span>
                 </div>
             </div>
+            <div class="sales-analytics">
+                <a href="ojatitun.php">
+                    <div class="item add-product">
+                        <div>
+                            <span class="material-icons-sharp">add</span>
+                            <h3>New Product</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="sales-analytics">
+                <a href="ojatitunpipo.php">
+                    <div class="item add-product">
+                        <div>
+                            <span class="material-icons-sharp">add</span>
+                            <h3>Multi Entry</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
 
+            <form action="./wiwa.php" method="GET">
+                <label for="Name">Partner:</label>
+                <select name="Name" required>
+                    <option value="">Select a Partner</option>
+                    <?php
+                    require '../config.php';
+                    $sql = "SELECT Name, contact FROM alabasepo";
+                    $result = $conn->query($sql);
+                    // Generate options for the combo box
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
+                <input type="submit" value="Search">
+            </form>
         </div>
     </div>
 
@@ -285,23 +312,21 @@ session_start();
     });
     </script>
     <script>
-    function fetchPrice(location) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "get_price.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
-                const response = JSON.parse(xhr.responseText);
-                if (response.error) {
-                    console.error(response.error);
-                } else {
-                    document.getElementById('partnerPrice').value = response.partnerPrice;
-                    document.getElementById('dispatcherPrice').value = response.dispatcherPrice;
-                    document.getElementById('profit').value = response.profit;
-                }
-            }
-        };
         xhr.send("location=" + location);
-    }
+
+        function calculateProfit(element) {
+            // Get the container of the current input fields
+            const container = element.closest('.field-container');
+
+            // Get the values of waybillFee and driverFee
+            const waybillFee = parseFloat(container.querySelector('input[name="waybillFee[]"]').value) || 0;
+            const driverFee = parseFloat(container.querySelector('input[name="driverFee[]"]').value) || 0;
+
+            // Calculate the partnerPrice
+            const partnerPrice = waybillFee + driverFee;
+
+            // Set the value of the partnerPrice field
+            container.querySelector('input[name="partnerPrice[]"]').value = partnerPrice.toFixed(0);
+        }
+    
     </script>

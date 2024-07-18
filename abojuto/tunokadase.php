@@ -11,19 +11,19 @@
     <!-- style -->
     <link rel="stylesheet" href="css/styls.css">
     <style>
-        table,
-        th,
-        td {
-            padding: 8px;
-        }
+    table,
+    th,
+    td {
+        padding: 8px;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -87,7 +87,7 @@
         <!------------ END OF ASIDE ------------>
         <main>
             <div class="recent-sales">
-                <h1>Edit Record</h1>
+                <h1>Edit Record</h1><br>
                 <div class="spacer"></div>
                 <div class="spacer"></div>
 
@@ -157,56 +157,65 @@
 
                                 <label for="fullname">Fullname:</label>
                                 <input type="text" name="fullname"
-                                    value="<?php echo htmlspecialchars($row['fullname']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['fullname']); ?>" required><br>
 
                                 <label for="contact">Contact:</label>
                                 <input type="text" name="contact"
-                                    value="<?php echo htmlspecialchars($row['contact']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['contact']); ?>" required><br>
 
                                 <label for="address">Address:</label>
                                 <input type="text" name="address"
-                                    value="<?php echo htmlspecialchars($row['Address']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['Address']); ?>" required><br>
+                            </div>
+                            <div class="field-group">
 
                                 <label for="accountNumber">Account Number:</label>
                                 <input type="text" name="accountNumber"
-                                    value="<?php echo htmlspecialchars($row['accountNumber']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['accountNumber']); ?>" required><br>
 
                                 <label for="accountName">Account Name:</label>
                                 <input type="text" name="accountName"
-                                    value="<?php echo htmlspecialchars($row['accountName']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['accountName']); ?>" required><br>
 
                                 <label for="bankName">Bank Name:</label>
                                 <input type="text" name="bankName"
-                                    value="<?php echo htmlspecialchars($row['bankName']); ?>" required>
-
+                                    value="<?php echo htmlspecialchars($row['bankName']); ?>" required><br>
+                            </div>
+                            <div class="field-group">
                                 <label for="gFullname">Guarantor's Fullname:</label>
                                 <input type="text" name="gFullname"
-                                    value="<?php echo htmlspecialchars($row['gFullname']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['gFullname']); ?>" required><br>
 
                                 <label for="gContact">Guarantor's Contact:</label>
                                 <input type="text" name="gContact"
-                                    value="<?php echo htmlspecialchars($row['gContact']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['gContact']); ?>" required><br>
 
                                 <label for="gAddress">Guarantor's Address:</label>
                                 <input type="text" name="gAddress"
-                                    value="<?php echo htmlspecialchars($row['gAddress']); ?>" required>
-
+                                    value="<?php echo htmlspecialchars($row['gAddress']); ?>" required><br>
+                            </div>
+                            <div class="field-group">
                                 <label for="occupation">Occupation:</label>
                                 <input type="text" name="occupation"
-                                    value="<?php echo htmlspecialchars($row['occupation']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['occupation']); ?>" required><br>
 
                                 <label for="relationship">Relationship:</label>
                                 <input type="text" name="relationship"
-                                    value="<?php echo htmlspecialchars($row['relationship']); ?>" required>
+                                    value="<?php echo htmlspecialchars($row['relationship']); ?>" required><br>
+                                <div class="button-container">
+                                    <div class="job">
+                                        <input type="submit" value="Update">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="notification" class="notification hidden">Record updated successfully!</div>
+                    <!-- 
                     <div class="button-container">
                         <div class="job">
                             <input type="submit" value="Update">
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </main>
@@ -262,11 +271,11 @@
                             $productName = $row['productName'];
                             $quantity = $row['quantity'];
                             ?>
-                            <tr>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $productName; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                            </tr>
+                        <tr>
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $productName; ?></td>
+                            <td><?php echo $quantity; ?></td>
+                        </tr>
                         <?php } ?>
                     </tbody>
                 </table>
