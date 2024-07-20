@@ -53,7 +53,7 @@
 
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                <h1>New Client</h1>
+                <h1>New Partner</h1>
                 <form class="five-column-form" action="alabasepotitun.php" method="POST">
                     <div class="tray0">
                         <label for="Name">Name:</label>
@@ -70,9 +70,7 @@
                         
                         <label for="bank">Bank:</label>
                         <input type="text" name="bank" required><br>
-                    </div>
-
-                    <div class="tray2">
+                    
                         <label for="accountName">Account Name:</label>
                         <input type="text" name="accountName" required><br>
                         <div class="job"><input type="submit" value="Submit"></div>

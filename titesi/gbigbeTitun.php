@@ -71,17 +71,17 @@ session_start();
             <div class="recent-sales">
                 <h1>New Delivery</h1>
                 <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
-    <input type="hidden" name="accPartner" value="rara">
-    <input type="hidden" name="accCaptain" value="rara">
-    <input type="hidden" name="partnerPayStatus" value="rara">
-    <input type="hidden" name="captainPayStatus" value="rara">
-    <input type="hidden" name="shipmentType" value="Delivery">
+                    <input type="hidden" name="accPartner" value="rara">
+                    <input type="hidden" name="accCaptain" value="rara">
+                    <input type="hidden" name="partnerPayStatus" value="rara">
+                    <input type="hidden" name="captainPayStatus" value="rara">
+                    <input type="hidden" name="shipmentType" value="Delivery">
 
-    <div class="tray0">
-        <label for="Name">Partner:</label>
-        <select name="Name" required onchange="fetchProducts(this.value)">
-            <option value="">Select a Partner</option>
-            <?php
+                    <div class="tray0">
+                        <label for="Name">Partner:</label>
+                        <select name="Name" required onchange="fetchProducts(this.value)">
+                            <option value="">Select a Partner</option>
+                            <?php
                             require '../config.php';
                             $sql = "SELECT Name FROM alabasepo";
                             $result = $conn->query($sql);
@@ -95,7 +95,7 @@ session_start();
                         <label for="availableUnit">Available Unit:</label>
                         <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
                     </div>
-                
+
                     <div class="tray1">
                         <div id="productsContainer">
                             <label for="orunoloun">Product:</label>
@@ -112,7 +112,7 @@ session_start();
                             <input type="text" name="amount[]" required><br>
                         </div>
                     </div>
-                
+
                     <div class="tray2">
                         <div>
                             <label for="state">State:</label>
@@ -160,7 +160,8 @@ session_start();
                         </div>
                         <div>
                             <label for="destination">Location:</label>
-                            <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)" style="display: none;">
+                            <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)"
+                                style="display: none;">
                                 <option value=""></option>
                                 <?php
                                 require '../config.php';
@@ -173,14 +174,14 @@ session_start();
                                 }
                                 ?>
                             </select>
-                            <input type="text" id="locationInput" name="destinationText" style="display: block;">
+                            <input type="text" id="locationInput" name="destination" style="display: block;">
                         </div>
                         <div>
                             <label for="customersName">Customer Name:</label>
                             <input type="text" name="customersName[]" required><br>
                         </div>
                     </div>
-                
+
                     <div class="tray3">
                         <div>
                             <label for="customerContact">Customer Contact:</label>
@@ -210,39 +211,21 @@ session_start();
                             </select><br>
                         </div>
                     </div>
-                
+
                     <div>
-                        <label for="partnerPrice">Partner Price:</label>
-                        <input type="text" id="partnerPrice" name="partnerPrice[]" required><br>
-                        <label for="dispatcherPrice">Dispatcher Price:</label>
-                        <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
-                        <label for="profit">Profit:</label>
-                        <input type="text" id="profit" name="profit[]" required><br>
+                        <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
+                        <input type="hidden" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
+                        <input type="hidden" id="profit" name="profit[]" required readonly><br>
                     </div>
-                
+
                     <div id="notification" class="notification hidden">New record created successfully!</div>
                     <div class="button-container">
                         <div class="job"><input type="submit" value="Submit"></div>
                     </div>
                 </form>
-                
-                <script>
-                    function toggleLocationInput(value) {
-                        var locationDropdown = document.getElementById('locationDropdown');
-                        var locationInput = document.getElementById('locationInput');
-                        if (value === 'FCT') {
-                            locationDropdown.style.display = 'block';
-                            locationDropdown.disabled = false;
-                            locationInput.style.display = 'none';
-                            locationInput.disabled = true;
-                        } else {
-                            locationDropdown.style.display = 'none';
-                            locationDropdown.disabled = true;
-                            locationInput.style.display = 'block';
-                            locationInput.disabled = false;
-                        }
-                    }
-                </script>
+
+
+
 
             </div>
         </main>
@@ -352,20 +335,20 @@ session_start();
         xhr.send("location=" + location);
     }
     </script>
-  <script>
-function toggleLocationInput(value) {
-    var locationDropdown = document.getElementById('locationDropdown');
-    var locationInput = document.getElementById('locationInput');
-    if (value === 'FCT') {
-        locationDropdown.style.display = 'block';
-        locationDropdown.disabled = false;
-        locationInput.style.display = 'none';
-        locationInput.disabled = true;
-    } else {
-        locationDropdown.style.display = 'none';
-        locationDropdown.disabled = true;
-        locationInput.style.display = 'block';
-        locationInput.disabled = false;
+    <script>
+    function toggleLocationInput(value) {
+        var locationDropdown = document.getElementById('locationDropdown');
+        var locationInput = document.getElementById('locationInput');
+        if (value === 'FCT') {
+            locationDropdown.style.display = 'block';
+            locationDropdown.disabled = false;
+            locationInput.style.display = 'none';
+            locationInput.disabled = true;
+        } else {
+            locationDropdown.style.display = 'none';
+            locationDropdown.disabled = true;
+            locationInput.style.display = 'block';
+            locationInput.disabled = false;
+        }
     }
-}
-</script>
+    </script>

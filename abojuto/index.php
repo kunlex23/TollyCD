@@ -67,11 +67,11 @@
                     <h3>Expenses</h3>
                 </a>
 
-                <a href="#">
+                <!-- <a href="#">
                     <span class="material-icons-sharp">mail_outline</span>
                     <h3>Message</h3>
                     <span class="msgCount">28</span>
-                </a>
+                </a> -->
                 <a href="ninan.php">
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Pricing</h3>

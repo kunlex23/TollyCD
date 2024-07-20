@@ -9,7 +9,7 @@ require '../config.php';
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Check if all required fields are set
-    if (isset($_POST['Name'], $_POST['shipmentType'], $_POST['orunoloun'], $_POST['availableUnit'], $_POST['quantity'], $_POST['amount'], $_POST['customersName'], $_POST['destination'], $_POST['customerContact'], $_POST['captain'], $_POST['status'], $_POST['accPartner'], $_POST['accCaptain'], $_POST['partnerPrice'], $_POST['dispatcherPrice'], $_POST['profit'])) {
+    if (isset($_POST['Name'], $_POST['shipmentType'], $_POST['orunoloun'], $_POST['availableUnit'], $_POST['quantity'], $_POST['amount'], $_POST['customersName'], $_POST['destination'], $_POST['customerContact'], $_POST['captain'], $_POST['status'], $_POST['accPartner'], $_POST['accCaptain'], $_POST['partnerPrice'], $_POST['dispatcherPrice'], $_POST['profit'], $_POST['partnerPayStatus'], $_POST['captainPayStatus'])) {
 
         // Collect data from the form
         $partner = $_POST['Name'];
@@ -31,10 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $partnerPayStatus = (array) $_POST['partnerPayStatus'];
         $captainPayStatus = (array) $_POST['captainPayStatus'];
 
-        // Calculate the partnerPrice (assuming it's an array similar to amounts)
-        $partnerPrices = array_map(function ($partnerPrice, $amount) {
-            return $amount - $partnerPrice ;
-        }, $partnerPrices, $amounts);
+        // Ensure amounts and partnerPrices are numeric
+        $amounts = array_map('floatval', $amounts);
+        $partnerPrices = array_map('floatval', $partnerPrices);
+
+        // Calculate the partnerPrice
+        $partnerPrices = array_map(function ($amount, $partnerPrice) {
+            return $amount - $partnerPrice;
+        }, $amounts, $partnerPrices);
 
         // Prepare the SQL statement for inserting into 'gbigbe' table
         $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, availableUnit, quantity, amount, customersName, destination, customerContact, captain, status, accCaptain, accPartner, partnerReward, riderReward, profitReward, partnerPayStatus, captainPayStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
