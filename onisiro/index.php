@@ -77,7 +77,7 @@
 
                  <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
-                    <h3>Gifts</h3>
+                    <h3>Other Income</h3>
                 </a>
 
                 <a href="inawo.php">
