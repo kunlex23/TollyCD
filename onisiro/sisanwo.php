@@ -23,45 +23,48 @@
     <!-- style -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .date-filter-form {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+    .date-filter-form {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
 
-        .date-filter-form label,
-        .date-filter-form input {
-            margin-right: 10px;
-        }
+    .date-filter-form label,
+    .date-filter-form input {
+        margin-right: 10px;
+    }
 
-        .date-filter-form button {
-            padding: 10px 20px;
-            background-color: #4CAF50; /* Green background */
-            color: white; /* White text */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .date-filter-form button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        /* Green background */
+        color: white;
+        /* White text */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-        .date-filter-form button:hover {
-            background-color: #45a049; /* Darker green background on hover */
-        }
+    .date-filter-form button:hover {
+        background-color: #45a049;
+        /* Darker green background on hover */
+    }
 
-        table,
-        th,
-        td {
-            border: 1px solid blanchedalmond;
-            border-collapse: collapse;
-            padding: 2px;
-        }
+    table,
+    th,
+    td {
+        border: 1px solid blanchedalmond;
+        border-collapse: collapse;
+        padding: 2px;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -93,12 +96,12 @@
                     <h3>Partner Payment History</h3>
                 </a>
 
-                 <a href="sisanwokeji.php">
+                <a href="sisanwokeji.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
                 </a>
 
-                 <a href="owoofe.php">
+                <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Other Income</h3>
                 </a>
@@ -116,35 +119,35 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-    <!-- ---------END OF EXAM-------- -->
-    <div class="recent-sales">
-        <div class="spacer"></div>
-        <h2>Partner Payment History</h2>
+            <!-- ---------END OF EXAM-------- -->
+            <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Partner Payment History</h2>
 
-        <!-- Date Range Form -->
-        <div class="spacer"></div>
-        <form method="post" action="">
-            <label for="start-date">Start Date:</label>
-            <input type="date" id="start-date" name="start-date" required>
-            <label for="end-date">End Date:</label>
-            <input type="date" id="end-date" name="end-date" required>
-            <button type="submit">Filter</button>
-        </form>
+                <!-- Date Range Form -->
+                <div class="spacer"></div>
+                <form method="post" action="">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form>
 
-        <div class="spacer"></div>
-        <table style="width: 100%;">
-            <thead>
-                <tr>
-                    <th>Partner</th>
-                    <th>Amount</th>
-                    <th>Account Number</th>
-                    <th>Bank</th>
-                    <th>Account Name</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <?php
+                <div class="spacer"></div>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Amount</th>
+                            <th>Account Number</th>
+                            <th>Bank</th>
+                            <th>Account Name</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
                         require '../config.php';
 
                         // Initialize variables for the date range
@@ -179,14 +182,14 @@
                             $accountName = $row['accountName'];
                             $date = $row['date'];
                             ?>
-                            <tr>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $totalAmount; ?></td>
-                                <td><?php echo $accountNumber; ?></td>
-                                <td><?php echo $bank; ?></td>
-                                <td><?php echo $accountName; ?></td>
-                                <td><?php echo $date; ?></td>
-                            </tr>
+                        <tr>
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $totalAmount; ?></td>
+                            <td><?php echo $accountNumber; ?></td>
+                            <td><?php echo $bank; ?></td>
+                            <td><?php echo $accountName; ?></td>
+                            <td><?php echo $date; ?></td>
+                        </tr>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -222,102 +225,102 @@
 
 <!-- live data -->
 <script>
-    function loadXMLDoc() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc();
-        // 1sec
-    }, 1000);
+function loadXMLDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc;
+window.onload = loadXMLDoc;
 </script>
 <!-- Maximum reading -->
 <script>
-    function loadXMLDoc1() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper1").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server1.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc1();
-        // 1sec
-    }, 1000);
+function loadXMLDoc1() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper1").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server1.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc1();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc1;
+window.onload = loadXMLDoc1;
 </script>
 <!-- Minimum reading -->
 <script>
-    function loadXMLDoc2() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper2").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server2.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc2();
-        // 1sec
-    }, 1000);
+function loadXMLDoc2() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper2").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server2.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc2();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc2;
+window.onload = loadXMLDoc2;
 </script>
 
 </script>
 <!-- Minimum reading -->
 <script>
-    function loadXMLDoc3() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper3").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server3.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc3();
-        // 1sec
-    }, 1000);
+function loadXMLDoc3() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper3").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server3.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc3();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc3;
+window.onload = loadXMLDoc3;
 </script>
 <script>
-    function loadXMLDoc4() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("link_wrapper4").innerHTML =
-                    this.responseText;
-            }
-        };
-        xhttp.open("GET", "server4.php", true);
-        xhttp.send();
-    }
-    setInterval(function () {
-        loadXMLDoc4();
-        // 1sec
-    }, 1000);
+function loadXMLDoc4() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper4").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server4.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc4();
+    // 1sec
+}, 1000);
 
-    window.onload = loadXMLDoc4;
+window.onload = loadXMLDoc4;
 </script>

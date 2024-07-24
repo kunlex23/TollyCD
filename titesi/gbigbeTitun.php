@@ -228,10 +228,6 @@ session_start();
 
 
                 </form>
-
-
-
-
             </div>
         </main>
         <div class="right">
