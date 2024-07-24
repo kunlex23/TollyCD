@@ -70,51 +70,23 @@ session_start();
         <main>
             <div class="recent-sales">
                 <h1>New Delivery</h1>
-                <form class="five-column-form" action="gbigbetitunwolepipo.php" method="POST">
-                    <input type="hidden" name="accPartner" value="rara">
-                    <input type="hidden" name="accCaptain" value="rara">
-                    <input type="hidden" name="partnerPayStatus" value="rara">
-                    <input type="hidden" name="captainPayStatus" value="rara">
-                    <input type="hidden" name="shipmentType" value="Delivery">
+                <form action="gbigbetitunwolepipo.php" method="POST">
+                    <div class="five-column-form">
+                        <input type="hidden" name="accPartner" value="rara">
+                        <input type="hidden" name="accCaptain" value="rara">
+                        <input type="hidden" name="partnerPayStatus" value="rara">
+                        <input type="hidden" name="captainPayStatus" value="rara">
+                        <input type="hidden" name="shipmentType" value="Delivery">
+                        <input type="hidden" name="status" value="Pending">
+                        <div class="tray0">
+                            <label for="customersName">Customer Name:</label>
+                            <input type="text" name="customersName[]" required><br>
 
-                    <div class="tray0">
-                        <label for="Name">Partner:</label>
-                        <select name="Name" required onchange="fetchProducts(this.value)">
-                            <option value="">Select a Partner</option>
-                            <?php
-                            require '../config.php';
-                            $sql = "SELECT Name FROM alabasepo";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
-                                }
-                            }
-                            ?>
-                        </select>
-                        <label for="availableUnit">Available Unit:</label>
-                        <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
-                    </div>
+                            <label for="customerContact">Customer Contact:</label>
+                            <input type="text" name="customerContact[]" required><br>
+                        </div>
 
-                    <div class="tray1">
-                        <div id="productsContainer">
-                            <label for="orunoloun">Product:</label>
-                            <select name="orunoloun" required onchange="fetchQuantity(this.value)">
-                                <option value="">Select a Product</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="quantity">Quantity:</label>
-                            <input type="text" name="quantity[]" required><br>
-                        </div>
-                        <div>
-                            <label for="amount">Amount:</label>
-                            <input type="text" name="amount[]" required><br>
-                        </div>
-                    </div>
-
-                    <div class="tray2">
-                        <div>
+                        <div class="tray1">
                             <label for="state">State:</label>
                             <select id="state" name="state" required onchange="toggleLocationInput(this.value)">
                                 <option value="">...</option>
@@ -157,13 +129,12 @@ session_start();
                                 <option value="Zamfara">Zamfara</option>
                                 <option value="FCT">Federal Capital Territory</option>
                             </select><br>
-                        </div>
-                        <div>
-                            <label for="destination">Location:</label>
-                            <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)"
-                                style="display: none;">
-                                <option value=""></option>
-                                <?php
+                            <div>
+                                <label for="destination">Location:</label>
+                                <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)"
+                                    style="display: none;">
+                                    <option value=""></option>
+                                    <?php
                                 require '../config.php';
                                 $sql = "SELECT location FROM ninawo";
                                 $result = $conn->query($sql);
@@ -173,25 +144,36 @@ session_start();
                                     }
                                 }
                                 ?>
-                            </select>
-                            <input type="text" id="locationInput" name="destination" style="display: block;">
-                        </div>
-                        <div>
-                            <label for="customersName">Customer Name:</label>
-                            <input type="text" name="customersName[]" required><br>
-                        </div>
-                    </div>
+                                </select>
+                                <input type="text" id="locationInput" name="destination" style="display: block;">
+                            </div>
 
-                    <div class="tray3">
-                        <div>
-                            <label for="customerContact">Customer Contact:</label>
-                            <input type="text" name="customerContact[]" required><br>
                         </div>
-                        <div>
-                            <label for="captain">Captain:</label>
-                            <select name="captain" required onchange="fetchCaptain(this.value)">
-                                <option value="">Select a Captain</option>
-                                <?php
+
+                        <div class="tray2">
+                            <div>
+                                <label for="Name">Partner:</label>
+                                <select name="Name" required onchange="fetchProducts(this.value)">
+                                    <option value="">Select a Partner</option>
+                                    <?php
+                            require '../config.php';
+                            $sql = "SELECT Name FROM alabasepo";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
+                                }
+                            }
+                            ?>
+                                </select>
+
+                            </div>
+
+                            <div>
+                                <label for="captain">Captain:</label>
+                                <select name="captain" required onchange="fetchCaptain(this.value)">
+                                    <option value="">Select a Captain</option>
+                                    <?php
                                 require '../config.php';
                                 $sql = "SELECT fullname FROM oluwa";
                                 $result = $conn->query($sql);
@@ -201,27 +183,50 @@ session_start();
                                     }
                                 }
                                 ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
+                            <input type="hidden" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
+                            <input type="hidden" id="profit" name="profit[]" required readonly><br>
+                        </div>
+                    </div>
+                    <div class="items_cont">
+                        <div id="productsContainer">
+                            <label for="orunoloun">Product:</label>
+                            <select name="orunoloun" required onchange="fetchQuantity(this.value)">
+                                <option value="">Select a Product</option>
                             </select>
                         </div>
                         <div>
-                            <label for="status">Status:</label>
-                            <select name="status" required>
-                                <option value="Pending">Out for Delivery</option>
-                                <option value="Completed">Delivered</option>
-                            </select><br>
+                            <label for="availableUnit">Available Unit:</label>
+                            <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
                         </div>
+                        <div>
+                            <label for="quantity">Quantity:</label>
+                            <input type="text" name="quantity[]" required><br>
+                        </div>
+
+                        <button class="remove-product">Remove</button>
                     </div>
 
-                    <div>
-                        <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
-                        <input type="hidden" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
-                        <input type="hidden" id="profit" name="profit[]" required readonly><br>
+                    <div class="baseForm">
+                        <div>
+                            <label for="amount">Amount:</label>
+                            <input type="text" name="amount[]" required><br>
+                        </div>
+
+
+                        <div class="button-container">
+                            <div class="job"><input type="submit" value="Submit"></div>
+                        </div>
+
+                        <button class="add-product">Add</button>
                     </div>
 
-                    <div id="notification" class="notification hidden">New record created successfully!</div>
-                    <div class="button-container">
-                        <div class="job"><input type="submit" value="Submit"></div>
-                    </div>
+
                 </form>
 
 

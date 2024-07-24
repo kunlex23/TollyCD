@@ -453,9 +453,33 @@ main .recent-sales a {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    /* Adjust this value to control the space between columns */
 }
-
+.items_cont{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+.baseForm{
+    display: flex;
+        flex-wrap: wrap;
+        gap: 6.6rem;
+}
+.add-product {
+    background-color: var(--color-warning);
+    color: var(--color-white);
+    height: 2.4rem;
+    width: 15rem;
+    border-radius: 0.3rem;
+    margin-top: 1.6rem;
+}
+.remove-product {
+    background-color: var(--color-compel);
+    color: var(--color-white);
+    height: 2.4rem;
+    width: 7rem;
+    border-radius: 0.3rem;
+    margin-top: 1.6rem;
+}
 /* Style for labels */
 label {
     flex-basis: 33.33%;
@@ -464,16 +488,7 @@ label {
     margin-bottom: 5px;
 }
 
-/* Style for input fields */
-input[type="text"],
-input[type="date"] {
-    flex-basis: 33.33%;
-    /* Distribute input fields evenly in the three columns */
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+
 
 /* Adjust styles for smaller screen sizes if necessary */
 /* @media screen and (max-width: 768px) {
@@ -499,7 +514,7 @@ label {
 input[type="text"],
 input[type="email"],
 select {
-    width: 100%;
+    width: 15rem;
     padding: 8px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
