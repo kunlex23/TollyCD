@@ -120,56 +120,116 @@
             <h2>Payment Details</h2><br>
 
             <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
-            <table id="shipmentTable" style="width: 100%;">
+            <?php
+            require '../config.php'; // Ensure the database connection is properly set up
+            
+            if (isset($_GET['partner'])) {
+                $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
+            
+                // Query to calculate total partner reward
+                $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                $resulta = mysqli_query($conn, $sqla);
+
+                if ($resulta) {
+                    $rowa = mysqli_fetch_array($resulta);
+                    $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
+            
+                    // Query to fetch account details
+                    $query2 = "SELECT accountNumber, bank, accountName FROM alabasepo WHERE Name = '$partner'";
+                    $result2 = mysqli_query($conn, $query2);
+
+                    if ($result2) {
+                        $row2 = mysqli_fetch_array($result2);
+
+                        $accountNumber = $row2['accountNumber'] ?? 'N/A'; // Default to 'N/A' if no result
+                        $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
+                        $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
+                        ?>
+            <div class="productDetails">
+                <div class="itemPD">
+                    <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Total Amount:<?php echo htmlspecialchars($partnerReward); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Account Number:<?php echo htmlspecialchars($accountNumber); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
+                </div>
+                <div class="payBTN">
+                   <a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a>
+                </div>
+                
+            </div>
+
+            <?php
+                    } else {
+                        echo "Error fetching account details: " . mysqli_error($conn);
+                    }
+                } else {
+                    echo "Error fetching partner reward: " . mysqli_error($conn);
+                }
+            } else {
+                echo "No partner specified.";
+            }
+            ?>
+
+
+            <!-- ========================================================================= -->
+            <table id="shipmentTable" style="padding-left:10%; width: 70%;">
                 <thead>
                     <tr>
-                        <th>Partner</th>
-                        <th>Total Amount</th>
-                        <th>Account Number</th>
-                        <th>Bank</th>
-                        <th>Account Name</th>
-                        <th>Action</th>
+                        <th>Product</th>
+                        <th>Cost</th>
+                        <th>Location</th>
+                        <th>Delivery fee</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
                     <?php
-                    ////////////////////$captain = $_GET['captain'];
-
-                            require '../config.php';
-
-                            $query = mysqli_query($conn, "SELECT DISTINCT partner FROM gbigbe WHERE status = 'completed' AND partnerPayStatus = 'rara' ORDER BY partner DESC ");
-                            while ($row = mysqli_fetch_array($query)) {
-                                $partner = $row['partner'];
-
-                                // Query to calculate total partner reward
-                                $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
-                                $resulta = mysqli_query($conn, $sqla);
-                                $rowa = mysqli_fetch_array($resulta);
-                                $partnerReward = $rowa['totalReward'];
-
-                                // Query to fetch account details
-                                $query2 = "SELECT accountNumber, bank, accountName FROM alabasepo WHERE Name = '$partner'";
-                                $result2 = mysqli_query($conn, $query2);
-                                $row2 = mysqli_fetch_array($result2);
-
-                                $accountNumber = $row2['accountNumber'];
-                                $bank = $row2['bank'];
-                                $accountName = $row2['accountName'];
+                    require '../config.php'; // Ensure the database connection is properly set up
+                    
+                    if (isset($_GET['partner'])) {
+                        $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
+                    
+                        // Get data
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, date FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                        $result = mysqli_query($conn, $sqlb); // Execute the query
+                    
+                        if ($result) {
+                            while ($row = mysqli_fetch_array($result)) { // Fetch the results
+                                $product = $row['product'];
+                                $amount = $row['amount'];
+                                $destination = $row['destination'];
+                                $deliveryFee = $row['deliveryFee'];
+                                $date = $row['date'];
                                 ?>
                     <tr>
-                        <td><?php echo $partner; ?></td>
-                        <td><?php echo $partnerReward; ?></td>
-                        <td><?php echo $accountNumber; ?></td>
-                        <td><?php echo $bank; ?></td>
-                        <td><?php echo $accountName; ?></td>
-                        <td><a
-                                href="wiwoIro.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Details</a>
-                        </td>
-                        <!-- <td><a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a></td> -->
+                        <td><?php echo htmlspecialchars($product); ?></td>
+                        <td><?php echo htmlspecialchars($amount); ?></td>
+                        <td><?php echo htmlspecialchars($destination); ?></td>
+                        <td><?php echo htmlspecialchars($deliveryFee); ?></td>
+                        <td><?php echo htmlspecialchars($date); ?></td>
+
                     </tr>
-                    <?php } ?>
+                    <?php
+                            }
+                        } else {
+                            echo "Error fetching shipment data: " . mysqli_error($conn);
+                        }
+                    } else {
+                        echo "No partner specified.";
+                    }
+                    ?>
                 </tbody>
             </table>
+
         </main>
 
         <!-- ----------END OF MAIN----------- -->
@@ -198,91 +258,3 @@
 </body>
 
 </html>
-
-
-<script>
-function filterTable() {
-    // Get the value of the input field
-    let input = document.getElementById('filterInput');
-    let filter = input.value.toUpperCase();
-
-    // Get the table and its rows
-    let table = document.getElementById('shipmentTable');
-    let tr = table.getElementsByTagName('tr');
-
-    // Loop through all table rows, except the first (header) row
-    for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[0];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
-    }
-}
-</script>
-<script>
-document.querySelectorAll('.paymentMethod-dropdown').forEach(function(dropdown) {
-    dropdown.addEventListener('change', function() {
-        var shipmentId = this.getAttribute('data-id');
-        var newPaymentMethod = this.value;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'update_paymentMethod.php', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                alert('Payment method updated successfully.');
-            }
-        };
-        xhr.send('id=' + shipmentId + '&paymentMethod=' + newPaymentMethod);
-    });
-});
-</script>
-
-<script>
-// Function to open a tab
-function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-
-// Set default tab to be opened
-document.getElementById("defaultOpen").click();
-</script>
-<script>
-function confirmShipment(id) {
-    if (confirm("Please confirm the data is correct before proceeding")) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'update_captain.php', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                alert('Shipment confirmed');
-                // Reload the table data
-                window.location.href = 'records.php';
-            }
-        };
-        xhr.send('id=' + id);
-    } else {
-        alert("Shipment confirmation canceled.");
-    }
-}
-</script>

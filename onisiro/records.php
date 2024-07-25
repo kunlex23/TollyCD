@@ -368,7 +368,7 @@
                                 <td><?php echo $accountNumber; ?></td>
                                 <td><?php echo $bank; ?></td>
                                 <td><?php echo $accountName; ?></td>
-                                <td><a href="wiwoIro.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Details</a>
+                                <td><a href="wiwoIro.php?partner=<?php echo urlencode($partner); ?>">Details</a>
                                 </td><!-- <td><a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a></td> -->
                             </tr>
                             <?php } ?>

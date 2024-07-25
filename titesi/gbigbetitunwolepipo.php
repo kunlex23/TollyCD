@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $accPartner = (array) $_POST['accPartner'];
         $accCaptain = (array) $_POST['accCaptain'];
         $partnerPrices = (array) $_POST['partnerPrice'];
+        $deliveryFee = (array) $_POST['partnerPrice'];
         $dispatcherPrices = (array) $_POST['dispatcherPrice'];
         $profits = (array) $_POST['profit'];
         $partnerPayStatus = (array) $_POST['partnerPayStatus'];
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }, $amounts, $partnerPrices);
 
         // Prepare the SQL statement for inserting into 'gbigbe' table
-        $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, availableUnit, quantity, amount, customersName, destination, customerContact, captain, status, accCaptain, accPartner, partnerReward, riderReward, profitReward, partnerPayStatus, captainPayStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, availableUnit, quantity, amount, customersName, destination, customerContact, captain, status, accCaptain, accPartner, partnerReward, deliveryFee, riderReward, profitReward, partnerPayStatus, captainPayStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmtInsert = $conn->prepare($sqlInsert);
 
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $newUnit = $availableUnits[$i] - $quantities[$i];
 
                     // Bind parameters to the insert SQL query
-                    $stmtInsert->bind_param("sssidsssssssssssss", $partner, $shipmentType[$i], $products[$i], $availableUnits[$i], $quantities[$i], $amounts[$i], $customerNames[$i], $destinations[$i], $customerContacts[$i], $captains[$i], $statuses[$i], $accCaptain[$i], $accPartner[$i], $partnerPrices[$i], $dispatcherPrices[$i], $profits[$i], $partnerPayStatus[$i], $captainPayStatus[$i]);
+                    $stmtInsert->bind_param("sssidssssssssssssss", $partner, $shipmentType[$i], $products[$i], $availableUnits[$i], $quantities[$i], $amounts[$i], $customerNames[$i], $destinations[$i], $customerContacts[$i], $captains[$i], $statuses[$i], $accCaptain[$i], $accPartner[$i], $partnerPrices[$i], $deliveryFee[$i], $dispatcherPrices[$i], $profits[$i], $partnerPayStatus[$i], $captainPayStatus[$i]);
 
                     // Execute the insert statement
                     if (!$stmtInsert->execute()) {
