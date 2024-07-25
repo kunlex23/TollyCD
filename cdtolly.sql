@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2024 at 05:59 PM
+-- Generation Time: Jul 25, 2024 at 05:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -71,6 +71,7 @@ CREATE TABLE `gbigbe` (
   `accCaptain` varchar(100) NOT NULL,
   `accPartner` varchar(100) NOT NULL,
   `partnerReward` varchar(100) NOT NULL,
+  `deliveryFee` varchar(100) NOT NULL,
   `riderReward` varchar(100) NOT NULL,
   `profitReward` varchar(100) NOT NULL,
   `partnerPayStatus` varchar(100) NOT NULL,
@@ -83,11 +84,12 @@ CREATE TABLE `gbigbe` (
 -- Dumping data for table `gbigbe`
 --
 
-INSERT INTO `gbigbe` (`id`, `partner`, `shipmentType`, `product`, `availableUnit`, `quantity`, `unitPrice`, `amount`, `customersName`, `SOD`, `destination`, `customerContact`, `captain`, `status`, `paymentMethod`, `date`, `accCaptain`, `accPartner`, `partnerReward`, `riderReward`, `profitReward`, `partnerPayStatus`, `captainPayStatus`, `returnReason`, `payID`) VALUES
-(30, 'LOVE', 'Delivery', 'Lotion', '100', '1', '', 178000, 'Joshua Isaac', '', 'Lokogoma', '080', 'Captai', 'Completed', 'Transfer', '2024-07-24 10:05:21', 'beni', 'rara', '174500', '1500', '2000', 'rara', 'rara', '', ''),
-(31, 'Joshua L', 'Delivery', 'FREEZER', '69', '1', '', 178000, 'Joshua Isaac', '', 'Lokogoma', '080', 'Bryan', 'Completed', 'POS', '2024-07-24 13:42:12', 'beni', 'rara', '174500', '1500', '2000', 'rara', 'rara', '', ''),
-(32, 'LOVE', 'Delivery', 'BlueSIL', '500', '1', '', 178000, 'Joshua Isaac', '', 'Lugbe', '080', 'Bryan', 'Completed', 'POS', '2024-07-24 13:42:06', 'beni', 'rara', '172000', '1500', '4500', 'rara', 'rara', '', ''),
-(33, 'Joshua L', 'Delivery', 'FREEZER', '68', '1', '', 178000, 'Joshua Isaac', '', 'Lokogoma', '080', 'Bryan', 'Pending', '', '2024-07-24 12:01:00', 'rara', 'rara', '174500', '1500', '2000', 'rara', 'rara', '', '');
+INSERT INTO `gbigbe` (`id`, `partner`, `shipmentType`, `product`, `availableUnit`, `quantity`, `unitPrice`, `amount`, `customersName`, `SOD`, `destination`, `customerContact`, `captain`, `status`, `paymentMethod`, `date`, `accCaptain`, `accPartner`, `partnerReward`, `deliveryFee`, `riderReward`, `profitReward`, `partnerPayStatus`, `captainPayStatus`, `returnReason`, `payID`) VALUES
+(30, 'LOVE', 'Delivery', 'Lotion', '100', '1', '', 178000, 'Joshua Isaac', '', 'Lokogoma', '080', 'Captai', 'Completed', 'Transfer', '2024-07-25 14:26:11', 'beni', 'rara', '174500', '', '1500', '2000', 'beni', 'rara', '', '17219175717712381132'),
+(31, 'Joshua L', 'Delivery', 'FREEZER', '69', '1', '', 178000, 'Joshua Isaac', '', 'Lokogoma', '080', 'Bryan', 'Completed', 'POS', '2024-07-25 10:30:03', 'beni', 'rara', '174500', '', '1500', '2000', 'beni', 'rara', '', ''),
+(32, 'LOVE', 'Delivery', 'BlueSIL', '500', '1', '', 178000, 'Joshua Isaac', '', 'Lugbe', '080', 'Bryan', 'Completed', 'POS', '2024-07-25 14:26:11', 'beni', 'rara', '172000', '', '1500', '4500', 'beni', 'rara', '', '17219175717712381132'),
+(33, 'Joshua L', 'Delivery', 'FREEZER', '68', '1', '', 178000, 'Joshua Isaac', '', 'Lokogoma', '080', 'Bryan', 'Completed', 'POS', '2024-07-25 14:26:52', 'beni', 'rara', '174500', '', '1500', '2000', 'beni', 'rara', '', '17219176126199785325'),
+(34, 'Joshua L', 'Delivery', 'FREEZER', '67', '1', '', 178000, 'Joshua Isaac', '', 'Kuje', '080', 'Captai', 'Completed', 'POS', '2024-07-25 14:26:52', 'beni', 'rara', '174000', '4000', '2400', '1600', 'beni', 'rara', '', '17219176126199785325');
 
 -- --------------------------------------------------------
 
@@ -216,15 +218,19 @@ CREATE TABLE `owoalabasepohistory` (
   `accountNumber` varchar(100) NOT NULL,
   `bank` varchar(100) NOT NULL,
   `accountName` varchar(100) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `payID` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `owoalabasepohistory`
 --
 
-INSERT INTO `owoalabasepohistory` (`id`, `partner`, `totalAmount`, `accountNumber`, `bank`, `accountName`, `date`) VALUES
-(1, 'Joshua L', '173000', '1234', 'ABCD', 'Joshua Isaac', '2024-07-11 11:46:38');
+INSERT INTO `owoalabasepohistory` (`id`, `partner`, `totalAmount`, `accountNumber`, `bank`, `accountName`, `date`, `payID`) VALUES
+(1, 'Joshua L', '173000', '1234', 'ABCD', 'Joshua Isaac', '2024-07-11 11:46:38', ''),
+(2, 'Joshua L', '174500', '1234', 'ABCD', 'Joshua Isaac', '2024-07-25 10:30:03', ''),
+(3, 'LOVE', '346500', '1234', 'ABCD', 'qwerty', '2024-07-25 14:26:11', '17219175717712381132'),
+(4, 'Joshua L', '348500', '1234', 'ABCD', 'Joshua Isaac', '2024-07-25 14:26:52', '17219176126199785325');
 
 -- --------------------------------------------------------
 
@@ -245,7 +251,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `partner`, `productName`, `quantity`, `date`) VALUES
-(1, 'Joshua L', 'FREEZER', '67', '2024-07-24 12:01:00'),
+(1, 'Joshua L', 'FREEZER', '66', '2024-07-25 11:03:39'),
 (2, 'LOVE', 'Lotion', '99', '2024-07-18 15:48:47'),
 (3, 'LOVE', 'BlueSIL', '499', '2024-07-24 09:51:10'),
 (4, 'LOVE', 'Soul Mate', '400', '2024-07-11 14:32:40');
@@ -350,7 +356,7 @@ ALTER TABLE `alabasepo`
 -- AUTO_INCREMENT for table `gbigbe`
 --
 ALTER TABLE `gbigbe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `inawo`
@@ -386,7 +392,7 @@ ALTER TABLE `others_gifts`
 -- AUTO_INCREMENT for table `owoalabasepohistory`
 --
 ALTER TABLE `owoalabasepohistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products`

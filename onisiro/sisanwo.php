@@ -144,6 +144,7 @@
                             <th>Bank</th>
                             <th>Account Name</th>
                             <th>Date</th>
+                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -158,7 +159,7 @@
                         //echo "Start Date: $start_date, End Date: $end_date";
                         
                         // Build the query based on the date range
-                        $query_string = "SELECT partner, totalAmount, accountNumber, bank, accountName, date FROM owoalabasepohistory";
+                        $query_string = "SELECT partner, totalAmount, accountNumber, bank, accountName, date, payID FROM owoalabasepohistory";
                         if ($start_date && $end_date) {
                             $query_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
                         }
@@ -181,6 +182,7 @@
                             $bank = $row['bank'];
                             $accountName = $row['accountName'];
                             $date = $row['date'];
+                            $payID = $row['payID'];
                             ?>
                         <tr>
                             <td><?php echo $partner; ?></td>
@@ -189,6 +191,7 @@
                             <td><?php echo $bank; ?></td>
                             <td><?php echo $accountName; ?></td>
                             <td><?php echo $date; ?></td>
+                            <td><a href="eri.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>">View</a></td>
                         </tr>
                         <?php } ?>
                     </tbody>

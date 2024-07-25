@@ -1,3 +1,15 @@
+<?php
+// session_start();
+// if ($_SESSION['userType'] === 'eru') {
+//     header("Location: ../okojooja");
+// } elseif ($_SESSION['userType'] === 'fifisi') {
+//     header("Location: ../titesi");
+// } elseif ($_SESSION['userType'] === 'olowo') {
+//     header("Location: ../onisiro");
+// } elseif ($_SESSION['userType'] === 'alamojuto') {
+//     header("Location: ../abojuto");
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,57 +21,50 @@
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/styl.css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
-    /* Tab styles */
-    .tab {
-        overflow: hidden;
-        border-bottom: 1px solid #ccc;
-        background-color: #f1f1f1;
-    }
+        .date-filter-form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
 
-    .tab button {
-        background-color: inherit;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-    }
+        .date-filter-form label,
+        .date-filter-form input {
+            margin-right: 10px;
+        }
 
-    .tab button:hover {
-        background-color: #ddd;
-    }
+        .date-filter-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            /* Green background */
+            color: white;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .tab button.active {
-        background-color: #ccc;
-    }
+        .date-filter-form button:hover {
+            background-color: #45a049;
+            /* Darker green background on hover */
+        }
 
-    .tab-content {
-        display: none;
-        padding: 6px 12px;
-        border-top: none;
-    }
+        table,
+        th,
+        td {
+            border: 1px solid blanchedalmond;
+            border-collapse: collapse;
+            padding: 2px;
+        }
 
-    .tab-content.active {
-        display: block;
-    }
+        tr:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
 
-    table,
-    th,
-    td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
-
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        td:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
     </style>
 </head>
 
@@ -81,12 +86,12 @@
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="records.php" class="active">
+                <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="sisanwo.php">
+                <a href="sisanwo.php" class="active">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
                 </a>
@@ -95,7 +100,6 @@
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
                 </a>
-
 
                 <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
@@ -117,7 +121,7 @@
         <main>
             <h2></h2><br>
             <div class="spacer"></div>
-            <h2>Payment Details</h2><br>
+            <h2>Payment History</h2><br>
 
             <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
             <?php
@@ -145,29 +149,26 @@
                         $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
                         $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
                         ?>
-            <div class="productDetails"> 
-                <div class="itemPD">
-                    <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Total Amount:<?php echo htmlspecialchars($partnerReward); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Account Number:<?php echo htmlspecialchars($accountNumber); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
-                </div>
-                <div class="payBTN">
-                   <a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a>
-                </div>
-                
-            </div>
-
-            <?php
+                        <div class="productDetails">
+                            <div class="itemPD">
+                                <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
+                            </div>
+                            <div class="itemPD">
+                                <b>Total Amount:<?php echo htmlspecialchars($partnerReward); ?></b>
+                            </div>
+                            <div class="itemPD">
+                                <b>Account Number:<?php echo htmlspecialchars($accountNumber); ?></b>
+                            </div>
+                            <div class="itemPD">
+                                <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
+                            </div>
+                            <div class="itemPD">
+                                <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
+                            </div><br>
+        
+                        </div>
+        
+                        <?php
                     } else {
                         echo "Error fetching account details: " . mysqli_error($conn);
                     }
@@ -178,10 +179,10 @@
                 echo "No partner specified.";
             }
             ?>
-
-
+        
+        
             <!-- ========================================================================= -->
-            <table id="shipmentTable" style="padding-left:10%; width: 70%;">
+            <table id="shipmentTable" style="padding-left:10%; width: 90%;">
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -197,9 +198,10 @@
                     
                     if (isset($_GET['partner'])) {
                         $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
+                        $payID = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
                     
                         // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, date FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, date FROM gbigbe WHERE partner = '$partner' AND payID=$payID";
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
                         if ($result) {
@@ -210,15 +212,15 @@
                                 $deliveryFee = $row['deliveryFee'];
                                 $date = $row['date'];
                                 ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($product); ?></td>
-                        <td><?php echo htmlspecialchars($amount); ?></td>
-                        <td><?php echo htmlspecialchars($destination); ?></td>
-                        <td><?php echo htmlspecialchars($deliveryFee); ?></td>
-                        <td><?php echo htmlspecialchars($date); ?></td>
-
-                    </tr>
-                    <?php
+                                <tr>
+                                    <td><?php echo htmlspecialchars($product); ?></td>
+                                    <td><?php echo htmlspecialchars($amount); ?></td>
+                                    <td><?php echo htmlspecialchars($destination); ?></td>
+                                    <td><?php echo htmlspecialchars($deliveryFee); ?></td>
+                                    <td><?php echo htmlspecialchars($date); ?></td>
+        
+                                </tr>
+                                <?php
                             }
                         } else {
                             echo "Error fetching shipment data: " . mysqli_error($conn);
@@ -229,7 +231,7 @@
                     ?>
                 </tbody>
             </table>
-
+        
         </main>
 
         <!-- ----------END OF MAIN----------- -->
@@ -258,3 +260,105 @@
 </body>
 
 </html>
+
+<!-- live data -->
+<script>
+    function loadXMLDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc;
+</script>
+<!-- Maximum reading -->
+<script>
+    function loadXMLDoc1() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper1").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server1.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc1();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc1;
+</script>
+<!-- Minimum reading -->
+<script>
+    function loadXMLDoc2() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper2").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server2.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc2();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc2;
+</script>
+
+</script>
+<!-- Minimum reading -->
+<script>
+    function loadXMLDoc3() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper3").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server3.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc3();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc3;
+</script>
+<script>
+    function loadXMLDoc4() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper4").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server4.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc4();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc4;
+</script>
