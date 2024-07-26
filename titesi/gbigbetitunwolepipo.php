@@ -40,6 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $productQuantityString = implode(', ', $productQuantityList);
         echo $productQuantityString;
 
+        // Concatenate availableUnits
+        $avaiList = [];
+        for ($i = 0; $i < count($availableUnits); $i++) {
+            $avaiList[] = $availableUnits[$i] . ' (' . $quantities[$i] . ')';
+        }
+        $avaiListString = implode(', ', $avaiList);
+        echo $avaiListString;
+
         // Ensure amounts and partnerPrices are numeric
         $amounts = array_map('floatval', $amounts);
         $partnerPrices = array_map('floatval', $partnerPrices);
@@ -58,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Check if the statement was prepared successfully
         if ($stmtInsert) {
             // Bind parameters to the insert SQL query
-            $stmtInsert->bind_param("ssssssssssssssss", $partner, $shipmentType, $productQuantityString, $availableUnits[0], $amounts[0], $customerNames[0], $state, $destinations[0], $customerContacts[0], $captains[0], $statuses[0], $accCaptain[0], $accPartner[0], $partnerPrices[0], $dispatcherPrices[0], $profits[0], $partnerPayStatus[0], $captainPayStatus[0]);
+            $stmtInsert->bind_param("ssssssssssssssss", $partner, $shipmentType, $productQuantityString, $avaiListString[0], $amounts[0], $customerNames[0], $state, $destinations[0], $customerContacts[0], $captains[0], $statuses[0], $accCaptain[0], $accPartner[0], $partnerPrices[0], $dispatcherPrices[0], $profits[0], $partnerPayStatus[0], $captainPayStatus[0]);
 
             // Execute the insert statement
             if (!$stmtInsert->execute()) {
