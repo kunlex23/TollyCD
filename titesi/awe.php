@@ -161,7 +161,7 @@
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <!-- <th>ID</th> -->
+                            <th>SN</th>
                             <th>Partner</th>
                             <th>Type</th>
                             <th>Product</th>
@@ -177,10 +177,12 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        <?php
+    <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe ORDER BY partner DESC");
+                        $serialNumber = 1; // Initialize the serial number outside the while loop
+                        
                         while ($row = mysqli_fetch_array($query)) {
                             $id = $row['id'];
                             $partner = $row['partner'];
@@ -197,26 +199,29 @@
                             $status = $row['status'];
                             $date = $row['date'];
                             ?>
-                        <tr>
-                            <!-- <td><?php echo $id; ?></td> -->
-                            <td><?php echo $partner; ?></td>
-                            <td><?php echo $shipmentType; ?></td>
-                            <td><?php echo $product; ?></td>
-                            <td><?php echo $availableUnit; ?></td>
-                            <td><?php echo $quantity; ?></td>
-                            <td><?php echo $amount; ?></td>
-                            <td><?php echo $customersName; ?></td>
-                            <td><?php echo $destination; ?></td>
-                            <td><?php echo $customerContact; ?></td>
-                            <td><?php echo $captain; ?></td>
-                             <td><?php echo $status; ?></td>
-                            <td><?php echo $date; ?></td>
-                            
-                        </tr>
-                        <?php } ?>
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $shipmentType; ?></td>
+                                <td><?php echo $product; ?></td>
+                                <td><?php echo $availableUnit; ?></td>
+                                <td><?php echo $quantity; ?></td>
+                                <td><?php echo $amount; ?></td>
+                                <td><?php echo $customersName; ?></td>
+                                <td><?php echo $destination; ?></td>
+                                <td><?php echo $customerContact; ?></td>
+                                <td><?php echo $captain; ?></td>
+                                <td><?php echo $status; ?></td>
+                                <td><?php echo $date; ?></td>
+                            </tr>
+                            <?php
+                            $serialNumber++; // Increment the serial number
+                        }
+                        ?>
                     </tbody>
+
                 </table>
-                
+
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

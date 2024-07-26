@@ -28,8 +28,8 @@
     table,
     th,
     td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
+        border: 1px solid black;
+        border-collapse: collapse;
         padding: 8px;
     }
 
@@ -134,7 +134,7 @@
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Active Shipments</h3>
                 </a>
-                
+
                 <a href="dapada.php" class="active">
                     <span class="material-icons-sharp">assignment_return</span>
                     <h3>Returned Shipments</h3>
@@ -171,6 +171,7 @@
                 <table style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>SN</th>
                             <th>Partner</th>
                             <th>Type</th>
                             <th>Product</th>
@@ -184,60 +185,65 @@
                             <th>Date</th>
                         </tr>
                     </thead>
-                   <tbody id="table-body">
+                    <tbody id="table-body">
     <?php
-                    require '../config.php';
+                        require '../config.php';
 
-                    // Initialize variables for the date range
-                    $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
-                    $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+                        // Initialize variables for the date range
+                        $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                        $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
 
-                    // Build the query based on the date range
-                    $query_string = "SELECT partner, shipmentType, product, quantity, amount, customersName, destination, customerContact, captain, returnReason, date FROM gbigbe WHERE status = 'return'";
+                        // Build the query based on the date range
+                        $query_string = "SELECT partner, shipmentType, product, quantity, amount, customersName, destination, customerContact, captain, returnReason, date FROM gbigbe WHERE status = 'return'";
 
-                    if ($start_date && $end_date) {
-                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
-                    }
-
-                    $query_string .= " ORDER BY partner DESC";
-
-                    // Execute the query
-                    $query = mysqli_query($conn, $query_string);
-
-                    if (!$query) {
-                        echo "Error fetching data: " . mysqli_error($conn);
-                    } else {
-                        while ($row = mysqli_fetch_array($query)) {
-                            $partner = $row['partner'];
-                            $shipmentType = $row['shipmentType'];
-                            $product = $row['product'];
-                            $quantity = $row['quantity'];
-                            $amount = $row['amount'];
-                            $customersName = $row['customersName'];
-                            $destination = $row['destination'];
-                            $customerContact = $row['customerContact'];
-                            $captain = $row['captain'];
-                            $returnReason = $row['returnReason'];
-                            $date = $row['date'];
-                            ?>
-                            <tr>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $shipmentType; ?></td>
-                                <td><?php echo $product; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                                <td><?php echo $amount; ?></td>
-                                <td><?php echo $customersName; ?></td>
-                                <td><?php echo $destination; ?></td>
-                                <td><?php echo $customerContact; ?></td>
-                                <td><?php echo $captain; ?></td>
-                                <td><?php echo $returnReason; ?></td>
-                                <td><?php echo $date; ?></td>
-                            </tr>
-                            <?php
+                        if ($start_date && $end_date) {
+                            $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
                         }
-                    }
-                    ?>
-                </tbody>
+
+                        $query_string .= " ORDER BY partner DESC";
+
+                        // Execute the query
+                        $query = mysqli_query($conn, $query_string);
+
+                        if (!$query) {
+                            echo "Error fetching data: " . mysqli_error($conn);
+                        } else {
+                            $serialNumber = 1; // Initialize the serial number outside the while loop
+                        
+                            while ($row = mysqli_fetch_array($query)) {
+                                $partner = $row['partner'];
+                                $shipmentType = $row['shipmentType'];
+                                $product = $row['product'];
+                                $quantity = $row['quantity'];
+                                $amount = $row['amount'];
+                                $customersName = $row['customersName'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $captain = $row['captain'];
+                                $returnReason = $row['returnReason'];
+                                $date = $row['date'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $shipmentType; ?></td>
+                                    <td><?php echo $product; ?></td>
+                                    <td><?php echo $quantity; ?></td>
+                                    <td><?php echo $amount; ?></td>
+                                    <td><?php echo $customersName; ?></td>
+                                    <td><?php echo $destination; ?></td>
+                                    <td><?php echo $customerContact; ?></td>
+                                    <td><?php echo $captain; ?></td>
+                                    <td><?php echo $returnReason; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                </tr>
+                                <?php
+                                $serialNumber++; // Increment the serial number
+                            }
+                        }
+                        ?>
+                    </tbody>
+
 
                 </table>
             </div>

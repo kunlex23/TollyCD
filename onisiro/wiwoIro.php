@@ -51,6 +51,7 @@
         /* border: 1px solid black; */
         /* border-collapse: collapse; */
         padding: 8px;
+        text-align: left;
     }
 
     tr:nth-child(even) {
@@ -120,73 +121,82 @@
             <h2>Payment Details</h2><br>
 
             <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
-            <?php
-            require '../config.php'; // Ensure the database connection is properly set up
-            
-            if (isset($_GET['partner'])) {
-                $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
-            
-                // Query to calculate total partner reward
-                $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
-                $resulta = mysqli_query($conn, $sqla);
+        <?php
+        require '../config.php'; // Ensure the database connection is properly set up
+        
+        if (isset($_GET['partner'])) {
+            $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
+        
+            // Query to calculate total partner reward
+            $sqla = "SELECT SUM(COALESCE(partnerReward, 0)) AS totalReward 
+             FROM gbigbe WHERE partner = '$partner' 
+             AND status = 'Completed' 
+             AND accCaptain = 'beni' 
+             AND partnerPayStatus = 'rara'";
+            $resulta = mysqli_query($conn, $sqla);
 
-                if ($resulta) {
-                    $rowa = mysqli_fetch_array($resulta);
-                    $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
-            
-                    // Query to fetch account details
-                    $query2 = "SELECT accountNumber, bank, accountName FROM alabasepo WHERE Name = '$partner'";
-                    $result2 = mysqli_query($conn, $query2);
+            if ($resulta) {
+                $rowa = mysqli_fetch_array($resulta);
+                $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
+        
+                // Query to fetch account details
+                $query2 = "SELECT accountNumber, bank, accountName 
+                   FROM alabasepo 
+                   WHERE Name = '$partner'";
+                $result2 = mysqli_query($conn, $query2);
 
-                    if ($result2) {
-                        $row2 = mysqli_fetch_array($result2);
+                if ($result2) {
+                    $row2 = mysqli_fetch_array($result2);
 
-                        $accountNumber = $row2['accountNumber'] ?? 'N/A'; // Default to 'N/A' if no result
-                        $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
-                        $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
-                        ?>
-            <div class="productDetails"> 
-                <div class="itemPD">
-                    <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Total Amount:<?php echo htmlspecialchars($partnerReward); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Account Number:<?php echo htmlspecialchars($accountNumber); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
-                </div>
-                <div class="itemPD">
-                    <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
-                </div>
-                <div class="payBTN">
-                   <a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a>
-                </div>
-                
-            </div>
-
-            <?php
-                    } else {
-                        echo "Error fetching account details: " . mysqli_error($conn);
-                    }
+                    $accountNumber = $row2['accountNumber'] ?? 'N/A'; // Default to 'N/A' if no result
+                    $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
+                    $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
+                    ?>
+                    <div class="productDetails">
+                        <div class="itemPD">
+                            <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
+                        </div>
+                        <div class="itemPD">
+                            <b>Total Amount: <?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
+                        </div>
+                        <div class="itemPD">
+                            <b>Account Number: <?php echo htmlspecialchars($accountNumber); ?></b>
+                        </div>
+                        <div class="itemPD">
+                            <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
+                        </div>
+                        <div class="itemPD">
+                            <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
+                        </div>
+                        <div class="payBTN">
+                            <a
+                                href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make
+                                Payment</a>
+                        </div>
+                    </div>
+                    <?php
                 } else {
-                    echo "Error fetching partner reward: " . mysqli_error($conn);
+                    echo "Error fetching account details: " . mysqli_error($conn);
                 }
             } else {
-                echo "No partner specified.";
+                echo "Error fetching partner reward: " . mysqli_error($conn);
             }
-            ?>
+        } else {
+            echo "No partner specified.";
+        }
+        ?>
+
 
 
             <!-- ========================================================================= -->
-            <table id="shipmentTable" style="padding-left:10%; width: 70%;">
+            <table id="shipmentTable" style="padding-left:5%; width: 90%;">
                 <thead>
                     <tr>
+                        <th>SN</th>
                         <th>Product</th>
-                        <th>Cost</th>
                         <th>Location</th>
+                        <th>Cost</th>
+                        <th>Partners Pay</th>
                         <th>Delivery fee</th>
                         <th>Date</th>
                     </tr>
@@ -199,26 +209,31 @@
                         $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
                     
                         // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, date FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, partnerReward, date FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
                         if ($result) {
+                            $serialNumber = 1; // Initialize the serial number outside the while loop
+                    
                             while ($row = mysqli_fetch_array($result)) { // Fetch the results
                                 $product = $row['product'];
                                 $amount = $row['amount'];
                                 $destination = $row['destination'];
                                 $deliveryFee = $row['deliveryFee'];
+                                $partnerRew = $row['partnerReward'];
                                 $date = $row['date'];
                                 ?>
                     <tr>
+                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                         <td><?php echo htmlspecialchars($product); ?></td>
-                        <td><?php echo htmlspecialchars($amount); ?></td>
                         <td><?php echo htmlspecialchars($destination); ?></td>
+                        <td><?php echo htmlspecialchars($amount); ?></td>
+                        <td><?php echo htmlspecialchars($partnerRew); ?></td>
                         <td><?php echo htmlspecialchars($deliveryFee); ?></td>
                         <td><?php echo htmlspecialchars($date); ?></td>
-
                     </tr>
                     <?php
+                                $serialNumber++; // Increment the serial number
                             }
                         } else {
                             echo "Error fetching shipment data: " . mysqli_error($conn);
@@ -228,6 +243,7 @@
                     }
                     ?>
                 </tbody>
+
             </table>
 
         </main>
