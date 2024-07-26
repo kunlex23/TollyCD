@@ -1,17 +1,6 @@
 <?php
 session_start();
-// if (!isset($_SESSION['userType'])) {
-//     header("location: index.php");
-// }
-// if ($_SESSION['userType'] === 'eru') {
-//     header("Location: ./okojooja");
-// // } elseif ($_SESSION['userType'] === 'fifisi') {
-// //     header("Location: ./titesi");
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ./onisiro");
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ./abojuto");
-// }
+// Session handling code
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,10 +56,12 @@ session_start();
                 </a>
             </div>
         </aside>
+
         <main>
             <div class="recent-sales">
                 <h1>New Delivery</h1>
                 <form action="gbigbetitunwolepipo.php" method="POST">
+                    <!-- Form fields -->
                     <div class="five-column-form">
                         <input type="hidden" name="accPartner" value="rara">
                         <input type="hidden" name="accCaptain" value="rara">
@@ -129,25 +120,25 @@ session_start();
                                 <option value="Zamfara">Zamfara</option>
                                 <option value="FCT">Federal Capital Territory</option>
                             </select><br>
+
                             <div>
                                 <label for="destination">Location:</label>
                                 <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)"
                                     style="display: none;">
                                     <option value=""></option>
                                     <?php
-                                require '../config.php';
-                                $sql = "SELECT location FROM ninawo";
-                                $result = $conn->query($sql);
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo '<option value="' . $row["location"] . '">' . $row["location"] . '</option>';
+                                    require '../config.php';
+                                    $sql = "SELECT location FROM ninawo";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<option value="' . $row["location"] . '">' . $row["location"] . '</option>';
+                                        }
                                     }
-                                }
-                                ?>
+                                    ?>
                                 </select>
                                 <input type="text" id="locationInput" name="destination" style="display: block;">
                             </div>
-
                         </div>
 
                         <div class="tray2">
@@ -156,17 +147,16 @@ session_start();
                                 <select name="Name" required onchange="fetchProducts(this.value)">
                                     <option value="">Select a Partner</option>
                                     <?php
-                            require '../config.php';
-                            $sql = "SELECT Name FROM alabasepo";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
-                                }
-                            }
-                            ?>
+                                    require '../config.php';
+                                    $sql = "SELECT Name FROM alabasepo";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
+                                        }
+                                    }
+                                    ?>
                                 </select>
-
                             </div>
 
                             <div>
@@ -174,15 +164,15 @@ session_start();
                                 <select name="captain" required onchange="fetchCaptain(this.value)">
                                     <option value="">Select a Captain</option>
                                     <?php
-                                require '../config.php';
-                                $sql = "SELECT fullname FROM oluwa";
-                                $result = $conn->query($sql);
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo '<option value="' . $row["fullname"] . '">' . $row["fullname"] . '</option>';
+                                    require '../config.php';
+                                    $sql = "SELECT fullname FROM oluwa";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<option value="' . $row["fullname"] . '">' . $row["fullname"] . '</option>';
+                                        }
                                     }
-                                }
-                                ?>
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -193,23 +183,25 @@ session_start();
                             <input type="hidden" id="profit" name="profit[]" required readonly><br>
                         </div>
                     </div>
-                    <div class="items_cont">
-                        <div id="productsContainer">
-                            <label for="orunoloun">Product:</label>
-                            <select name="orunoloun" required onchange="fetchQuantity(this.value)">
-                                <option value="">Select a Product</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="availableUnit">Available Unit:</label>
-                            <input type="text" id="availableUnit" name="availableUnit[]" required readonly><br>
-                        </div>
-                        <div>
-                            <label for="quantity">Quantity:</label>
-                            <input type="text" name="quantity[]" required><br>
-                        </div>
 
-                        <button class="remove-product">Remove</button>
+                    <div id="productsContainer">
+                        <div class="product-item">
+                            <div>
+                                <label for="orunoloun">Product:</label>
+                                <select name="orunoloun[]" class="product-select" required
+                                    onchange="fetchQuantity(this.value)">
+                                    <option value="">Select a Product</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="availableUnit">Available Unit:</label>
+                                <input type="text" name="availableUnit[]" required readonly><br>
+                            </div>
+                            <div>
+                                <label for="quantity">Quantity:</label>
+                                <input type="text" name="quantity[]" required><br>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="baseForm">
@@ -218,15 +210,11 @@ session_start();
                             <input type="text" name="amount[]" required><br>
                         </div>
 
-
                         <div class="button-container">
                             <div class="job"><input type="submit" value="Submit"></div>
                         </div>
-
-                        <button class="add-product">Add</button>
+                        <button type="button" class="add-product" onclick="addProduct()">Add</button>
                     </div>
-
-
                 </form>
             </div>
         </main>
@@ -245,6 +233,7 @@ session_start();
             </div>
 
         </div>
+
     </div>
 
     <script src="../script/scrip.js"></script>
@@ -255,15 +244,16 @@ session_start();
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
                 const products = JSON.parse(xhr.responseText);
-                const productSelect = document.querySelector("select[name='orunoloun']");
-                productSelect.innerHTML = '<option value="">Select a Product</option>';
-                products.forEach(product => {
-                    const option = document.createElement("option");
-                    option.value = product;
-                    option.textContent = product;
-                    productSelect.appendChild(option);
+                const productSelects = document.querySelectorAll("select[name='orunoloun[]']");
+                productSelects.forEach(select => {
+                    select.innerHTML = '<option value="">Select a Product</option>';
+                    products.forEach(product => {
+                        const option = document.createElement("option");
+                        option.value = product;
+                        option.textContent = product;
+                        select.appendChild(option);
+                    });
                 });
             }
         };
@@ -276,67 +266,58 @@ session_start();
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
                 const response = JSON.parse(xhr.responseText);
                 if (response.error) {
                     console.error(response.error);
                 } else {
-                    document.getElementById('availableUnit').value = response.quantity;
+                    const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
+                    availableUnitInputs.forEach(input => {
+                        if (input.closest('.product-item').querySelector('select[name="orunoloun[]"]')
+                            .value === product) {
+                            input.value = response.quantity;
+                        }
+                    });
                 }
             }
         };
         xhr.send("product=" + product);
     }
-    </script>
-    <script>
-    function validateForm(event) {
-        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-        const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
 
-        for (let i = 0; i < quantityInputs.length; i++) {
-            const quantity = parseFloat(quantityInputs[i].value) || 0;
-            const availableUnit = parseFloat(availableUnitInputs[i].value) || 0;
+    function addProduct() {
+        const productsContainer = document.getElementById('productsContainer');
+        const productTemplate = `
+                <div class="product-item">
+                    <div>
+                    <label for="orunoloun">Product:</label>
+                    <select name="orunoloun[]" class="product-select" required onchange="fetchQuantity(this.value)">
+                        <option value="">Select a Product</option>
+                    </select>
+                    </div>
+                    <div>
+                        <label for="availableUnit">Available Unit:</label>
+                        <input type="text" name="availableUnit[]" required readonly><br>
+                    </div>
+                    <div>
+                        <label for="quantity">Quantity:</label>
+                        <input type="text" name="quantity[]" required><br>
+                    </div>
+                    <button type="button" class="remove-product" onclick="removeProduct(this)">Remove</button>
+                </div>
+            `;
+        productsContainer.insertAdjacentHTML('beforeend', productTemplate);
 
-            if (quantity > availableUnit) {
-                alert('Quantity cannot be more than the available unit.');
-                event.preventDefault();
-                return false;
-            }
+        // Re-fetch the products for the new select element
+        const partnerSelect = document.querySelector("select[name='Name']");
+        if (partnerSelect && partnerSelect.value) {
+            fetchProducts(partnerSelect.value);
         }
-
-        return true;
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const quantityInputs = document.querySelectorAll('input[name="quantity[]"]');
-        const unitPriceInputs = document.querySelectorAll('input[name="unitPrice[]"]');
-        const form = document.querySelector('form');
-
-        form.addEventListener('submit', validateForm);
-    });
-    </script>
-    <script>
-    function fetchPrice(location) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "get_price.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // Log the response for debugging
-                const response = JSON.parse(xhr.responseText);
-                if (response.error) {
-                    console.error(response.error);
-                } else {
-                    document.getElementById('partnerPrice').value = response.partnerPrice;
-                    document.getElementById('dispatcherPrice').value = response.dispatcherPrice;
-                    document.getElementById('profit').value = response.profit;
-                }
-            }
-        };
-        xhr.send("location=" + location);
+    function removeProduct(button) {
+        const productItem = button.closest('.product-item');
+        productItem.remove();
     }
-    </script>
-    <script>
+
     function toggleLocationInput(value) {
         var locationDropdown = document.getElementById('locationDropdown');
         var locationInput = document.getElementById('locationInput');
@@ -352,4 +333,43 @@ session_start();
             locationInput.disabled = false;
         }
     }
+
+    function fetchPrice(location) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_price.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    document.getElementById("partnerPrice").value = response.partnerPrice;
+                    document.getElementById("dispatcherPrice").value = response.dispatcherPrice;
+                    document.getElementById("profit").value = response.profit;
+                }
+            }
+        };
+        xhr.send("location=" + location);
+    }
+
+    function fetchCaptain(captain) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_captain_details.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    // Handle captain details
+                }
+            }
+        };
+        xhr.send("captain=" + captain);
+    }
     </script>
+</body>
+
+</html>

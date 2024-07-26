@@ -454,7 +454,7 @@ main .recent-sales a {
     flex-wrap: wrap;
     gap: 5px;
 }
-.items_cont{
+.product-item{
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;

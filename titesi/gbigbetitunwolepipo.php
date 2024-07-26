@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Collect data from the form
         $partner = $_POST['Name'];
-        $shipmentType = (array) $_POST['shipmentType'];
+        $shipmentType = $_POST['shipmentType'];
         $products = (array) $_POST['orunoloun'];
         $availableUnits = (array) $_POST['availableUnit'];
         $quantities = (array) $_POST['quantity'];
@@ -26,12 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $accPartner = (array) $_POST['accPartner'];
         $accCaptain = (array) $_POST['accCaptain'];
         $partnerPrices = (array) $_POST['partnerPrice'];
-        $deliveryFee = (array) $_POST['partnerPrice'];
         $dispatcherPrices = (array) $_POST['dispatcherPrice'];
         $profits = (array) $_POST['profit'];
         $partnerPayStatus = (array) $_POST['partnerPayStatus'];
         $captainPayStatus = (array) $_POST['captainPayStatus'];
-        $state = (array) $_POST['state'];
+        $state = $_POST['state'];
+
+        // Concatenate products and quantities
+        $productQuantityList = [];
+        for ($i = 0; $i < count($products); $i++) {
+            $productQuantityList[] = $products[$i] . ' (' . $quantities[$i] . ')';
+        }
+        $productQuantityString = implode(', ', $productQuantityList);
+        echo $productQuantityString;
 
         // Ensure amounts and partnerPrices are numeric
         $amounts = array_map('floatval', $amounts);
@@ -42,32 +49,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             return $amount - $partnerPrice;
         }, $amounts, $partnerPrices);
 
+        
         // Prepare the SQL statement for inserting into 'gbigbe' table
-        $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, availableUnit, quantity, amount, customersName, SOD, destination, customerContact, captain, status, accCaptain, accPartner, partnerReward, deliveryFee, riderReward, profitReward, partnerPayStatus, captainPayStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, productQuantity, availableUnit, amount, customersName, SOD, destination, customerContact, captain, status, accCaptain, accPartner, partnerReward, dispatcherReward, profitReward, partnerPayStatus, captainPayStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmtInsert = $conn->prepare($sqlInsert);
 
         // Check if the statement was prepared successfully
         if ($stmtInsert) {
+            // Bind parameters to the insert SQL query
+            $stmtInsert->bind_param("ssssssssssssssss", $partner, $shipmentType, $productQuantityString, $availableUnits[0], $amounts[0], $customerNames[0], $state, $destinations[0], $customerContacts[0], $captains[0], $statuses[0], $accCaptain[0], $accPartner[0], $partnerPrices[0], $dispatcherPrices[0], $profits[0], $partnerPayStatus[0], $captainPayStatus[0]);
+
+            // Execute the insert statement
+            if (!$stmtInsert->execute()) {
+                echo "Error: " . $stmtInsert->error;
+                exit;
+            }
+
             // Prepare the SQL statement for updating the 'products' table
             $sqlUpdate = "UPDATE products SET quantity = ? WHERE productName = ?";
             $stmtUpdate = $conn->prepare($sqlUpdate);
 
             // Check if the statement was prepared successfully
             if ($stmtUpdate) {
-                // Loop through the products array to insert and update records
+                // Loop through the products array to update records
                 for ($i = 0; $i < count($products); $i++) {
                     // Calculate the new unit
                     $newUnit = $availableUnits[$i] - $quantities[$i];
-
-                    // Bind parameters to the insert SQL query
-                    $stmtInsert->bind_param("sssidsssssssssssssss", $partner, $shipmentType[$i], $products[$i], $availableUnits[$i], $quantities[$i], $amounts[$i], $customerNames[$i], $state[$i], $destinations[$i], $customerContacts[$i], $captains[$i], $statuses[$i], $accCaptain[$i], $accPartner[$i], $partnerPrices[$i], $deliveryFee[$i], $dispatcherPrices[$i], $profits[$i], $partnerPayStatus[$i], $captainPayStatus[$i]);
-
-                    // Execute the insert statement
-                    if (!$stmtInsert->execute()) {
-                        echo "Error: " . $stmtInsert->error;
-                        exit;
-                    }
 
                     // Bind parameters to the update SQL query
                     $stmtUpdate->bind_param("is", $newUnit, $products[$i]);
