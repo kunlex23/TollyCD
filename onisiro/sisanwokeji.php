@@ -96,7 +96,7 @@
                     <h3>Partner Payment History</h3>
                 </a>
 
-                <a href="sisanwokeji.php" class="active">
+                <a href="sisanwokeji.php "class="active">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
                 </a>
@@ -140,7 +140,11 @@
                         <tr>
                             <th>Captain</th>
                             <th>Amount</th>
+                            <th>Account Number</th>
+                            <th>Bank</th>
+                            <th>Account Name</th>
                             <th>Date</th>
+                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -155,7 +159,7 @@
                         //echo "Start Date: $start_date, End Date: $end_date";
                         
                         // Build the query based on the date range
-                        $query_string = "SELECT captain, amount, date FROM olokadahistory";
+                        $query_string = "SELECT captain, amount, accountNumber, bank, accountName, date, payID FROM olokadahistory";
                         if ($start_date && $end_date) {
                             $query_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
                         }
@@ -174,12 +178,22 @@
                         while ($row = mysqli_fetch_array($query)) {
                             $captain = $row['captain'];
                             $amount = $row['amount'];
+                            $accountNumber = $row['accountNumber'];
+                            $bank = $row['bank'];
+                            $accountName = $row['accountName'];
                             $date = $row['date'];
+                            $payID = $row['payID'];
                             ?>
                             <tr>
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $amount; ?></td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
                                 <td><?php echo $date; ?></td>
+                                <td><a
+                                        href="eri1.php?oluwa=<?php echo urlencode($captain); ?>&eri=<?php echo urlencode($payID); ?>">View</a>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>

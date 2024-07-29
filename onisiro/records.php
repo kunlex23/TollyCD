@@ -435,12 +435,15 @@
                     <div class="spacer"></div>
                     <h2>Captain Payment</h2>
 
-                    <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
                         <thead>
                             <tr>
-                                <th>Captian</th>
-                                <th>Amount</th>
+                                <th>SN</th>
+                                <th>Captain</th>
+                                <th>Total Amount</th>
+                                <th>Account Number</th>
+                                <th>Bank</th>
+                                <th>Account Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -449,6 +452,10 @@
                             require '../config.php';
 
                             $query = mysqli_query($conn, "SELECT DISTINCT captain FROM gbigbe WHERE status = 'completed' AND captainPayStatus = 'rara' ORDER BY captain DESC ");
+                            if (!$query) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            }else{
+                                 $serialNumber = 1; // Initialize the serial number outside the while loop
                             while ($row = mysqli_fetch_array($query)) {
                                 $captain = $row['captain'];
 
@@ -457,16 +464,30 @@
                                 $resulta = mysqli_query($conn, $sqla);
                                 $rowa = mysqli_fetch_array($resulta);
                                 $riderReward = $rowa['totalReward'];
+
+                                 // Query to fetch account details
+                                $query2 = "SELECT accountNumber, bankName, accountName FROM oluwa WHERE fullname = '$captain'";
+                                $result2 = mysqli_query($conn, $query2);
+                                $row2 = mysqli_fetch_array($result2);
+
+                                $accountNumber = $row2['accountNumber'];
+                                $bank = $row2['bankName'];
+                                $accountName = $row2['accountName'];
                                 ?>
                             <tr>
+                                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $riderReward; ?></td>
-                                <td><a
-                                        href="save_paymentCap.php?captain=<?php echo urlencode($captain); ?>&riderReward=<?php echo urlencode($riderReward); ?>">Make
-                                        Payment</a>
-                                </td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
+                                <td><a href="wiwoIroOlugbe.php?olugbe=<?php echo urlencode($captain); ?>">Details</a></td>
+                
                             </tr>
-                            <?php } ?>
+                            <?php
+                            $serialNumber++; // Increment the serial number
+                                }
+                            }?>
                         </tbody>
                     </table>
                 </div>
