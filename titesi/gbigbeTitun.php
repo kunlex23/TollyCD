@@ -178,9 +178,12 @@ session_start();
                         </div>
 
                         <div>
-                            <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
-                            <input type="hidden" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
-                            <input type="hidden" id="profit" name="profit[]" required readonly><br>
+                            <label for="dispatcherPrice">Captain Price:</label>
+                            <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
+                            <label for="profit">Profit:</label>
+                            <input type="text" id="profit" name="profit[]" required ><br>
+                            <label for="partnerPrice">Partner Price:</label>
+                            <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
                         </div>
                     </div>
 
@@ -369,6 +372,23 @@ session_start();
         };
         xhr.send("captain=" + captain);
     }
+    </script>
+     <script>
+         document.addEventListener('DOMContentLoaded', function () {
+            const partnerPriceInput = document.getElementById('partnerPrice');
+            const dispatcherPriceInput = document.getElementById('dispatcherPrice');
+            const profitInput = document.getElementById('profit');
+
+            function calculateTotal() {
+                const dispatcherPrice = parseFloat(dispatcherPriceInput.value) || 0;
+                const profit = parseFloat(profitInput.value) || 0;
+                const total = dispatcherPrice + profit;
+                partnerPriceInput.value = total.toFixed(2); // Keeping 2 decimal places
+            }
+
+            profitInput.addEventListener('input', calculateTotal);
+            dispatcherPriceInput.addEventListener('input', calculateTotal);
+        });
     </script>
 </body>
 
