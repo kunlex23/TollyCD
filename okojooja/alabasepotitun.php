@@ -20,11 +20,12 @@ if ($checkResult->num_rows > 0) {
     $accountNumber = $_POST['accountNumber'];
     $bank = $_POST['bank'];
     $accountName = $_POST['accountName'];
+    $pLocation = $_POST['pLocation'];
   
 
     // Prepare and execute the SQL statement to insert the data
-    $sql = "INSERT INTO alabasepo (Name, contact, accountNumber, bank, accountName)
-            VALUES ('$Name', '$contact','$accountNumber','$bank','$accountName')";
+    $sql = "INSERT INTO alabasepo (Name, contact, accountNumber, bank, accountName, location)
+            VALUES ('$Name', '$contact','$accountNumber','$bank','$accountName','$pLocation')";
 
     if ($conn->query($sql) === TRUE) {
         echo '<script>alert("New record created successfully!");</script>';

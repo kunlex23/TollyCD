@@ -72,18 +72,28 @@
                     <input type="hidden" Name="id" value="' . $row['id'] . '">
                     <input type="hidden" Name="partner" value="' . $row['partner'] . '">
                     <input type="hidden" Name="oja" value="' . $row['productName'] . '">
+                    <input type="hidden" Name="oQuantity" value="' . $row['quantity'] . '">
                     
 
                     <div class="tray0">
-                        ' . $row['partner'] . '
+                        Partner: <b>' . $row['partner'] . '</b>
                     </div>
 
                     <div class="tray1">
-                        ' . $row['productName'] . '
+                       Product: <b> ' . $row['productName'] . '</b>
+                    </div>
+
+                    <div class="tray1">
+                       Currently Available:  <b>' . $row['quantity'] . '</b>
                     </div>
                     <div class="tray2">
-                        Quantity: <input type="number" name="quantity" value="' . $row['quantity'] . '"><br>
-                        
+                        Received: <input type="number" name="rQuantity"   ><br>  
+                    </div>
+                    <div class="tray2">
+                        Bad condition: <input type="number" name="bQuantity"   ><br>  
+                    </div>
+                    <div class="tray2">
+                        Good Condition: <input type="number" name="quantity" ><br>  
                     </div>';
 
                         // Add more input fields for other data as needed

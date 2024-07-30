@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="sales-analytics">
-                <a href="ojatitun.php">
+                <a href="ojatitunpipo.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
@@ -125,17 +125,17 @@
                     </div>
                 </a>
             </div>
+
             <div class="sales-analytics">
-                <a href="ojatitunpipo.php">
+                <a href="productitan.php">
                     <div class="item add-product">
                         <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>Multi Entry</h3>
+                            <span class="material-icons-sharp">history</span>
+                            <h3>Restock History</h3>
                         </div>
                     </div>
                 </a>
             </div>
-
             <form action="./wiwa.php" method="GET">
                 <label for="Name">Partner:</label>
                 <select name="Name" required>

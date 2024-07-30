@@ -46,11 +46,11 @@
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="alabasepo.php" class="active">
+                <a href="alabasepo.php">
                     <span class="material-icons-sharp">groups</span>
                     <h3>Partners</h3>
                 </a>
-                <a href="oja.php">
+                <a href="oja.php" class="active">
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
                 </a>
@@ -70,46 +70,61 @@
         <!------------ END OF ASIDE ------------>
         <main>
             <div class="recent-sales">
-                <h1>Partners</h1>
+                <div class="spacer"></div>
+                <h2>Product History</h2>
 
-                <table style="width: 100%;">
+                <input type="text" id="filterInput" placeholder="Search for product..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Partners</th>
-                            <th>Contact</th>
-                            <th>Account Number</th>
-                            <th>Bank Name</th>
-                            <th>Account Name</th>
-                            <th>Location</th>
-                            <th>Entry Date</th>
+                            <th>SN</th>
+                            <th>Partner</th>
+                            <th>Product</th>
+                            <th>Previous Qty</th>
+                            <th>Received Qty</th>
+                            <th>Bad Product</th>
+                            <th>Good Product</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
-                       
-                        $query = mysqli_query($conn, "SELECT Name, Contact, accountNumber,bank,accountName, date, location FROM alabasepo ORDER BY Name DESC");
-                        while ($row = mysqli_fetch_array($query)) {
-                            $Name = $row['Name'];
-                            $Contact = $row['Contact'];
-                            $accountNumber = $row['accountNumber'];
-                            $bank = $row['bank'];
-                            $accountName = $row['accountName'];
-                            $Entry_Date = $row['date'];
-                            $location = $row['location'];
-                            ?>
-                        <tr>
-                            <td><?php echo $Name; ?></a></td>
-                            <td><?php echo $Contact; ?></td>
-                            <td><?php echo $accountNumber; ?></td>
-                            <td><?php echo $bank; ?></td>
-                            <td><?php echo $accountName; ?></td>
-                            <td><?php echo $location; ?></td>
-                            <td><?php echo $Entry_Date; ?></td>
 
+                        $query = mysqli_query($conn, "SELECT id, partner, productName, oQuantity, rQuantity, bQuantity, quantity, date FROM afikun ORDER BY partner DESC");
+
+                        if (!$query) {
+                            echo "Error fetching data: " . mysqli_error($conn);
+                        } else {
+                            $serialNumber = 1; // Initialize the serial number outside the while loop
+                        
+                            while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $productName = $row['productName'];
+                                $oQuantity = $row['oQuantity'];
+                                $rQuantity = $row['rQuantity'];
+                                $bQuantity = $row['bQuantity'];
+                                $quantity = $row['quantity'];
+                                $date = $row['date'];
+                                ?>
+                        <tr>
+                            <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $productName; ?></td>
+                            <td><?php echo $oQuantity; ?></td>
+                            <td><?php echo $rQuantity; ?></td>
+                            <td><?php echo $bQuantity; ?></td>
+                            <td><?php echo $quantity; ?></td>
+                            <td><?php echo $date; ?></td>
                         </tr>
-                        <?php } ?>
+                        <?php
+                                $serialNumber++; // Increment the serial number
+                            }
+                        }
+                        ?>
                     </tbody>
+
                 </table>
             </div>
         </main>
@@ -125,17 +140,7 @@
                 </div>
             </div>
             <div class="sales-analytics">
-                <a href="newalabasepo.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Partner</h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="sales-analytics">
-                <a href="ojatitun.php">
+                <a href="ojatitunpipo.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>
@@ -145,6 +150,16 @@
                 </a>
             </div>
 
+            <div class="sales-analytics">
+                <a href="productitan.php">
+                    <div class="item add-product">
+                        <div>
+                            <span class="material-icons-sharp">history</span>
+                            <h3>Restock History</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
             <form action="./wiwa.php" method="GET">
                 <label for="Name">Partner:</label>
                 <select name="Name" required>
@@ -156,13 +171,13 @@
                     // Generate options for the combo box
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo '<option value="' . $row["Name"] . '">' . $row["Name"] .  '</option>';
+                            echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
                         }
                     }
                     ?>
-                    <input type="submit" value="Search">
+                </select>
+                <input type="submit" value="Search">
             </form>
-
         </div>
     </div>
 
@@ -222,4 +237,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+</script>
+<script>
+function filterTable() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[2];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
 </script>

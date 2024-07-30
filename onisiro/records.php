@@ -535,7 +535,7 @@ function filterTable() {
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
         // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[0];
+        let td = tr[i].getElementsByTagName('td')[1];
         if (td) {
             // Check if the product name contains the filter text
             let txtValue = td.textContent || td.innerText;

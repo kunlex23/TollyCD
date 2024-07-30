@@ -73,6 +73,10 @@
                     
                         <label for="accountName">Account Name:</label>
                         <input type="text" name="accountName" required><br>
+
+                        <label for="pLocation">Location:</label>
+                        <input type="text" name="pLocation" required><br>
+
                         <div class="job"><input type="submit" value="Submit"></div>
                     </div>
 

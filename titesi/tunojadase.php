@@ -23,7 +23,7 @@
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/styl.css">
+    <link rel="stylesheet" href="css/styls.css">
     <style>
     table,
     th,
@@ -150,130 +150,122 @@
             </div>
         </aside>
         <!------------ END OF ASIDE ------------>
-        <main>
-            <div class="recent-sales">
-                <h1>Edit Shipment</h1>
+    <main>
+    <div class="recent-sales">
+        <h1>Edit Shipment</h1><br>
 
-                <?php
-require '../config.php';
+        <?php
+            require '../config.php';
 
-if (isset($_GET['rira'])) {
-    $rira = urldecode($_GET['rira']);
+            if (isset($_GET['rira'])) {
+                $rira = urldecode($_GET['rira']);
 
-    // Fetch the current data using prepared statements
-    $stmt = $conn->prepare("SELECT * FROM gbigbe WHERE id = ?");
-    $stmt->bind_param("s", $rira);
-    $stmt->execute();
-    $result = $stmt->get_result();
+                // Fetch the current data using prepared statements
+                $stmt = $conn->prepare("SELECT * FROM gbigbe WHERE id = ?");
+                $stmt->bind_param("s", $rira);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize and validate inputs
-            $partner = htmlspecialchars($_POST['partner']);
-            $products = $_POST['product'];
-            $quantities = $_POST['quantity'];
-            $amounts = $_POST['amount'];
-            $customerNames = $_POST['customersName'];
-            $destination = $_POST['destination'];
-            $customerContacts = $_POST['customerContact'];
-            $captains = $_POST['captain'];
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        // Sanitize and validate inputs
+                        $partner = htmlspecialchars($_POST['partner']);
+                        $products = htmlspecialchars($_POST['product']);
+                        $quantities = htmlspecialchars($_POST['quantity']);
+                        $amounts = htmlspecialchars($_POST['amount']);
+                        $customerNames = htmlspecialchars($_POST['customersName']);
+                        $destination = htmlspecialchars($_POST['location']);
+                        $customerContacts = htmlspecialchars($_POST['customerContact']);
+                        $captains = htmlspecialchars($_POST['captain']);
 
-            // Update the record using prepared statements
-            $updateQuery = "UPDATE gbigbe SET 
-                partner = ?,
-                products = ?,
-                quantities = ?,
-                amounts = ?,
-                customerNames = ?,
-                destination = ?,
-                customerContacts = ?,
-                captains = ?
-                WHERE id = ?";
+                        // Update the record using prepared statements
+                        $updateQuery = "UPDATE gbigbe SET 
+                        partner = ?,
+                        product = ?,
+                        quantity = ?,
+                        amount = ?,
+                        customersName = ?,
+                        destination = ?,
+                        customerContact = ?
+                        WHERE id = ?";
 
-            $stmt = $conn->prepare($updateQuery);
-            $stmt->bind_param(
-                "sssssssss",
-                $partner,
-                serialize($products),
-                serialize($quantities),
-                serialize($amounts),
-                serialize($customerNames),
-                serialize($destination),
-                serialize($customerContacts),
-                serialize($captains),
-                $rira
-            );
+                        $stmt = $conn->prepare($updateQuery);
+                        $stmt->bind_param(
+                            "ssssssss",
+                            $partner,
+                            $products,
+                            $quantities,
+                            $amounts,
+                            $customerNames,
+                            $destination,
+                            $customerContacts,
+                            $rira
+                        );
 
-            if ($stmt->execute()) {
-                echo '<script>alert("Record updated successfully!");</script>';
-                echo '<script>window.location.href = "newCaptain.php";</script>';
-                exit();
+                        if ($stmt->execute()) {
+                            echo '<script>alert("Record updated successfully!");</script>';
+                            echo '<script>window.location.href = "records.php";</script>';
+                            exit();
+                        } else {
+                            die('Update Failed: ' . $stmt->error);
+                        }
+                    }
+                } else {
+                    echo 'No record found with the specified ID.';
+                    exit();
+                }
             } else {
-                die('Update Failed: ' . $stmt->error);
+                echo 'No ID specified.';
+                exit();
             }
-        }
-    } else {
-        echo 'No record found with the specified ID.';
-        exit();
-    }
-} else {
-    echo 'No ID specified.';
-    exit();
-}
-?>
-
-
-                <form class="five-column-form" action="" method="POST">
-                    <input type="hidden" name="id" value="<?php echo $rira; ?>">
-                    <div class="field-container">
-                        <div class="field-group">
-                            <label for="partner">Partner:</label>
-                            <input type="text" name="partner" value="<?php echo htmlspecialchars($row['partner']); ?>"
-                                readonly>
-
-                            <label for="product">Product:</label>
-                            <input type="text" name="product" value="<?php echo htmlspecialchars($row['product']); ?>"
-                                required>
-
-                            <label for="quantity">quantity:</label>
-                            <input type="text" name="quantity" value="<?php echo htmlspecialchars($row['quantity']); ?>"
-                                required>
-
-                            <label for="amount">Amount:</label>
-                            <input type="text" name="amount" value="<?php echo htmlspecialchars($row['amount']); ?>"
-                                required>
-                        </div>
-
-                        <div class="field-group">
-
-                            <label for="captain">Captain:</label>
-                            <input type="text" name="captain" value="<?php echo htmlspecialchars($row['captain']); ?>"
-                                required>
-
-                            <label for="location">Location:</label>
-                            <input type="text" name="location"
-                                value="<?php echo htmlspecialchars($row['destination']); ?>" required>
-
-                            <label for="customersName">customersName:</label>
-                            <input type="text" name="customersName"
-                                value="<?php echo htmlspecialchars($row['customersName']); ?>" required>
-
-                            <label for="customerContact">customerContact:</label>
-                            <input type="text" name="customerContact"
-                                value="<?php echo htmlspecialchars($row['customerContact']); ?>" required>
-
-                        </div>
+            ?>
+    
+            <form class="five-column-form" action="" method="POST">
+                <input type="hidden" name="id" value="<?php echo $rira; ?>">
+                <div class="field-container">
+                    <div class="field-group">
+                        <label for="partner">Partner:</label>
+                        <input type="text" name="partner" value="<?php echo htmlspecialchars($row['partner']); ?>" readonly><br>
+    
+                        <label for="product">Product:</label>
+                        <input type="text" name="product" value="<?php echo htmlspecialchars($row['product']); ?>" required><br>
+    
+                        <label for="quantity">Quantity:</label>
+                        <input type="text" name="quantity" value="<?php echo htmlspecialchars($row['quantity']); ?>"
+                            required readonly><br>
+    
+                        <label for="amount">Amount:</label>
+                        <input type="text" name="amount" value="<?php echo htmlspecialchars($row['amount']); ?>" required><br>
                     </div>
-                    <div class="button-container">
-                        <div class="job">
-                            <input type="submit" value="Update">
-                        </div>
+    
+                    <div class="field-group">
+                        <label for="captain">Captain:</label>
+                        <input type="text" name="captain" value="<?php echo htmlspecialchars($row['captain']); ?>"readonly><br>
+    
+                        <label for="location">Location:</label>
+                        <input type="text" name="location" value="<?php echo htmlspecialchars($row['destination']); ?>"
+                            required><br>
+    
+                        <label for="customersName">Customers Name:</label>
+                        <input type="text" name="customersName"
+                            value="<?php echo htmlspecialchars($row['customersName']); ?>" required><br>
+    
+                        <label for="customerContact">Customer Contact:</label>
+                        <input type="text" name="customerContact"
+                            value="<?php echo htmlspecialchars($row['customerContact']); ?>" required><br>
                     </div>
-                </form>
-            </div>
-        </main>
+                </div>
+                <div class="button-container">
+                    <div class="job">
+                        <input type="submit" value="Update">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
 
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

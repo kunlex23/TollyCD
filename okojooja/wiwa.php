@@ -68,9 +68,9 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-    <!-- ---------END OF EXAM-------- -->
-    <div class="recent-sales">
-        <?php
+            <!-- ---------END OF EXAM-------- -->
+            <div class="recent-sales">
+                <?php
                 require '../config.php';
                 $Name = $_GET['Name'];
                 echo '<h1><span>' . htmlspecialchars($Name) . "</span>'s Products</h1>";
@@ -87,10 +87,10 @@
                         echo '<input type="text" id="filterInput" placeholder="Search for products..." onkeyup="filterTable()">';
                         echo '<table id="productTable" border="1">';
                         echo '<tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Action</th>
-                </tr>';
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                              </tr>';
 
                         while ($row = $result->fetch_assoc()) {
                             $productId = htmlspecialchars($row["id"]); // Assuming you have an "id" column for product identification
@@ -103,7 +103,7 @@
 
                         echo '</table>';
                     } else {
-                        echo "No record found!";
+                        echo "No product found!";
                     }
 
                     $stmt->close();
@@ -173,6 +173,7 @@
                     echo "<b>Account Number: " . $row['accountNumber'] . "</b><br>";
                     echo "<b>Bank: " . $row['bank'] . "</b><br>";
                     echo "<b>Account Name: " . $row['accountName'] . "</b><br>";
+                    echo "<b>Location: " . $row['location'] . "</b><br>";
                     echo "<b>Contact: " . $row['contact'] . "</b<br>";
 
                     echo "<div class='sales-analytics'>";
