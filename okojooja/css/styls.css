@@ -467,7 +467,7 @@ main .recent-sales a {
     padding-left: 15rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 6.6rem;
+    gap: 11rem;
 }
 
 .add-product {
