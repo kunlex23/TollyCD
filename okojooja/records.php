@@ -23,7 +23,7 @@
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/styl.css">
+    <link rel="stylesheet" href="css/styls.css">
     <style>
     table,
     th,
@@ -113,36 +113,31 @@
             <div class="top">
                 <div class="logo">
                     <img src="./images/logo.png">
-                    <!-- <h2>ZIB<span class="compel">AH</span></h2> -->
-                    <!-- <h2>Name</h2> -->
                 </div>
-                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span>
-                </div>
+                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
             </div>
             <div class="sideBar">
                 <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-
-                <a href="gbigbeTitun.php">
-                    <span class="material-icons-sharp">add_circle</span>
-                    <h3>New Delivery</h3>
+                <a href="alabasepo.php">
+                    <span class="material-icons-sharp">groups</span>
+                    <h3>Partners</h3>
+                </a>
+                <a href="oja.php">
+                    <span class="material-icons-sharp">inventory</span>
+                    <h3>Products</h3>
                 </a>
 
+                <a href="gbigbeTitun2.php">
+                    <span class="material-icons-sharp">add</span>
+                    <h3>New Waybill</h3>
+                </a>
 
                 <a href="records.php" class="active">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Active Shipments</h3>
-                </a>
-                <a href="dapada.php">
-                    <span class="material-icons-sharp">assignment_return</span>
-                    <h3>Returned Shipments</h3>
-                </a>
-
-                <a href="awe.php">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Shipments History</h3>
+                    <h3>Waybills</h3>
                 </a>
 
                 <a href="../logout.php">
@@ -157,75 +152,72 @@
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Shipments Records</h2>
+                <h2>Waybills</h2>
                 <div class="spacer"></div>
-                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <input type="text" id="filterInput" placeholder="Search for Waybill contact..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>SN</th>
                             <th>Partner</th>
-                            <th>Product</th>
-                            <th>Avl. Qty</th>
-                            <th>Qty</th>
-                            <th>Amount</th>
-                            <th>Client</th>
-                            <th>Destination</th>
+                            <th>Receiver</th>
                             <th>Contact</th>
-                            <th>Captain</th>
+                            <th>Destination</th>
+                            <th>Products</th>
+                            <th>Avl Qty</th>
+                            <th>Driver Price</th>
+                            <th>Profit</th>
+                            <th>Partner Price</th>
                             <th>Status</th>
                             <th>Date</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Sent' ORDER BY partner DESC ");
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
-                            $id =$row['id'];
+                            $id = $row['id'];
                             $partner = $row['partner'];
-                            $shipmentType = $row['shipmentType'];
                             $product = $row['product'];
                             $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
-                            $unitPrice = $row['unitPrice'];
-                            $amount = $row['amount'];
+                            $deliveryFee = $row['deliveryFee'];
+                            $riderReward = $row['riderReward'];
                             $customersName = $row['customersName'];
                             $destination = $row['destination'];
                             $customerContact = $row['customerContact'];
-                            $captain = $row['captain'];
+                            $profitReward = $row['profitReward'];
                             $status = $row['status'];
                             $date = $row['date'];
                             ?>
-                        <tr>
-                            <td><?php echo $serialNumber; ?></td>
-                            <td><?php echo $partner; ?></td>
-                            <td><?php echo $product; ?></td>
-                            <td><?php echo $availableUnit; ?></td>
-                            <td><?php echo $quantity; ?></td>
-                            <td><?php echo $amount; ?></td>
-                            <td><?php echo $customersName; ?></td>
-                            <td><?php echo $destination; ?></td>
-                            <td><?php echo $customerContact; ?></td>
-                            <td><?php echo $captain; ?></td>
-                            <td>
-                                 <select class="status-dropdown" data-id="<?php echo $row['id']; ?>" data-partner="<?php echo $partner; ?>"
-                                    data-product="<?php echo $product; ?>" data-quantity="<?php echo $quantity; ?>">
-                                    <option value="Pending" <?php if ($status == 'Pending')
-                                        echo 'selected'; ?>>Out for delivery</option>
-                                    <option value="Completed" <?php if ($status == 'Completed')
-                                        echo 'selected'; ?>>Delivered</option>
-                                    <option value="Return" <?php if ($status == 'Return')
-                                        echo 'selected'; ?>>Return</option>
-                                </select>
-                            </td>
-                            <td><?php echo $date; ?></td>
-                            <td><a href="tunojadase.php?rira=<?php echo urlencode($id); ?>&id=<?php echo urlencode($partner); ?>">Edit</a></td>
-                        </tr>
-                        <?php $serialNumber++; } ?>
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $customersName; ?></td>
+                                <td><?php echo $customerContact; ?></td>
+                                <td><?php echo $destination; ?></td>
+                                <td><?php echo $product; ?></td>
+                                <td><?php echo $availableUnit; ?></td>
+                                <td><?php echo $riderReward; ?></td>
+                                <td><?php echo $profitReward; ?></td>
+                                <td><?php echo $deliveryFee; ?></td>
+                                <td>
+                                     <select class="status-dropdown" data-id="<?php echo $row['id']; ?>" data-partner="<?php echo $partner; ?>"
+                                        data-product="<?php echo $product; ?>" data-quantity="<?php echo $quantity; ?>">
+                                        <option value="Sent" <?php if ($status == 'Sent')
+                                            echo 'selected'; ?>>Sent</option>
+                                        <option value="Completed" <?php if ($status == 'Completed')
+                                            echo 'selected'; ?>>Delivered</option>
+                                        <option value="Return" <?php if ($status == 'Return')
+                                            echo 'selected'; ?>>Return</option>
+                                    </select>
+                                </td>
+                                <td><?php echo $date; ?></td>
+                                </tr>
+                        <?php $serialNumber++;  } ?>
                     </tbody>
                 </table>
                 <div id="returnReasonModal" style="display:none;">
@@ -280,7 +272,7 @@ function filterTable() {
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
         // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[0];
+        let td = tr[i].getElementsByTagName('td')[2];
         if (td) {
             // Check if the product name contains the filter text
             let txtValue = td.textContent || td.innerText;

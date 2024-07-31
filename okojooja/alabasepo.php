@@ -61,6 +61,11 @@
                     <h3>New Waybill</h3>
                 </a>
 
+                <a href="records.php">
+                    <span class="material-icons-sharp">local_shipping</span>
+                    <h3>Waybills</h3>
+                </a>
+
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -135,7 +140,7 @@
                 </a>
             </div>
             <div class="sales-analytics">
-                <a href="ojatitun.php">
+                <a href="ojatitunpipo.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">add</span>

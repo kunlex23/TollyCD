@@ -44,6 +44,11 @@ session_start();
                     <h3>New Waybill</h3>
                 </a>
 
+                <a href="records.php">
+                    <span class="material-icons-sharp">local_shipping</span>
+                    <h3>Waybills</h3>
+                </a>
+
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -78,7 +83,7 @@ session_start();
                         <input type="hidden" name="partnerPayStatus" value="rara">
                         <input type="hidden" name="captainPayStatus" value="rara">
                         <input type="hidden" name="shipmentType" value="Waybill">
-                        <input type="hidden" name="status" value="Pending">
+                        <input type="hidden" name="status" value="Sent">
                         <div class="tray0">
                             <label for="customersName">Receiver:</label>
                             <input type="text" name="customersName[]" required><br>
@@ -86,8 +91,8 @@ session_start();
                             <label for="customerContact">Receiver Contact:</label>
                             <input type="text" name="customerContact[]" required><br>
                             <div class="tray1">
-                                <label for="state">Destination:</label>
-                                <select id="state" name="state" required>
+                                <label for="destination">Destination:</label>
+                                <select id="destination" name="destination" required>
                                     <option value="">...</option>
                                     <option value="FCT">Federal Capital Territory</option>
                                     <option value="Abia">Abia</option>
@@ -135,7 +140,7 @@ session_start();
                         </div>
 
                         <div>
-                            <label for="dispatcherPrice">Captain Price:</label>
+                            <label for="dispatcherPrice">Drivers Price:</label>
                             <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
                             <label for="profit">Profit:</label>
                             <input type="text" id="profit" name="profit[]" required><br>

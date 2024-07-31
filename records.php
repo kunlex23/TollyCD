@@ -163,11 +163,13 @@
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>SN</th>
+                            <!-- <th>ID</th> -->
                             <th>Partner</th>
+                            <th>Type</th>
                             <th>Product</th>
-                            <th>Avl. Qty</th>
+                            <th>Avail. Qty</th>
                             <th>Qty</th>
+                            <!-- <th>Unit Price</th> -->
                             <th>Amount</th>
                             <th>Client</th>
                             <th>Destination</th>
@@ -183,7 +185,6 @@
                         require '../config.php';
 
                         $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
-                        $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id =$row['id'];
                             $partner = $row['partner'];
@@ -201,8 +202,9 @@
                             $date = $row['date'];
                             ?>
                         <tr>
-                            <td><?php echo $serialNumber; ?></td>
+                            <!-- <td><?php echo $id; ?></td> -->
                             <td><?php echo $partner; ?></td>
+                            <td><?php echo $shipmentType; ?></td>
                             <td><?php echo $product; ?></td>
                             <td><?php echo $availableUnit; ?></td>
                             <td><?php echo $quantity; ?></td>
@@ -225,7 +227,7 @@
                             <td><?php echo $date; ?></td>
                             <td><a href="tunojadase.php?rira=<?php echo urlencode($id); ?>&id=<?php echo urlencode($partner); ?>">Edit</a></td>
                         </tr>
-                        <?php $serialNumber++; } ?>
+                        <?php } ?>
                     </tbody>
                 </table>
                 <div id="returnReasonModal" style="display:none;">
