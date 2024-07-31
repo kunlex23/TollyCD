@@ -182,7 +182,7 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE status ='pending' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE shipmentType = 'Delivery' AND status ='pending' ORDER BY partner ASC ");
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id =$row['id'];

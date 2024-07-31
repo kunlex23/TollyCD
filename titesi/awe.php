@@ -180,7 +180,7 @@
     <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe ORDER BY partner DESC");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe WHERE shipmentType = 'Delivery' ORDER BY partner ASC");
                         $serialNumber = 1; // Initialize the serial number outside the while loop
                         
                         while ($row = mysqli_fetch_array($query)) {

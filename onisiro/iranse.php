@@ -1,18 +1,4 @@
-<?php
-// session_start();
-// if ($_SESSION['userType'] === 'eru') {
-//     header("Location: ../okojooja");
-// // } elseif ($_SESSION['userType'] === 'fifisi') {
-// //     header("Location: ../titesi");
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ../onisiro");
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ../abojuto");
-// }
-?>
 <!DOCTYPE html>
-
-
 <html lang="en">
 
 <head>
@@ -23,87 +9,57 @@
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/styls.css">
+    <link rel="stylesheet" href="css/styl.css">
     <style>
-    table,
-    th,
-    td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
-        padding: 8px;
-    }
+        /* Tab styles */
+        .tab {
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
 
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
 
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        .tab button:hover {
+            background-color: #ddd;
+        }
 
-    /* Center the modal content */
-    #returnReasonModal {
-        padding-top: 15%;
-        padding-left: 35%;
-        display: none;
-        /* Hidden by default */
-        position: fixed;
-        /* Stay in place */
-        z-index: 1;
-        /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%;
-        /* Full width */
-        height: 100%;
-        /* Full height */
-        overflow: auto;
-        /* Enable scroll if needed */
-        background-color: rgba(0, 0, 0, 0.4);
-        /* Black w/ opacity */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .tab button.active {
+            background-color: #ccc;
+        }
 
-    .modal-content {
-        background-color: #fefefe;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 40%;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        border-radius: 8px;
-        /* Rounded corners for a modern look */
-    }
+        .tab-content {
+            display: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
 
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
+        .tab-content.active {
+            display: block;
+        }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        table,
+        th,
+        td {
+            /* border: 1px solid black; */
+            /* border-collapse: collapse; */
+            padding: 8px;
+        }
 
-    .modal-content form {
-        display: flex;
-        flex-direction: column;
-    }
+        tr:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
 
-    .modal-content textarea {
-        resize: vertical;
-        min-height: 100px;
-        margin-bottom: 20px;
-    }
-
-    .modal-content button {
-        align-self: flex-end;
-    }
+        td:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
     </style>
 </head>
 
@@ -113,36 +69,47 @@
             <div class="top">
                 <div class="logo">
                     <img src="./images/logo.png">
+                    <!-- <h2>ZIB<span class="compel">AH</span></h2> -->
+                    <!-- <h2>Name</h2> -->
                 </div>
-                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
+                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span>
+                </div>
             </div>
             <div class="sideBar">
                 <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="alabasepo.php">
-                    <span class="material-icons-sharp">groups</span>
-                    <h3>Partners</h3>
-                </a>
-                <a href="oja.php">
-                    <span class="material-icons-sharp">inventory</span>
-                    <h3>Products</h3>
-                </a>
 
-                <a href="gbigbeTitun2.php">
-                    <span class="material-icons-sharp">add</span>
-                    <h3>New Waybill</h3>
-                </a>
-
-                <a href="records.php" class="active">
+                <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Waybills</h3>
+                    <h3>Shipments</h3>
                 </a>
 
-                <a href="awe.php" >
+                <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
-                    <h3>Waybill History</h3>
+                    <h3>Partner Payment History</h3>
+                </a>
+
+                <a href="sisanwokeji.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Captain Payment History</h3>
+                </a>
+
+                <a href="iranse.php" class="active">
+                    <span class="material-icons-sharp">garage</span>
+                    <h3>Waybill</h3>
+                </a>
+
+
+                <a href="owoofe.php">
+                    <span class="material-icons-sharp">paid</span>
+                    <h3>Other Income</h3>
+                </a>
+
+                <a href="inawo.php">
+                    <span class="material-icons-sharp">payments</span>
+                    <h3>Expenses</h3>
                 </a>
 
                 <a href="../logout.php">
@@ -169,19 +136,18 @@
                             <th>Contact</th>
                             <th>Destination</th>
                             <th>Products</th>
-                            <th>Avl Qty</th>
                             <th>Driver Price</th>
                             <th>Profit</th>
                             <th>Partner Price</th>
-                            <th>Status</th>
                             <th>Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Sent' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' ORDER BY partner DESC ");
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id = $row['id'];
@@ -205,22 +171,11 @@
                                 <td><?php echo $customerContact; ?></td>
                                 <td><?php echo $destination; ?></td>
                                 <td><?php echo $product; ?></td>
-                                <td><?php echo $availableUnit; ?></td>
                                 <td><?php echo $riderReward; ?></td>
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>
-                                <td>
-                                     <select class="status-dropdown" data-id="<?php echo $row['id']; ?>" data-partner="<?php echo $partner; ?>"
-                                        data-product="<?php echo $product; ?>" data-quantity="<?php echo $quantity; ?>">
-                                        <option value="Sent" <?php if ($status == 'Sent')
-                                            echo 'selected'; ?>>Sent</option>
-                                        <option value="Completed" <?php if ($status == 'Completed')
-                                            echo 'selected'; ?>>Delivered</option>
-                                        <option value="Return" <?php if ($status == 'Return')
-                                            echo 'selected'; ?>>Return</option>
-                                    </select>
-                                </td>
                                 <td><?php echo $date; ?></td>
+                                <td><a href="owowole.php?partner=<?php echo urlencode($partner); ?>">Confirm Payment</a></td>
                                 </tr>
                         <?php $serialNumber++;  } ?>
                     </tbody>

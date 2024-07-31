@@ -96,6 +96,11 @@
                     <h3>Captain Payment History</h3>
                 </a>
 
+                <a href="iranse.php">
+                    <span class="material-icons-sharp">garage</span>
+                    <h3>Waybill</h3>
+                </a>
+
 
                 <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
@@ -394,7 +399,7 @@
             $partner = $row['partner'];
 
             // Query to calculate total partner reward
-            $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+            $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
             $resulta = mysqli_query($conn, $sqla);
             $rowa = mysqli_fetch_array($resulta);
             $partnerReward = $rowa['totalReward'];
@@ -451,7 +456,7 @@
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT DISTINCT captain FROM gbigbe WHERE status = 'completed' AND captainPayStatus = 'rara' ORDER BY captain DESC ");
+                            $query = mysqli_query($conn, "SELECT DISTINCT captain FROM gbigbe WHERE shipmentType='Delivery' AND status = 'completed' AND captainPayStatus = 'rara' ORDER BY captain DESC ");
                             if (!$query) {
                                 echo "Error fetching data: " . mysqli_error($conn);
                             }else{
@@ -460,7 +465,7 @@
                                 $captain = $row['captain'];
 
                                 // Query to calculate total partner reward
-                                $sqla = "SELECT SUM(riderReward) AS totalReward FROM gbigbe WHERE captain = '$captain' AND status = 'completed' AND accCaptain = 'beni' AND captainPayStatus = 'rara'";
+                                $sqla = "SELECT SUM(riderReward) AS totalReward FROM gbigbe WHERE shipmentType='Delivery' AND captain = '$captain' AND status = 'completed' AND accCaptain = 'beni' AND captainPayStatus = 'rara'";
                                 $resulta = mysqli_query($conn, $sqla);
                                 $rowa = mysqli_fetch_array($resulta);
                                 $riderReward = $rowa['totalReward'];

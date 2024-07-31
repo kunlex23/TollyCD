@@ -97,6 +97,11 @@
                     <h3>Captain Payment History</h3>
                 </a>
 
+                <a href="iranse.php">
+                    <span class="material-icons-sharp">garage</span>
+                    <h3>Waybill</h3>
+                </a>
+
 
                 <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
@@ -129,7 +134,7 @@
         
             // Query to calculate total partner reward
             $sqla = "SELECT SUM(COALESCE(partnerReward, 0)) AS totalReward 
-             FROM gbigbe WHERE partner = '$partner' 
+             FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' 
              AND status = 'Completed' 
              AND accCaptain = 'beni' 
              AND partnerPayStatus = 'rara'";
@@ -209,7 +214,7 @@
                         $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
                     
                         // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, partnerReward, date FROM gbigbe WHERE partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, partnerReward, date FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
                         if ($result) {

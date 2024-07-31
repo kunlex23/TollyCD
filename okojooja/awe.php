@@ -135,12 +135,12 @@
                     <h3>New Waybill</h3>
                 </a>
 
-                <a href="records.php" class="active">
+                <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Waybills</h3>
                 </a>
 
-                <a href="awe.php" >
+                <a href="awe.php"  class="active">
                     <span class="material-icons-sharp">history</span>
                     <h3>Waybill History</h3>
                 </a>
@@ -157,7 +157,7 @@
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Waybills</h2>
+                <h2>Waybills History</h2>
                 <div class="spacer"></div>
                 <input type="text" id="filterInput" placeholder="Search for Waybill contact..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
@@ -181,7 +181,7 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Sent' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' ORDER BY partner DESC ");
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id = $row['id'];
@@ -209,17 +209,7 @@
                                 <td><?php echo $riderReward; ?></td>
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>
-                                <td>
-                                     <select class="status-dropdown" data-id="<?php echo $row['id']; ?>" data-partner="<?php echo $partner; ?>"
-                                        data-product="<?php echo $product; ?>" data-quantity="<?php echo $quantity; ?>">
-                                        <option value="Sent" <?php if ($status == 'Sent')
-                                            echo 'selected'; ?>>Sent</option>
-                                        <option value="Completed" <?php if ($status == 'Completed')
-                                            echo 'selected'; ?>>Delivered</option>
-                                        <option value="Return" <?php if ($status == 'Return')
-                                            echo 'selected'; ?>>Return</option>
-                                    </select>
-                                </td>
+                                <td><?php echo $status; ?></td>
                                 <td><?php echo $date; ?></td>
                                 </tr>
                         <?php $serialNumber++;  } ?>
@@ -289,69 +279,4 @@ function filterTable() {
         }
     }
 }
-</script>
-<script>
-    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
-    dropdown.addEventListener('change', function() {
-        var shipmentId = this.getAttribute('data-id');
-        var newStatus = this.value;
-        var partner = this.getAttribute('data-partner');
-        var product = this.getAttribute('data-product');
-        var quantity = this.getAttribute('data-quantity');
-        
-        if (newStatus === 'Return') {
-            // Show the modal
-            var modal = document.getElementById('returnReasonModal');
-            modal.style.display = 'block';
-            document.getElementById('returnShipmentId').value = shipmentId;
-            
-            // Set data attributes on the modal
-            modal.setAttribute('data-partner', partner);
-            modal.setAttribute('data-product', product);
-            modal.setAttribute('data-quantity', quantity);
-        } else {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'update_status.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert('Status updated successfully.');
-                    window.location.href = 'records.php';
-                }
-            };
-            xhr.send('id=' + shipmentId + '&status=' + newStatus);
-        }
-    });
-});
-
-// Handle modal close
-document.getElementById('closeModal').addEventListener('click', function() {
-    document.getElementById('returnReasonModal').style.display = 'none';
-});
-
-// Handle form submission
-document.getElementById('returnReasonForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    var modal = document.getElementById('returnReasonModal');
-    var shipmentId = document.getElementById('returnShipmentId').value;
-    var returnReason = document.getElementById('returnReason').value;
-    var quantity = modal.getAttribute('data-quantity');
-    var partner = modal.getAttribute('data-partner');
-    var product = modal.getAttribute('data-product');
-
-    console.log(partner, product, quantity);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'updateStatus.php', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            alert('Return reason saved successfully.');
-            modal.style.display = 'none';
-            window.location.href = 'records.php';
-        }
-    };
-    xhr.send('id=' + shipmentId + '&status=Return&returnReason=' + encodeURIComponent(returnReason) + '&quantity=' + quantity + '&partner=' + partner + '&product=' + product);
-});
-
 </script>

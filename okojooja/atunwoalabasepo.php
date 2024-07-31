@@ -48,6 +48,11 @@
                     <h3>Waybills</h3>
                 </a>
 
+                <a href="awe.php" >
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Waybill History</h3>
+                </a>
+
 
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>

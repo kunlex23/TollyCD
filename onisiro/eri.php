@@ -96,6 +96,11 @@
                     <h3>Partner Payment History</h3>
                 </a>
 
+                <a href="iranse.php">
+                    <span class="material-icons-sharp">garage</span>
+                    <h3>Waybill</h3>
+                </a>
+
                 <a href="sisanwokeji.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>

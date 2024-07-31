@@ -42,6 +42,11 @@
                     <h3>Captain Payment History</h3>
                 </a>
 
+                <a href="iranse.php">
+                    <span class="material-icons-sharp">garage</span>
+                    <h3>Waybill</h3>
+                </a>
+
                 <a href="owoofe.php" class="active">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Other Income</h3>

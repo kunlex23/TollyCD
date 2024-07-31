@@ -164,7 +164,7 @@
 
                         // $query = mysqli_query($conn, "SELECT partner, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
 
-                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe ORDER BY partner DESC LIMIT 10");
+                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date  FROM gbigbe WHERE shipmentType = 'Delivery' ORDER BY partner ASC LIMIT 10");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
                             $shipmentType = $row['shipmentType'];
@@ -197,7 +197,7 @@
                         <?php } ?>
                     </tbody>
                 </table>
-                <a href="records.php">Show all</a>
+                <a href="awe.php">Show all</a>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

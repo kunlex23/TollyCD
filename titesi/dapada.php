@@ -194,7 +194,7 @@
                         $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
 
                         // Build the query based on the date range
-                        $query_string = "SELECT partner, shipmentType, product, quantity, amount, customersName, destination, customerContact, captain, returnReason, date FROM gbigbe WHERE status = 'return'";
+                        $query_string = "SELECT partner, shipmentType, product, quantity, amount, customersName, destination, customerContact, captain, returnReason, date FROM gbigbe WHERE shipmentType = 'Delivery' AND status = 'return'";
 
                         if ($start_date && $end_date) {
                             $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
