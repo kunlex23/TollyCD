@@ -2,8 +2,13 @@
 
 require '../config.php';
 
-$sql = "SELECT SUM(partnerReward) AS amountIn FROM gbigbe WHERE status = 'Completed' AND partnerPayStatus = 'rara'";
-// where order_date > now() - interval 1 day;
+$sql = "SELECT SUM(partnerReward) AS amountIn 
+      FROM gbigbe 
+      WHERE shipmentType= 'Delivery' 
+      AND status = 'Completed' 
+      AND partnerPayStatus = 'rara'
+      AND date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
+      
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
     $tClients = $row['amountIn'];

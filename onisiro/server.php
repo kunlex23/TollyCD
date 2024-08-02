@@ -2,15 +2,22 @@
 
 require '../config.php';
 
-$sql = "SELECT SUM(amount) AS amount FROM gbigbe WHERE status = 'Completed'AND accCaptain = 'rara'";
-// where order_date > now() - interval 1 day;
+// Modify the query to sum the records from the last 30 days
+$sql = "SELECT SUM(amount) AS amount 
+        FROM gbigbe 
+        WHERE shipmentType= 'Delivery' 
+        AND status = 'Completed' 
+        AND accCaptain = 'rara'
+        AND date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
+
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
-    $tClients = $row['amount'];
+    $tClients = $row['amount'] !== null ? $row['amount'] : 0;  // Handle null case
 
     echo '<h1>' . $tClients . '</h1>';
   }
   $result->free();
 }
 $conn->close();
+
 ?>

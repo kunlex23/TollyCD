@@ -2,8 +2,9 @@
 
 require '../config.php';
 
-$sql = "SELECT SUM(amount) AS amountIn FROM inawo";
-// where order_date > now() - interval 1 day;
+$sql = "SELECT SUM(amount) AS amountIn 
+FROM inawo
+WHERE date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
     $tClients = $row['amountIn'];

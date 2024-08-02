@@ -175,8 +175,7 @@
                         </div>
                         <div class="payBTN">
                             <a
-                                href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make
-                                Payment</a>
+                                href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a>
                         </div>
                     </div>
                     <?php

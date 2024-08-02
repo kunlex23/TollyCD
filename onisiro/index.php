@@ -110,56 +110,58 @@
                         </div>
 
                     </div>
-                    <!-- <small class="tex">Last 7 Days</small> -->
+                    <small class="tex">Last 7 Days</small>
                 </div>
                 <!-- END OF STUDENTS -->
                 <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Partner Remittance</h3>
+                            <h3>Partner Remit</h3>
                             <div id="link_wrapper1">
 
                             </div>
                         </div>
 
                     </div>
-                    <!-- <small class="text-muted">Last 7 days</small> -->
+                    <small class="text-muted">Last 7 Days</small>
                 </div>
 
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Captains Payment</h3>
+                            <h3>Captains Pay</h3>
                             <div id="link_wrapper2">
 
                             </div>
                         </div>
 
                     </div>
-                    <!-- <small class="text-muted">Last 24hrs</small> -->
+                    <small class="text-muted">Last 7 Days</small>
                 </div>
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Profit</h3>
+                            <h3>Profit</h3>
                             <div id="link_wrapper4">
 
                             </div>
                         </div>
 
                     </div>
+                    <small class="text-muted">Last 7 Days</small>
                 </div>
                
                  <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Expenses</h3>
+                            <h3>Expenses</h3>
                             <div id="link_wrapper3">
 
                             </div>
                         </div>
 
                     </div>
+                    <small class="text-muted">Last 7 Days</small>
                 </div>
 
             </div>
@@ -174,13 +176,11 @@
                             <th>Partner</th>
                             <th>Type</th>
                             <th>Product</th>
-                            <th>Qty</th>
                             <th>Amount</th>
                             <th>Customers Name</th>
                             <th>Destination</th>
                             <th>Contact</th>
                             <th>Captain</th>
-                            <th>Payment Method</th>
                             <th>Date</th>
 
 
@@ -190,7 +190,7 @@
     <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe WHERE status = 'completed' ORDER BY partner DESC LIMIT 10");
+                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe WHERE  status = 'completed' ORDER BY partner DESC LIMIT 10");
 
                         if (!$query) {
                             echo "Error fetching data: " . mysqli_error($conn);
@@ -216,13 +216,11 @@
                                     <td><?php echo $partner; ?></td>
                                     <td><?php echo $shipmentType; ?></td>
                                     <td><?php echo $product; ?></td>
-                                    <td><?php echo $quantity; ?></td>
                                     <td><?php echo $amount; ?></td>
                                     <td><?php echo $customersName; ?></td>
                                     <td><?php echo $destination; ?></td>
                                     <td><?php echo $customerContact; ?></td>
                                     <td><?php echo $captain; ?></td>
-                                    <td><?php echo $paymentMethod; ?></td>
                                     <td><?php echo $date; ?></td>
                                 </tr>
                                 <?php

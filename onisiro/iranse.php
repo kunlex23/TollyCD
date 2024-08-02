@@ -132,7 +132,6 @@
                         <tr>
                             <th>SN</th>
                             <th>Partner</th>
-                            <th>Receiver</th>
                             <th>Contact</th>
                             <th>Destination</th>
                             <th>Products</th>
@@ -147,7 +146,7 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' AND captainPayStatus='rara' ORDER BY partner DESC ");
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id = $row['id'];
@@ -175,7 +174,7 @@
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>
                                 <td><?php echo $date; ?></td>
-                                <td><a href="owowole.php?partner=<?php echo urlencode($partner); ?>">Confirm Payment</a></td>
+                                <td><a href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm Payment</a></td>
                                 </tr>
                         <?php $serialNumber++;  } ?>
                     </tbody>
