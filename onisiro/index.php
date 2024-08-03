@@ -98,7 +98,7 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h1>Accounting</h1>
+            <h1>Accounting</h1><br>
             <div class="insight">
                 <div class="sales">
                     <div class="middle">
@@ -165,6 +165,7 @@
                 </div>
 
             </div>
+           
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div><br>

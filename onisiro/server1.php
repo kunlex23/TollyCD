@@ -8,10 +8,10 @@ $sql = "SELECT SUM(partnerReward) AS amountIn
       AND status = 'Completed' 
       AND partnerPayStatus = 'rara'
       AND date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
-      
+
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
-    $tClients = $row['amountIn'];
+    $tClients = $row['amountIn'] !== null ? $row['amountIn'] : 0;
 
     echo '<h1>' . $tClients . '</h1>';
   }

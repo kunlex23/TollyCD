@@ -10,7 +10,7 @@
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/styl.css">
+    <link rel="stylesheet" href="css/exp.css">
 </head>
 
 <body>
@@ -19,8 +19,11 @@
             <div class="top">
                 <div class="logo">
                     <img src="./images/logo.png">
+                    <!-- <h2>ZIB<span class="compel">AH</span></h2> -->
+                    <!-- <h2>Name</h2> -->
                 </div>
-                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
+                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span>
+                </div>
             </div>
             <div class="sideBar">
                 <a href="index.php">
@@ -70,20 +73,48 @@
         </aside>
         <main>
             <div class="recent-sales">
-                
+                <h1>New Expenses</h1>
+                <form class="five-column-form" action="inawowole.php" method="POST">
+                        <div>
+                            <label for="name">Name:</label>
+                            <input type="text" name="name[]" required><br>
+                        </div>
+                    <div class="tray1">
+                        <div class="tray0">
+                        <label for="purpose">Purpose:</label>
+                        <input type="text" name="purpose[]" required><br>
+                    </div>
+                    </div>
+                    <div class="tray2">
+                        <div>
+                            <label for="amount">Amount:</label>
+                            <input type="text" name="amount[]" required ><br>
+                        </div>
+                    </div>
+                    <div class="tray3">
+                        <div>
+                            <label for="approvedBy">Approved By:</label>
+                            <input type="text" name="approvedBy[]" required ><br>
+                        </div>
+                    </div>
+                    <div id="notification" class="notification hidden">New record created successfully!</div>
+                    <div class="button-container">
+                        <div class="job"><input type="submit" value="Submit"></div>
+                    </div>
+                </form>
 
                 <div class="spacer"></div>
                 <h2>Expenses Records</h2>
                 <div class="spacer"></div>
-                <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
+                <input type="text" id="filterInput" placeholder="Search..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
                             <!-- <th>ID</th> -->
+                            <th>Name</th>
                             <th>Purpose</th>
-                            <th>Unit</th>
-                            <th>Unit Price</th>
                             <th>Amount</th>
+                            <th>Approved By</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -91,20 +122,19 @@
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, purpose, unit, unitPrice, amount, date  FROM inawo ORDER BY purpose DESC ");
+                        $query = mysqli_query($conn, "SELECT id, name, purpose, amount, approvedBy, date  FROM inawo ORDER BY purpose DESC ");
                         while ($row = mysqli_fetch_array($query)) {
+                            $name = $row['name'];
                             $purpose = $row['purpose'];
-                            $unit = $row['unit'];
-                            $unitPrice = $row['unitPrice'];
                             $amount = $row['amount'];
+                            $approvedBy = $row['approvedBy'];
                             $date = $row['date'];
                             ?>
                         <tr>
-                            <!-- <td><?php echo $id; ?></td> -->
+                            <td><?php echo $name; ?></td>
                             <td><?php echo $purpose; ?></td>
-                            <td><?php echo $unit; ?></td>
-                            <td><?php echo $unitPrice; ?></td>
                             <td><?php echo $amount; ?></td>
+                            <td><?php echo $approvedBy; ?></td>
                             <td><?php echo $date; ?></td>
                         </tr>
                         <?php } ?>

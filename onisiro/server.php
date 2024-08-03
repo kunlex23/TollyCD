@@ -7,7 +7,7 @@ $sql = "SELECT SUM(amount) AS amount
         FROM gbigbe 
         WHERE shipmentType= 'Delivery' 
         AND status = 'Completed' 
-        AND accCaptain = 'rara'
+        AND partnerPayStatus = 'rara'
         AND date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
 
 if ($result = $conn->query($sql)) {

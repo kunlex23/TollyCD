@@ -67,7 +67,7 @@ body {
     width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto 5rem;
+    grid-template-columns: 13rem auto 15rem;
 }
 
 a {
@@ -255,7 +255,7 @@ main .date input[type="date"] {
 
 main .insight {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.6rem;
 
 }
@@ -398,7 +398,7 @@ main .recent-sales table {
     text-align: center;
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
-    
+
 }
 
 main .recent-sales table:hover {
@@ -409,7 +409,6 @@ main table tbody td {
     height: 2.8rem;
     border-bottom: 1px solid var(--color-light);
     color: var(--color-dark-variant);
-    text-align: left;
 }
 
 main table tbody tr:last-child td {
@@ -422,51 +421,45 @@ main .recent-sales a {
     margin: 1rem auto;
     color: var(--color-primary);
 }
-.tray0{
-    margin-right: 1.5rem;
-    width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-}
-.tray1{
-    margin-right: 1.5rem;
-    width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-}
-.tray2, .tray2 input{
-    margin-right: 1.5rem;
-    width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-}
-.tray3{
+
+.tray0 {
     margin-right: 1.5rem;
 }
-.tray4{
+
+.tray1 {
     margin-right: 1.5rem;
 }
-.job{
+
+.tray2 {
+    margin-right: 1.5rem;
+}
+
+.tray3 {
+    margin-right: 1.5rem;
+}
+
+.tray4 {
+    margin-right: 1.5rem;
+}
+
+.job {
     margin-top: 1.5rem;
 }
+
 /* ============================ */
 /* Apply CSS Grid for a three-column layout */
 /* Apply Flexbox for a three-column layout */
 .five-column-form {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px; /* Adjust this value to control the space between columns */
+    gap: 5px;
+    /* Adjust this value to control the space between columns */
 }
 
 /* Style for labels */
 label {
-    flex-basis: 33.33%; /* Distribute labels evenly in the three columns */
+    flex-basis: 33.33%;
+    /* Distribute labels evenly in the three columns */
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -474,7 +467,8 @@ label {
 /* Style for input fields */
 input[type="text"],
 input[type="date"] {
-    flex-basis: 33.33%; /* Distribute input fields evenly in the three columns */
+    flex-basis: 33.33%;
+    /* Distribute input fields evenly in the three columns */
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
@@ -489,40 +483,81 @@ input[type="date"] {
 } */
 
 /* ============================ */
-form {
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.five-column-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* Adjust the space between rows */
 }
-label {
-    display: block;
+
+#fields-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* Adjust the space between each set of fields */
+}
+
+.field-container {
+    display: flex;
+    gap: 1rem;
+    /* Adjust the space between columns */
+}
+
+.field-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.field-group label {
     margin-bottom: 5px;
-    color: #555;
+    font-weight: bold;
 }
-input[type="text"],
-input[type="email"],
-select {
+
+.field-group input[type="text"] {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
+    padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 4px;
 }
-select {
-    height: 35px;
+
+/* Button container styling */
+.button-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
 }
-input[type="submit"] {
+
+.button-container .job {
+    flex: 1;
+}
+
+.button-container .job input {
     background-color: #4CAF50;
-    color: #fff;
     padding: 10px 20px;
+    border-radius: 0.5rem;
+    color: #fff;
+
+}
+
+
+
+.button-container .add-button {
+    padding: 10px 20px;
+    /* background-color: #180083; */
+    /* color: #fff; */
     border: none;
     border-radius: 3px;
     cursor: pointer;
+
 }
-input[type="submit"]:hover {
-    background-color: #45a049;
+
+.button-container .add-button:hover {
+    background-color: #180083;
+    color: #fff;
 }
+
 .notification {
     position: fixed;
     font-size: 30px;
@@ -625,8 +660,9 @@ input[type="submit"]:hover {
 .right .sales-analytics h2 {
     margin-bottom: 0.5rem;
 }
-.due_client{
-    background-color:var(--color-white);
+
+.due_client {
+    background-color: var(--color-white);
     padding: 0.8rem;
     border-radius: 1rem;
 }
