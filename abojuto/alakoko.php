@@ -12,16 +12,16 @@
     <link rel="stylesheet" href="css/stylse.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        table,
-        th,
-        td {
-            padding: 8px;
-        }
+    table,
+    th,
+    td {
+        padding: 8px;
+    }
 
-        tr:nth-child(even),
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even),
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -87,9 +87,9 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-    <h2>Partner Analytics</h2><br><br><br>
+            <h2>Partner Analytics</h2><br><br><br>
 
-    <?php
+            <?php
             require '../config.php';
 
             // Initialize arrays for months and partners
@@ -131,55 +131,155 @@
 
             $conn->close();
             ?>
-            <canvas id="myChart" width="400" height="200"></canvas>
-            <script>
-                // Get data from PHP
-                var months = <?php echo json_encode($months); ?>;
-                var partners = <?php echo json_encode($partners); ?>;
-                var data = <?php echo json_encode($data); ?>;
+            <canvas id="myChart" width="400" height="200"></canvas><br><br>
+            <div class="capAnalytics">
+                <div class="classOne">
+                    <b> Top Revenue </b>
+                    <?php
+                require '../config.php';
 
-                // Generate random colors for each partner
-                var colors = [];
-                for (var i = 0; i < partners.length; i++) {
-                    colors.push('rgba(' + Math.floor(Math.random() * 256) + ',' +
-                        Math.floor(Math.random() * 256) + ',' +
-                        Math.floor(Math.random() * 256) + ', 0.2)');
+                // SQL query to find the highest revenue among all partners
+                $sql = "SELECT partner, SUM(profitReward) AS amountIn 
+                        FROM gbigbe 
+                        WHERE status = 'Completed' AND partnerPayStatus = 'beni' 
+                        GROUP BY partner 
+                        ORDER BY amountIn DESC 
+                        LIMIT 1";
+
+                if ($result = $conn->query($sql)) {
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $highestPartner = $row['partner'];
+                            $highestRevenue = $row['amountIn'];
+
+                            echo '<h2>' . $highestPartner . ': ' . $highestRevenue . '</h2>';
+                        }
+                    } else {
+                        echo '<h1>No results found</h1>';
+                    }
+                    $result->free();
+                } else {
+                    echo '<h1>Error executing query: ' . $conn->error . '</h1>';
                 }
+                $conn->close();
+                ?>
+                </div>
 
-                // Create the datasets for each partner
-                var datasets = [];
-                for (var i = 0; i < partners.length; i++) {
-                    datasets.push({
-                        label: partners[i],
-                        data: data[partners[i]],
-                        backgroundColor: colors[i],
-                        borderColor: colors[i].replace('0.2', '1'),
-                        borderWidth: 1
-                    });
-                }
 
-                // Create the chart
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: months,
-                        datasets: datasets
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            },
-                            x: {
-                                stacked: true
-                            },
-                            y: {
-                                stacked: true
+                <div class="classOne">
+                    <b>Top Delivery</b>
+                    <?php
+                    require '../config.php';
+
+                    // SQL query to find the partner with the highest delivery
+                    $sql = "SELECT partner, COUNT(*) AS deliveryCount 
+            FROM gbigbe 
+            WHERE status = 'Completed' AND shipmentType = 'delivery' 
+            GROUP BY partner 
+            ORDER BY deliveryCount DESC 
+            LIMIT 1";
+
+                    if ($result = $conn->query($sql)) {
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $highestPartner = $row['partner'];
+                                $highestDelivery = $row['deliveryCount'];
+
+                                echo '<h2>' . $highestPartner . ': ' . $highestDelivery . ' deliveries</h2>';
                             }
+                        } else {
+                            echo '<p>No results found</p>';
+                        }
+                        $result->free();
+                    } else {
+                        echo '<p>Error executing query: ' . $conn->error . '</p>';
+                    }
+                    $conn->close();
+                    ?>
+                </div>
+
+                <div class="classOne">
+                    <b>Top Returns</b>
+                    <?php
+                    require '../config.php';
+
+                    // SQL query to find the partner with the highest number of returns
+                    $sql = "SELECT partner, COUNT(*) AS returnCount 
+            FROM gbigbe 
+            WHERE status = 'Return' 
+            GROUP BY partner 
+            ORDER BY returnCount DESC 
+            LIMIT 1";
+
+                    if ($result = $conn->query($sql)) {
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $highestPartner = $row['partner'];
+                                $highestReturns = $row['returnCount'];
+
+                                echo '<h2>' . $highestPartner . ': ' . $highestReturns . ' returns</h2>';
+                            }
+                        } else {
+                            echo '<p>No results found</p>';
+                        }
+                        $result->free();
+                    } else {
+                        echo '<p>Error executing query: ' . $conn->error . '</p>';
+                    }
+                    $conn->close();
+                    ?>
+                </div><br><br>
+
+
+            </div>
+            <script>
+            // Get data from PHP
+            var months = <?php echo json_encode($months); ?>;
+            var partners = <?php echo json_encode($partners); ?>;
+            var data = <?php echo json_encode($data); ?>;
+
+            // Generate random colors for each partner
+            var colors = [];
+            for (var i = 0; i < partners.length; i++) {
+                colors.push('rgba(' + Math.floor(Math.random() * 256) + ',' +
+                    Math.floor(Math.random() * 256) + ',' +
+                    Math.floor(Math.random() * 256) + ', 0.2)');
+            }
+
+            // Create the datasets for each partner
+            var datasets = [];
+            for (var i = 0; i < partners.length; i++) {
+                datasets.push({
+                    label: partners[i],
+                    data: data[partners[i]],
+                    backgroundColor: colors[i],
+                    borderColor: colors[i].replace('0.2', '1'),
+                    borderWidth: 1
+                });
+            }
+
+            // Create the chart
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        },
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true
                         }
                     }
-                });
+                }
+            });
             </script>
         </main>
 
@@ -226,7 +326,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="elekerin.php">
+                <a href="iroeri.php">
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">stars</span>

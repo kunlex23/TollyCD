@@ -49,7 +49,7 @@
 
                 <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
-                    <h3>captain Payment History</h3>
+                    <h3>Partner Payment History</h3>
                 </a>
 
                 <a href="sisanwokeji.php">
@@ -87,143 +87,47 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h2>Captain Analytics</h2><br><br><br>
+    <h2>Expenses Analytics</h2><br><br><br>
 
-            <?php
+    <?php
             require '../config.php';
 
-            // Initialize arrays for months and captains
+            // Initialize arrays for months and amounts
             $months = [];
             for ($i = 0; $i < 12; $i++) {
                 $months[] = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
             }
             $months = array_reverse($months);
 
-            $captains = [];
-            $data = [];
+            $amounts = array_fill(0, 12, 0);
 
-            // Query to get the profit for each captain by month
-            $sql = "SELECT captain, DATE_FORMAT(date, '%Y-%m') AS month, SUM(profitReward) as total_profit 
-            FROM gbigbe 
+            // Query to get the total amount by month
+            $sql = "SELECT DATE_FORMAT(date, '%Y-%m') AS month, SUM(amount) as total_amount 
+            FROM inawo 
             WHERE date >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
-            GROUP BY captain, DATE_FORMAT(date, '%Y-%m')
-            ORDER BY captain, month";
+            GROUP BY DATE_FORMAT(date, '%Y-%m')";
 
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $captain = $row['captain'];
                     $month = $row['month'];
-                    $profit = $row['total_profit'];
-
-                    if (!isset($data[$captain])) {
-                        $data[$captain] = array_fill(0, 12, 0);
-                        $captains[] = $captain;
-                    }
+                    $total_amount = $row['total_amount'];
 
                     $index = array_search($month, $months);
                     if ($index !== false) {
-                        $data[$captain][$index] = $profit;
+                        $amounts[$index] = $total_amount;
                     }
                 }
             }
 
             $conn->close();
             ?>
-            <canvas id="myChart" width="400" height="200"></canvas><br><br>
-            <div class="capAnalytics">
-                <div class="classOne">
-                    <b>Top Delivery</b>
-                    <?php
-                    require '../config.php';
-
-                    // SQL query to find the captain with the highest delivery
-                    $sql = "SELECT captain, COUNT(*) AS deliveryCount 
-            FROM gbigbe 
-            WHERE status = 'Completed' AND shipmentType = 'delivery' 
-            GROUP BY captain 
-            ORDER BY deliveryCount DESC 
-            LIMIT 1";
-
-                    if ($result = $conn->query($sql)) {
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $highestcaptain = $row['captain'];
-                                $highestDelivery = $row['deliveryCount'];
-
-                                echo '<h2>' . $highestcaptain . ': ' . $highestDelivery . ' deliveries</h2>';
-                            }
-                        } else {
-                            echo '<p>No results found</p>';
-                        }
-                        $result->free();
-                    } else {
-                        echo '<p>Error executing query: ' . $conn->error . '</p>';
-                    }
-                    $conn->close();
-                    ?>
-                </div>
-            
-                <div class="classOne">
-                    <b>Top Returns</b>
-                    <?php
-                    require '../config.php';
-
-                    // SQL query to find the captain with the highest number of returns
-                    $sql = "SELECT captain, COUNT(*) AS returnCount 
-            FROM gbigbe 
-            WHERE status = 'Return' 
-            GROUP BY captain 
-            ORDER BY returnCount DESC 
-            LIMIT 1";
-
-                    if ($result = $conn->query($sql)) {
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $highestcaptain = $row['captain'];
-                                $highestReturns = $row['returnCount'];
-
-                                echo '<h2>' . $highestcaptain . ': ' . $highestReturns . ' returns</h2>';
-                            }
-                        } else {
-                            echo '<p>No results found</p>';
-                        }
-                        $result->free();
-                    } else {
-                        echo '<p>Error executing query: ' . $conn->error . '</p>';
-                    }
-                    $conn->close();
-                    ?>
-                </div><br><br>
-            
-            
-            </div>
+            <canvas id="myChart" width="400" height="200"></canvas>
             <script>
                 // Get data from PHP
                 var months = <?php echo json_encode($months); ?>;
-                var captains = <?php echo json_encode($captains); ?>;
-                var data = <?php echo json_encode($data); ?>;
-
-                // Generate random colors for each captain
-                var colors = [];
-                for (var i = 0; i < captains.length; i++) {
-                    colors.push('rgba(' + Math.floor(Math.random() * 256) + ',' +
-                        Math.floor(Math.random() * 256) + ',' +
-                        Math.floor(Math.random() * 256) + ', 0.2)');
-                }
-
-                // Create the datasets for each captain
-                var datasets = [];
-                for (var i = 0; i < captains.length; i++) {
-                    datasets.push({
-                        label: captains[i],
-                        data: data[captains[i]],
-                        backgroundColor: colors[i],
-                        borderColor: colors[i].replace('0.2', '1'),
-                        borderWidth: 1
-                    });
-                }
+                var amounts = <?php echo json_encode($amounts); ?>;
 
                 // Create the chart
                 var ctx = document.getElementById('myChart').getContext('2d');
@@ -231,24 +135,25 @@
                     type: 'bar',
                     data: {
                         labels: months,
-                        datasets: datasets
+                        datasets: [{
+                            label: 'Total Amount',
+                            data: amounts,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
                     },
                     options: {
                         scales: {
                             y: {
                                 beginAtZero: true
-                            },
-                            x: {
-                                stacked: true
-                            },
-                            y: {
-                                stacked: true
                             }
                         }
                     }
                 });
             </script>
         </main>
+
 
 
         <!-- ----------END OF MAIN----------- -->
@@ -273,7 +178,7 @@
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">groups</span>
-                            <h3>captain Analytics</h3>
+                            <h3>Partner Analytics</h3>
                         </div>
                     </div>
                 </a>
