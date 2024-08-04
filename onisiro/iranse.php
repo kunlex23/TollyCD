@@ -166,7 +166,6 @@
                             <tr>
                                 <td><?php echo $serialNumber; ?></td>
                                 <td><?php echo $partner; ?></td>
-                                <td><?php echo $customersName; ?></td>
                                 <td><?php echo $customerContact; ?></td>
                                 <td><?php echo $destination; ?></td>
                                 <td><?php echo $product; ?></td>

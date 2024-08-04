@@ -239,19 +239,17 @@
                 </div>
 
 
-            </div>
+            </div><br>
 
             <h2>Recent Shipments</h2>
-            <div class="spacer"></div>
             <table style="width: 100%;">
                 <thead>
                     <tr>
                         <th>Partner</th>
                         <th>Type</th>
                         <th>Product</th>
-                        <th>Quantity</th>
                         <th>Amount</th>
-                        <th>Customers Name</th>
+                        <th>Customers</th>
                         <th>Destination</th>
                         <th>Captain</th>
                         <th>Status</th>
@@ -285,7 +283,6 @@
                         <td><?php echo $partner; ?></td>
                         <td><?php echo $shipmentType; ?></td>
                         <td><?php echo $product; ?></td>
-                        <td><?php echo $quantity; ?></td>
                         <td><?php echo $amount; ?></td>
                         <td><?php echo $customersName; ?></td>
                         <td><?php echo $destination; ?></td>
