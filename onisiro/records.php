@@ -405,7 +405,12 @@
     <?php
     require '../config.php';
 
-    $query = mysqli_query($conn, "SELECT DISTINCT partner FROM gbigbe WHERE shipmentType = 'Delivery' AND status = 'completed' AND partnerPayStatus = 'rara' ORDER BY partner DESC");
+    $query = mysqli_query($conn, "SELECT DISTINCT partner 
+    FROM gbigbe 
+    WHERE shipmentType = 'Delivery' 
+    AND remitanceKind ='NORMs'
+    AND status = 'completed' 
+    AND partnerPayStatus = 'rara' ORDER BY partner DESC");
 
     if (!$query) {
         echo "Error fetching data: " . mysqli_error($conn);
