@@ -232,7 +232,7 @@
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date FROM gbigbe WHERE status = 'completed' AND accCaptain = 'rara' ORDER BY partner DESC");
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, remitanceKind, date FROM gbigbe WHERE status = 'completed' AND accCaptain = 'rara' ORDER BY partner DESC");
 
                             if (!$query) {
                                 echo "Error fetching data: " . mysqli_error($conn);
@@ -253,6 +253,7 @@
                                     $captain = $row['captain'];
                                     $paymentMethod = $row['paymentMethod'];
                                     $date = $row['date'];
+                                    $remitanceKind = $row['remitanceKind'];
                                     ?>
                             <tr>
                                 <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
@@ -279,6 +280,16 @@
                                     </select>
                                 </td>
                                 <td><?php echo $date; ?></td>
+                                <td>
+                                    <select class="partner-dropdown" data-id="<?php echo $id; ?>">
+                                        <option value="NORMs" <?php if ($remitanceKind == 'NORMs')
+                                            echo 'selected'; ?>>Regular Method</option>
+                                        <option value="M2TCD" <?php if ($remitanceKind == 'M2TCD')
+                                            echo 'selected'; ?>>Partner remit monthly</option>
+                                        <option value="WP2P" <?php if ($remitanceKind == 'WP2P')
+                                            echo 'selected'; ?>>Weekly Payment to Partner</option>
+                                    </select>
+                                </td>
                                 <td><button onclick="confirmShipment(<?php echo $id; ?>)"
                                         style="background-color:blue; color:white;">Confirm</button></td>
                             </tr>
@@ -568,6 +579,23 @@ document.querySelectorAll('.paymentMethod-dropdown').forEach(function(dropdown) 
             }
         };
         xhr.send('id=' + shipmentId + '&paymentMethod=' + newPaymentMethod);
+    });
+});
+
+document.querySelectorAll('.partner-dropdown').forEach(function(dropdown) {
+    dropdown.addEventListener('change', function() {
+        var shipmentId = this.getAttribute('data-id');
+        var newremitanceKind = this.value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'remitanceKind.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Success.');
+            }
+        };
+        xhr.send('id=' + shipmentId + '&remitanceKind=' + newremitanceKind);
     });
 });
 </script>

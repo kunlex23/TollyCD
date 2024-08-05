@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $captainPayStatus = (array) $_POST['captainPayStatus'];
         $state = $_POST['state'];
         $deliveryFee = (array) $_POST['partnerPrice'];
+        
 
         // Concatenate products and quantities
         $productQuantityList = [];
@@ -39,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $productQuantityList[] = $products[$i] . ' =' . $quantities[$i] . '';
         }
         $productQuantityString = implode(', ', $productQuantityList);
-        echo $productQuantityString;
+        // echo $productQuantityString;
 
         // Concatenate availableUnits
         $avaiList = [];

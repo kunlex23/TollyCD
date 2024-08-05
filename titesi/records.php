@@ -104,6 +104,9 @@
     .modal-content button {
         align-self: flex-end;
     }
+    select {
+    width: 8rem;
+}
     </style>
 </head>
 
