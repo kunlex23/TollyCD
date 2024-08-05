@@ -225,14 +225,20 @@
                                 <th>Captain</th>
                                 <th>Payment Method</th>
                                 <th>Date</th>
-                                <th>Confirm</th>
+                                <th></th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="table-body">
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, remitanceKind, date FROM gbigbe WHERE status = 'completed' AND accCaptain = 'rara' ORDER BY partner DESC");
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, 
+                            customersName, destination, customerContact, captain, paymentMethod, remitanceKind, date 
+                            FROM gbigbe 
+                            WHERE status = 'completed' 
+                            AND accCaptain = 'rara' 
+                            ORDER BY partner DESC");
 
                             if (!$query) {
                                 echo "Error fetching data: " . mysqli_error($conn);
@@ -291,7 +297,7 @@
                                     </select>
                                 </td>
                                 <td><button onclick="confirmShipment(<?php echo $id; ?>)"
-                                        style="background-color:blue; color:white;">Confirm</button></td>
+                                        style="padding:0.5rem; background-color:  #7380ec; border-radius:0.4rem;"><b>Confirm</b></button></td>
                             </tr>
                             <?php
                                     $serialNumber++; // Increment the serial number
