@@ -127,6 +127,8 @@
                 <button class="tablinks" onclick="openTab(event, 'UnprocessedShipments')">Unconfirmed Shipments</button>
                 <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Confirmed Shipments</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Remitting(M)</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment_W')">Partner Payment(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'riderPayment')">Captain Payment</button>
             </div>
 
@@ -297,7 +299,8 @@
                                     </select>
                                 </td>
                                 <td><button onclick="confirmShipment(<?php echo $id; ?>)"
-                                        style="padding:0.5rem; background-color:  #7380ec; border-radius:0.4rem;"><b>Confirm</b></button></td>
+                                        style="padding:0.5rem; background-color:  #7380ec; border-radius:0.4rem;"><b>Confirm</b></button>
+                                </td>
                             </tr>
                             <?php
                                     $serialNumber++; // Increment the serial number
@@ -402,54 +405,217 @@
                             </tr>
                         </thead>
                         <tbody id="table-body">
-    <?php
-    require '../config.php';
+                            <?php
+                            require '../config.php';
 
-    $query = mysqli_query($conn, "SELECT DISTINCT partner FROM gbigbe WHERE shipmentType = 'Delivery' AND status = 'completed' AND partnerPayStatus = 'rara' ORDER BY partner DESC");
+                            $query = mysqli_query($conn, "SELECT DISTINCT partner 
+                            FROM gbigbe 
+                            WHERE shipmentType = 'Delivery' 
+                            AND status = 'completed' 
+                            AND remitanceKind = 'NORMs'
+                            AND partnerPayStatus = 'rara' 
+                            ORDER BY partner DESC");
 
-    if (!$query) {
-        echo "Error fetching data: " . mysqli_error($conn);
-    } else {
-        $serialNumber = 1; // Initialize the serial number outside the while loop
+                            if (!$query) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
+                                $serialNumber = 1; // Initialize the serial number outside the while loop
+                            
+                                while ($row = mysqli_fetch_array($query)) {
+                                    $partner = $row['partner'];
 
-        while ($row = mysqli_fetch_array($query)) {
-            $partner = $row['partner'];
+                                    // Query to calculate total partner reward
+                                    $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                                    $resulta = mysqli_query($conn, $sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    $partnerReward = $rowa['totalReward'];
 
-            // Query to calculate total partner reward
-            $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
-            $resulta = mysqli_query($conn, $sqla);
-            $rowa = mysqli_fetch_array($resulta);
-            $partnerReward = $rowa['totalReward'];
+                                    // Query to fetch account details
+                                    $query2 = "SELECT accountNumber, bank, accountName FROM alabasepo WHERE Name = '$partner'";
+                                    $result2 = mysqli_query($conn, $query2);
+                                    $row2 = mysqli_fetch_array($result2);
 
-            // Query to fetch account details
-            $query2 = "SELECT accountNumber, bank, accountName FROM alabasepo WHERE Name = '$partner'";
-            $result2 = mysqli_query($conn, $query2);
-            $row2 = mysqli_fetch_array($result2);
-
-            $accountNumber = $row2['accountNumber'];
-            $bank = $row2['bank'];
-            $accountName = $row2['accountName'];
-            ?>
-            <tr>
-                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                <td><?php echo $partner; ?></td>
-                <td><?php echo $partnerReward; ?></td>
-                <td><?php echo $accountNumber; ?></td>
-                <td><?php echo $bank; ?></td>
-                <td><?php echo $accountName; ?></td>
-                <td><a href="wiwoIro.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
-                <!-- <td><a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a></td> -->
-            </tr>
-            <?php
-            $serialNumber++; // Increment the serial number
-        }
-    }
-    ?>
-</tbody>
+                                    $accountNumber = $row2['accountNumber'];
+                                    $bank = $row2['bank'];
+                                    $accountName = $row2['accountName'];
+                                    ?>
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $partnerReward; ?></td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
+                                <td><a href="wiwoIro.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
+                                <!-- <td><a href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a></td> -->
+                            </tr>
+                            <?php
+                                    $serialNumber++; // Increment the serial number
+                                }
+                            }
+                            ?>
+                        </tbody>
 
                     </table>
 
                 </div>
+            </div>
+
+            <div id="partnerPayment_M" class="tab-content">
+                <div class="recent-sales">
+                    <div class="spacer"></div>
+                    <h2>Partner Monthly Remittance </h2>
+
+                    <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
+
+                    <table id="shipmentTable" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Total Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT DISTINCT partner 
+                                FROM gbigbe 
+                                WHERE shipmentType='Delivery'
+                                AND remitanceKind = 'M2TCD'
+                                AND partnerRemitance = 'rara'
+                                AND status = 'completed' 
+                                AND accCaptain = 'beni' 
+                                AND partnerPayStatus = 'rara'");
+
+                            if (!$query) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
+                                $serialNumber = 1; // Initialize the serial number outside the while loop
+                            
+                                while ($row = mysqli_fetch_array($query)) {
+                                    $partner = $row['partner'];
+
+                                    // Query to calculate total partner reward
+                                    $sqla = "SELECT SUM(deliveryFee) AS totalReward 
+                                    FROM gbigbe 
+                                    WHERE shipmentType='Delivery'
+                                    AND remitanceKind = 'M2TCD'
+                                    AND status = 'completed' 
+                                    AND accCaptain = 'beni' 
+                                    AND partnerPayStatus = 'rara'";
+
+                                    $resulta = mysqli_query($conn, $sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    $remitance2US = $rowa['totalReward'];
+
+                                    
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                        <td><?php echo $partner; ?></td>
+                                        <td><?php echo $remitance2US; ?></td>
+                                        <td><a href="wiwoIrokeji.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
+                                        
+                                    </tr>
+                                    <?php
+                                    $serialNumber++; // Increment the serial number
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    
+                    </table>
+
+
+                </div>
+            </div>
+
+            <div id="partnerPayment_W" class="tab-content">
+                <div class="recent-sales">
+                    <div class="spacer"></div>
+                    <h2>Partner Weekly Payment </h2>
+
+                    <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
+                    <table id="shipmentTable" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Total Amount</th>
+                                <th>Account Number</th>
+                                <th>Bank</th>
+                                <th>Account Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                                require '../config.php';
+
+                                $query = mysqli_query($conn, "SELECT DISTINCT partner 
+                                FROM gbigbe 
+                                WHERE shipmentType = 'Delivery' 
+                                AND status = 'completed' 
+                                AND accCaptain = 'beni' 
+                                AND remitanceKind = 'WP2P'
+                                AND partnerPayStatus = 'rara' 
+                                ORDER BY partner DESC");
+
+                                if (!$query) {
+                                    echo "Error fetching data: " . mysqli_error($conn);
+                                } else {
+                                    $serialNumber = 1; // Initialize the serial number outside the while loop
+                                
+                                    while ($row = mysqli_fetch_array($query)) {
+                                        $partner = $row['partner'];
+
+                                        // Query to calculate total partner reward
+                                        $sqla = "SELECT SUM(amount) AS totalReward 
+                                        FROM gbigbe 
+                                        WHERE shipmentType='Delivery' 
+                                        AND partner = '$partner' 
+                                        AND status = 'completed' 
+                                        AND accCaptain = 'beni' 
+                                        AND remitanceKind = 'WP2P'
+                                        AND partnerPayStatus = 'rara'";
+
+                                        $resulta = mysqli_query($conn, $sqla);
+                                        $rowa = mysqli_fetch_array($resulta);
+                                        $partnerReward = $rowa['totalReward'];
+
+                                        // Query to fetch account details
+                                        $query2 = "SELECT accountNumber, bank, accountName FROM alabasepo WHERE Name = '$partner'";
+                                        $result2 = mysqli_query($conn, $query2);
+                                        $row2 = mysqli_fetch_array($result2);
+
+                                        $accountNumber = $row2['accountNumber'];
+                                        $bank = $row2['bank'];
+                                        $accountName = $row2['accountName'];
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                            <td><?php echo $partner; ?></td>
+                                            <td><?php echo $partnerReward; ?></td>
+                                            <td><?php echo $accountNumber; ?></td>
+                                            <td><?php echo $bank; ?></td>
+                                            <td><?php echo $accountName; ?></td>
+                                            <td><a href="wiwoIroketa.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
+                                            
+                                        </tr>
+                                        <?php
+                                        $serialNumber++; // Increment the serial number
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                    
+                        </table>
+                    
+                </div>
+
             </div>
 
             <div id="riderPayment" class="tab-content">
@@ -503,8 +669,9 @@
                                 <td><?php echo $accountNumber; ?></td>
                                 <td><?php echo $bank; ?></td>
                                 <td><?php echo $accountName; ?></td>
-                                <td><a href="wiwoIroOlugbe.php?olugbe=<?php echo urlencode($captain); ?>">Details</a></td>
-                
+                                <td><a href="wiwoIroOlugbe.php?olugbe=<?php echo urlencode($captain); ?>">Details</a>
+                                </td>
+
                             </tr>
                             <?php
                             $serialNumber++; // Increment the serial number
