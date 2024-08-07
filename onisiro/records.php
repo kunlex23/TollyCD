@@ -11,39 +11,7 @@
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-    /* Tab styles */
-    .tab {
-        overflow: hidden;
-        border-bottom: 1px solid #ccc;
-        background-color: #f1f1f1;
-    }
-
-    .tab button {
-        background-color: inherit;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-    }
-
-    .tab button:hover {
-        background-color: #ddd;
-    }
-
-    .tab button.active {
-        background-color: #ccc;
-    }
-
-    .tab-content {
-        display: none;
-        padding: 6px 12px;
-        border-top: none;
-    }
-
-    .tab-content.active {
-        display: block;
-    }
+   
 
     table,
     th,
@@ -124,10 +92,11 @@
             <div class="tab">
                 <button class="tablinks" onclick="openTab(event, 'AllShipments')" id="defaultOpen">All
                     Shipments</button>
-                <button class="tablinks" onclick="openTab(event, 'UnprocessedShipments')">Unconfirmed Shipments</button>
-                <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Confirmed Shipments</button>
+                <button class="tablinks" onclick="openTab(event, 'UnprocessedShipments')">Unconfirmed</button>
+                <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Confirmed</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Remitting(M)</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment_M2')">Partner Remitting(M2)</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_W')">Partner Payment(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'riderPayment')">Captain Payment</button>
             </div>
@@ -160,7 +129,10 @@
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date FROM gbigbe WHERE status = 'Completed' ORDER BY partner DESC");
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date 
+                            FROM gbigbe 
+                            WHERE status = 'Completed' 
+                            ORDER BY partner DESC");
 
                             if (!$query) {
                                 echo "Error fetching data: " . mysqli_error($conn);
@@ -425,7 +397,15 @@
                                     $partner = $row['partner'];
 
                                     // Query to calculate total partner reward
-                                    $sqla = "SELECT SUM(partnerReward) AS totalReward FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                                    $sqla = "SELECT SUM(partnerReward) AS totalReward 
+                                    FROM gbigbe 
+                                    WHERE shipmentType='Delivery'
+                                    AND remitanceKind = 'NORMs'
+                                    AND partner = '$partner' 
+                                    AND status = 'completed' 
+                                    AND accCaptain = 'beni' 
+                                    AND partnerPayStatus = 'rara'";
+
                                     $resulta = mysqli_query($conn, $sqla);
                                     $rowa = mysqli_fetch_array($resulta);
                                     $partnerReward = $rowa['totalReward'];
@@ -460,6 +440,8 @@
 
                 </div>
             </div>
+
+            
 
             <div id="partnerPayment_M" class="tab-content">
                 <div class="recent-sales">
@@ -518,6 +500,79 @@
                                         <td><?php echo $partner; ?></td>
                                         <td><?php echo $remitance2US; ?></td>
                                         <td><a href="wiwoIrokeji.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
+                                        
+                                    </tr>
+                                    <?php
+                                    $serialNumber++; // Increment the serial number
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    
+                    </table>
+
+
+                </div>
+            </div>
+
+            <div id="partnerPayment_M2" class="tab-content">
+                <div class="recent-sales">
+                    <div class="spacer"></div>
+                    <h2>Partner Monthly Remittance (Weekly Payments) </h2>
+
+                    <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
+
+                    <table id="shipmentTable" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Total Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT DISTINCT partner 
+                                FROM gbigbe 
+                                WHERE shipmentType='Delivery'
+                                AND remitanceKind = 'WP2P'
+                                AND partnerRemitance = 'rara'
+                                AND status = 'completed' 
+                                AND accCaptain = 'beni' 
+                                AND partnerPayStatus = 'rara'");
+
+                            if (!$query) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
+                                $serialNumber = 1; // Initialize the serial number outside the while loop
+                            
+                                while ($row = mysqli_fetch_array($query)) {
+                                    $partner = $row['partner'];
+
+                                    // Query to calculate total partner reward
+                                    $sqla = "SELECT SUM(deliveryFee) AS totalReward 
+                                    FROM gbigbe 
+                                    WHERE shipmentType='Delivery'
+                                    AND remitanceKind = 'WP2P'
+                                    AND partnerRemitance = 'rara'
+                                    AND status = 'completed' 
+                                    AND accCaptain = 'beni' 
+                                    AND partnerPayStatus = 'rara'";
+
+                                    $resulta = mysqli_query($conn, $sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    $remitance2US = $rowa['totalReward'];
+
+                                    
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                        <td><?php echo $partner; ?></td>
+                                        <td><?php echo $remitance2US; ?></td>
+                                        <td><a href="wiwoIroket.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
                                         
                                     </tr>
                                     <?php

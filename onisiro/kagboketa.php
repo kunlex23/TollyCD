@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $payID = generatePaymentId();
 
     // Insert the new record with the generated payID
-    $insertQuery = "INSERT INTO owoAlabasepoWaHistory (partner, totalAmount, payID) 
+    $insertQuery = "INSERT INTO owoAlabasepoWaWHistory (partner, totalAmount, payID) 
                     VALUES ('$partner', '$totalAmount', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {
@@ -35,14 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     // Update the relevant records with the generated payID
     $query = "UPDATE gbigbe SET 
-                        partnerPayStatus = 'beni', 
-                        partnerRemitance = 'beni',
-                        payID2 = '$payID' 
-                        WHERE partner = '$partner' 
-                        AND status = 'completed' 
-                        AND partnerRemitance = 'rara'
-                        AND remitanceKind = 'M2TCD'
-                        AND partnerPayStatus = 'rara'";
+        partnerPayStatus = 'beni', 
+        partnerRemitance = 'beni',
+        payID4 = '$payID' 
+        WHERE partner = '$partner' 
+        AND status = 'completed' 
+        AND partnerRemitance = 'rara'
+        AND remitanceKind = 'WP2P'
+        AND partnerPayStatus = 'rara'";
+
     if (mysqli_query($conn, $query)) {
         echo "Payment made successfully.";
         echo '<script>window.location.href = "./records.php";</script>';

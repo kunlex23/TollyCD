@@ -46,7 +46,39 @@
     list-style: none;
     box-sizing: border-box;
 }
+ /* Tab styles */
+ .tab {
+     overflow: hidden;
+     background-color: var(--color-background);
+ }
 
+ .tab button {
+     background-color: #7380ec;
+     border: none;
+     outline: none;
+     cursor: pointer;
+     padding: 14px 16px;
+     transition: 0.3s;
+ }
+
+ .tab button:hover {
+     background-color: #7380ec;
+ }
+
+ .tab button.active {
+     background-color: #41f1b6;
+     border-radius: 0.6rem;
+ }
+
+ .tab-content {
+     display: none;
+     padding: 6px 12px;
+     border-top: none;
+ }
+
+ .tab-content.active {
+     display: block;
+ }
 html {
     font-size: 14px;
 }
@@ -140,7 +172,7 @@ b {
 }
 .payBTN{
     background-color: var(--color-dark);
-    width: 7.5rem;
+    width: 9rem;
     padding: 0.4rem;
     margin-top: 0.4rem;
     border-radius: 0.3rem;
