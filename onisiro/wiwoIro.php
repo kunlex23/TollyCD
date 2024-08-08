@@ -126,7 +126,7 @@
             <h2>Payment Details</h2><br>
 
             <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
-        <?php
+            <?php
         require '../config.php'; // Ensure the database connection is properly set up
         
         if (isset($_GET['partner'])) {
@@ -134,8 +134,11 @@
         
             // Query to calculate total partner reward
             $sqla = "SELECT SUM(COALESCE(partnerReward, 0)) AS totalReward 
-             FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' 
+             FROM gbigbe 
+             WHERE shipmentType='Delivery' 
+             AND partner = '$partner' 
              AND status = 'Completed' 
+             AND remitanceKind = 'NORMs'
              AND accCaptain = 'beni' 
              AND partnerPayStatus = 'rara'";
             $resulta = mysqli_query($conn, $sqla);
@@ -157,28 +160,29 @@
                     $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
                     $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
                     ?>
-                    <div class="productDetails">
-                        <div class="itemPD">
-                            <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Total Amount: <?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Account Number: <?php echo htmlspecialchars($accountNumber); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
-                        </div>
-                        <div class="payBTN">
-                            <a
-                                href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make Payment</a>
-                        </div>
-                    </div>
-                    <?php
+            <div class="productDetails">
+                <div class="itemPD">
+                    <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Total Amount: <?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Account Number: <?php echo htmlspecialchars($accountNumber); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
+                </div>
+                <div class="itemPD">
+                    <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
+                </div>
+                <div class="payBTN">
+                    <a
+                        href="save_payment.php?partner=<?php echo urlencode($partner); ?>&totalAmount=<?php echo urlencode($partnerReward); ?>&accountNumber=<?php echo urlencode($accountNumber); ?>&bank=<?php echo urlencode($bank); ?>&accountName=<?php echo urlencode($accountName); ?>">Make
+                        Payment</a>
+                </div>
+            </div>
+            <?php
                 } else {
                     echo "Error fetching account details: " . mysqli_error($conn);
                 }
@@ -213,7 +217,15 @@
                         $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
                     
                         // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, partnerReward, date FROM gbigbe WHERE shipmentType='Delivery' AND partner = '$partner' AND status = 'completed' AND accCaptain = 'beni' AND partnerPayStatus = 'rara'";
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, partnerReward, date 
+                        FROM gbigbe 
+                        WHERE shipmentType='Delivery' 
+                        AND partner = '$partner' 
+                        AND status = 'completed' 
+                        AND accCaptain = 'beni'
+                        AND remitanceKind = 'NORMs' 
+                        AND partnerPayStatus = 'rara'";
+
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
                         if ($result) {

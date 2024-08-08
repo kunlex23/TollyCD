@@ -385,7 +385,9 @@
                             WHERE shipmentType = 'Delivery' 
                             AND status = 'completed' 
                             AND remitanceKind = 'NORMs'
-                            AND partnerPayStatus = 'rara' 
+                            AND partnerPayStatus = 'rara'  
+                            AND accCaptain = 'beni' 
+
                             ORDER BY partner DESC");
 
                             if (!$query) {
@@ -400,9 +402,9 @@
                                     $sqla = "SELECT SUM(partnerReward) AS totalReward 
                                     FROM gbigbe 
                                     WHERE shipmentType='Delivery'
+                                    AND status = 'completed'
                                     AND remitanceKind = 'NORMs'
-                                    AND partner = '$partner' 
-                                    AND status = 'completed' 
+                                    AND partner = '$partner'  
                                     AND accCaptain = 'beni' 
                                     AND partnerPayStatus = 'rara'";
 
@@ -440,9 +442,7 @@
 
                 </div>
             </div>
-
             
-
             <div id="partnerPayment_M" class="tab-content">
                 <div class="recent-sales">
                     <div class="spacer"></div>
@@ -486,6 +486,8 @@
                                     WHERE shipmentType='Delivery'
                                     AND remitanceKind = 'M2TCD'
                                     AND status = 'completed' 
+                                    
+                                    AND partner = '$partner' 
                                     AND accCaptain = 'beni' 
                                     AND partnerPayStatus = 'rara'";
 
