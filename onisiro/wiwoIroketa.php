@@ -140,7 +140,7 @@
              AND status = 'completed' 
              AND accCaptain = 'beni' 
              AND remitanceKind = 'WP2P'
-             AND partnerPayStatus = 'rara'";
+             AND captainPayStatus = 'rara'";
 
                 $resulta = mysqli_query($conn, $sqla);
 
@@ -225,7 +225,7 @@
                         AND status = 'completed' 
                         AND accCaptain = 'beni' 
                         AND remitanceKind = 'WP2P'
-                        AND partnerPayStatus = 'rara'";
+                        AND captainPayStatus = 'rara'";
 
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     

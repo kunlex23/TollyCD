@@ -618,7 +618,7 @@
                                 AND status = 'completed' 
                                 AND accCaptain = 'beni' 
                                 AND remitanceKind = 'WP2P'
-                                AND partnerPayStatus = 'rara' 
+                                AND captainPayStatus = 'rara' 
                                 ORDER BY partner DESC");
 
                                 if (!$query) {
@@ -637,7 +637,7 @@
                                         AND status = 'completed' 
                                         AND accCaptain = 'beni' 
                                         AND remitanceKind = 'WP2P'
-                                        AND partnerPayStatus = 'rara'";
+                                        AND captainPayStatus = 'rara'";
 
                                         $resulta = mysqli_query($conn, $sqla);
                                         $rowa = mysqli_fetch_array($resulta);
