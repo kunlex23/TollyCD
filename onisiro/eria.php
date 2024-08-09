@@ -137,11 +137,11 @@
                 $eri = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
             
                 // Query to calculate total partner reward
-                $sqla = "SELECT SUM(partnerReward) AS totalReward 
+                $sqla = "SELECT SUM(profitReward) AS totalReward 
                 FROM gbigbe 
                 WHERE partner = '$partner' 
                 AND status = 'completed' 
-                AND payID = '$eri' ";
+                AND payID2 = '$eri' ";
                 $resulta = mysqli_query($conn, $sqla);
 
                 if ($resulta) {
@@ -166,19 +166,10 @@
                             </div>
                             <div class="itemPD">
                                 <b>Total Amount:<?php echo htmlspecialchars($partnerReward); ?></b>
-                            </div>
-                            <div class="itemPD">
-                                <b>Account Number:<?php echo htmlspecialchars($accountNumber); ?></b>
-                            </div>
-                            <div class="itemPD">
-                                <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
-                            </div>
-                            <div class="itemPD">
-                                <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
                             </div><br>
-        
+
                         </div>
-        
+
                         <?php
                     } else {
                         echo "Error fetching account details: " . mysqli_error($conn);
@@ -190,8 +181,8 @@
                 echo "No partner specified.";
             }
             ?>
-        
-        
+
+
             <!-- ========================================================================= -->
             <table id="shipmentTable" style="padding-left:10%; width: 90%;">
                 <thead>
@@ -212,7 +203,11 @@
                         $payID = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
                     
                         // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, date FROM gbigbe WHERE partner = '$partner' AND payID=$payID";
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, date 
+                        FROM gbigbe 
+                        WHERE partner = '$partner' 
+                        AND payID2=$payID";
+
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
                         if ($result) {
@@ -229,7 +224,7 @@
                                     <td><?php echo htmlspecialchars($destination); ?></td>
                                     <td><?php echo htmlspecialchars($deliveryFee); ?></td>
                                     <td><?php echo htmlspecialchars($date); ?></td>
-        
+
                                 </tr>
                                 <?php
                             }
@@ -242,7 +237,7 @@
                     ?>
                 </tbody>
             </table>
-        
+
         </main>
 
         <!-- ----------END OF MAIN----------- -->

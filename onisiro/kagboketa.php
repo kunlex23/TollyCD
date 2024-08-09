@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $payID = generatePaymentId();
 
     // Insert the new record with the generated payID
-    $insertQuery = "INSERT INTO owoAlabasepoWaWHistory (partner, totalAmount, payID) 
+    $insertQuery = "INSERT INTO owoalabasepowahistory (partner, totalAmount, payID) 
                     VALUES ('$partner', '$totalAmount', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {

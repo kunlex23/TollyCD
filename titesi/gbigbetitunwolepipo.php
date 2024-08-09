@@ -105,7 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Close the insert statement
             $stmtInsert->close();
             // Redirect to a success page or show a success message
-            echo "<script>alert('New Shipment created successfully!'); window.location.href='records.php';</script>";
+            echo "<script>alert('New Shipment created successfully!'); 
+            window.location.href='gbigbeTitun.php';</script>";
         } else {
             echo "Error: " . $conn->error;
         }

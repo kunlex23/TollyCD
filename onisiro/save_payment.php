@@ -38,7 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     // Update the relevant records with the generated payID
     $query = "UPDATE gbigbe SET partnerPayStatus = 'beni', payID = '$payID' 
-              WHERE partner = '$partner' AND status = 'completed' AND partnerPayStatus = 'rara'";
+              WHERE partner = '$partner' 
+              AND status = 'completed' 
+              AND remitanceKind = 'NORMs'
+              AND partnerPayStatus = 'rara'";
+
     if (mysqli_query($conn, $query)) {
         echo "Payment made successfully.";
         echo '<script>window.location.href = "./records.php";</script>';
