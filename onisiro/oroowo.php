@@ -83,11 +83,10 @@
         <main>
             <!-- Tab navigation -->
             <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'partnerPayments')" id="defaultOpen">Partner</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayments')" id="defaultOpen">Partner Payments</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Payments(W)</button>
+                <button class="tablinks" onclick="openTab(event, 'monthlyRemitanceW')">Partner Remitting(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'monthlyRemitance')">Partner Remitting(M)</button>
-                <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
-                <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Remitting(M)</button>
-                <button class="tablinks" onclick="openTab(event, 'partnerPayment_M2')">Partner Remitting(M2)</button>
             </div>
 
             <!-- All Shipments content -->
@@ -166,7 +165,7 @@
                                     <td><?php echo $accountName; ?></td>
                                     <td><?php echo $date; ?></td>
                                     <td><a
-                                            href="eri.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>">View</a>
+                                            href="eri.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
                                     </td>
                                 </tr>
                             <?php $serialNumber++; } ?>
@@ -200,6 +199,7 @@
                             <th>Partner</th>
                             <th>Amount</th>
                             <th>Date</th>
+                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -243,7 +243,7 @@
                                     <td><?php echo $totalAmount; ?></td>
                                     <td><?php echo $date; ?></td>
                                     <td><a
-                                            href="eria.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>">View</a>
+                                            href="eria.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
                                     </td>
                                 </tr>
                             <?php $serialNumber1++; } ?>
@@ -253,16 +253,168 @@
             </div>
 
             <!-- Processed Shipments content -->
-            <div id="ProcessedShipments" class="tab-content">
-                
-            </div>
+            <div id="monthlyRemitanceW" class="tab-content">
+                <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Partner Monthly Remittance for Weekly Payments </h2>
 
-            <div id="partnerPayment" class="tab-content">
-                
+
+                <!-- Date Range Form -->
+                <div class="spacer"></div>
+                <form method="post" action="">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form>
+
+                <div class="spacer"></div>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Partner</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                            // Initialize variables for the date range
+                            $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                            $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                            // Debugging: Print the received dates
+                            //echo "Start Date: $start_date, End Date: $end_date";
+                            
+                            // Build the query based on the date range
+                            $query2_string = "SELECT partner, totalAmount, date, payID
+                            FROM owoalabasepowawhistory";
+                            if ($start_date && $end_date) {
+                                $query2_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                            }
+                            $query2_string .= " ORDER BY partner DESC";
+
+                            // Debugging: Print the query2 string
+                            //echo $query2_string;
+                            
+                            $query2 = mysqli_query($conn, $query2_string);
+
+                            if (!$query2) {
+                                // Debugging: Print the MySQL error
+                                //echo "Error: " . mysqli_error($conn);
+                            }
+                            $serialNumber1 = 1;
+                            while ($row = mysqli_fetch_array($query2)) {
+                                $partner1 = $row['partner'];
+                                $totalAmount = $row['totalAmount'];
+                                $date = $row['date'];
+                                $payID1 = $row['payID'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $serialNumber1; ?></td>
+                                    <td><?php echo $partner1; ?></td>
+                                    <td><?php echo $totalAmount; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    <td><a
+                                            href="erib.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
+                                    </td>
+                                </tr>
+                                <?php $serialNumber1++;
+                            } ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div id="partnerPayment_M" class="tab-content">
-                
+                <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Partner Payment (Weekly Remittance)</h2>
+
+                <!-- Date Range Form -->
+                <div class="spacer"></div>
+                <form method="post" action="">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form>
+
+                <div class="spacer"></div>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Partner</th>
+                            <th>Amount</th>
+                            <th>Account Number</th>
+                            <th>Bank</th>
+                            <th>Account Name</th>
+                            <th>Date</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                            // Initialize variables for the date range
+                            $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                            $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                            // Debugging: Print the received dates
+                            //echo "Start Date: $start_date, End Date: $end_date";
+                            
+                            // Build the query based on the date range
+                            $query3_string = "SELECT partner, totalAmount, accountNumber, bank, accountName, date, payID 
+                            FROM owoalabasepohistory2";
+                            if ($start_date && $end_date) {
+                                $query3_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                            }
+                            $query3_string .= " ORDER BY partner DESC";
+
+                            // Debugging: Print the query3 string
+                            //echo $query3_string;
+                            
+                            $query3 = mysqli_query($conn, $query3_string);
+
+                            if (!$query3) {
+                                // Debugging: Print the MySQL error
+                                //echo "Error: " . mysqli_error($conn);
+                            }
+                            $serialNumber = 1;
+                            while ($row = mysqli_fetch_array($query3)) {
+                                $partner = $row['partner'];
+                                $totalAmount = $row['totalAmount'];
+                                $accountNumber = $row['accountNumber'];
+                                $bank = $row['bank'];
+                                $accountName = $row['accountName'];
+                                $date = $row['date'];
+                                $payID = $row['payID'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $serialNumber; ?></td>
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $totalAmount; ?></td>
+                                    <td><?php echo $accountNumber; ?></td>
+                                    <td><?php echo $bank; ?></td>
+                                    <td><?php echo $accountName; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    <td><a
+                                            href="eric.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
+                                    </td>
+                                </tr>
+                                <?php $serialNumber++;
+                            } ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
            

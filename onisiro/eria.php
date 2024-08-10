@@ -91,19 +91,14 @@
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="sisanwo.php" class="active">
+                <a href="oroowo.php" class="active">
                     <span class="material-icons-sharp">history</span>
-                    <h3>Partner Payment History</h3>
+                    <h3>Payment History</h3>
                 </a>
 
                 <a href="iranse.php">
                     <span class="material-icons-sharp">garage</span>
                     <h3>Waybill</h3>
-                </a>
-
-                <a href="sisanwokeji.php">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Captain Payment History</h3>
                 </a>
 
                 <a href="owoofe.php">
@@ -135,6 +130,7 @@
             if (isset($_GET['partner'])) {
                 $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
                 $eri = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
+                $oro = mysqli_real_escape_string($conn, $_GET['oro']); // Sanitize input
             
                 // Query to calculate total partner reward
                 $sqla = "SELECT SUM(profitReward) AS totalReward 
@@ -165,7 +161,7 @@
                                 <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
                             </div>
                             <div class="itemPD">
-                                <b>Total Amount:<?php echo htmlspecialchars($partnerReward); ?></b>
+                                <b>Total Amount:<?php echo htmlspecialchars($oro); ?></b>
                             </div><br>
 
                         </div>

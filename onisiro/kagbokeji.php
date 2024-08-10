@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     // Update the relevant records with the generated payID
-    $query = "UPDATE gbigbe SET captainPayStatus = 'beni', payID3 = '$payID' 
+    $query = "UPDATE gbigbe SET captainPayStatus = 'beni', payID1 = '$payID' 
              WHERE shipmentType='Delivery' 
              AND partner = '$partner' 
              AND status = 'completed' 

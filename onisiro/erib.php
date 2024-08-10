@@ -23,10 +23,37 @@
     <!-- style -->
     <link rel="stylesheet" href="css/style.css">
     <style>
+        .date-filter-form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .date-filter-form label,
+        .date-filter-form input {
+            margin-right: 10px;
+        }
+
+        .date-filter-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            /* Green background */
+            color: white;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .date-filter-form button:hover {
+            background-color: #45a049;
+            /* Darker green background on hover */
+        }
+
         table,
         th,
         td {
-            border: 1px solid blanchedalmond; 
+            border: 1px solid blanchedalmond;
             border-collapse: collapse;
             padding: 2px;
         }
@@ -54,7 +81,7 @@
                 </div>
             </div>
             <div class="sideBar">
-                <a href="index.php" class="active">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -64,7 +91,7 @@
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="oroowo.php">
+                <a href="oroowo.php" class="active">
                     <span class="material-icons-sharp">history</span>
                     <h3>Payment History</h3>
                 </a>
@@ -73,9 +100,8 @@
                     <span class="material-icons-sharp">garage</span>
                     <h3>Waybill</h3>
                 </a>
-                
 
-                 <a href="owoofe.php">
+                <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Other Income</h3>
                 </a>
@@ -93,143 +119,123 @@
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h1>Accounting</h1><br>
-            <div class="insight">
-                <div class="sales">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Income</h3>
-                            <div id="link_wrapper">
+            <h2></h2><br>
+            <div class="spacer"></div>
+            <h2>Payment History</h2><br>
 
+            <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
+            <?php
+            require '../config.php'; // Ensure the database connection is properly set up
+            
+            if (isset($_GET['partner'])) {
+                $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
+                $eri = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
+                $oro = mysqli_real_escape_string($conn, $_GET['oro']); // Sanitize input
+            
+                // Query to calculate total partner reward
+                $sqla = "SELECT SUM(profitReward) AS totalReward 
+                FROM gbigbe 
+                WHERE partner = '$partner' 
+                AND status = 'completed' 
+                AND payID2 = '$eri' ";
+                $resulta = mysqli_query($conn, $sqla);
+
+                if ($resulta) {
+                    $rowa = mysqli_fetch_array($resulta);
+                    $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
+            
+                    // Query to fetch account details
+                    $query2 = "SELECT accountNumber, bank, accountName 
+                    FROM alabasepo WHERE Name = '$partner'";
+                    $result2 = mysqli_query($conn, $query2);
+
+                    if ($result2) {
+                        $row2 = mysqli_fetch_array($result2);
+
+                        $accountNumber = $row2['accountNumber'] ?? 'N/A'; // Default to 'N/A' if no result
+                        $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
+                        $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
+                        ?>
+                        <div class="productDetails">
+                            <div class="itemPD">
+                                <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
                             </div>
+                            <div class="itemPD">
+                                <b>Total Amount:<?php echo htmlspecialchars($oro); ?></b>
+                            </div><br>
+
                         </div>
 
-                    </div>
-                    <small class="tex">Last 7 Days</small>
-                </div>
-                <!-- END OF STUDENTS -->
-                <div class="income">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Partner Remit</h3>
-                            <div id="link_wrapper1">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
-
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Captains Pay</h3>
-                            <div id="link_wrapper2">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Profit</h3>
-                            <div id="link_wrapper4">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
-               
-                 <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Expenses</h3>
-                            <div id="link_wrapper3">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
-
-            </div>
-           
-            <!-- ---------END OF EXAM-------- -->
-            <div class="recent-sales">
-                <div class="spacer"></div><br>
-                <h2>Recent Sales</h2><br>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Type</th>
-                            <th>Product</th>
-                            <th>Amount</th>
-                            <th>Customers Name</th>
-                            <th>Destination</th>
-                            <th>Contact</th>
-                            <th>Captain</th>
-                            <th>Date</th>
+                        <?php
+                    } else {
+                        echo "Error fetching account details: " . mysqli_error($conn);
+                    }
+                } else {
+                    echo "Error fetching partner reward: " . mysqli_error($conn);
+                }
+            } else {
+                echo "No partner specified.";
+            }
+            ?>
 
 
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-    <?php
-                        require '../config.php';
+            <!-- ========================================================================= -->
+            <table id="shipmentTable" style="padding-left:10%; width: 90%;">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Cost</th>
+                        <th>Location</th>
+                        <th>Delivery fee</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <?php
+                    require '../config.php'; // Ensure the database connection is properly set up
+                    
+                    if (isset($_GET['partner'])) {
+                        $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
+                        $payID = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
+                    
+                        // Get data
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, date 
+                        FROM gbigbe 
+                        WHERE partner = '$partner' 
+                        AND payID4=$payID";
 
-                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe WHERE  status = 'completed' ORDER BY partner DESC LIMIT 10");
-
-                        if (!$query) {
-                            echo "Error fetching data: " . mysqli_error($conn);
-                        } else {
-                            $serialNumber = 1; // Initialize the serial number outside the while loop
-                        
-                            while ($row = mysqli_fetch_array($query)) {
-                                $partner = $row['partner'];
-                                $shipmentType = $row['shipmentType'];
+                        $result = mysqli_query($conn, $sqlb); // Execute the query
+                    
+                        if ($result) {
+                            while ($row = mysqli_fetch_array($result)) { // Fetch the results
                                 $product = $row['product'];
-                                $quantity = $row['quantity'];
-                                $unitPrice = $row['unitPrice'];
                                 $amount = $row['amount'];
-                                $customersName = $row['customersName'];
                                 $destination = $row['destination'];
-                                $customerContact = $row['customerContact'];
-                                $captain = $row['captain'];
-                                $paymentMethod = $row['paymentMethod'];
+                                $deliveryFee = $row['deliveryFee'];
                                 $date = $row['date'];
                                 ?>
                                 <tr>
-                                    <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                    <td><?php echo $partner; ?></td>
-                                    <td><?php echo $shipmentType; ?></td>
-                                    <td><?php echo $product; ?></td>
-                                    <td><?php echo $amount; ?></td>
-                                    <td><?php echo $customersName; ?></td>
-                                    <td><?php echo $destination; ?></td>
-                                    <td><?php echo $customerContact; ?></td>
-                                    <td><?php echo $captain; ?></td>
-                                    <td><?php echo $date; ?></td>
+                                    <td><?php echo htmlspecialchars($product); ?></td>
+                                    <td><?php echo htmlspecialchars($amount); ?></td>
+                                    <td><?php echo htmlspecialchars($destination); ?></td>
+                                    <td><?php echo htmlspecialchars($deliveryFee); ?></td>
+                                    <td><?php echo htmlspecialchars($date); ?></td>
+
                                 </tr>
                                 <?php
-                                $serialNumber++; // Increment the serial number
                             }
+                        } else {
+                            echo "Error fetching shipment data: " . mysqli_error($conn);
                         }
-                        ?>
-                    </tbody>
+                    } else {
+                        echo "No partner specified.";
+                    }
+                    ?>
+                </tbody>
+            </table>
 
-                </table>
-                <a href="records.php">Show all</a>
- 
         </main>
+
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">

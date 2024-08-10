@@ -54,14 +54,9 @@
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="sisanwo.php">
+                <a href="oroowo.php">
                     <span class="material-icons-sharp">history</span>
-                    <h3>Partner Payment History</h3>
-                </a>
-
-                <a href="sisanwokeji.php">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Captain Payment History</h3>
+                    <h3>Payment History</h3>
                 </a>
 
                 <a href="iranse.php">
@@ -96,7 +91,7 @@
                 <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Confirmed</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Remitting(M)</button>
-                <button class="tablinks" onclick="openTab(event, 'partnerPayment_M2')">Partner Remitting(M2)</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment_M2')">Partner Remitting(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_W')">Partner Payment(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'riderPayment')">Captain Payment</button>
             </div>
@@ -486,7 +481,6 @@
                                     WHERE shipmentType='Delivery'
                                     AND remitanceKind = 'M2TCD'
                                     AND status = 'completed' 
-                                    
                                     AND partner = '$partner' 
                                     AND accCaptain = 'beni' 
                                     AND partnerPayStatus = 'rara'";
@@ -560,6 +554,7 @@
                                     WHERE shipmentType='Delivery'
                                     AND remitanceKind = 'WP2P'
                                     AND partnerRemitance = 'rara'
+                                    AND partner = '$partner'
                                     AND status = 'completed' 
                                     AND accCaptain = 'beni' 
                                     AND partnerPayStatus = 'rara'";
