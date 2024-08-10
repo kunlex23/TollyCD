@@ -23,7 +23,7 @@
                 <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
             </div>
             <div class="sideBar">
-                 <a href="index.php">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -33,7 +33,7 @@
                     <h3>Shipments</h3>
                 </a>
 
-                 <a href="oroowo.php">
+                <a href="oroowo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Payment History</h3>
                 </a>

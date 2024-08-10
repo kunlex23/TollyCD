@@ -1,14 +1,13 @@
 <?php
-// session_start();
-// if ($_SESSION['userType'] === 'eru') {
-//     header("Location: ../okojooja");
-// } elseif ($_SESSION['userType'] === 'fifisi') {
-//     header("Location: ../titesi");
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ../onisiro");
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ../abojuto");
-// }
+session_start();
+if (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
+} elseif (($_SESSION['userType']) == "Accountant") {
+} elseif (($_SESSION['userType']) == "Admin") {
+    header("Location: ../abojuto");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

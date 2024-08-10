@@ -134,6 +134,7 @@
                             <th>User ID</th>
                             <th>User Type</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -156,6 +157,7 @@
                             <td><?php echo htmlspecialchars($userId); ?></td>
                             <td><?php echo htmlspecialchars($userType); ?></td>
                             <td><?php echo htmlspecialchars($date); ?></td>
+                            
                         </tr>
                         <?php } ?>
                     </tbody>

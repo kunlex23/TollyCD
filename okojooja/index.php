@@ -1,3 +1,14 @@
+<?php
+session_start();
+if (($_SESSION['userType']) == "Inventory"){
+}elseif (($_SESSION['userType']) == "Data_Entry"){
+header("Location: ../titesi");
+ }elseif (($_SESSION['userType']) == "Accountant"){
+header("Location: ../onisiro");
+}elseif (($_SESSION['userType']) == "Admin"){
+header("Location: ../abojuto");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,7 +77,7 @@
                 </a>
 
 
-                <a href="awe.php" >
+                <a href="awe.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Waybill History</h3>
                 </a>
