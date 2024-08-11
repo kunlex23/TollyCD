@@ -163,7 +163,7 @@
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $paymentMethod; ?></td>
                                 <td><?php echo $date; ?></td>
-                                <td><button onclick="confirmShipment(<?php echo $id; ?>)"
+                                <td><button onclick="recaller(<?php echo $id; ?>)"
                                         style="padding:0.5rem; background-color: red; border-radius:0.4rem;"><b>Recall</b></button>
                                 </td>
                             </tr>
@@ -867,6 +867,25 @@ function confirmShipment(id) {
         xhr.send('id=' + id);
     } else {
         alert("Shipment confirmation canceled.");
+    }
+}
+</script>
+<script>
+function recaller(id) {
+    if (confirm("Please confirm recalling before proceeding")) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'recall.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Shipment recalled');
+                // Reload the table data
+                window.location.href = 'records.php';
+            }
+        };
+        xhr.send('id=' + id);
+    } else {
+        alert("Shipment recall canceled.");
     }
 }
 </script>

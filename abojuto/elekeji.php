@@ -134,7 +134,7 @@
             <canvas id="myChart" width="400" height="200"></canvas><br><br>
             <div class="capAnalytics">
                 <div class="classOne">
-                    <b>Top Delivery</b>
+                    <h1>Top Delivery</h1>
                     <?php
                     require '../config.php';
 
@@ -166,7 +166,7 @@
                 </div>
             
                 <div class="classOne">
-                    <b>Top Returns</b>
+                    <h2>Top Returns</h2>
                     <?php
                     require '../config.php';
 
@@ -187,7 +187,7 @@
                                 echo '<h2>' . $highestcaptain . ': ' . $highestReturns . ' returns</h2>';
                             }
                         } else {
-                            echo '<p>No results found</p>';
+                            echo '<p>No returned shipment yet</p>';
                         }
                         $result->free();
                     } else {

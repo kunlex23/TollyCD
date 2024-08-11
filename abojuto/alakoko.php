@@ -22,6 +22,7 @@
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
     }
+   
     </style>
 </head>
 
@@ -134,7 +135,7 @@
             <canvas id="myChart" width="400" height="200"></canvas><br><br>
             <div class="capAnalytics">
                 <div class="classOne">
-                    <b> Top Revenue </b>
+                    <h1> Top Revenue </h1>
                     <?php
                 require '../config.php';
 
@@ -144,7 +145,7 @@
                         WHERE status = 'Completed' AND partnerPayStatus = 'beni' 
                         GROUP BY partner 
                         ORDER BY amountIn DESC 
-                        LIMIT 1";
+                        LIMIT 3";
 
                 if ($result = $conn->query($sql)) {
                     if ($result->num_rows > 0) {
@@ -155,7 +156,7 @@
                             echo '<h2>' . $highestPartner . ': ' . $highestRevenue . '</h2>';
                         }
                     } else {
-                        echo '<h1>No results found</h1>';
+                        echo '<h1>No shipment found</h1>';
                     }
                     $result->free();
                 } else {
@@ -167,7 +168,7 @@
 
 
                 <div class="classOne">
-                    <b>Top Delivery</b>
+                    <h1>Top Delivery</h1>
                     <?php
                     require '../config.php';
 
@@ -177,7 +178,7 @@
             WHERE status = 'Completed' AND shipmentType = 'delivery' 
             GROUP BY partner 
             ORDER BY deliveryCount DESC 
-            LIMIT 1";
+            LIMIT 3";
 
                     if ($result = $conn->query($sql)) {
                         if ($result->num_rows > 0) {
@@ -188,7 +189,7 @@
                                 echo '<h2>' . $highestPartner . ': ' . $highestDelivery . ' deliveries</h2>';
                             }
                         } else {
-                            echo '<p>No results found</p>';
+                            echo '<p>No delivery found</p>';
                         }
                         $result->free();
                     } else {
@@ -199,7 +200,7 @@
                 </div>
 
                 <div class="classOne">
-                    <b>Top Returns</b>
+                    <h1>Top Returns</h1>
                     <?php
                     require '../config.php';
 
@@ -209,7 +210,7 @@
             WHERE status = 'Return' 
             GROUP BY partner 
             ORDER BY returnCount DESC 
-            LIMIT 1";
+            LIMIT 3";
 
                     if ($result = $conn->query($sql)) {
                         if ($result->num_rows > 0) {
@@ -220,7 +221,7 @@
                                 echo '<h2>' . $highestPartner . ': ' . $highestReturns . ' returns</h2>';
                             }
                         } else {
-                            echo '<p>No results found</p>';
+                            echo '<p>No returned shipment yet</p>';
                         }
                         $result->free();
                     } else {

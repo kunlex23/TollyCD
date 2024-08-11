@@ -62,13 +62,13 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Dashboard</h3>
                 </a>
 
-                <a href="records.php">
+                <!-- <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
                     <h3>Shipments</h3>
-                </a>
+                </a> -->
 
 
-                <a href="sisanwo.php">
+                <!-- <a href="sisanwo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Partner Payment History</h3>
                 </a>
@@ -76,11 +76,11 @@ if (!isset($_SESSION['userType'])) {
                 <a href="sisanwokeji.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Captain Payment History</h3>
-                </a>
-                <a href="inawo.php">
+                </a> -->
+                <!-- <a href="inawo.php">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Expenses</h3>
-                </a>
+                </a> -->
 
                 <!-- <a href="#">
                     <span class="material-icons-sharp">mail_outline</span>
@@ -332,19 +332,29 @@ if (!isset($_SESSION['userType'])) {
             </div>
 
             <div class="sales-analytics">
-                <a href="newalabasepo.php">
+                <a href="../okojooja">
                     <div class="item add-product">
                         <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Partner</h3>
+                            <span class="material-icons-sharp">source</span>
+                            <h3>Inventory</h3>
                         </div>
                     </div>
                 </a>
-                <a href="ojatitun.php">
+                <a href="../titesi">
                     <div class="item add-product">
                         <div>
-                            <span class="material-icons-sharp">add</span>
+                            <span class="material-icons-sharp">description</span>
                             <h3>New Product</h3>
+                        </div>
+                    </div>
+                </a>
+
+            <div class="sales-analytics">
+                <a href="../onisiro">
+                    <div class="item add-product">
+                        <div>
+                            <span class="material-icons-sharp">account_balance_wallet</span>
+                            <h3>Account</h3>
                         </div>
                     </div>
                 </a>

@@ -572,9 +572,25 @@ input[type="date"] {
     z-index: 9999;
     display: none;
 }
+ .capAnalytics {
+     display: flex;
+     gap: 2rem;
+     width: 100%;
+     padding: 1.4rem;
+     background-color: var(--col5or-primary-variant);;
+     border-radius: 0.6rem;
+ }
 
+ .classOne {
+    background-color: var(--color-background);
+    padding:0.6rem;
+    border-radius: 0.6rem;
+    width: 30%;
+ }
 .notification.show {
     display: block;
+    padding: 0.4rem;
+    background-color: var(--color-white);
 }
 
 /* ===================RIGHT================== */
