@@ -1,15 +1,4 @@
-<?php
-// session_start();
-// if ($_SESSION['userType'] === 'eru') {
-//     header("Location: ../okojooja");
-// } elseif ($_SESSION['userType'] === 'fifisi') {
-//     header("Location: ../titesi");
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ../onisiro");
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ../abojuto");
-// }
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,20 +80,16 @@
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="sisanwo.php">
+                <a href="oroowo.php" class="active">
                     <span class="material-icons-sharp">history</span>
-                    <h3>Partner Payment History</h3>
-                </a>
-
-                <a href="sisanwokeji.php" class="active">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Captain Payment History</h3>
+                    <h3>Payment History</h3>
                 </a>
 
                 <a href="iranse.php">
                     <span class="material-icons-sharp">garage</span>
                     <h3>Waybill</h3>
                 </a>
+
 
                 <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
@@ -135,6 +120,7 @@
             if (isset($_GET['oluwa'] ) && isset($_GET['eri'])) {
                 $oluwa = mysqli_real_escape_string($conn, $_GET['oluwa']); // Sanitize input
                 $eri = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
+                $owo = mysqli_real_escape_string($conn, $_GET['oro']); // Sanitize input
             
                 // Query to calculate total oluwa reward
                 $sqla = "SELECT SUM(riderReward) AS totalReward FROM gbigbe WHERE captain = '$oluwa' AND payID1=$eri";
@@ -160,7 +146,7 @@
                                 Captain: <b><?php echo htmlspecialchars($oluwa); ?></b>
                             </div>
                             <div class="itemPD">
-                                Total Amount:<b><?php echo htmlspecialchars($riderReward); ?></b>
+                                Total Amount:<b><?php echo htmlspecialchars($owo); ?></b>
                             </div>
                             <div class="itemPD">
                                 Account Number:<b><?php echo htmlspecialchars($accountNumber); ?></b>
@@ -209,7 +195,10 @@
                         $payID = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
                     
                         // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, riderReward, profitReward, date FROM gbigbe WHERE captain = '$oluwa' AND payID1=$payID";
+                        $sqlb = "SELECT product, amount, destination, deliveryFee, riderReward, profitReward, date 
+                        FROM gbigbe 
+                        WHERE captain = '$oluwa' 
+                        AND payID1=$payID";
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
                         if ($result) {

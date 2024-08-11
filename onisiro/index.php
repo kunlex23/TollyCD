@@ -135,20 +135,21 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                     <small class="text-muted">Last 7 Days</small>
                 </div>
+<!--         
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Profit</h3>
-                            <div id="link_wrapper4">
+                            <h3>Other Income</h3>
+                            <div id="link_wrapper5">
 
                             </div>
                         </div>
 
                     </div>
                     <small class="text-muted">Last 7 Days</small>
-                </div>
-               
-                 <div class="expensis">
+                </div> -->
+
+                <div class="expensis">
                     <div class="middle">
                         <div class="left">
                             <h3>Expenses</h3>
@@ -160,6 +161,20 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                     <small class="text-muted">Last 7 Days</small>
                 </div>
+
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Net Profit</h3>
+                            <div id="link_wrapper4">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 7 Days</small>
+                </div>
+               
 
             </div>
            
@@ -359,4 +374,23 @@ if (!isset($_SESSION['userType'])) {
     }, 1000);
 
     window.onload = loadXMLDoc4;
+</script>
+<script>
+    function loadXMLDoc5() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper5").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server5.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc5();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc5;
 </script>

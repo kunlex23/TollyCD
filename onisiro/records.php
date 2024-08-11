@@ -118,6 +118,7 @@
                                 <th>Captain</th>
                                 <th>Payment Method</th>
                                 <th>Date</th>
+                                <th>Recall</th>
                             </tr>
                         </thead>
                         <tbody id="table-body">
@@ -162,6 +163,9 @@
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $paymentMethod; ?></td>
                                 <td><?php echo $date; ?></td>
+                                <td><button onclick="confirmShipment(<?php echo $id; ?>)"
+                                        style="padding:0.5rem; background-color: red; border-radius:0.4rem;"><b>Recall</b></button>
+                                </td>
                             </tr>
                             <?php
                                     $serialNumber++; // Increment the serial number

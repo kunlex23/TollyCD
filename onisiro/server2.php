@@ -3,9 +3,9 @@
 require '../config.php';
 
 $sql = "SELECT SUM(riderReward) AS amountIn 
-FROM gbigbe WHERE shipmentType= 'Delivery' 
+FROM gbigbe 
+WHERE shipmentType= 'Delivery' 
 AND status = 'Completed' 
-AND captainPayStatus = 'rara'
 AND date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
 
 if ($result = $conn->query($sql)) {

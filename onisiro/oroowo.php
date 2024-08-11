@@ -87,6 +87,7 @@
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Payments(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'monthlyRemitanceW')">Partner Remitting(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'monthlyRemitance')">Partner Remitting(M)</button>
+                <button class="tablinks" onclick="openTab(event, 'captainPayment')">Captain Payments</button>
             </div>
 
             <!-- All Shipments content -->
@@ -418,6 +419,91 @@
             </div>
 
            
+            <div id="captainPayment" class="tab-content">
+                <div class="recent-sales">
+                <div class="spacer"></div>
+                <h2>Captain Payments</h2>
+
+                <!-- Date Range Form -->
+                <div class="spacer"></div>
+                <form method="post" action="">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form>
+
+                <div class="spacer"></div>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Captain</th>
+                            <th>Amount</th>
+                            <th>Account Number</th>
+                            <th>Bank</th>
+                            <th>Account Name</th>
+                            <th>Date</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                            // Initialize variables for the date range
+                            $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                            $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                            // Debugging: Print the received dates
+                            //echo "Start Date: $start_date, End Date: $end_date";
+                            
+                            // Build the query based on the date range
+                            $query5_string = "SELECT captain, amount, accountNumber, bank, accountName, date, payID 
+                            FROM olokadahistory";
+                            if ($start_date && $end_date) {
+                                $query5_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                            }
+                            $query5_string .= " ORDER BY captain DESC";
+
+                            // Debugging: Print the query5 string
+                            //echo $query5_string;
+                            
+                            $query5 = mysqli_query($conn, $query5_string);
+
+                            if (!$query5) {
+                                // Debugging: Print the MySQL error
+                                //echo "Error: " . mysqli_error($conn);
+                            }
+                            $serialNumber = 1;
+                            while ($row = mysqli_fetch_array($query5)) {
+                                $captain = $row['captain'];
+                                $amount = $row['amount'];
+                                $accountNumber = $row['accountNumber'];
+                                $bank = $row['bank'];
+                                $accountName = $row['accountName'];
+                                $date = $row['date'];
+                                $payID = $row['payID'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $serialNumber; ?></td>
+                                    <td><?php echo $captain; ?></td>
+                                    <td><?php echo $amount; ?></td>
+                                    <td><?php echo $accountNumber; ?></td>
+                                    <td><?php echo $bank; ?></td>
+                                    <td><?php echo $accountName; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    <td><a
+                                            href="eri1.php?oluwa=<?php echo urlencode($captain); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($amount); ?>">View</a>
+                                    </td>
+                                </tr>
+                                <?php $serialNumber++;
+                            } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </main>
 
         <!-- ----------END OF MAIN----------- -->
