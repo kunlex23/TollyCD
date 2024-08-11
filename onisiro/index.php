@@ -1,12 +1,15 @@
 <?php
 session_start();
-if (($_SESSION['userType']) == "Inventory") {
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
     header("Location: ../okojooja");
 } elseif (($_SESSION['userType']) == "Data_Entry") {
     header("Location: ../titesi");
 } elseif (($_SESSION['userType']) == "Accountant") {
 } elseif (($_SESSION['userType']) == "Admin") {
-    header("Location: ../abojuto");
+} else {
+    header("location: ../index.php");
 }
 ?>
 <!DOCTYPE html>
@@ -97,7 +100,7 @@ if (($_SESSION['userType']) == "Inventory") {
                 <div class="sales">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Income</h3>
+                            <h3>Total Revenue</h3>
                             <div id="link_wrapper">
 
                             </div>
