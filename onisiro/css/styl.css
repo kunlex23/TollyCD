@@ -176,7 +176,11 @@ b {
     padding: 0.4rem;
     margin-top: 0.4rem;
     border-radius: 0.3rem;
-    color: var(--color-dark);
+    text-align: center;
+}
+.payBTN button{
+    background-color: var(--color-dark);
+    color: var(--color-background);
 }
 aside {
     height: 100vh;

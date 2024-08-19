@@ -1,6 +1,10 @@
 <?php
 require '../config.php';
 
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+
 // Function to generate a unique payID
 function generatePaymentId()
 {
@@ -16,38 +20,42 @@ function generatePaymentId()
     return $paymentId;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $partner = $_GET['partner'];
-    $totalAmount = $_GET['totalAmount'];
-    $accountNumber = $_GET['accountNumber'];
-    $bank = $_GET['bank'];
-    $accountName = $_GET['accountName'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $partner = $_POST['partner'];
+    $accountNumber = $_POST['accountNumber'];
+    $bank = $_POST['bank'];
+    $accountName = $_POST['accountName'];
+    $selectedShipments = $_POST['selectedShipments'];
 
     // Generate the unique payID
     $payID = generatePaymentId();
+
+    // Calculate total amount for the selected shipments
+    $totalAmount = 0;
+    foreach ($selectedShipments as $shipmentId) {
+        $query = "SELECT partnerReward FROM gbigbe WHERE id = '$shipmentId'";
+        $result = mysqli_query($conn, $query);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $totalAmount += $row['partnerReward'];
+        }
+    }
 
     // Insert the new record with the generated payID
     $insertQuery = "INSERT INTO owoAlabasepoHistory (partner, totalAmount, accountNumber, bank, accountName, payID) 
                     VALUES ('$partner', '$totalAmount', '$accountNumber', '$bank', '$accountName', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {
-        // echo '<script>alert("Payment made successfully!");</script>';
+        // Update the relevant records with the generated payID
+        foreach ($selectedShipments as $shipmentId) {
+            $updateQuery = "UPDATE gbigbe SET partnerPayStatus = 'beni', payID = '$payID' 
+                            WHERE id = '$shipmentId'";
+            mysqli_query($conn, $updateQuery);
+        }
+        echo "Payment made successfully.";
+        // echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error: " . mysqli_error($conn);
-    }
-
-    // Update the relevant records with the generated payID
-    $query = "UPDATE gbigbe SET partnerPayStatus = 'beni', payID = '$payID' 
-              WHERE partner = '$partner' 
-              AND status = 'completed' 
-              AND remitanceKind = 'NORMs'
-              AND partnerPayStatus = 'rara'";
-
-    if (mysqli_query($conn, $query)) {
-        echo "Payment made successfully.";
-        echo '<script>window.location.href = "./records.php";</script>';
-    } else {
-        echo "Error updating record: " . mysqli_error($conn);
     }
 } else {
     echo "Invalid request method.";

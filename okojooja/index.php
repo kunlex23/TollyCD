@@ -8,6 +8,7 @@ header("Location: ../titesi");
  }elseif (($_SESSION['userType']) == "Accountant"){
 header("Location: ../onisiro");
 }elseif (($_SESSION['userType']) == "Admin"){
+    // echo "<button>check</button>";
 } else {
     header("location: ../index.php");
 }
