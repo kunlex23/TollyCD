@@ -61,6 +61,62 @@
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
     }
+
+    /* Ensure visibility of form elements */
+input[type="checkbox"],
+input[type="radio"] {
+    appearance: checkbox;
+    outline: none;
+    margin-right: 0.5rem;
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
+/* Fix the text color for better visibility */
+.text-muted {
+    color: var(--color-info-dark) !important;
+}
+
+/* General reset for inputs */
+input, select, textarea {
+    background-color: var(--color-white);
+    color: var(--color-dark);
+    border: 1px solid var(--color-info-light);
+    border-radius: var(--border-radius-1);
+    padding: 0.5rem;
+}
+
+/* Specific styles for checkboxes */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* Ensure compatibility with the dark theme */
+.dark-theme-variables input[type="checkbox"] {
+    background-color: var(--color-dark);
+    border-color: var(--color-dark-variant);
+}
+
+.dark-theme-variables input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+}
+
+/* Additional styling to ensure form elements are visible */
+form input[type="checkbox"] {
+    border: 1px solid var(--color-info-dark);
+    background: var(--color-white);
+    cursor: pointer;
+}
     </style>
 </head>
 

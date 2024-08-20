@@ -1,9 +1,9 @@
 <?php
 require '../config.php';
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
 // Function to generate a unique payID
 function generatePaymentId()
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             mysqli_query($conn, $updateQuery);
         }
         echo "Payment made successfully.";
-        // echo '<script>window.location.href = "./records.php";</script>';
+        echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error: " . mysqli_error($conn);
     }

@@ -1,6 +1,10 @@
 <?php
 require '../config.php';
 
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+
 // Function to generate a unique payID
 function generatePaymentId()
 {
@@ -16,16 +20,27 @@ function generatePaymentId()
     return $paymentId;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $partner = $_GET['partner'];
-    $totalAmount = $_GET['totalAmount'];
-    $accountNumber = $_GET['accountNumber'];
-    $bank = $_GET['bank'];
-    $accountName = $_GET['accountName'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $partner = $_POST['partner'];
+    $selectedShipments = $_POST['selectedShipments'];
+    $accountNumber = $_POST['accountNumber'];
+    $bank = $_POST['bank'];
+    $accountName = $_POST['accountName'];
 
     // Generate the unique payID
     $payID = generatePaymentId();
 
+    // Calculate total amount for the selected shipments
+    $totalAmount = 0;
+    foreach ($selectedShipments as $shipmentId) {
+        $query = "SELECT partnerReward FROM gbigbe WHERE id = '$shipmentId'";
+        $result = mysqli_query($conn, $query);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $totalAmount += $row['partnerReward'];
+        }
+    }
+    echo $totalAmount;
     // Insert the new record with the generated payID
     $insertQuery = "INSERT INTO owoalabasepohistory2 (partner, totalAmount, accountNumber, bank, accountName, payID) 
                     VALUES ('$partner', '$totalAmount', '$accountNumber', '$bank', '$accountName', '$payID')";
@@ -47,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if (mysqli_query($conn, $query)) {
         echo "Payment made successfully.";
-        echo '<script>window.location.href = "./records.php";</script>';
+        // echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }
