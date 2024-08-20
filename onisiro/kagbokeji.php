@@ -33,11 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Calculate total amount for the selected shipments
     $totalAmount = 0;
     foreach ($selectedShipments as $shipmentId) {
-        $query = "SELECT partnerReward FROM gbigbe WHERE id = '$shipmentId'";
+        $query = "SELECT amount FROM gbigbe WHERE id = '$shipmentId'";
         $result = mysqli_query($conn, $query);
         if ($result) {
             $row = mysqli_fetch_assoc($result);
-            $totalAmount += $row['partnerReward'];
+            $totalAmount += $row['amount'];
         }
     }
     echo $totalAmount;
@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
              AND captainPayStatus = 'rara'";
 
     if (mysqli_query($conn, $query)) {
-        echo "Payment made successfully.";
-        // echo '<script>window.location.href = "./records.php";</script>';
+        echo '<script>alert("Payment made successfully!");</script>';
+        echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }

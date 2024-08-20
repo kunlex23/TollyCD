@@ -61,62 +61,64 @@
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
     }
+
     /* Ensure visibility of form elements */
-input[type="checkbox"],
-input[type="radio"] {
-    appearance: checkbox;
-    outline: none;
-    margin-right: 0.5rem;
-    width: auto;
-    height: auto;
-    display: inline-block;
-}
+    input[type="checkbox"],
+    input[type="radio"] {
+        appearance: checkbox;
+        outline: none;
+        margin-right: 0.5rem;
+        width: auto;
+        height: auto;
+        display: inline-block;
+    }
 
-/* Fix the text color for better visibility */
-.text-muted {
-    color: var(--color-info-dark) !important;
-}
+    /* Fix the text color for better visibility */
+    .text-muted {
+        color: var(--color-info-dark) !important;
+    }
 
-/* General reset for inputs */
-input, select, textarea {
-    background-color: var(--color-white);
-    color: var(--color-dark);
-    border: 1px solid var(--color-info-light);
-    border-radius: var(--border-radius-1);
-    padding: 0.5rem;
-}
+    /* General reset for inputs */
+    input,
+    select,
+    textarea {
+        background-color: var(--color-white);
+        color: var(--color-dark);
+        border: 1px solid var(--color-info-light);
+        border-radius: var(--border-radius-1);
+        padding: 0.5rem;
+    }
 
-/* Specific styles for checkboxes */
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
+    /* Specific styles for checkboxes */
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
 
-.checkbox-label input[type="checkbox"] {
-    width: 1.2rem;
-    height: 1.2rem;
-    margin-right: 0.5rem;
-    cursor: pointer;
-}
+    .checkbox-label input[type="checkbox"] {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-right: 0.5rem;
+        cursor: pointer;
+    }
 
-/* Ensure compatibility with the dark theme */
-.dark-theme-variables input[type="checkbox"] {
-    background-color: var(--color-dark);
-    border-color: var(--color-dark-variant);
-}
+    /* Ensure compatibility with the dark theme */
+    .dark-theme-variables input[type="checkbox"] {
+        background-color: var(--color-dark);
+        border-color: var(--color-dark-variant);
+    }
 
-.dark-theme-variables input[type="checkbox"]:checked {
-    background-color: var(--color-primary);
-}
+    .dark-theme-variables input[type="checkbox"]:checked {
+        background-color: var(--color-primary);
+    }
 
-/* Additional styling to ensure form elements are visible */
-form input[type="checkbox"] {
-    border: 1px solid var(--color-info-dark);
-    background: var(--color-white);
-    cursor: pointer;
-}
-
+    /* Additional styling to ensure form elements are visible */
+    form input[type="checkbox"] {
+        border: 1px solid var(--color-info-dark);
+        background: var(--color-white);
+        cursor: pointer;
+    }
     </style>
 </head>
 
@@ -177,90 +179,90 @@ form input[type="checkbox"] {
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-    <h2></h2><br>
-    <div class="spacer"></div>
-    <h2>Payment Details</h2><br>
+            <h2></h2><br>
+            <div class="spacer"></div>
+            <h2>Payment Details</h2><br>
 
-    <?php
-    require '../config.php'; // Ensure the database connection is properly set up
-    
-    if (isset($_GET['partner'])) {
-        $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
-    
-        // Query to calculate total partner reward
-        $sqla = "SELECT SUM(COALESCE(partnerReward, 0)) AS totalReward 
-         FROM gbigbe 
-         WHERE shipmentType='Delivery' 
-         AND partner = '$partner' 
-         AND status = 'Completed' 
-         AND remitanceKind = 'NORMs'
-         AND accCaptain = 'beni' 
-         AND partnerPayStatus = 'rara'";
-        $resulta = mysqli_query($conn, $sqla);
+            <?php
+            require '../config.php'; // Ensure the database connection is properly set up
+            
+            if (isset($_GET['partner'])) {
+                $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
+            
+                // Query to calculate total partner reward
+                $sqla = "SELECT SUM(COALESCE(partnerReward, 0)) AS totalReward 
+                FROM gbigbe 
+                WHERE shipmentType='Delivery' 
+                AND partner = '$partner' 
+                AND status = 'Completed' 
+                AND remitanceKind = 'NORMs'
+                AND accCaptain = 'beni' 
+                AND partnerPayStatus = 'rara'";
+                $resulta = mysqli_query($conn, $sqla);
 
-        if ($resulta) {
-            $rowa = mysqli_fetch_array($resulta);
-            $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
-    
-            // Query to fetch account details
-            $query2 = "SELECT accountNumber, bank, accountName 
-               FROM alabasepo 
-               WHERE Name = '$partner'";
-            $result2 = mysqli_query($conn, $query2);
+                if ($resulta) {
+                    $rowa = mysqli_fetch_array($resulta);
+                    $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
+            
+                    // Query to fetch account details
+                    $query2 = "SELECT accountNumber, bank, accountName 
+                    FROM alabasepo 
+                    WHERE Name = '$partner'";
+                    $result2 = mysqli_query($conn, $query2);
 
-            if ($result2) {
-                $row2 = mysqli_fetch_array($result2);
+                    if ($result2) {
+                        $row2 = mysqli_fetch_array($result2);
 
-                $accountNumber = $row2['accountNumber'] ?? 'N/A'; // Default to 'N/A' if no result
-                $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
-                $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
-                ?>
-                <form action="save_payment.php" method="post">
-                    <div class="productDetails">
-                        <div class="itemPD">
-                            <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Total Amount: <?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Account Number: <?php echo htmlspecialchars($accountNumber); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
-                        </div>
-
-                        <!-- Hidden inputs to pass additional data -->
-                        <input type="hidden" name="partner" value="<?php echo htmlspecialchars($partner); ?>">
-                        <input type="hidden" name="accountNumber" value="<?php echo htmlspecialchars($accountNumber); ?>">
-                        <input type="hidden" name="bank" value="<?php echo htmlspecialchars($bank); ?>">
-                        <input type="hidden" name="accountName" value="<?php echo htmlspecialchars($accountName); ?>">
-
-                        <!-- Submit button -->
-                        <div class="payBTN">
-                            <button type="submit">Make Payment</button>
-                        </div>
+                        $accountNumber = $row2['accountNumber'] ?? 'N/A'; // Default to 'N/A' if no result
+                        $bank = $row2['bank'] ?? 'N/A'; // Default to 'N/A' if no result
+                        $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
+                        ?>
+            <form action="save_payment.php" method="post">
+                <div class="productDetails">
+                    <div class="itemPD">
+                        <b>Partner: <?php echo htmlspecialchars($partner); ?></b>
+                    </div>
+                    <div class="itemPD">
+                        <b>Total Amount: <?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
+                    </div>
+                    <div class="itemPD">
+                        <b>Account Number: <?php echo htmlspecialchars($accountNumber); ?></b>
+                    </div>
+                    <div class="itemPD">
+                        <b>Bank: <?php echo htmlspecialchars($bank); ?></b>
+                    </div>
+                    <div class="itemPD">
+                        <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
                     </div>
 
-                    <table id="shipmentTable" style="padding-left:5%; width: 90%;">
-                        <thead>
-                            <tr>
-                                <th>Select</th>
-                                <th>SN</th>
-                                <th>Product</th>
-                                <th>Location</th>
-                                <th>Cost</th>
-                                <th>Partners Pay</th>
-                                <th>Delivery fee</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body">
-                            <?php
-                            require '../config.php'; // Ensure the database connection is properly set up
+                    <!-- Hidden inputs to pass additional data -->
+                    <input type="hidden" name="partner" value="<?php echo htmlspecialchars($partner); ?>">
+                    <input type="hidden" name="accountNumber" value="<?php echo htmlspecialchars($accountNumber); ?>">
+                    <input type="hidden" name="bank" value="<?php echo htmlspecialchars($bank); ?>">
+                    <input type="hidden" name="accountName" value="<?php echo htmlspecialchars($accountName); ?>">
+
+                    <!-- Submit button -->
+                    <div class="payBTN">
+                        <button type="submit">Make Payment</button>
+                    </div>
+                </div>
+
+                <table id="shipmentTable" style="padding-left:5%; width: 90%;">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>SN</th>
+                            <th>Product</th>
+                            <th>Location</th>
+                            <th>Cost</th>
+                            <th>Partners Pay</th>
+                            <th>Delivery fee</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                                    require '../config.php'; // Ensure the database connection is properly set up
                             
                             if (isset($_GET['partner'])) {
                                 $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
@@ -289,17 +291,18 @@ form input[type="checkbox"] {
                                         $partnerRew = $row['partnerReward'];
                                         $date = $row['date'];
                                         ?>
-                                        <tr>
-                                            <td><input type="checkbox" name="selectedShipments[]" value="<?php echo htmlspecialchars($id); ?>" style="display:block;"></td>
-                                            <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                            <td><?php echo htmlspecialchars($product); ?></td>
-                                            <td><?php echo htmlspecialchars($destination); ?></td>
-                                            <td><?php echo htmlspecialchars($amount); ?></td>
-                                            <td><?php echo htmlspecialchars($partnerRew); ?></td>
-                                            <td><?php echo htmlspecialchars($deliveryFee); ?></td>
-                                            <td><?php echo htmlspecialchars($date); ?></td>
-                                        </tr>
-                                        <?php
+                        <tr>
+                            <td><input type="checkbox" name="selectedShipments[]"
+                                    value="<?php echo htmlspecialchars($id); ?>" style="display:block;"></td>
+                            <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                            <td><?php echo htmlspecialchars($product); ?></td>
+                            <td><?php echo htmlspecialchars($destination); ?></td>
+                            <td><?php echo htmlspecialchars($amount); ?></td>
+                            <td><?php echo htmlspecialchars($partnerRew); ?></td>
+                            <td><?php echo htmlspecialchars($deliveryFee); ?></td>
+                            <td><?php echo htmlspecialchars($date); ?></td>
+                        </tr>
+                        <?php
                                         $serialNumber++; // Increment the serial number
                                     }
                                 } else {
@@ -309,10 +312,10 @@ form input[type="checkbox"] {
                                 echo "No partner specified.";
                             }
                             ?>
-                        </tbody>
-                    </table>
-                </form>
-                <?php
+                    </tbody>
+                </table>
+            </form>
+            <?php
             } else {
                 echo "Error fetching account details: " . mysqli_error($conn);
             }
@@ -323,7 +326,7 @@ form input[type="checkbox"] {
         echo "No partner specified.";
     }
     ?>
-</main>
+        </main>
 
 
 

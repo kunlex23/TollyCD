@@ -1,6 +1,10 @@
 <?php
 require '../config.php';
 
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+
 // Function to generate a unique payID
 function generatePaymentId()
 {
@@ -45,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         AND partnerPayStatus = 'rara'";
     if (mysqli_query($conn, $query)) {
         echo "Payment made successfully.";
-        echo '<script>window.location.href = "./records.php";</script>';
+        // echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error updating record: " . mysqli_error($conn);
     }
