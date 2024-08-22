@@ -20,40 +20,40 @@ function generatePaymentId()
     return $paymentId;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $partner = $_GET['tani'];
-    $totalAmount = $_GET['elo'];
-
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $partner = $_POST['tani'];
+    $selectedShipments = $_POST['selectedShipments'];
     // Generate the unique payID
     $payID = generatePaymentId();
+    
+    // Calculate total amount for the selected shipments
+    $totalAmount = 0;
+    foreach ($selectedShipments as $shipmentId) {
+        $query = "SELECT deliveryFee FROM gbigbe WHERE id = '$shipmentId'";
+        $result = mysqli_query($conn, $query);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $totalAmount += $row['deliveryFee'];
+        }
+    }
+    echo $totalAmount;
 
     // Insert the new record with the generated payID
     $insertQuery = "INSERT INTO owoalabasepowahistory (partner, totalAmount, payID) 
                     VALUES ('$partner', '$totalAmount', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {
-        // echo '<script>alert("Payment made successfully!");</script>';
+        // Update the relevant records with the generated payID
+        foreach ($selectedShipments as $shipmentId) {
+            $updateQuery = "UPDATE gbigbe SET partnerPayStatus = 'beni', payID = '$payID' 
+                            WHERE id = '$shipmentId'";
+            mysqli_query($conn, $updateQuery);
+        }
+        echo "Payment made successfully.";
+        echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error: " . mysqli_error($conn);
     }
 
-    // Update the relevant records with the generated payID
-    $query = "UPDATE gbigbe SET 
-                        partnerPayStatus = 'beni', 
-                        partnerRemitance = 'beni',
-                        payID2 = '$payID' 
-                        WHERE partner = '$partner' 
-                        AND status = 'completed' 
-                        AND partnerRemitance = 'rara'
-                        AND remitanceKind = 'M2TCD'
-                        AND partnerPayStatus = 'rara'";
-    if (mysqli_query($conn, $query)) {
-        echo "Payment made successfully.";
-        // echo '<script>window.location.href = "./records.php";</script>';
-    } else {
-        echo "Error updating record: " . mysqli_error($conn);
-    }
-} else {
-    echo "Invalid request method.";
 }
 ?>

@@ -220,7 +220,7 @@ form input[type="checkbox"] {
             }
             ?>
         
-            <form action="kagbo.php" method="get">
+            <form action="kagbo.php" method="post">
                 <div class="payBTN">
                     <button type="submit">Confirm Payment</button>
                 </div>
