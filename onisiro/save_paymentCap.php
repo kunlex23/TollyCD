@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     // update
-    $query = "UPDATE gbigbe SET captainPayStatus = 'beni', payID1 = '$payID'
+    $query = "UPDATE gbigbe SET captainPayStatus = 'beni', payID4 = '$payID'
     WHERE captain = '$oluwa' AND status = 'completed' AND captainPayStatus = 'rara'";
     if (mysqli_query($conn, $query)) {
         echo "Payment made successfully.";

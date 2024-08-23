@@ -45,7 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (mysqli_query($conn, $insertQuery)) {
         // Update the relevant records with the generated payID
         foreach ($selectedShipments as $shipmentId) {
-            $updateQuery = "UPDATE gbigbe SET partnerPayStatus = 'beni', payID = '$payID' 
+            $updateQuery = "UPDATE gbigbe 
+                            SET partnerPayStatus = 'beni', 
+                            payID1 = '$payID' 
                             WHERE id = '$shipmentId'";
             mysqli_query($conn, $updateQuery);
         }

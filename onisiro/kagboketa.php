@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $query = "UPDATE gbigbe SET 
         partnerPayStatus = 'beni', 
         partnerRemitance = 'beni',
-        payID4 = '$payID' 
+        payID2 = '$payID' 
         WHERE partner = '$partner' 
         AND status = 'completed' 
         AND partnerRemitance = 'rara'
