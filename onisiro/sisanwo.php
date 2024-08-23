@@ -1,14 +1,16 @@
 <?php
-// session_start();
-// if ($_SESSION['userType'] === 'eru') {
-//     header("Location: ../okojooja");
-// } elseif ($_SESSION['userType'] === 'fifisi') {
-//     header("Location: ../titesi");
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ../onisiro");
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ../abojuto");
-// }
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
+} elseif (($_SESSION['userType']) == "Accountant") {
+} elseif (($_SESSION['userType']) == "Admin") {
+} else {
+    header("location: ../index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,14 +93,9 @@
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="sisanwo.php" class="active">
+                <a href="oroowo.php" class="active">
                     <span class="material-icons-sharp">history</span>
-                    <h3>Partner Payment History</h3>
-                </a>
-
-                <a href="sisanwokeji.php">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Captain Payment History</h3>
+                    <h3>Payment History</h3>
                 </a>
 
                 <a href="iranse.php">

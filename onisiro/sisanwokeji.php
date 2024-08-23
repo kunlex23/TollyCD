@@ -70,17 +70,7 @@
 
 <body>
     <div class="container">
-        <aside>
-            <div class="top">
-                <div class="logo">
-                    <img src="./images/logo.png">
-                    <!-- <h2>ZIB<span class="compel">AH</span></h2> -->
-                    <!-- <h2>Name</h2> -->
-                </div>
-                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span>
-                </div>
-            </div>
-            <div class="sideBar">
+        <div class="sideBar">
                 <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
@@ -91,14 +81,9 @@
                     <h3>Shipments</h3>
                 </a>
 
-                <a href="sisanwo.php">
+                <a href="oroowo.php" class="active">
                     <span class="material-icons-sharp">history</span>
-                    <h3>Partner Payment History</h3>
-                </a>
-
-                <a href="sisanwokeji.php "class="active">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Captain Payment History</h3>
+                    <h3>Payment History</h3>
                 </a>
 
                 <a href="iranse.php">
@@ -121,7 +106,6 @@
                     <h3>Logout</h3>
                 </a>
             </div>
-        </aside>
         <!------------ END OF ASIDE ------------>
         <main>
             <!-- ---------END OF EXAM-------- -->

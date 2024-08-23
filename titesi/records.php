@@ -1,14 +1,16 @@
 <?php
-// session_start();
-// if ($_SESSION['userType'] === 'eru') {
-//     header("Location: ../okojooja");
-// // } elseif ($_SESSION['userType'] === 'fifisi') {
-// //     header("Location: ../titesi");
-// } elseif ($_SESSION['userType'] === 'olowo') {
-//     header("Location: ../onisiro");
-// } elseif ($_SESSION['userType'] === 'alamojuto') {
-//     header("Location: ../abojuto");
-// }
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+} elseif (($_SESSION['userType']) == "Accountant") {
+    header("Location: ../onisiro");
+} elseif (($_SESSION['userType']) == "Admin") {
+} else {
+    header("location: ../index.php");
+}
 ?>
 <!DOCTYPE html>
 
@@ -321,7 +323,7 @@ function filterTable() {
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert('Status updated successfully.');
+                    // alert('Status updated successfully.');
                     window.location.href = 'records.php';
                 }
             };

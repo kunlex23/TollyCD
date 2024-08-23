@@ -1,3 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
+} elseif (($_SESSION['userType']) == "Accountant") {
+} elseif (($_SESSION['userType']) == "Admin") {
+} else {
+    header("location: ../index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -806,7 +820,7 @@ document.querySelectorAll('.paymentMethod-dropdown').forEach(function(dropdown) 
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                alert('Payment method updated successfully.');
+                // alert('Payment method updated successfully.');
             }
         };
         xhr.send('id=' + shipmentId + '&paymentMethod=' + newPaymentMethod);

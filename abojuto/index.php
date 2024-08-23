@@ -344,7 +344,7 @@ if (!isset($_SESSION['userType'])) {
                     <div class="item add-product">
                         <div>
                             <span class="material-icons-sharp">description</span>
-                            <h3>New Product</h3>
+                            <h3>Data Entry</h3>
                         </div>
                     </div>
                 </a>

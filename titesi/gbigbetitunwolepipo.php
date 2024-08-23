@@ -1,4 +1,18 @@
 <?php
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
+} elseif (($_SESSION['userType']) == "Accountant") {
+    header("Location: ../onisiro");
+} elseif (($_SESSION['userType']) == "Admin") {
+} else {
+    header("location: ../index.php");
+}
+
 require '../config.php';
 
 // Debug: print POST data
@@ -105,8 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Close the insert statement
             $stmtInsert->close();
             // Redirect to a success page or show a success message
-            echo "<script>alert('New Shipment created successfully!'); 
-            window.location.href='gbigbeTitun.php';</script>";
+            echo "<script>window.location.href='gbigbeTitun.php';</script>";
         } else {
             echo "Error: " . $conn->error;
         }

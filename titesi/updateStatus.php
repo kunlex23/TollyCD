@@ -1,4 +1,17 @@
 <?php
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+} elseif (($_SESSION['userType']) == "Accountant") {
+    header("Location: ../onisiro");
+} elseif (($_SESSION['userType']) == "Admin") {
+} else {
+    header("location: ../index.php");
+}
+
 require '../config.php';
 
 if (isset($_POST['id'], $_POST['status'], $_POST['quantity'], $_POST['partner'], $_POST['product'])) {
@@ -38,8 +51,8 @@ if (isset($_POST['id'], $_POST['status'], $_POST['quantity'], $_POST['partner'],
 
         // Commit transaction
         mysqli_commit($conn);
-        echo "Status and quantities updated successfully.";
-        echo "<script>alert('Product updated successfully!');</script>";
+        // echo "Status and quantities updated successfully.";
+        // echo "<script>alert('Product updated successfully!');</script>";
     } catch (Exception $e) {
         // Rollback transaction in case of error
         mysqli_rollback($conn);
