@@ -14,9 +14,9 @@ if (!isset($_SESSION['userType'])) {
 
 require '../config.php';
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
 // Function to generate a unique payID
 function generatePaymentId()
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $totalAmount += $row['deliveryFee'];
         }
     }
-    echo $totalAmount;
+    // echo $totalAmount;
 
     // Insert the new record with the generated payID
     $insertQuery = "INSERT INTO owoalabasepowahistory (partner, totalAmount, payID) 
@@ -60,11 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($selectedShipments as $shipmentId) {
             $updateQuery = "UPDATE gbigbe 
                             SET partnerPayStatus = 'beni', 
+                            partnerRemitance = 'beni',
                             payID1 = '$payID' 
                             WHERE id = '$shipmentId'";
             mysqli_query($conn, $updateQuery);
         }
-        echo "Payment made successfully.";
+        // echo "Payment made successfully.";
         echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error: " . mysqli_error($conn);

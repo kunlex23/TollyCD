@@ -14,9 +14,9 @@ if (!isset($_SESSION['userType'])) {
 
 require '../config.php';
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
 // Function to generate a unique payID
 function generatePaymentId()
@@ -59,25 +59,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     VALUES ('$partner', '$totalAmount', '$accountNumber', '$bank', '$accountName', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {
-        // echo '<script>alert("Payment made successfully!");</script>';
-    } else {
-        echo "Error: " . mysqli_error($conn);
-    }
-
-    // Update the relevant records with the generated payID
-    $query = "UPDATE gbigbe SET captainPayStatus = 'beni', payID3 = '$payID' 
-             WHERE shipmentType='Delivery' 
-             AND partner = '$partner' 
-             AND status = 'completed' 
-             AND accCaptain = 'beni' 
-             AND remitanceKind = 'WP2P'
-             AND captainPayStatus = 'rara'";
-
-    if (mysqli_query($conn, $query)) {
-        echo '<script>alert("Payment made successfully!");</script>';
+        // Update the relevant records with the generated payID
+        foreach ($selectedShipments as $shipmentId) {
+            $updateQuery = "UPDATE gbigbe SET 
+                                    partnerPayStatus = 'beni', 
+                                    payID3 = '$payID' 
+                            WHERE id = '$shipmentId'";
+            mysqli_query($conn, $updateQuery);
+        }
+        // echo "Payment made successfully.";
         echo '<script>window.location.href = "./records.php";</script>';
     } else {
-        echo "Error updating record: " . mysqli_error($conn);
+        echo "Error: " . mysqli_error($conn);
     }
 } else {
     echo "Invalid request method.";

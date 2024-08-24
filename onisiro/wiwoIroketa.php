@@ -206,7 +206,7 @@ if (!isset($_SESSION['userType'])) {
              AND status = 'completed' 
              AND accCaptain = 'beni' 
              AND remitanceKind = 'WP2P'
-             AND captainPayStatus = 'rara'";
+             AND partnerPayStatus = 'rara'";
 
                 $resulta = mysqli_query($conn, $sqla);
 
@@ -283,7 +283,7 @@ if (!isset($_SESSION['userType'])) {
                         AND status = 'completed' 
                         AND accCaptain = 'beni' 
                         AND remitanceKind = 'WP2P'
-                        AND captainPayStatus = 'rara'";
+                        AND partnerPayStatus = 'rara'";
 
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     

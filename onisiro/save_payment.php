@@ -61,11 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (mysqli_query($conn, $insertQuery)) {
         // Update the relevant records with the generated payID
         foreach ($selectedShipments as $shipmentId) {
-            $updateQuery = "UPDATE gbigbe SET partnerPayStatus = 'beni', payID = '$payID' 
+            $updateQuery = "UPDATE gbigbe 
+                            SET partnerPayStatus = 'beni', 
+                            payID = '$payID' 
                             WHERE id = '$shipmentId'";
             mysqli_query($conn, $updateQuery);
         }
-        echo "Payment made successfully.";
+        // echo "Payment made successfully.";
         echo '<script>window.location.href = "./records.php";</script>';
     } else {
         echo "Error: " . mysqli_error($conn);

@@ -13,6 +13,11 @@ if (!isset($_SESSION['userType'])) {
 }
 
 require '../config.php';
+
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
+
 // Function to generate a unique payID
 function generatePaymentId()
 {
@@ -28,36 +33,44 @@ function generatePaymentId()
     return $paymentId;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $oluwa = $_GET['oluwa'];
-    $owo = $_GET['owo'];
-    $accountNumber = $_GET['accountNumber'];
-    $bank = $_GET['bank'];
-    $accountName = $_GET['accountName'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $oluwa = $_POST['oluwa'];
+    $accountNumber = $_POST['accountNumber'];
+    $bank = $_POST['bank'];
+    $accountName = $_POST['accountName'];
+    $selectedShipments = $_POST['selectedShipments'];
 
     // Generate the unique payID
     $payID = generatePaymentId();
+
+    // Calculate total amount for the selected shipments
+    $totalAmount = 0;
+    foreach ($selectedShipments as $shipmentId) {
+        $query = "SELECT riderReward FROM gbigbe WHERE id = '$shipmentId'";
+        $result = mysqli_query($conn, $query);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $totalAmount += $row['riderReward'];
+        }
+    }
+    echo $totalAmount;
     $insertQuery = "INSERT INTO olokadaHistory (captain, amount, accountNumber, bank, accountName, payID) 
-                    VALUES ('$oluwa', '$owo', '$accountNumber', '$bank', '$accountName', '$payID')";
+                    VALUES ('$oluwa', '$totalAmount', '$accountNumber', '$bank', '$accountName', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {
+        foreach ($selectedShipments as $shipmentId) {
+            $updateQuery = "UPDATE gbigbe 
+            SET captainPayStatus = 'beni', 
+            payID4 = '$payID' 
+                            WHERE id = '$shipmentId'";
+            mysqli_query($conn, $updateQuery);
+        }
         // echo '<script>alert("Payment made successfully!");</script>';
+        echo '<script>window.location.href = "./records.php";</script>';
 
     } else {
         echo "Error: " . mysqli_error($conn);
     }
-
-    // update
-    $query = "UPDATE gbigbe SET captainPayStatus = 'beni', payID4 = '$payID'
-    WHERE captain = '$oluwa' AND status = 'completed' AND captainPayStatus = 'rara'";
-    if (mysqli_query($conn, $query)) {
-        echo "Payment made successfully.";
-        echo '<script>window.location.href = "./records.php";</script>';
-    } else {
-        echo "Error updating record: " . mysqli_error($conn);
-    }
-
-    //----------------------
 } else {
     echo "Invalid request method.";
 }

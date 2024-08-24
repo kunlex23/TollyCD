@@ -25,56 +25,112 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-        /* Tab styles */
-        .tab {
-            overflow: hidden;
-            border-bottom: 1px solid #ccc;
-            background-color: #f1f1f1;
-        }
+    /* Tab styles */
+    .tab {
+        overflow: hidden;
+        border-bottom: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
 
-        .tab button {
-            background-color: inherit;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-        }
+    .tab button {
+        background-color: inherit;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
 
-        .tab button:hover {
-            background-color: #ddd;
-        }
+    .tab button:hover {
+        background-color: #ddd;
+    }
 
-        .tab button.active {
-            background-color: #ccc;
-        }
+    .tab button.active {
+        background-color: #ccc;
+    }
 
-        .tab-content {
-            display: none;
-            padding: 6px 12px;
-            border-top: none;
-        }
+    .tab-content {
+        display: none;
+        padding: 6px 12px;
+        border-top: none;
+    }
 
-        .tab-content.active {
-            display: block;
-        }
+    .tab-content.active {
+        display: block;
+    }
 
-        table,
-        th,
-        td {
-            /* border: 1px solid black; */
-            /* border-collapse: collapse; */
-            padding: 8px;
-            text-align: left;
-        }
+    table,
+    th,
+    td {
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        padding: 8px;
+        text-align: left;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
+
+    /* Ensure visibility of form elements */
+input[type="checkbox"],
+input[type="radio"] {
+    appearance: checkbox;
+    outline: none;
+    margin-right: 0.5rem;
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
+/* Fix the text color for better visibility */
+.text-muted {
+    color: var(--color-info-dark) !important;
+}
+
+/* General reset for inputs */
+input, select, textarea {
+    background-color: var(--color-white);
+    color: var(--color-dark);
+    border: 1px solid var(--color-info-light);
+    border-radius: var(--border-radius-1);
+    padding: 0.5rem;
+}
+
+/* Specific styles for checkboxes */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* Ensure compatibility with the dark theme */
+.dark-theme-variables input[type="checkbox"] {
+    background-color: var(--color-dark);
+    border-color: var(--color-dark-variant);
+}
+
+.dark-theme-variables input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+}
+
+/* Additional styling to ensure form elements are visible */
+form input[type="checkbox"] {
+    border: 1px solid var(--color-info-dark);
+    background: var(--color-white);
+    cursor: pointer;
+}
     </style>
 </head>
 
@@ -129,12 +185,11 @@ if (!isset($_SESSION['userType'])) {
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h2></h2><br>
-            <div class="spacer"></div>
-            <h2>Payment Details</h2><br>
+    <h2></h2><br>
+    <div class="spacer"></div>
+    <h2>Payment Details</h2><br>
 
-            <!-- <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()"> -->
-            <?php
+    <?php
             require '../config.php'; // Ensure the database connection is properly set up
             
             if (isset($_GET['partner'])) {
@@ -142,20 +197,19 @@ if (!isset($_SESSION['userType'])) {
             
                 // Query to calculate total partner reward
                 $sqla = "SELECT SUM(COALESCE(deliveryFee, 0)) AS totalReward 
-             FROM gbigbe 
-             WHERE shipmentType='Delivery' 
-             AND partner = '$partner' 
-             AND status = 'Completed'
-             AND partnerRemitance = 'rara' 
-             AND accCaptain = 'beni' 
-             AND remitanceKind = 'WP2P'
-             AND partnerPayStatus = 'rara'";
+                 FROM gbigbe 
+                 WHERE shipmentType='Delivery' 
+                 AND partner = '$partner' 
+                 AND status = 'Completed'
+                 AND partnerRemitance = 'rara' 
+                 AND accCaptain = 'beni' 
+                 AND remitanceKind = 'WP2P'
+                 AND partnerPayStatus = 'rara'";
                 $resulta = mysqli_query($conn, $sqla);
 
                 if ($resulta) {
                     $rowa = mysqli_fetch_array($resulta);
                     $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
-            
                     ?>
                     <div class="productDetails">
                         <div class="itemPD">
@@ -164,15 +218,8 @@ if (!isset($_SESSION['userType'])) {
                         <div class="itemPD">
                             Total Amount: <b><?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
                         </div>
-
-                        <div class="payBTN">
-                            <a
-                                href="kagboketa.php?tani=<?php echo urlencode($partner); ?>&elo=<?php echo urlencode($partnerReward); ?>">Confirm
-                                Payment</a>
-                        </div>
                     </div>
                     <?php
-
                 } else {
                     echo "Error fetching partner reward: " . mysqli_error($conn);
                 }
@@ -180,76 +227,83 @@ if (!isset($_SESSION['userType'])) {
                 echo "No partner specified.";
             }
             ?>
-
-
-
-            <!-- ========================================================================= -->
-            <table id="shipmentTable" style="padding-left:5%; width: 90%;">
-                <thead>
-                    <tr>
-                        <th>SN</th>
-                        <th>Product</th>
-                        <th>Location</th>
-                        <th>Cost</th>
-                        <th>Partners Pay</th>
-                        <th>Delivery fee</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <?php
-                    require '../config.php'; // Ensure the database connection is properly set up
-                    
-                    if (isset($_GET['partner'])) {
-                        $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
-                    
-                        // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, partnerReward, date 
-                        FROM gbigbe 
-                        WHERE shipmentType='Delivery' 
-                        AND partner = '$partner' 
-                        AND status = 'completed' 
-                        AND accCaptain = 'beni' 
-                        AND partnerRemitance = 'rara'
-                        AND remitanceKind = 'WP2P'
-                        AND partnerPayStatus = 'rara'";
-                        $result = mysqli_query($conn, $sqlb); // Execute the query
-                    
-                        if ($result) {
-                            $serialNumber = 1; // Initialize the serial number outside the while loop
-                    
-                            while ($row = mysqli_fetch_array($result)) { // Fetch the results
-                                $product = $row['product'];
-                                $amount = $row['amount'];
-                                $destination = $row['destination'];
-                                $deliveryFee = $row['deliveryFee'];
-                                $partnerRew = $row['partnerReward'];
-                                $date = $row['date'];
-                                ?>
-                                <tr>
-                                    <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                    <td><?php echo htmlspecialchars($product); ?></td>
-                                    <td><?php echo htmlspecialchars($destination); ?></td>
-                                    <td><?php echo htmlspecialchars($amount); ?></td>
-                                    <td><?php echo htmlspecialchars($partnerRew); ?></td>
-                                    <td><?php echo htmlspecialchars($deliveryFee); ?></td>
-                                    <td><?php echo htmlspecialchars($date); ?></td>
-                                </tr>
-                                <?php
-                                $serialNumber++; // Increment the serial number
+        
+            <form action="kagboketa.php" method="post">
+                <div class="payBTN">
+                    <button type="submit">Confirm Payment</button>
+                </div>
+                
+                <input type="hidden" name="tani" value="<?php echo htmlspecialchars($partner); ?>">
+                <input type="hidden" name="elo" value="<?php echo htmlspecialchars($partnerReward); ?>">
+        
+                <table id="shipmentTable" style="padding-left:5%; width: 90%;">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>SN</th>
+                            <th>Product</th>
+                            <th>Location</th>
+                            <th>Cost</th>
+                            <th>Partners Pay</th>
+                            <th>Delivery fee</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                        if (isset($_GET['partner'])) {
+                            $sqlb = "SELECT id, product, amount, destination, deliveryFee, partnerReward, date 
+                             FROM gbigbe 
+                             WHERE shipmentType='Delivery' 
+                             AND partner = '$partner' 
+                             AND status = 'completed' 
+                             AND accCaptain = 'beni' 
+                             AND partnerRemitance = 'rara'
+                             AND remitanceKind = 'WP2P'
+                             AND partnerPayStatus = 'rara'";
+                            $result = mysqli_query($conn, $sqlb); // Execute the query
+                        
+                            if ($result) {
+                                $serialNumber = 1; // Initialize the serial number outside the while loop
+                        
+                                while ($row = mysqli_fetch_array($result)) { // Fetch the results
+                                    $id = $row['id'];
+                                    $product = $row['product'];
+                                    $amount = $row['amount'];
+                                    $destination = $row['destination'];
+                                    $deliveryFee = $row['deliveryFee'];
+                                    $partnerRew = $row['partnerReward'];
+                                    $date = $row['date'];
+                                    ?>
+                                    <tr>
+                                        <td><input type="checkbox" name="selectedShipments[]" value="<?php echo htmlspecialchars($id); ?>"
+                                                style="display:block;"></td>
+                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                        <td><?php echo htmlspecialchars($product); ?></td>
+                                        <td><?php echo htmlspecialchars($destination); ?></td>
+                                        <td><?php echo htmlspecialchars($amount); ?></td>
+                                        <td><?php echo htmlspecialchars($partnerRew); ?></td>
+                                        <td><?php echo htmlspecialchars($deliveryFee); ?></td>
+                                        <td><?php echo htmlspecialchars($date); ?></td>
+                                    </tr>
+                                    <?php
+                                    $serialNumber++; // Increment the serial number
+                                }
+                            } else {
+                                echo "Error fetching shipment data: " . mysqli_error($conn);
                             }
                         } else {
-                            echo "Error fetching shipment data: " . mysqli_error($conn);
+                            echo "No partner specified.";
                         }
-                    } else {
-                        echo "No partner specified.";
-                    }
-                    ?>
-                </tbody>
-
-            </table>
-
+                        ?>
+                    </tbody>
+                </table>
+        
+                
+            </form>
         </main>
+
+
 
         <!-- ----------END OF MAIN----------- -->
         <div class="right">

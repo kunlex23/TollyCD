@@ -104,9 +104,9 @@ if (!isset($_SESSION['userType'])) {
                 <button class="tablinks" onclick="openTab(event, 'UnprocessedShipments')">Unconfirmed</button>
                 <button class="tablinks" onclick="openTab(event, 'ProcessedShipments')">Confirmed</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment_W')">Partner Payment(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Remitting(M)</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_M2')">Partner Remitting(W)</button>
-                <button class="tablinks" onclick="openTab(event, 'partnerPayment_W')">Partner Payment(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'riderPayment')">Captain Payment</button>
             </div>
 
@@ -633,7 +633,7 @@ if (!isset($_SESSION['userType'])) {
                                 AND status = 'completed' 
                                 AND accCaptain = 'beni' 
                                 AND remitanceKind = 'WP2P'
-                                AND captainPayStatus = 'rara' 
+                                AND partnerPayStatus = 'rara' 
                                 ORDER BY partner DESC");
 
                                 if (!$query) {
@@ -652,7 +652,7 @@ if (!isset($_SESSION['userType'])) {
                                         AND status = 'completed' 
                                         AND accCaptain = 'beni' 
                                         AND remitanceKind = 'WP2P'
-                                        AND captainPayStatus = 'rara'";
+                                        AND partnerPayStatus = 'rara'";
 
                                         $resulta = mysqli_query($conn, $sqla);
                                         $rowa = mysqli_fetch_array($resulta);

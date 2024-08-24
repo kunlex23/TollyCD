@@ -204,7 +204,7 @@ if (!isset($_SESSION['userType'])) {
                         $sqlb = "SELECT product, amount, destination, deliveryFee, date 
                         FROM gbigbe 
                         WHERE partner = '$partner' 
-                        AND payID4=$payID";
+                        AND payID2=$payID";
 
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     

@@ -139,7 +139,7 @@ if (!isset($_SESSION['userType'])) {
                 FROM gbigbe 
                 WHERE partner = '$partner' 
                 AND status = 'completed' 
-                AND payID2 = '$eri' ";
+                AND payID1 = '$eri' ";
                 $resulta = mysqli_query($conn, $sqla);
 
                 if ($resulta) {
@@ -204,7 +204,7 @@ if (!isset($_SESSION['userType'])) {
                         $sqlb = "SELECT product, amount, destination, deliveryFee, date 
                         FROM gbigbe 
                         WHERE partner = '$partner' 
-                        AND payID2=$payID";
+                        AND payID1=$payID";
 
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
