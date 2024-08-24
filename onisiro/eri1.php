@@ -211,7 +211,7 @@ if (!isset($_SESSION['userType'])) {
                         $sqlb = "SELECT product, amount, destination, deliveryFee, riderReward, profitReward, date 
                         FROM gbigbe 
                         WHERE captain = '$oluwa' 
-                        AND payID1=$payID";
+                        AND payID4=$payID";
                         $result = mysqli_query($conn, $sqlb); // Execute the query
                     
                         if ($result) {
