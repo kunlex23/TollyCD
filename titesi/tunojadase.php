@@ -5,6 +5,7 @@ if (!isset($_SESSION['userType'])) {
 } elseif (($_SESSION['userType']) == "Inventory") {
     header("Location: ../okojooja");
 } elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
 } elseif (($_SESSION['userType']) == "Accountant") {
     header("Location: ../onisiro");
 } elseif (($_SESSION['userType']) == "Admin") {
@@ -13,8 +14,6 @@ if (!isset($_SESSION['userType'])) {
 }
 ?>
 <!DOCTYPE html>
-
-
 <html lang="en">
 
 <head>
@@ -25,88 +24,7 @@ if (!isset($_SESSION['userType'])) {
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/styls.css">
-    <style>
-    table,
-    th,
-    td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
-
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
-
-    /* Center the modal content */
-    #returnReasonModal {
-        padding-top: 15%;
-        padding-left: 35%;
-        display: none;
-        /* Hidden by default */
-        position: fixed;
-        /* Stay in place */
-        z-index: 1;
-        /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%;
-        /* Full width */
-        height: 100%;
-        /* Full height */
-        overflow: auto;
-        /* Enable scroll if needed */
-        background-color: rgba(0, 0, 0, 0.4);
-        /* Black w/ opacity */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 40%;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        border-radius: 8px;
-        /* Rounded corners for a modern look */
-    }
-
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .modal-content form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .modal-content textarea {
-        resize: vertical;
-        min-height: 100px;
-        margin-bottom: 20px;
-    }
-
-    .modal-content button {
-        align-self: flex-end;
-    }
-    </style>
+    <link rel="stylesheet" href="css/styl.css">
 </head>
 
 <body>
@@ -115,11 +33,8 @@ if (!isset($_SESSION['userType'])) {
             <div class="top">
                 <div class="logo">
                     <img src="./images/logo.png">
-                    <!-- <h2>ZIB<span class="compel">AH</span></h2> -->
-                    <!-- <h2>Name</h2> -->
                 </div>
-                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span>
-                </div>
+                <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span></div>
             </div>
             <div class="sideBar">
                 <a href="index.php">
@@ -145,153 +60,354 @@ if (!isset($_SESSION['userType'])) {
                     <span class="material-icons-sharp">history</span>
                     <h3>Shipments History</h3>
                 </a>
+
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
                 </a>
             </div>
         </aside>
-        <!------------ END OF ASIDE ------------>
-    <main>
-    <div class="recent-sales">
-        <h1>Edit Shipment</h1><br>
 
-        <?php
-            require '../config.php';
+        <main>
+            <div class="recent-sales">
+                <h1>Edit Shipment</h1>
+                <?php
+                require '../config.php';
 
-            if (isset($_GET['rira'])) {
-                $rira = urldecode($_GET['rira']);
+                if (isset($_GET['rira'])) {
+                    $rira = mysqli_real_escape_string($conn, $_GET['rira']); // Sanitize input
+                
+                    $query2 = "SELECT customersName, customerContact, destination, partner, captain, product, amount, SOD
+               FROM gbigbe WHERE id = '$rira'";
 
-                // Fetch the current data using prepared statements
-                $stmt = $conn->prepare("SELECT * FROM gbigbe WHERE id = ?");
-                $stmt->bind_param("s", $rira);
-                $stmt->execute();
-                $result = $stmt->get_result();
+                    $result = mysqli_query($conn, $query2); // Execute the query
+                
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        $row = mysqli_fetch_assoc($result);
 
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
+                        $customersName1 = $row['customersName'];
+                        $customerContact1 = $row['customerContact'];
+                        $location1 = $row['destination'];
+                        $partner1 = $row['partner'];
+                        $captain1 = $row['captain'];
+                        $product1 = $row['product'];
+                        $amount1 = $row['amount'];
+                        $SOD1 = $row['SOD'];
 
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        // Sanitize and validate inputs
-                        $partner = htmlspecialchars($_POST['partner']);
-                        $products = htmlspecialchars($_POST['product']);
-                        $quantities = htmlspecialchars($_POST['quantity']);
-                        $amounts = htmlspecialchars($_POST['amount']);
-                        $customerNames = htmlspecialchars($_POST['customersName']);
-                        $destination = htmlspecialchars($_POST['location']);
-                        $customerContacts = htmlspecialchars($_POST['customerContact']);
-                        $captains = htmlspecialchars($_POST['captain']);
-
-                        // Update the record using prepared statements
-                        $updateQuery = "UPDATE gbigbe SET 
-                        partner = ?,
-                        product = ?,
-                        quantity = ?,
-                        amount = ?,
-                        customersName = ?,
-                        destination = ?,
-                        customerContact = ?
-                        WHERE id = ?";
-
-                        $stmt = $conn->prepare($updateQuery);
-                        $stmt->bind_param(
-                            "ssssssss",
-                            $partner,
-                            $products,
-                            $quantities,
-                            $amounts,
-                            $customerNames,
-                            $destination,
-                            $customerContacts,
-                            $rira
-                        );
-
-                        if ($stmt->execute()) {
-                            echo '<script>alert("Record updated successfully!");</script>';
-                            echo '<script>window.location.href = "records.php";</script>';
-                            exit();
-                        } else {
-                            die('Update Failed: ' . $stmt->error);
-                        }
+                    } else {
+                        echo 'No record found with the specified ID.';
+                        exit();
                     }
-                } else {
-                    echo 'No record found with the specified ID.';
-                    exit();
                 }
-            } else {
-                echo 'No ID specified.';
-                exit();
-            }
-            ?>
-    
-            <form class="five-column-form" action="" method="POST">
-                <input type="hidden" name="id" value="<?php echo $rira; ?>">
-                <div class="field-container">
-                    <div class="field-group">
-                        <label for="partner">Partner:</label>
-                        <input type="text" name="partner" value="<?php echo htmlspecialchars($row['partner']); ?>" readonly><br>
-    
-                        <label for="product">Product:</label>
-                        <input type="text" name="product" value="<?php echo htmlspecialchars($row['product']); ?>" required><br>
-    
-                        <label for="quantity">Quantity:</label>
-                        <input type="text" name="quantity" value="<?php echo htmlspecialchars($row['quantity']); ?>"
-                            required readonly><br>
-    
-                        <label for="amount">Amount:</label>
-                        <input type="text" name="amount" value="<?php echo htmlspecialchars($row['amount']); ?>" required><br>
-                    </div>
-    
-                    <div class="field-group">
-                        <label for="captain">Captain:</label>
-                        <input type="text" name="captain" value="<?php echo htmlspecialchars($row['captain']); ?>"readonly><br>
-    
-                        <label for="location">Location:</label>
-                        <input type="text" name="location" value="<?php echo htmlspecialchars($row['destination']); ?>"
-                            required><br>
-    
-                        <label for="customersName">Customers Name:</label>
-                        <input type="text" name="customersName"
-                            value="<?php echo htmlspecialchars($row['customersName']); ?>" required><br>
-    
-                        <label for="customerContact">Customer Contact:</label>
-                        <input type="text" name="customerContact"
-                            value="<?php echo htmlspecialchars($row['customerContact']); ?>" required><br>
-                    </div>
-                </div>
-                <div class="button-container">
-                    <div class="job">
-                        <input type="submit" value="Update">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </main>
 
+                ?>
 
-        <!-- ----------END OF MAIN----------- -->
+                <form action="atunse.php" method="POST">
+                    <input type="hidden" name="rira" value="<?php echo htmlspecialchars($rira); ?>">
+
+                    <!-- Form fields -->
+                    <div class="five-column-form">
+
+                        <div class="tray0">
+                            <label for="customersName">Customer Name:</label>
+                            <input type="text" name="customersName"
+                                value="<?php echo htmlspecialchars($customersName1); ?>" required readonly>
+
+                            <label for="customerContact">Customer Contact:</label>
+                            <input type="text" name="customerContact"
+                                value="<?php echo htmlspecialchars($customerContact1); ?>" required><br>
+                        </div>
+
+                        <div class="tray1">
+                            <label for="state">State:</label>
+                            <select id="state" name="state" required onchange="toggleLocationInput(this.value)">
+                                <option value=""><?php echo htmlspecialchars($SOD1); ?></option>
+                                <option value="FCT">Federal Capital Territory</option>
+                                <!-- <option value="Abia">Abia</option>
+                                <option value="Adamawa">Adamawa</option>
+                                <option value="Akwa Ibom">Akwa Ibom</option>
+                                <option value="Anambra">Anambra</option>
+                                <option value="Bauchi">Bauchi</option>
+                                <option value="Bayelsa">Bayelsa</option> -->
+                                <option value="Benue">Benue</option>
+                                <!-- <option value="Borno">Borno</option>
+                                <option value="Cross River">Cross River</option>
+                                <option value="Delta">Delta</option>
+                                <option value="Ebonyi">Ebonyi</option>
+                                <option value="Edo">Edo</option>
+                                <option value="Ekiti">Ekiti</option>
+                                <option value="Enugu">Enugu</option>
+                                <option value="Gombe">Gombe</option>
+                                <option value="Imo">Imo</option>
+                                <option value="Jigawa">Jigawa</option> -->
+                                <option value="Kaduna">Kaduna</option>
+                                <!-- <option value="Kano">Kano</option>
+                                <option value="Katsina">Katsina</option>
+                                <option value="Kebbi">Kebbi</option> -->
+                                <option value="Kogi">Kogi</option>
+                                <option value="Kwara">Kwara</option>
+                                <!-- <option value="Lagos">Lagos</option> -->
+                                <option value="Nasarawa">Nasarawa</option>
+                                <option value="Niger">Niger</option>
+                                <!-- <option value="Ogun">Ogun</option>
+                                <option value="Ondo">Ondo</option>
+                                <option value="Osun">Osun</option>
+                                <option value="Oyo">Oyo</option>
+                                <option value="Plateau">Plateau</option>
+                                <option value="Rivers">Rivers</option> -->
+                            </select><br>
+
+                            <div>
+                                <label for="destination">Location:</label>
+                                <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)"
+                                    style="display: none;">
+                                    <option value="<?php echo htmlspecialchars($location1); ?>">
+                                        <?php echo htmlspecialchars($location1); ?>
+                                    </option>
+
+                                    <?php
+                                    require '../config.php';
+                                    $sql = "SELECT location FROM ninawo";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<option value="' . $row["location"] . '">' . $row["location"] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <input type="text" id="locationInput" name="destination" style="display: block;">
+                            </div>
+                        </div>
+
+                        <div class="tray2">
+                            <div>
+                                <label for="Name">Partner:</label>
+                                <input type="text" name="partner"
+                                value="<?php echo htmlspecialchars($partner1); ?>" required readonly onclick="fetchProducts(this.value)"><br>
+                                
+                            </div>
+
+                            <div>
+                                <label for="captain">Captain:</label>
+                                <input type="text" name="captain"
+                                value="<?php echo htmlspecialchars($captain1); ?>" required readonly><br>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="dispatcherPrice">Captain Price:</label>
+                            <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
+                            <label for="profit">Profit:</label>
+                            <input type="text" id="profit" name="profit[]" required><br>
+                            <label for="partnerPrice">Partner Price:</label>
+                            <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
+                        </div>
+                    </div>
+
+                    <div id="productsContainer">
+                        <div class="product-item">
+                            <div>
+                                <label for="orunoloun">Product:</label>
+                                <select name="orunoloun[]" class="product-select" required
+                                    onchange="fetchQuantity(this.value)">
+                                    <option value=""><?php echo htmlspecialchars($product1); ?></option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="availableUnit">Available Unit:</label>
+                                <input type="text" name="availableUnit[]" required readonly><br>
+                            </div>
+                            <div>
+                                <label for="quantity">Quantity:</label>
+                                <input type="text" name="quantity[]" value="<?php echo htmlspecialchars($product1); ?>"required><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="baseForm">
+                        <div>
+                            <label for="amount">Amount:</label>
+                            <input type="text" name="amount[]" value="<?php echo htmlspecialchars($amount1); ?>"required><br>
+                        </div>
+
+                        <div class="button-container">
+                            <div class="job"><input type="submit" value="Submit"></div>
+                        </div>
+                        <button type="button" class="add-product" onclick="addProduct()">Add</button>
+                    </div>
+                </form>
+            </div>
+        </main>
         <div class="right">
             <div class="top">
-                <button id="menu-btn">
-                    <span class="material-icons-sharp">menu</span>
-                </button>
+                <button id="menu-btn"><span class="material-icons-sharp">menu</span></button>
                 <div class="theme-toggler">
                     <span id="light-mode-icon" class="material-icons-sharp active">light_mode</span>
                     <span id="dark-mode-icon" class="material-icons-sharp">dark_mode</span>
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p> <b></b></p>
-                        <!-- <small class="text-muted">Admin</small> -->
+                        <p><b></b></p>
                     </div>
                 </div>
             </div>
 
-
         </div>
+
     </div>
 
     <script src="../script/scrip.js"></script>
+    <script>
+    function fetchProducts(partner) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_products.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const products = JSON.parse(xhr.responseText);
+                const productSelects = document.querySelectorAll("select[name='orunoloun[]']");
+                productSelects.forEach(select => {
+                    select.innerHTML = '<option value="">Select a Product</option>';
+                    products.forEach(product => {
+                        const option = document.createElement("option");
+                        option.value = product;
+                        option.textContent = product;
+                        select.appendChild(option);
+                    });
+                });
+            }
+        };
+        xhr.send("partner=" + partner);
+    }
+
+    function fetchQuantity(product) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_quantity.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    const availableUnitInputs = document.querySelectorAll('input[name="availableUnit[]"]');
+                    availableUnitInputs.forEach(input => {
+                        if (input.closest('.product-item').querySelector('select[name="orunoloun[]"]')
+                            .value === product) {
+                            input.value = response.quantity;
+                        }
+                    });
+                }
+            }
+        };
+        xhr.send("product=" + product);
+    }
+
+    function addProduct() {
+        const productsContainer = document.getElementById('productsContainer');
+        const productTemplate = `
+                <div class="product-item">
+                    <div>
+                    <label for="orunoloun">Product:</label>
+                    <select name="orunoloun[]" class="product-select" required onchange="fetchQuantity(this.value)">
+                        <option value="">Select a Product</option>
+                    </select>
+                    </div>
+                    <div>
+                        <label for="availableUnit">Available Unit:</label>
+                        <input type="text" name="availableUnit[]" required readonly><br>
+                    </div>
+                    <div>
+                        <label for="quantity">Quantity:</label>
+                        <input type="text" name="quantity[]" required><br>
+                    </div>
+                    <button type="button" class="remove-product" onclick="removeProduct(this)">Remove</button>
+                </div>
+            `;
+        productsContainer.insertAdjacentHTML('beforeend', productTemplate);
+
+        // Re-fetch the products for the new select element
+        const partnerSelect = document.querySelector("select[name='Name']");
+        if (partnerSelect && partnerSelect.value) {
+            fetchProducts(partnerSelect.value);
+        }
+    }
+
+    function removeProduct(button) {
+        const productItem = button.closest('.product-item');
+        productItem.remove();
+    }
+
+    function toggleLocationInput(value) {
+        var locationDropdown = document.getElementById('locationDropdown');
+        var locationInput = document.getElementById('locationInput');
+        if (value === 'FCT') {
+            locationDropdown.style.display = 'block';
+            locationDropdown.disabled = false;
+            locationInput.style.display = 'none';
+            locationInput.disabled = true;
+        } else {
+            locationDropdown.style.display = 'none';
+            locationDropdown.disabled = true;
+            locationInput.style.display = 'block';
+            locationInput.disabled = false;
+        }
+    }
+
+    function fetchPrice(location) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_price.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    document.getElementById("partnerPrice").value = response.partnerPrice;
+                    document.getElementById("dispatcherPrice").value = response.dispatcherPrice;
+                    document.getElementById("profit").value = response.profit;
+                }
+            }
+        };
+        xhr.send("location=" + location);
+    }
+
+    function fetchCaptain(captain) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_captain_details.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.error) {
+                    console.error(response.error);
+                } else {
+                    // Handle captain details
+                }
+            }
+        };
+        xhr.send("captain=" + captain);
+    }
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const partnerPriceInput = document.getElementById('partnerPrice');
+        const dispatcherPriceInput = document.getElementById('dispatcherPrice');
+        const profitInput = document.getElementById('profit');
+
+        function calculateTotal() {
+            const dispatcherPrice = parseFloat(dispatcherPriceInput.value) || 0;
+            const profit = parseFloat(profitInput.value) || 0;
+            const total = dispatcherPrice + profit;
+            partnerPriceInput.value = total.toFixed(2); // Keeping 2 decimal places
+        }
+
+        profitInput.addEventListener('input', calculateTotal);
+        dispatcherPriceInput.addEventListener('input', calculateTotal);
+    });
+    </script>
 </body>
 
 </html>
