@@ -43,7 +43,10 @@ if (isset($_POST['id'], $_POST['status'], $_POST['quantity'], $_POST['partner'],
 
         // Update the 'products' table for each product
         foreach ($products as $productName => $quantity) {
-            $updateProductsQuery = "UPDATE products SET quantity = quantity + '$quantity' WHERE partner = '$partner' AND productName = '$productName'";
+            $updateProductsQuery = "UPDATE products 
+            SET quantity = quantity + '$quantity' 
+            WHERE partner = '$partner' 
+            AND productName = '$productName'";
             if (!mysqli_query($conn, $updateProductsQuery)) {
                 throw new Exception("Error updating product '$productName': " . mysqli_error($conn));
             }

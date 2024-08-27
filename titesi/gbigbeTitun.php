@@ -396,6 +396,27 @@ if (!isset($_SESSION['userType'])) {
             dispatcherPriceInput.addEventListener('input', calculateTotal);
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    
+    form.addEventListener('submit', function (event) {
+        const productItems = document.querySelectorAll('.product-item');
+        
+        for (let i = 0; i < productItems.length; i++) {
+            const availableUnit = parseFloat(productItems[i].querySelector('input[name="availableUnit[]"]').value) || 0;
+            const quantity = parseFloat(productItems[i].querySelector('input[name="quantity[]"]').value) || 0;
+            
+            if (quantity > availableUnit) {
+                alert(`Error: Quantity for product ${i + 1} is more than the available quantity.`);
+                event.preventDefault();  // Prevent the form from being submitted
+                return;
+            }
+        }
+    });
+});
+</script>
+    
 </body>
 
 </html>

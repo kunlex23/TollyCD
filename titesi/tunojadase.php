@@ -183,15 +183,15 @@ if (!isset($_SESSION['userType'])) {
                         <div class="tray2">
                             <div>
                                 <label for="Name">Partner:</label>
-                                <input type="text" name="partner"
-                                value="<?php echo htmlspecialchars($partner1); ?>" required readonly onclick="fetchProducts(this.value)"><br>
-                                
+                                <input type="text" name="partner" value="<?php echo htmlspecialchars($partner1); ?>"
+                                    required readonly onclick="fetchProducts(this.value)"><br>
+
                             </div>
 
                             <div>
                                 <label for="captain">Captain:</label>
-                                <input type="text" name="captain"
-                                value="<?php echo htmlspecialchars($captain1); ?>" required readonly><br>
+                                <input type="text" name="captain" value="<?php echo htmlspecialchars($captain1); ?>"
+                                    required readonly><br>
                             </div>
                         </div>
 
@@ -204,14 +204,17 @@ if (!isset($_SESSION['userType'])) {
                             <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
                         </div>
                     </div>
-
+                    <div>
+                        <label for="oldProduct">Current Items:</label>
+                            <input type="text" id="oldProduct" name="oldProduct[]" value="<?php echo htmlspecialchars($product1); ?>" required readonly><br>
+                    </div>
                     <div id="productsContainer">
                         <div class="product-item">
                             <div>
                                 <label for="orunoloun">Product:</label>
                                 <select name="orunoloun[]" class="product-select" required
                                     onchange="fetchQuantity(this.value)">
-                                    <option value=""><?php echo htmlspecialchars($product1); ?></option>
+                                    <option value="">...</option>
                                 </select>
                             </div>
                             <div>
@@ -220,7 +223,7 @@ if (!isset($_SESSION['userType'])) {
                             </div>
                             <div>
                                 <label for="quantity">Quantity:</label>
-                                <input type="text" name="quantity[]" value="<?php echo htmlspecialchars($product1); ?>"required><br>
+                                <input type="text" name="quantity[]" required><br>
                             </div>
                         </div>
                     </div>
@@ -228,7 +231,8 @@ if (!isset($_SESSION['userType'])) {
                     <div class="baseForm">
                         <div>
                             <label for="amount">Amount:</label>
-                            <input type="text" name="amount[]" value="<?php echo htmlspecialchars($amount1); ?>"required><br>
+                            <input type="text" name="amount[]" value="<?php echo htmlspecialchars($amount1); ?>"
+                                required><br>
                         </div>
 
                         <div class="button-container">
