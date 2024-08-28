@@ -123,7 +123,7 @@ if (!isset($_SESSION['userType'])) {
                             <select id="state" name="state" required onchange="toggleLocationInput(this.value)">
                                 <option value=""><?php echo htmlspecialchars($SOD1); ?></option>
                                 <option value="FCT">Federal Capital Territory</option>
-                                
+
                             </select><br>
 
                             <div>
@@ -175,7 +175,8 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                     <div>
                         <label for="oldProduct">Current Items:</label>
-                            <input type="text" id="oldProduct" name="oldProduct[]" value="<?php echo htmlspecialchars($product1); ?>" required readonly><br>
+                        <input type="text" id="oldProduct" name="oldProduct[]"
+                            value="<?php echo htmlspecialchars($product1); ?>" required readonly><br>
                     </div>
                     <div id="productsContainer">
                         <div class="product-item">
@@ -379,6 +380,28 @@ if (!isset($_SESSION['userType'])) {
 
         profitInput.addEventListener('input', calculateTotal);
         dispatcherPriceInput.addEventListener('input', calculateTotal);
+    });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', function(event) {
+            const productItems = document.querySelectorAll('.product-item');
+
+            for (let i = 0; i < productItems.length; i++) {
+                const availableUnit = parseFloat(productItems[i].querySelector(
+                    'input[name="availableUnit[]"]').value) || 0;
+                const quantity = parseFloat(productItems[i].querySelector('input[name="quantity[]"]')
+                    .value) || 0;
+
+                if (quantity > availableUnit) {
+                    alert(`Error: Quantity for product ${i + 1} is more than the available quantity.`);
+                    event.preventDefault(); // Prevent the form from being submitted
+                    return;
+                }
+            }
+        });
     });
     </script>
 </body>

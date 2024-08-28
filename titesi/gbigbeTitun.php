@@ -92,14 +92,14 @@ if (!isset($_SESSION['userType'])) {
                             <label for="state">State:</label>
                             <select id="state" name="state" required onchange="toggleLocationInput(this.value)">
                                 <option value="">...</option>
-                            <option value="FCT">Federal Capital Territory</option>
+                                <option value="FCT">Federal Capital Territory</option>
                                 <!-- <option value="Abia">Abia</option>
                                 <option value="Adamawa">Adamawa</option>
                                 <option value="Akwa Ibom">Akwa Ibom</option>
                                 <option value="Anambra">Anambra</option>
                                 <option value="Bauchi">Bauchi</option>
                                 <option value="Bayelsa">Bayelsa</option> -->
-                            <option value="Benue">Benue</option>
+                                <option value="Benue">Benue</option>
                                 <!-- <option value="Borno">Borno</option>
                                 <option value="Cross River">Cross River</option>
                                 <option value="Delta">Delta</option>
@@ -110,15 +110,15 @@ if (!isset($_SESSION['userType'])) {
                                 <option value="Gombe">Gombe</option>
                                 <option value="Imo">Imo</option>
                                 <option value="Jigawa">Jigawa</option> -->
-                            <option value="Kaduna">Kaduna</option>
+                                <option value="Kaduna">Kaduna</option>
                                 <!-- <option value="Kano">Kano</option>
                                 <option value="Katsina">Katsina</option>
                                 <option value="Kebbi">Kebbi</option> -->
-                            <option value="Kogi">Kogi</option>
-                            <option value="Kwara">Kwara</option>
+                                <option value="Kogi">Kogi</option>
+                                <option value="Kwara">Kwara</option>
                                 <!-- <option value="Lagos">Lagos</option> -->
-                            <option value="Nasarawa">Nasarawa</option>
-                            <option value="Niger">Niger</option>
+                                <option value="Nasarawa">Nasarawa</option>
+                                <option value="Niger">Niger</option>
                                 <!-- <option value="Ogun">Ogun</option>
                                 <option value="Ondo">Ondo</option>
                                 <option value="Osun">Osun</option>
@@ -187,7 +187,7 @@ if (!isset($_SESSION['userType'])) {
                             <label for="dispatcherPrice">Captain Price:</label>
                             <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
                             <label for="profit">Profit:</label>
-                            <input type="text" id="profit" name="profit[]" required ><br>
+                            <input type="text" id="profit" name="profit[]" required><br>
                             <label for="partnerPrice">Partner Price:</label>
                             <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
                         </div>
@@ -379,44 +379,46 @@ if (!isset($_SESSION['userType'])) {
         xhr.send("captain=" + captain);
     }
     </script>
-     <script>
-         document.addEventListener('DOMContentLoaded', function () {
-            const partnerPriceInput = document.getElementById('partnerPrice');
-            const dispatcherPriceInput = document.getElementById('dispatcherPrice');
-            const profitInput = document.getElementById('profit');
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const partnerPriceInput = document.getElementById('partnerPrice');
+        const dispatcherPriceInput = document.getElementById('dispatcherPrice');
+        const profitInput = document.getElementById('profit');
 
-            function calculateTotal() {
-                const dispatcherPrice = parseFloat(dispatcherPriceInput.value) || 0;
-                const profit = parseFloat(profitInput.value) || 0;
-                const total = dispatcherPrice + profit;
-                partnerPriceInput.value = total.toFixed(2); // Keeping 2 decimal places
-            }
+        function calculateTotal() {
+            const dispatcherPrice = parseFloat(dispatcherPriceInput.value) || 0;
+            const profit = parseFloat(profitInput.value) || 0;
+            const total = dispatcherPrice + profit;
+            partnerPriceInput.value = total.toFixed(2); // Keeping 2 decimal places
+        }
 
-            profitInput.addEventListener('input', calculateTotal);
-            dispatcherPriceInput.addEventListener('input', calculateTotal);
-        });
+        profitInput.addEventListener('input', calculateTotal);
+        dispatcherPriceInput.addEventListener('input', calculateTotal);
+    });
     </script>
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
-    
-    form.addEventListener('submit', function (event) {
-        const productItems = document.querySelectorAll('.product-item');
-        
-        for (let i = 0; i < productItems.length; i++) {
-            const availableUnit = parseFloat(productItems[i].querySelector('input[name="availableUnit[]"]').value) || 0;
-            const quantity = parseFloat(productItems[i].querySelector('input[name="quantity[]"]').value) || 0;
-            
-            if (quantity > availableUnit) {
-                alert(`Error: Quantity for product ${i + 1} is more than the available quantity.`);
-                event.preventDefault();  // Prevent the form from being submitted
-                return;
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', function(event) {
+            const productItems = document.querySelectorAll('.product-item');
+
+            for (let i = 0; i < productItems.length; i++) {
+                const availableUnit = parseFloat(productItems[i].querySelector(
+                    'input[name="availableUnit[]"]').value) || 0;
+                const quantity = parseFloat(productItems[i].querySelector('input[name="quantity[]"]')
+                    .value) || 0;
+
+                if (quantity > availableUnit) {
+                    alert(`Error: Quantity for product ${i + 1} is more than the available quantity.`);
+                    event.preventDefault(); // Prevent the form from being submitted
+                    return;
+                }
             }
-        }
+        });
     });
-});
-</script>
-    
+    </script>
+
 </body>
 
 </html>
