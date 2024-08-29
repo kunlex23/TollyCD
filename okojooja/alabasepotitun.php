@@ -1,4 +1,18 @@
 <?php
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
+} elseif (($_SESSION['userType']) == "Accountant") {
+    header("Location: ../onisiro");
+} elseif (($_SESSION['userType']) == "Admin") {
+    // echo "<button>check</button>";
+} else {
+    header("location: ../index.php");
+}
+
 
 require '../config.php'; 
 

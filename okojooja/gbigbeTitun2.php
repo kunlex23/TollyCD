@@ -1,6 +1,17 @@
 <?php
 session_start();
-// Session handling code
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
+} elseif (($_SESSION['userType']) == "Accountant") {
+    header("Location: ../onisiro");
+} elseif (($_SESSION['userType']) == "Admin") {
+    // echo "<button>check</button>";
+} else {
+    header("location: ../index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
