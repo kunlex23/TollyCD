@@ -172,7 +172,9 @@ if (!isset($_SESSION['userType'])) {
                             <th>Contact</th>
                             <th>Destination</th>
                             <th>Products</th>
-                            <th>Avl Qty</th>
+                            <th>Agent</th>
+                            <th>Agent Contact</th>
+                            <th>Park</th>
                             <th>Driver Price</th>
                             <th>Profit</th>
                             <th>Partner Price</th>
@@ -184,13 +186,12 @@ if (!isset($_SESSION['userType'])) {
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Sent' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date, agentName, agentContact, park  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Sent' ORDER BY partner DESC ");
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id = $row['id'];
                             $partner = $row['partner'];
                             $product = $row['product'];
-                            $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
                             $deliveryFee = $row['deliveryFee'];
                             $riderReward = $row['riderReward'];
@@ -199,6 +200,9 @@ if (!isset($_SESSION['userType'])) {
                             $customerContact = $row['customerContact'];
                             $profitReward = $row['profitReward'];
                             $status = $row['status'];
+                            $agentName = $row['agentName'];
+                            $agentContact = $row['agentContact'];
+                            $park = $row['park'];
                             $date = $row['date'];
                             ?>
                             <tr>
@@ -208,7 +212,9 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $customerContact; ?></td>
                                 <td><?php echo $destination; ?></td>
                                 <td><?php echo $product; ?></td>
-                                <td><?php echo $availableUnit; ?></td>
+                                <td><?php echo $agentName; ?></td>
+                                <td><?php echo $agentContact; ?></td>
+                                <td><?php echo $park; ?></td>
                                 <td><?php echo $riderReward; ?></td>
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>

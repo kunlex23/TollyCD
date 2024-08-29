@@ -60,7 +60,7 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Waybills</h3>
                 </a>
 
-                <a href="awe.php" >
+                <a href="awe.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Waybill History</h3>
                 </a>
@@ -100,58 +100,65 @@ if (!isset($_SESSION['userType'])) {
                         <input type="hidden" name="captainPayStatus" value="rara">
                         <input type="hidden" name="shipmentType" value="Waybill">
                         <input type="hidden" name="status" value="Sent">
+
                         <div class="tray0">
                             <label for="customersName">Receiver:</label>
                             <input type="text" name="customersName[]" required><br>
 
                             <label for="customerContact">Receiver Contact:</label>
                             <input type="text" name="customerContact[]" required><br>
-                            <div class="tray1">
-                                <label for="destination">Destination:</label>
-                                <select id="destination" name="destination" required>
-                                    <option value="">...</option>
-                                    <option value="FCT">Federal Capital Territory</option>
-                                    <option value="Abia">Abia</option>
-                                    <option value="Adamawa">Adamawa</option>
-                                    <option value="Akwa Ibom">Akwa Ibom</option>
-                                    <option value="Anambra">Anambra</option>
-                                    <option value="Bauchi">Bauchi</option>
-                                    <option value="Bayelsa">Bayelsa</option>
-                                    <option value="Benue">Benue</option>
-                                    <option value="Borno">Borno</option>
-                                    <option value="Cross River">Cross River</option>
-                                    <option value="Delta">Delta</option>
-                                    <option value="Ebonyi">Ebonyi</option>
-                                    <option value="Edo">Edo</option>
-                                    <option value="Ekiti">Ekiti</option>
-                                    <option value="Enugu">Enugu</option>
-                                    <option value="Gombe">Gombe</option>
-                                    <option value="Imo">Imo</option>
-                                    <option value="Jigawa">Jigawa</option>
-                                    <option value="Kaduna">Kaduna</option>
-                                    <option value="Kano">Kano</option>
-                                    <option value="Katsina">Katsina</option>
-                                    <option value="Kebbi">Kebbi</option>
-                                    <option value="Kogi">Kogi</option>
-                                    <option value="Kwara">Kwara</option>
-                                    <option value="Lagos">Lagos</option>
-                                    <option value="Nasarawa">Nasarawa</option>
-                                    <option value="Niger">Niger</option>
-                                    <option value="Ogun">Ogun</option>
-                                    <option value="Ondo">Ondo</option>
-                                    <option value="Osun">Osun</option>
-                                    <option value="Oyo">Oyo</option>
-                                    <option value="Plateau">Plateau</option>
-                                    <option value="Rivers">Rivers</option>
-                                    <option value="Sokoto">Sokoto</option>
-                                    <option value="Taraba">Taraba</option>
-                                    <option value="Yobe">Yobe</option>
-                                    <option value="Zamfara">Zamfara</option>
-                                </select><br>
-                            </div>
-                        </div>
+                            <label for="destination">Destination:</label>
+                            <select id="destination" name="destination" required>
+                                <option value="">...</option>
+                                <option value="FCT">Federal Capital Territory</option>
+                                <option value="Abia">Abia</option>
+                                <option value="Adamawa">Adamawa</option>
+                                <option value="Akwa Ibom">Akwa Ibom</option>
+                                <option value="Anambra">Anambra</option>
+                                <option value="Bauchi">Bauchi</option>
+                                <option value="Bayelsa">Bayelsa</option>
+                                <option value="Benue">Benue</option>
+                                <option value="Borno">Borno</option>
+                                <option value="Cross River">Cross River</option>
+                                <option value="Delta">Delta</option>
+                                <option value="Ebonyi">Ebonyi</option>
+                                <option value="Edo">Edo</option>
+                                <option value="Ekiti">Ekiti</option>
+                                <option value="Enugu">Enugu</option>
+                                <option value="Gombe">Gombe</option>
+                                <option value="Imo">Imo</option>
+                                <option value="Jigawa">Jigawa</option>
+                                <option value="Kaduna">Kaduna</option>
+                                <option value="Kano">Kano</option>
+                                <option value="Katsina">Katsina</option>
+                                <option value="Kebbi">Kebbi</option>
+                                <option value="Kogi">Kogi</option>
+                                <option value="Kwara">Kwara</option>
+                                <option value="Lagos">Lagos</option>
+                                <option value="Nasarawa">Nasarawa</option>
+                                <option value="Niger">Niger</option>
+                                <option value="Ogun">Ogun</option>
+                                <option value="Ondo">Ondo</option>
+                                <option value="Osun">Osun</option>
+                                <option value="Oyo">Oyo</option>
+                                <option value="Plateau">Plateau</option>
+                                <option value="Rivers">Rivers</option>
+                                <option value="Sokoto">Sokoto</option>
+                                <option value="Taraba">Taraba</option>
+                                <option value="Yobe">Yobe</option>
+                                <option value="Zamfara">Zamfara</option>
+                            </select><br>
 
-                        <div class="tray2">
+                        </div>
+                        <div>
+                            <label for="agentName">Agent Name:</label>
+                            <input type="text" name="agentName[]" required><br>
+
+                            <label for="agentContact">Agent Number:</label>
+                            <input type="text" name="agentContact[]" required><br>
+
+                            <label for="park">Park:</label>
+                            <input type="text" name="park[]" required><br>
 
                         </div>
 
@@ -163,7 +170,7 @@ if (!isset($_SESSION['userType'])) {
                             <label for="partnerPrice">Partner Price:</label>
                             <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
                         </div>
-                    </div>
+                    </div><br><br>
 
                     <div id="productsContainer">
                         <div class="product-item">
@@ -186,9 +193,7 @@ if (!isset($_SESSION['userType'])) {
                     </div>
 
                     <div class="baseForm">
-
-
-                        <div class="button-container">
+                         <div class="button-container">
                             <div class="job"><input type="submit" value="Submit"></div>
                         </div>
                         <button type="button" class="add-product" onclick="addProduct()">Add</button>
