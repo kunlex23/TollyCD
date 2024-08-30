@@ -1,3 +1,18 @@
+<?php
+session_start();
+if (!isset($_SESSION['userType'])) {
+    header("location: ../index.php");
+} elseif (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+    header("Location: ../titesi");
+} elseif (($_SESSION['userType']) == "Accountant") {
+    header("Location: ../onisiro");
+} elseif (($_SESSION['userType']) == "Admin") {
+} else {
+    header("location: ../index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,26 +55,6 @@
                 <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
-                </a>
-
-                <a href="records.php">
-                    <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Shipments</h3>
-                </a>
-
-                <a href="sisanwo.php">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Partner Payment History</h3>
-                </a>
-
-                <a href="sisanwokeji.php">
-                    <span class="material-icons-sharp">history</span>
-                    <h3>Captain Payment History</h3>
-                </a>
-
-                <a href="inawo.php">
-                    <span class="material-icons-sharp">paid</span>
-                    <h3>Expenses</h3>
                 </a>
                 <a href="ninan.php">
                     <span class="material-icons-sharp">inventory</span>
