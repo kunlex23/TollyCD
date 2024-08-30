@@ -114,15 +114,19 @@ if (!isset($_SESSION['userType'])) {
                         echo '<tr>
                                 <th>Product</th>
                                 <th>Quantity</th>
-                                <th>Action</th>
+                                <th>Update</th>
+                                <th>View</th>
                               </tr>';
 
                         while ($row = $result->fetch_assoc()) {
-                            $productId = htmlspecialchars($row["id"]); // Assuming you have an "id" column for product identification
+                            $productId = htmlspecialchars($row["id"]);
+                            $productName = htmlspecialchars($row["productName"]);
+                            $quantity = htmlspecialchars($row["quantity"]);
                             echo '<tr>';
                             echo '<td>' . htmlspecialchars($row["productName"]) . '</td>';
                             echo '<td>' . htmlspecialchars($row["quantity"]) . '</td>';
                             echo '<td><a href="ojafifisi.php?productId=' . $productId . '&Name=' . urlencode($Name) . '">Update</a></td>';
+                            echo '<td><a href="iroEru.php?ewo=' . $productId . '&tani=' . urlencode($Name) . '&eruwo=' . urlencode($productName) . '&loku=' . urlencode($quantity) . '">View</a></td>';
                             echo '</tr>';
                         }
 

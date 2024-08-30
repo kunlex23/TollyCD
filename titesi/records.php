@@ -205,7 +205,7 @@ if (!isset($_SESSION['userType'])) {
                             $status = $row['status'];
                             $date = $row['date'];
                             ?>
-                        <tr>
+                            <tr>
                             <td><?php echo $serialNumber; ?></td>
                             <td><?php echo $partner; ?></td>
                             <td><?php echo $product; ?></td>
