@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $encrypt_pass = md5($password);
 
         // Prepare the select statement
-        $stmt = $conn->prepare("SELECT userType FROM users WHERE userId = ? AND password = ?");
+        $stmt = $conn->prepare("SELECT userType, fullName FROM users WHERE userId = ? AND password = ?");
         $stmt->bind_param("ss", $uname, $encrypt_pass);
 
         // Execute the statement
@@ -23,26 +23,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if the user exists
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($userType);
-            $stmt->fetch();
+        $stmt->bind_result($userType, $fullName); // Fetch both userType and fullName
+        $stmt->fetch();
+        
+        // Set session variables
+        $_SESSION['userType'] = $userType;
+        $_SESSION['fullName'] = $fullName;
+
+        // Redirect based on userType
+        if ($_SESSION['userType'] == "Inventory") {
+            header("Location: ./okojooja");
+        } elseif ($_SESSION['userType'] == "Data_Entry") {
+            header("Location: ./titesi");
+        } elseif ($_SESSION['userType'] == "Accountant") {
+            header("Location: ./onisiro");
+        } elseif ($_SESSION['userType'] == "Admin") {
+            header("Location: ./abojuto");
+        }
+        
+        exit();
 
 
-            
-            $_SESSION['userType'] = $userType;
-
-            echo "Login successful!";
-
-            if (($_SESSION['userType']) == "Inventory"){
-                header("Location: ./okojooja");
-            }elseif (($_SESSION['userType']) == "Data_Entry"){
-                header("Location: ./titesi");
-            }elseif (($_SESSION['userType']) == "Accountant"){
-                header("Location: ./onisiro");
-            }elseif (($_SESSION['userType']) == "Admin"){
-                header("Location: ./abojuto");
-            }
-            
-            exit();
         } else {
             echo "Invalid username or password.";
         }

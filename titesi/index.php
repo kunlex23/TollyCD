@@ -11,6 +11,7 @@ header("Location: ../onisiro");
 } else {
     header("location: ../index.php");
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +81,7 @@ header("Location: ../onisiro");
                     <span class="material-icons-sharp">history</span>
                     <h3>Shipments History</h3>
                 </a>
-                
+
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -104,7 +105,7 @@ header("Location: ../onisiro");
                     <!-- <small class="tex">Last 7 Days</small> -->
                 </div>
                 <!-- END OF STUDENTS -->
-                 <div class="income">
+                <div class="income">
                     <div class="middle">
                         <div class="left">
                             <h3>Completed</h3>
@@ -141,7 +142,7 @@ header("Location: ../onisiro");
                     </div>
                     <!-- <small class="text-muted">Last 24hrs</small> -->
                 </div>
-                
+
             </div>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
@@ -218,8 +219,9 @@ header("Location: ../onisiro");
                 </div>
                 <div class="profile">
                     <div class="info">
-                        <p> <b></b></p>
-                        <!-- <small class="text-muted">Admin</small> -->
+                        <div class="details">
+                            <?php $fullName = $_SESSION['fullName']; echo $fullName ?>
+                        </div>
                     </div>
                 </div>
             </div>
