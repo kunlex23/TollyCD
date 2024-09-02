@@ -40,6 +40,30 @@ if (!isset($_SESSION['userType'])) {
         td:nth-child(even) {
             background-color: rgba(150, 212, 212, 0.4);
         }
+     .navbar {
+            display: flex;
+            justify-content: center;
+            padding: 1px;
+        }
+
+        /* Styling for individual navigation buttons */
+        .nav-button {
+            margin: 0 15px; /* Space between buttons */
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Styling for button hover effect */
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -95,6 +119,17 @@ if (!isset($_SESSION['userType'])) {
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
+            
+            <?php
+           if ($_SESSION['userType'] == "Admin") {
+               echo "<div class='navbar'>";
+               echo "<a href='../okojooja' class='nav-button'>Inventory</a>";
+               echo "<a href='../titesi' class='nav-button'>Data Entry</a>";
+               echo "<a href='../onisiro' class='nav-button'>Accounting</a>";
+               echo "<a href='../abojuto' class='nav-button'>Admin</a>";
+               echo "</div>";
+           }
+           ?>
             <h1>Accounting</h1><br>
             <div class="insight">
                 <div class="sales">

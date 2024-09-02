@@ -71,6 +71,10 @@ if (!isset($_SESSION['userType'])) {
                     <span class="material-icons-sharp">pedal_bike</span>
                     <h3>Captain</h3>
                 </a>
+                <a href="iroeri.php">
+                    <span class="material-icons-sharp">bar_chart</span>
+                    <h3>Reports</h3>
+                </a>
 
 
                 <a href="../logout.php">

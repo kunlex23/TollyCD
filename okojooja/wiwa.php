@@ -41,6 +41,7 @@ if (!isset($_SESSION['userType'])) {
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
     }
+    
     </style>
 </head>
 
@@ -80,7 +81,7 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Waybills</h3>
                 </a>
 
-                <a href="awe.php" >
+                <a href="awe.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Waybill History</h3>
                 </a>
@@ -92,8 +93,9 @@ if (!isset($_SESSION['userType'])) {
             </div>
         </aside>
         <!------------ END OF ASIDE ------------>
-        <main>
-            <!-- ---------END OF EXAM-------- -->
+        <main>      
+            
+
             <div class="recent-sales">
                 <?php
                 require '../config.php';
@@ -205,23 +207,27 @@ if (!isset($_SESSION['userType'])) {
                     echo "<b>Location: " . $row['location'] . "</b><br>";
                     echo "<b>Contact: " . $row['contact'] . "</b<br>";
 
-                    echo "<div class='sales-analytics'>";
-                    echo "<a href='atunwoalabasepo.php?clientID=" . $row['id'] . "'>";
-                    echo "<div class='item add-product'>";
-                    echo "<div><span class='material-icons-sharp'>edit_note</span>";
-                    echo "<h3>Edit  ". $row['Name'] ." Info</h3>";
-                    echo "</div></div></a></div>";
+                    
+                    if ($_SESSION['userType'] == "Admin") {
+                        echo "<div class='sales-analytics'>";
+                        echo "<a href='atunwoalabasepo.php?clientID=" . $row['id'] . "'>";
+                        echo "<div class='item add-product'>";
+                        echo "<div><span class='material-icons-sharp'>edit_note</span>";
+                        echo "<h3>Edit  " . $row['Name'] . " Info</h3>";
+                        echo "</div></div></a></div>";
 
-                    echo "<div class='sales-analytics'>";
-                    echo "<a href='?delete_id=" . $row['id'] . "&eru=" . $row['Name'] . "&eru=" . $row['Name'] . "' onclick=\"return confirm('Are you sure you want to remove  " . $row['Name'] . " as partner? This action is NOT reversible')\">";
-                    echo "<div class='item add-product'>";
-                    echo "<div><span class='material-icons-sharp'>delete_outline</span>";
-                    echo "<h3>Remove  " . $row['Name'] . " as partner</h3>";
-                    echo "</div></div></a></div>";
+                        echo "<div class='sales-analytics'>";
+                        echo "<a href='?delete_id=" . $row['id'] . "&eru=" . $row['Name'] . "' onclick=\"return confirm('Are you sure you want to remove  " . $row['Name'] . " as partner? This action is NOT reversible')\">";
+                        echo "<div class='item add-product'>";
+                        echo "<div><span class='material-icons-sharp'>delete_outline</span>";
+                        echo "<h3>Remove  " . $row['Name'] . " as partner</h3>";
+                        echo "</div></div></a></div>";
+                    }
 
-                }
+
+            }
             } else {
-                echo "No results found.";
+            echo "No results found.";
             }
 
             $conn->close();
