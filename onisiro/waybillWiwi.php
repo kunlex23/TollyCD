@@ -25,114 +25,114 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-        /* Tab styles */
-        .tab {
-            overflow: hidden;
-            border-bottom: 1px solid #ccc;
-            background-color: #f1f1f1;
-        }
+    /* Tab styles */
+    .tab {
+        overflow: hidden;
+        border-bottom: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
 
-        .tab button {
-            background-color: inherit;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-        }
+    .tab button {
+        background-color: inherit;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
 
-        .tab button:hover {
-            background-color: #ddd;
-        }
+    .tab button:hover {
+        background-color: #ddd;
+    }
 
-        .tab button.active {
-            background-color: #ccc;
-        }
+    .tab button.active {
+        background-color: #ccc;
+    }
 
-        .tab-content {
-            display: none;
-            padding: 6px 12px;
-            border-top: none;
-        }
+    .tab-content {
+        display: none;
+        padding: 6px 12px;
+        border-top: none;
+    }
 
-        .tab-content.active {
-            display: block;
-        }
+    .tab-content.active {
+        display: block;
+    }
 
-        table,
-        th,
-        td {
-            /* border: 1px solid black; */
-            /* border-collapse: collapse; */
-            padding: 8px;
-            text-align: left;
-        }
+    table,
+    th,
+    td {
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        padding: 8px;
+        text-align: left;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        /* Ensure visibility of form elements */
-        input[type="checkbox"],
-        input[type="radio"] {
-            appearance: checkbox;
-            outline: none;
-            margin-right: 0.5rem;
-            width: auto;
-            height: auto;
-            display: inline-block;
-        }
+    /* Ensure visibility of form elements */
+    input[type="checkbox"],
+    input[type="radio"] {
+        appearance: checkbox;
+        outline: none;
+        margin-right: 0.5rem;
+        width: auto;
+        height: auto;
+        display: inline-block;
+    }
 
-        /* Fix the text color for better visibility */
-        .text-muted {
-            color: var(--color-info-dark) !important;
-        }
+    /* Fix the text color for better visibility */
+    .text-muted {
+        color: var(--color-info-dark) !important;
+    }
 
-        /* General reset for inputs */
-        input,
-        select,
-        textarea {
-            background-color: var(--color-white);
-            color: var(--color-dark);
-            border: 1px solid var(--color-info-light);
-            border-radius: var(--border-radius-1);
-            padding: 0.5rem;
-        }
+    /* General reset for inputs */
+    input,
+    select,
+    textarea {
+        background-color: var(--color-white);
+        color: var(--color-dark);
+        border: 1px solid var(--color-info-light);
+        border-radius: var(--border-radius-1);
+        padding: 0.5rem;
+    }
 
-        /* Specific styles for checkboxes */
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
+    /* Specific styles for checkboxes */
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
 
-        .checkbox-label input[type="checkbox"] {
-            width: 1.2rem;
-            height: 1.2rem;
-            margin-right: 0.5rem;
-            cursor: pointer;
-        }
+    .checkbox-label input[type="checkbox"] {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-right: 0.5rem;
+        cursor: pointer;
+    }
 
-        /* Ensure compatibility with the dark theme */
-        .dark-theme-variables input[type="checkbox"] {
-            background-color: var(--color-dark);
-            border-color: var(--color-dark-variant);
-        }
+    /* Ensure compatibility with the dark theme */
+    .dark-theme-variables input[type="checkbox"] {
+        background-color: var(--color-dark);
+        border-color: var(--color-dark-variant);
+    }
 
-        .dark-theme-variables input[type="checkbox"]:checked {
-            background-color: var(--color-primary);
-        }
+    .dark-theme-variables input[type="checkbox"]:checked {
+        background-color: var(--color-primary);
+    }
 
-        /* Additional styling to ensure form elements are visible */
-        form input[type="checkbox"] {
-            border: 1px solid var(--color-info-dark);
-            background: var(--color-white);
-            cursor: pointer;
-        }
+    /* Additional styling to ensure form elements are visible */
+    form input[type="checkbox"] {
+        border: 1px solid var(--color-info-dark);
+        background: var(--color-white);
+        cursor: pointer;
+    }
     </style>
 </head>
 
@@ -200,25 +200,28 @@ if (!isset($_SESSION['userType'])) {
                 // Query to calculate total partner reward
                 $sqla = "SELECT SUM(COALESCE(deliveryFee, 0)) AS totalReward 
                  FROM gbigbe 
-                  WHERE shipmentType = 'Waybill' 
-                  AND status ='Completed' 
-                AND captainPayStatus='beni'
-                AND partnerRemitance = 'rara'";
+                 WHERE shipmentType = 'Waybill' 
+                 AND status ='Completed' 
+                 AND captainPayStatus='beni'
+                 AND partnerRemitance = 'rara'";
                 $resulta = mysqli_query($conn, $sqla);
 
                 if ($resulta) {
                     $rowa = mysqli_fetch_array($resulta);
                     $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
                     ?>
-                    <div class="productDetails">
-                        <div class="itemPD">
-                            Partner: <b><?php echo htmlspecialchars($partner); ?></b>
-                        </div>
-                        <div class="itemPD">
-                            Total Amount: <b><?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
-                        </div>
-                    </div>
-                    <?php
+            <div class="productDetails">
+                <div class="itemPD">
+                    Partner: <b><?php echo htmlspecialchars($partner); ?></b>
+                </div>
+                <div class="itemPD">
+                    Total Amount: <b><?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
+                </div>
+                <div id="totalSelected" class="totalSelected">
+                    Total Selected: <b>₦0.00</b>
+                </div>
+            </div>
+            <?php
                 } else {
                     echo "Error fetching partner reward: " . mysqli_error($conn);
                 }
@@ -227,7 +230,7 @@ if (!isset($_SESSION['userType'])) {
             }
             ?>
 
-            <form action="kagbo.php" method="post">
+            <form action="kagbo1.php" method="post">
                 <div class="payBTN">
                     <button type="submit">Confirm Payment</button>
                 </div>
@@ -253,10 +256,10 @@ if (!isset($_SESSION['userType'])) {
                         if (isset($_GET['partner'])) {
                             $sqlb = "SELECT id, product, amount, destination, deliveryFee, partnerReward, date 
                              FROM gbigbe 
-                              WHERE shipmentType = 'Waybill' 
-                                AND status ='Completed' 
-                                AND captainPayStatus='beni'
-                                AND partnerRemitance = 'rara'";
+                             WHERE shipmentType = 'Waybill' 
+                             AND status ='Completed' 
+                             AND captainPayStatus='beni'
+                             AND partnerRemitance = 'rara'";
                             $result = mysqli_query($conn, $sqlb); // Execute the query
                         
                             if ($result) {
@@ -271,18 +274,24 @@ if (!isset($_SESSION['userType'])) {
                                     $partnerRew = $row['partnerReward'];
                                     $date = $row['date'];
                                     ?>
-                                    <tr>
-                                        <td><input type="checkbox" name="selectedShipments[]"
-                                                value="<?php echo htmlspecialchars($id); ?>" style="display:block;"></td>
-                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                        <td><?php echo htmlspecialchars($product); ?></td>
-                                        <td><?php echo htmlspecialchars($destination); ?></td>
-                                        <td><?php echo htmlspecialchars($amount); ?></td>
-                                        <td><?php echo htmlspecialchars($partnerRew); ?></td>
-                                        <td><?php echo htmlspecialchars($deliveryFee); ?></td>
-                                        <td><?php echo htmlspecialchars($date); ?></td>
-                                    </tr>
-                                    <?php
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedShipments[]"
+                                    value="<?php echo htmlspecialchars($id); ?>" style="display:block;"
+                                    onclick="calculateTotal(this)">
+                                <input type="hidden" class="deliveryFee"
+                                    value="<?php echo htmlspecialchars($deliveryFee); ?>">
+                            </td>
+                            <td><?php echo $serialNumber; ?></td>
+                            <td><?php echo htmlspecialchars($product); ?></td>
+                            <td><?php echo htmlspecialchars($destination); ?></td>
+                            <td><?php echo htmlspecialchars($amount); ?></td>
+                            <td><?php echo htmlspecialchars($partnerRew); ?></td>
+                            <td><?php echo htmlspecialchars($deliveryFee); ?></td>
+                            <td><?php echo htmlspecialchars($date); ?></td>
+                        </tr>
+
+                        <?php
                                     $serialNumber++; // Increment the serial number
                                 }
                             } else {
@@ -294,10 +303,24 @@ if (!isset($_SESSION['userType'])) {
                         ?>
                     </tbody>
                 </table>
-
-
             </form>
+
+            <script>
+            function calculateTotal() {
+                var checkboxes = document.querySelectorAll('input[name="selectedShipments[]"]:checked');
+                var total = 0;
+                checkboxes.forEach(function(checkbox) {
+                    var deliveryFee = checkbox.parentElement.querySelector('.deliveryFee').value;
+                    total += parseFloat(deliveryFee);
+                });
+
+                document.getElementById('totalSelected').innerHTML =
+                    'Total Selected: <b>₦' + total.toFixed(2) + '</b>';
+            }
+            </script>
         </main>
+
+
 
 
 
@@ -324,6 +347,7 @@ if (!isset($_SESSION['userType'])) {
     </div>
 
     <script src="../script/scrip.js"></script>
+
 </body>
 
 </html>

@@ -242,6 +242,9 @@ if (!isset($_SESSION['userType'])) {
                     <div class="itemPD">
                         <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
                     </div>
+                    <div id="totalSelected" class="totalSelected">
+                    Total Selected: <b>₦0.00</b>
+                </div>
 
                     <!-- Hidden inputs to pass additional data -->
                     <input type="hidden" name="partner" value="<?php echo htmlspecialchars($partner); ?>">
@@ -270,7 +273,7 @@ if (!isset($_SESSION['userType'])) {
                     </thead>
                     <tbody id="table-body">
                         <?php
-                                    require '../config.php'; // Ensure the database connection is properly set up
+                            require '../config.php'; // Ensure the database connection is properly set up
                             
                             if (isset($_GET['partner'])) {
                                 $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
@@ -300,8 +303,12 @@ if (!isset($_SESSION['userType'])) {
                                         $date = $row['date'];
                                         ?>
                         <tr>
-                            <td><input type="checkbox" name="selectedShipments[]"
-                                    value="<?php echo htmlspecialchars($id); ?>" style="display:block;"></td>
+                            <td>
+                                <input type="checkbox" name="selectedShipments[]"
+                                    value="<?php echo htmlspecialchars($id); ?>"
+                                    style="display:block;" onclick="calculateTotal(this)">
+                                <input type="hidden" class="deliveryFee" value="<?php echo htmlspecialchars($partnerReward); ?>">
+                            </td>
                             <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                             <td><?php echo htmlspecialchars($product); ?></td>
                             <td><?php echo htmlspecialchars($destination); ?></td>
@@ -334,6 +341,19 @@ if (!isset($_SESSION['userType'])) {
         echo "No partner specified.";
     }
     ?>
+    <script>
+            function calculateTotal() {
+                var checkboxes = document.querySelectorAll('input[name="selectedShipments[]"]:checked');
+                var total = 0;
+                checkboxes.forEach(function(checkbox) {
+                    var deliveryFee = checkbox.parentElement.querySelector('.deliveryFee').value;
+                    total += parseFloat(deliveryFee);
+                });
+
+                document.getElementById('totalSelected').innerHTML =
+                    'Total Selected: <b>₦' + total.toFixed(2) + '</b>';
+            }
+            </script>
         </main>
 
 
