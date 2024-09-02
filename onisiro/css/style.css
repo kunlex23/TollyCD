@@ -256,7 +256,7 @@ main .date input[type="date"] {
 
 main .insight {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.6rem;
 
 }

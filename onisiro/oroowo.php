@@ -611,27 +611,48 @@ if (!isset($_SESSION['userType'])) {
 </script>
 
 <script>
-    // Function to open a tab
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
+// Function to open a tab
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
 
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
+    // Hide all tab contents
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
     }
 
-    // Set default tab to be opened
-    document.getElementById("defaultOpen").click();
+    // Remove the active class from all tab links
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab content and add the active class to the clicked tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+
+    // Store the current tab name in localStorage
+    localStorage.setItem('activeTab', tabName);
+}
+
+// Function to load the last opened tab
+function loadLastOpenedTab() {
+    var activeTab = localStorage.getItem('activeTab');
+    
+    if (activeTab) {
+        // If there's a stored tab, open it
+        document.getElementById(activeTab).style.display = "block";
+        document.querySelector('.tablinks[onclick*="' + activeTab + '"]').className += " active";
+    } else {
+        // If no tab is stored, open the default tab
+        document.getElementById("defaultOpen").click();
+    }
+}
+
+// Call the loadLastOpenedTab function on page load
+window.onload = loadLastOpenedTab;
 </script>
+
 <script>
     function confirmShipment(id) {
         if (confirm("Please confirm the data is correct before proceeding")) {

@@ -1,4 +1,4 @@
-<?php
+`<?php
 session_start();
 if (!isset($_SESSION['userType'])) {
     header("location: ../index.php");
@@ -25,55 +25,21 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-        /* Tab styles */
-        .tab {
-            overflow: hidden;
-            border-bottom: 1px solid #ccc;
-            background-color: #f1f1f1;
-        }
+    table,
+    th,
+    td {
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        padding: 8px;
+    }
 
-        .tab button {
-            background-color: inherit;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        .tab button:hover {
-            background-color: #ddd;
-        }
-
-        .tab button.active {
-            background-color: #ccc;
-        }
-
-        .tab-content {
-            display: none;
-            padding: 6px 12px;
-            border-top: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        table,
-        th,
-        td {
-            /* border: 1px solid black; */
-            /* border-collapse: collapse; */
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
-
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -100,7 +66,7 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Shipments</h3>
                 </a>
 
-                 <a href="oroowo.php">
+                <a href="oroowo.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Payment History</h3>
                 </a>
@@ -130,10 +96,149 @@ if (!isset($_SESSION['userType'])) {
         <!------------ END OF ASIDE ------------>
         <main>
 
+            <h2>Waybills</h2><br>
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'AllWaybills')" id="defaultOpen">Waybills</button>
+                <button class="tablinks" onclick="openTab(event, 'UnprocessedWaybills')">Unconfirmed</button>
+                <button class="tablinks" onclick="openTab(event, 'ProcessedWaybills')">Confirmed</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
+            </div>
             <!-- ---------END OF EXAM-------- -->
-            <div class="recent-sales">
+             <div id="AllWaybills" class="tab-content">
+                <div class="recent-sales">
+                    <div class="spacer"></div>
+                    <h2>All Waybill</h2>
+
+                    <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                    <table id="shipmentTable" style="width: 100%;">
+                        <thead>
+                            <tr>
+                            <th>SN</th>
+                            <th>Partner</th>
+                            <th>Contact</th>
+                            <th>Destination</th>
+                            <th>Products</th>
+                            <th>Driver Price</th>
+                            <th>Profit</th>
+                            <th>Partner Price</th>
+                            <th>Date</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT id, partner,  product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
+                            FROM gbigbe 
+                            WHERE shipmentType = 'Waybill'
+                            ORDER BY partner DESC ");
+                            $serialNumber = 1;
+                            while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $product = $row['product'];
+                                $quantity = $row['quantity'];
+                                $deliveryFee = $row['deliveryFee'];
+                                $riderReward = $row['riderReward'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $profitReward = $row['profitReward'];
+                                $status = $row['status'];
+                                $date = $row['date'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $serialNumber; ?></td>
+                                    <td><?php echo $partner; ?></td>
+                                    <td><?php echo $customerContact; ?></td>
+                                    <td><?php echo $destination; ?></td>
+                                    <td><?php echo $product; ?></td>
+                                    <td><?php echo $riderReward; ?></td>
+                                    <td><?php echo $profitReward; ?></td>
+                                    <td><?php echo $deliveryFee; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    
+                                </tr>
+                                <?php $serialNumber++;
+                            } ?>
+                        </tbody>
+            
+                    </table>
+                </div>
+            </div>
+
+             <div id="UnprocessedWaybills" class="tab-content">
+               <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Waybills</h2>
+                <input type="text" id="filterInput" placeholder="Search for Waybill contact..." onkeyup="filterTable()">
+                <table id="shipmentTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Partner</th>
+                            <th>Contact</th>
+                            <th>Destination</th>
+                            <th>Products</th>
+                            <th>Driver Price</th>
+                            <th>Profit</th>
+                            <th>Partner Price</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                                    require '../config.php';
+
+                                    $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' AND captainPayStatus='rara' ORDER BY partner DESC ");
+                                    $serialNumber = 1;
+                                    while ($row = mysqli_fetch_array($query)) {
+                                        $id = $row['id'];
+                                        $partner = $row['partner'];
+                                        $product = $row['product'];
+                                        $availableUnit = $row['availableUnit'];
+                                        $quantity = $row['quantity'];
+                                        $deliveryFee = $row['deliveryFee'];
+                                        $riderReward = $row['riderReward'];
+                                        $customersName = $row['customersName'];
+                                        $destination = $row['destination'];
+                                        $customerContact = $row['customerContact'];
+                                        $profitReward = $row['profitReward'];
+                                        $status = $row['status'];
+                                        $date = $row['date'];
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $serialNumber; ?></td>
+                                            <td><?php echo $partner; ?></td>
+                                            <td><?php echo $customerContact; ?></td>
+                                            <td><?php echo $destination; ?></td>
+                                            <td><?php echo $product; ?></td>
+                                            <td><?php echo $riderReward; ?></td>
+                                            <td><?php echo $profitReward; ?></td>
+                                            <td><?php echo $deliveryFee; ?></td>
+                                            <td><?php echo $date; ?></td>
+                                            <td><a
+                                                    href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm
+                                                    Payment</a></td>
+                                        </tr>
+                                        <?php $serialNumber++;
+                                    } ?>
+                                </tbody>
+                            </table>
+                            <div id="returnReasonModal" style="display:none;">
+                                <div class="modal-content">
+                                    <span id="closeModal" class="close">&times;</span>
+                                    <form id="returnReasonForm">
+                                        <label for="returnReason">Reason for return:</label>
+                                        <textarea id="returnReason" name="returnReason" required></textarea>
+                                        <input type="hidden" id="returnShipmentId" name="shipmentId">
+                                        <button type="submit">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+            <!-- <div class="recent-sales">
                 <div class="spacer"></div>
                 <input type="text" id="filterInput" placeholder="Search for Waybill contact..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
@@ -172,18 +277,20 @@ if (!isset($_SESSION['userType'])) {
                             $status = $row['status'];
                             $date = $row['date'];
                             ?>
-                            <tr>
-                                <td><?php echo $serialNumber; ?></td>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $customerContact; ?></td>
-                                <td><?php echo $destination; ?></td>
-                                <td><?php echo $product; ?></td>
-                                <td><?php echo $riderReward; ?></td>
-                                <td><?php echo $profitReward; ?></td>
-                                <td><?php echo $deliveryFee; ?></td>
-                                <td><?php echo $date; ?></td>
-                                <td><a href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm Payment</a></td>
-                                </tr>
+                        <tr>
+                            <td><?php echo $serialNumber; ?></td>
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $customerContact; ?></td>
+                            <td><?php echo $destination; ?></td>
+                            <td><?php echo $product; ?></td>
+                            <td><?php echo $riderReward; ?></td>
+                            <td><?php echo $profitReward; ?></td>
+                            <td><?php echo $deliveryFee; ?></td>
+                            <td><?php echo $date; ?></td>
+                            <td><a
+                                    href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm
+                                    Payment</a></td>
+                        </tr>
                         <?php $serialNumber++;  } ?>
                     </tbody>
                 </table>
@@ -198,6 +305,7 @@ if (!isset($_SESSION['userType'])) {
                         </form>
                     </div>
                 </div>
+            </div> -->
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -253,20 +361,20 @@ function filterTable() {
 }
 </script>
 <script>
-    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
+document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
     dropdown.addEventListener('change', function() {
         var shipmentId = this.getAttribute('data-id');
         var newStatus = this.value;
         var partner = this.getAttribute('data-partner');
         var product = this.getAttribute('data-product');
         var quantity = this.getAttribute('data-quantity');
-        
+
         if (newStatus === 'Return') {
             // Show the modal
             var modal = document.getElementById('returnReasonModal');
             modal.style.display = 'block';
             document.getElementById('returnShipmentId').value = shipmentId;
-            
+
             // Set data attributes on the modal
             modal.setAttribute('data-partner', partner);
             modal.setAttribute('data-product', product);
@@ -313,7 +421,49 @@ document.getElementById('returnReasonForm').addEventListener('submit', function(
             window.location.href = 'records.php';
         }
     };
-    xhr.send('id=' + shipmentId + '&status=Return&returnReason=' + encodeURIComponent(returnReason) + '&quantity=' + quantity + '&partner=' + partner + '&product=' + product);
+    xhr.send('id=' + shipmentId + '&status=Return&returnReason=' + encodeURIComponent(returnReason) +
+        '&quantity=' + quantity + '&partner=' + partner + '&product=' + product);
 });
+</script>
+<script>
+// Function to open a tab
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
 
+    // Hide all tab contents
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Remove the active class from all tab links
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab content and add the active class to the clicked tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+
+    // Store the current tab name in localStorage
+    localStorage.setItem('activeTab', tabName);
+}
+
+// Function to load the last opened tab
+function loadLastOpenedTab() {
+    var activeTab = localStorage.getItem('activeTab');
+    
+    if (activeTab) {
+        // If there's a stored tab, open it
+        document.getElementById(activeTab).style.display = "block";
+        document.querySelector('.tablinks[onclick*="' + activeTab + '"]').className += " active";
+    } else {
+        // If no tab is stored, open the default tab
+        document.getElementById("defaultOpen").click();
+    }
+}
+
+// Call the loadLastOpenedTab function on page load
+window.onload = loadLastOpenedTab;
 </script>

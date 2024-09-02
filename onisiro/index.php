@@ -170,33 +170,7 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                     <small class="text-muted">Last 7 Days</small>
                 </div>
-<!--         
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Other Income</h3>
-                            <div id="link_wrapper5">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div> -->
-
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Expenses</h3>
-                            <div id="link_wrapper3">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
-
+                
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
@@ -209,77 +183,67 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                     <small class="text-muted">Last 7 Days</small>
                 </div>
+               <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Delivery</h3>
+                            <div id="link_wrapper5">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 7 Days</small>
+                </div>
                
+
+           <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Waybill</h3>
+                            <div id="link_wrapper6">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 7 Days</small>
+                </div>
+               
+
+           <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Other Income</h3>
+                            <div id="link_wrapper7">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 7 Days</small>
+                </div>
+               <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Expenses</h3>
+                            <div id="link_wrapper3">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 7 Days</small>
+                </div>
+               
+
+           
+                
+
 
             </div>
            
-            <!-- ---------END OF EXAM-------- -->
-            <div class="recent-sales">
-                <div class="spacer"></div><br>
-                <h2>Recent Sales</h2><br>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Type</th>
-                            <th>Product</th>
-                            <th>Amount</th>
-                            <th>Customers Name</th>
-                            <th>Destination</th>
-                            <th>Contact</th>
-                            <th>Captain</th>
-                            <th>Date</th>
-
-
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-    <?php
-                        require '../config.php';
-
-                        $query = mysqli_query($conn, "SELECT partner, shipmentType, product, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe WHERE  status = 'completed' ORDER BY partner DESC LIMIT 10");
-
-                        if (!$query) {
-                            echo "Error fetching data: " . mysqli_error($conn);
-                        } else {
-                            $serialNumber = 1; // Initialize the serial number outside the while loop
-                        
-                            while ($row = mysqli_fetch_array($query)) {
-                                $partner = $row['partner'];
-                                $shipmentType = $row['shipmentType'];
-                                $product = $row['product'];
-                                $quantity = $row['quantity'];
-                                $unitPrice = $row['unitPrice'];
-                                $amount = $row['amount'];
-                                $customersName = $row['customersName'];
-                                $destination = $row['destination'];
-                                $customerContact = $row['customerContact'];
-                                $captain = $row['captain'];
-                                $paymentMethod = $row['paymentMethod'];
-                                $date = $row['date'];
-                                ?>
-                                <tr>
-                                    <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                    <td><?php echo $partner; ?></td>
-                                    <td><?php echo $shipmentType; ?></td>
-                                    <td><?php echo $product; ?></td>
-                                    <td><?php echo $amount; ?></td>
-                                    <td><?php echo $customersName; ?></td>
-                                    <td><?php echo $destination; ?></td>
-                                    <td><?php echo $customerContact; ?></td>
-                                    <td><?php echo $captain; ?></td>
-                                    <td><?php echo $date; ?></td>
-                                </tr>
-                                <?php
-                                $serialNumber++; // Increment the serial number
-                            }
-                        }
-                        ?>
-                    </tbody>
-
-                </table>
-                <a href="records.php">Show all</a>
+            
  
         </main>
         <!-- ----------END OF MAIN----------- -->
@@ -328,9 +292,7 @@ if (!isset($_SESSION['userType'])) {
     }, 1000);
 
     window.onload = loadXMLDoc;
-</script>
-<!-- Maximum reading -->
-<script>
+
     function loadXMLDoc1() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -348,9 +310,7 @@ if (!isset($_SESSION['userType'])) {
     }, 1000);
 
     window.onload = loadXMLDoc1;
-</script>
-<!-- Minimum reading -->
-<script>
+
     function loadXMLDoc2() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -368,11 +328,9 @@ if (!isset($_SESSION['userType'])) {
     }, 1000);
 
     window.onload = loadXMLDoc2;
-</script>
 
-</script>
-<!-- Minimum reading -->
-<script>
+
+
     function loadXMLDoc3() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -390,8 +348,7 @@ if (!isset($_SESSION['userType'])) {
     }, 1000);
 
     window.onload = loadXMLDoc3;
-</script>
-<script>
+
     function loadXMLDoc4() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -409,8 +366,8 @@ if (!isset($_SESSION['userType'])) {
     }, 1000);
 
     window.onload = loadXMLDoc4;
-</script>
-<script>
+
+    
     function loadXMLDoc5() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -428,4 +385,42 @@ if (!isset($_SESSION['userType'])) {
     }, 1000);
 
     window.onload = loadXMLDoc5;
+
+function loadXMLDoc6() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper6").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server6.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc6();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc6;
+
+function loadXMLDoc7() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("link_wrapper7").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "server7.php", true);
+        xhttp.send();
+    }
+    setInterval(function () {
+        loadXMLDoc7();
+        // 1sec
+    }, 1000);
+
+    window.onload = loadXMLDoc7;
+
+
 </script>
