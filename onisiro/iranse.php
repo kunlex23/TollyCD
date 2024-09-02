@@ -101,32 +101,31 @@ if (!isset($_SESSION['userType'])) {
                 <button class="tablinks" onclick="openTab(event, 'AllWaybills')" id="defaultOpen">Waybills</button>
                 <button class="tablinks" onclick="openTab(event, 'UnprocessedWaybills')">Unconfirmed</button>
                 <button class="tablinks" onclick="openTab(event, 'ProcessedWaybills')">Confirmed</button>
-                <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Payment</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Remittance</button>
             </div>
             <!-- ---------END OF EXAM-------- -->
-             <div id="AllWaybills" class="tab-content">
-                <div class="recent-sales">
-                    <div class="spacer"></div>
+            <div id="AllWaybills" class="tab-content">
+                <div class="recent-sales"><br>
                     <h2>All Waybill</h2>
 
                     <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
                         <thead>
                             <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Contact</th>
-                            <th>Destination</th>
-                            <th>Products</th>
-                            <th>Driver Price</th>
-                            <th>Profit</th>
-                            <th>Partner Price</th>
-                            <th>Date</th>
-                                
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Contact</th>
+                                <th>Destination</th>
+                                <th>Products</th>
+                                <th>Driver Price</th>
+                                <th>Profit</th>
+                                <th>Partner Price</th>
+                                <th>Date</th>
+
                             </tr>
                         </thead>
                         <tbody id="table-body">
-                        <?php
+                            <?php
                             require '../config.php';
 
                             $query = mysqli_query($conn, "SELECT id, partner,  product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
@@ -141,6 +140,143 @@ if (!isset($_SESSION['userType'])) {
                                 $quantity = $row['quantity'];
                                 $deliveryFee = $row['deliveryFee'];
                                 $riderReward = $row['riderReward'];
+                                $destination = $row['destination'];
+                                $customerContact = $row['customerContact'];
+                                $profitReward = $row['profitReward'];
+                                $status = $row['status'];
+                                $date = $row['date'];
+                                ?>
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $customerContact; ?></td>
+                                <td><?php echo $destination; ?></td>
+                                <td><?php echo $product; ?></td>
+                                <td><?php echo $riderReward; ?></td>
+                                <td><?php echo $profitReward; ?></td>
+                                <td><?php echo $deliveryFee; ?></td>
+                                <td><?php echo $date; ?></td>
+
+                            </tr>
+                            <?php $serialNumber++;
+                            } ?>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+            <div id="UnprocessedWaybills" class="tab-content">
+                <div class="recent-sales"><br>
+                    <h2>Unconfirmed Waybill</h2>
+                    <input type="text" id="filterInput" placeholder="Search for Waybill contact..."
+                        onkeyup="filterTable()">
+                    <table id="shipmentTable" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Contact</th>
+                                <th>Destination</th>
+                                <th>Products</th>
+                                <th>Driver Price</th>
+                                <th>Profit</th>
+                                <th>Partner Price</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                                    require '../config.php';
+
+                                    $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' AND captainPayStatus='rara' ORDER BY partner DESC ");
+                                    $serialNumber = 1;
+                                    while ($row = mysqli_fetch_array($query)) {
+                                        $id = $row['id'];
+                                        $partner = $row['partner'];
+                                        $product = $row['product'];
+                                        $availableUnit = $row['availableUnit'];
+                                        $quantity = $row['quantity'];
+                                        $deliveryFee = $row['deliveryFee'];
+                                        $riderReward = $row['riderReward'];
+                                        $customersName = $row['customersName'];
+                                        $destination = $row['destination'];
+                                        $customerContact = $row['customerContact'];
+                                        $profitReward = $row['profitReward'];
+                                        $status = $row['status'];
+                                        $date = $row['date'];
+                                        ?>
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $customerContact; ?></td>
+                                <td><?php echo $destination; ?></td>
+                                <td><?php echo $product; ?></td>
+                                <td><?php echo $riderReward; ?></td>
+                                <td><?php echo $profitReward; ?></td>
+                                <td><?php echo $deliveryFee; ?></td>
+                                <td><?php echo $date; ?></td>
+                                <td><a
+                                        href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm</a></td>
+                            </tr>
+                            <?php $serialNumber++;
+                                    } ?>
+                        </tbody>
+                    </table>
+                    <div id="returnReasonModal" style="display:none;">
+                        <div class="modal-content">
+                            <span id="closeModal" class="close">&times;</span>
+                            <form id="returnReasonForm">
+                                <label for="returnReason">Reason for return:</label>
+                                <textarea id="returnReason" name="returnReason" required></textarea>
+                                <input type="hidden" id="returnShipmentId" name="shipmentId">
+                                <button type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ProcessedWaybills" class="tab-content">
+                <div class="recent-sales"><br>
+                    <h2>Unconfirmed Waybill</h2>
+                    <input type="text" id="filterInput" placeholder="Search for Waybill contact..."
+                        onkeyup="filterTable()">
+                    <table id="shipmentTable" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Contact</th>
+                                <th>Destination</th>
+                                <th>Products</th>
+                                <th>Driver Price</th>
+                                <th>Profit</th>
+                                <th>Partner Price</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
+                            FROM gbigbe 
+                            WHERE shipmentType = 'Waybill' 
+                            AND status ='Completed' 
+                            AND captainPayStatus='beni' 
+                            ORDER BY partner DESC ");
+                            $serialNumber = 1;
+                            while ($row = mysqli_fetch_array($query)) {
+                                $id = $row['id'];
+                                $partner = $row['partner'];
+                                $product = $row['product'];
+                                $availableUnit = $row['availableUnit'];
+                                $quantity = $row['quantity'];
+                                $deliveryFee = $row['deliveryFee'];
+                                $riderReward = $row['riderReward'];
+                                $customersName = $row['customersName'];
                                 $destination = $row['destination'];
                                 $customerContact = $row['customerContact'];
                                 $profitReward = $row['profitReward'];
@@ -162,150 +298,96 @@ if (!isset($_SESSION['userType'])) {
                                 <?php $serialNumber++;
                             } ?>
                         </tbody>
-            
                     </table>
-                </div>
-            </div>
-
-             <div id="UnprocessedWaybills" class="tab-content">
-               <div class="recent-sales">
-                <div class="spacer"></div>
-                <input type="text" id="filterInput" placeholder="Search for Waybill contact..." onkeyup="filterTable()">
-                <table id="shipmentTable" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Contact</th>
-                            <th>Destination</th>
-                            <th>Products</th>
-                            <th>Driver Price</th>
-                            <th>Profit</th>
-                            <th>Partner Price</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                                    require '../config.php';
-
-                                    $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' AND captainPayStatus='rara' ORDER BY partner DESC ");
-                                    $serialNumber = 1;
-                                    while ($row = mysqli_fetch_array($query)) {
-                                        $id = $row['id'];
-                                        $partner = $row['partner'];
-                                        $product = $row['product'];
-                                        $availableUnit = $row['availableUnit'];
-                                        $quantity = $row['quantity'];
-                                        $deliveryFee = $row['deliveryFee'];
-                                        $riderReward = $row['riderReward'];
-                                        $customersName = $row['customersName'];
-                                        $destination = $row['destination'];
-                                        $customerContact = $row['customerContact'];
-                                        $profitReward = $row['profitReward'];
-                                        $status = $row['status'];
-                                        $date = $row['date'];
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $serialNumber; ?></td>
-                                            <td><?php echo $partner; ?></td>
-                                            <td><?php echo $customerContact; ?></td>
-                                            <td><?php echo $destination; ?></td>
-                                            <td><?php echo $product; ?></td>
-                                            <td><?php echo $riderReward; ?></td>
-                                            <td><?php echo $profitReward; ?></td>
-                                            <td><?php echo $deliveryFee; ?></td>
-                                            <td><?php echo $date; ?></td>
-                                            <td><a
-                                                    href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm
-                                                    Payment</a></td>
-                                        </tr>
-                                        <?php $serialNumber++;
-                                    } ?>
-                                </tbody>
-                            </table>
-                            <div id="returnReasonModal" style="display:none;">
-                                <div class="modal-content">
-                                    <span id="closeModal" class="close">&times;</span>
-                                    <form id="returnReasonForm">
-                                        <label for="returnReason">Reason for return:</label>
-                                        <textarea id="returnReason" name="returnReason" required></textarea>
-                                        <input type="hidden" id="returnShipmentId" name="shipmentId">
-                                        <button type="submit">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
+                    <div id="returnReasonModal" style="display:none;">
+                        <div class="modal-content">
+                            <span id="closeModal" class="close">&times;</span>
+                            <form id="returnReasonForm">
+                                <label for="returnReason">Reason for return:</label>
+                                <textarea id="returnReason" name="returnReason" required></textarea>
+                                <input type="hidden" id="returnShipmentId" name="shipmentId">
+                                <button type="submit">Submit</button>
+                            </form>
                         </div>
-            </div>
-            <!-- <div class="recent-sales">
-                <div class="spacer"></div>
-                <input type="text" id="filterInput" placeholder="Search for Waybill contact..." onkeyup="filterTable()">
-                <table id="shipmentTable" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Contact</th>
-                            <th>Destination</th>
-                            <th>Products</th>
-                            <th>Driver Price</th>
-                            <th>Profit</th>
-                            <th>Partner Price</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
-                        require '../config.php';
-
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' AND captainPayStatus='rara' ORDER BY partner DESC ");
-                        $serialNumber = 1;
-                        while ($row = mysqli_fetch_array($query)) {
-                            $id = $row['id'];
-                            $partner = $row['partner'];
-                            $product = $row['product'];
-                            $availableUnit = $row['availableUnit'];
-                            $quantity = $row['quantity'];
-                            $deliveryFee = $row['deliveryFee'];
-                            $riderReward = $row['riderReward'];
-                            $customersName = $row['customersName'];
-                            $destination = $row['destination'];
-                            $customerContact = $row['customerContact'];
-                            $profitReward = $row['profitReward'];
-                            $status = $row['status'];
-                            $date = $row['date'];
-                            ?>
-                        <tr>
-                            <td><?php echo $serialNumber; ?></td>
-                            <td><?php echo $partner; ?></td>
-                            <td><?php echo $customerContact; ?></td>
-                            <td><?php echo $destination; ?></td>
-                            <td><?php echo $product; ?></td>
-                            <td><?php echo $riderReward; ?></td>
-                            <td><?php echo $profitReward; ?></td>
-                            <td><?php echo $deliveryFee; ?></td>
-                            <td><?php echo $date; ?></td>
-                            <td><a
-                                    href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm
-                                    Payment</a></td>
-                        </tr>
-                        <?php $serialNumber++;  } ?>
-                    </tbody>
-                </table>
-                <div id="returnReasonModal" style="display:none;">
-                    <div class="modal-content">
-                        <span id="closeModal" class="close">&times;</span>
-                        <form id="returnReasonForm">
-                            <label for="returnReason">Reason for return:</label>
-                            <textarea id="returnReason" name="returnReason" required></textarea>
-                            <input type="hidden" id="returnShipmentId" name="shipmentId">
-                            <button type="submit">Submit</button>
-                        </form>
                     </div>
                 </div>
-            </div> -->
+            </div>
+
+            <div id="partnerPayment" class="tab-content">
+                <div class="recent-sales"><br>
+                    <h2>Unconfirmed Waybill</h2>
+                    <input type="text" id="filterInput" placeholder="Search for Waybill contact..."
+                        onkeyup="filterTable()">
+                    <table id="shipmentTable" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Total Amount</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT DISTINCT partner 
+                                FROM gbigbe 
+                                WHERE shipmentType = 'Waybill' 
+                                AND status ='Completed' 
+                                AND captainPayStatus='beni'
+                                AND partnerRemitance = 'rara'
+                                ");
+
+                            if (!$query) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
+                                $serialNumber = 1; // Initialize the serial number outside the while loop
+                            
+                                while ($row = mysqli_fetch_array($query)) {
+                                    $partner = $row['partner'];
+
+                                    // Query to calculate total partner reward
+                                    $sqla = "SELECT SUM(deliveryFee) AS totalReward 
+                                    FROM gbigbe 
+                                    WHERE shipmentType = 'Waybill' 
+                                    AND status ='Completed' 
+                                    AND captainPayStatus='beni'
+                                    ";
+
+                                    $resulta = mysqli_query($conn, $sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    $remitance2US = $rowa['totalReward'];
+
+                                    
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                        <td><?php echo $partner; ?></td>
+                                        <td><?php echo $remitance2US; ?></td>
+                                        <td><a href="waybillWiwi.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
+                                        
+                                    </tr>
+                                    <?php
+                                    $serialNumber++; // Increment the serial number
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <div id="returnReasonModal" style="display:none;">
+                        <div class="modal-content">
+                            <span id="closeModal" class="close">&times;</span>
+                            <form id="returnReasonForm">
+                                <label for="returnReason">Reason for return:</label>
+                                <textarea id="returnReason" name="returnReason" required></textarea>
+                                <input type="hidden" id="returnShipmentId" name="shipmentId">
+                                <button type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -453,7 +535,7 @@ function openTab(evt, tabName) {
 // Function to load the last opened tab
 function loadLastOpenedTab() {
     var activeTab = localStorage.getItem('activeTab');
-    
+
     if (activeTab) {
         // If there's a stored tab, open it
         document.getElementById(activeTab).style.display = "block";
