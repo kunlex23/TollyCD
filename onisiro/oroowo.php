@@ -25,21 +25,21 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-        table,
-        th,
-        td {
-            /* border: 1px solid black; */
-            /* border-collapse: collapse; */
-            padding: 8px;
-        }
+    table,
+    th,
+    td {
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        padding: 8px;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -97,45 +97,47 @@ if (!isset($_SESSION['userType'])) {
         <main>
             <!-- Tab navigation -->
             <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'partnerPayments')" id="defaultOpen">Partner Payments</button>
+                <button class="tablinks" onclick="openTab(event, 'partnerPayments')" id="defaultOpen">Partner
+                    Payments</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment_M')">Partner Payments(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'monthlyRemitanceW')">Partner Remitting(W)</button>
                 <button class="tablinks" onclick="openTab(event, 'monthlyRemitance')">Partner Remitting(M)</button>
+                <button class="tablinks" onclick="openTab(event, 'wayBill')">Waybill Remittance</button>
                 <button class="tablinks" onclick="openTab(event, 'captainPayment')">Captain Payments</button>
             </div>
 
             <!-- All Shipments content -->
             <div id="partnerPayments" class="tab-content">
                 <div class="recent-sales">
-                <div class="spacer"></div>
-                <h2>Partner Payment History</h2>
+                    <div class="spacer"></div>
+                    <h2>Partner Payment History</h2>
 
-                <!-- Date Range Form -->
-                <div class="spacer"></div>
-                <form method="post" action="">
-                    <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start-date" required>
-                    <label for="end-date">End Date:</label>
-                    <input type="date" id="end-date" name="end-date" required>
-                    <button type="submit">Filter</button>
-                </form>
+                    <!-- Date Range Form -->
+                    <div class="spacer"></div>
+                    <form method="post" action="">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
 
-                <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Amount</th>
-                            <th>Account Number</th>
-                            <th>Bank</th>
-                            <th>Account Name</th>
-                            <th>Date</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
+                    <div class="spacer"></div>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Amount</th>
+                                <th>Account Number</th>
+                                <th>Bank</th>
+                                <th>Account Name</th>
+                                <th>Date</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
                             require '../config.php';
 
                             // Initialize variables for the date range
@@ -171,54 +173,53 @@ if (!isset($_SESSION['userType'])) {
                                 $date = $row['date'];
                                 $payID = $row['payID'];
                                 ?>
-                                <tr>
-                                    <td><?php echo $serialNumber; ?></td>
-                                    <td><?php echo $partner; ?></td>
-                                    <td><?php echo $totalAmount; ?></td>
-                                    <td><?php echo $accountNumber; ?></td>
-                                    <td><?php echo $bank; ?></td>
-                                    <td><?php echo $accountName; ?></td>
-                                    <td><?php echo $date; ?></td>
-                                    <td><a
-                                            href="eri.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $totalAmount; ?></td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
+                                <td><?php echo $date; ?></td>
+                                <td><a
+                                        href="eri.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
+                                </td>
+                            </tr>
                             <?php $serialNumber++; } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Unprocessed Shipments content -->
             <div id="monthlyRemitance" class="tab-content">
                 <div class="recent-sales">
-                <div class="spacer"></div>
-                <h2>Partner Monthly Remittance </h2>
+                    <div class="spacer"></div>
+                    <h2>Partner Monthly Remittance </h2>
 
 
-                <!-- Date Range Form -->
-                <div class="spacer"></div>
-                <form method="post" action="">
-                    <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start-date" required>
-                    <label for="end-date">End Date:</label>
-                    <input type="date" id="end-date" name="end-date" required>
-                    <button type="submit">Filter</button>
-                </form>
+                    <!-- Date Range Form -->
+                    <div class="spacer"></div>
+                    <form method="post" action="">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
 
-                <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
+                    <div class="spacer"></div>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
                             require '../config.php';
 
                             // Initialize variables for the date range
@@ -252,51 +253,50 @@ if (!isset($_SESSION['userType'])) {
                                 $date = $row['date'];
                                 $payID1 = $row['payID'];
                                 ?>
-                                <tr>
-                                    <td><?php echo $serialNumber1; ?></td>
-                                    <td><?php echo $partner1; ?></td>
-                                    <td><?php echo $totalAmount; ?></td>
-                                    <td><?php echo $date; ?></td>
-                                    <td><a
-                                            href="eria.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td><?php echo $serialNumber1; ?></td>
+                                <td><?php echo $partner1; ?></td>
+                                <td><?php echo $totalAmount; ?></td>
+                                <td><?php echo $date; ?></td>
+                                <td><a
+                                        href="eria.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
+                                </td>
+                            </tr>
                             <?php $serialNumber1++; } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Processed Shipments content -->
             <div id="monthlyRemitanceW" class="tab-content">
                 <div class="recent-sales">
-                <div class="spacer"></div>
-                <h2>Partner Monthly Remittance for Weekly Payments </h2>
+                    <div class="spacer"></div>
+                    <h2>Partner Monthly Remittance for Weekly Payments </h2>
 
 
-                <!-- Date Range Form -->
-                <div class="spacer"></div>
-                <form method="post" action="">
-                    <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start-date" required>
-                    <label for="end-date">End Date:</label>
-                    <input type="date" id="end-date" name="end-date" required>
-                    <button type="submit">Filter</button>
-                </form>
+                    <!-- Date Range Form -->
+                    <div class="spacer"></div>
+                    <form method="post" action="">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
 
-                <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
+                    <div class="spacer"></div>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
                             require '../config.php';
 
                             // Initialize variables for the date range
@@ -330,16 +330,16 @@ if (!isset($_SESSION['userType'])) {
                                 $date = $row['date'];
                                 $payID1 = $row['payID'];
                                 ?>
-                                <tr>
-                                    <td><?php echo $serialNumber1; ?></td>
-                                    <td><?php echo $partner1; ?></td>
-                                    <td><?php echo $totalAmount; ?></td>
-                                    <td><?php echo $date; ?></td>
-                                    <td><a
-                                            href="erib.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
-                                    </td>
-                                </tr>
-                                <?php $serialNumber1++;
+                            <tr>
+                                <td><?php echo $serialNumber1; ?></td>
+                                <td><?php echo $partner1; ?></td>
+                                <td><?php echo $totalAmount; ?></td>
+                                <td><?php echo $date; ?></td>
+                                <td><a
+                                        href="erib.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
+                                </td>
+                            </tr>
+                            <?php $serialNumber1++;
                             } ?>
                         </tbody>
                     </table>
@@ -348,35 +348,35 @@ if (!isset($_SESSION['userType'])) {
 
             <div id="partnerPayment_M" class="tab-content">
                 <div class="recent-sales">
-                <div class="spacer"></div>
-                <h2>Partner Payment (Weekly Remittance)</h2>
+                    <div class="spacer"></div>
+                    <h2>Partner Payment (Weekly Remittance)</h2>
 
-                <!-- Date Range Form -->
-                <div class="spacer"></div>
-                <form method="post" action="">
-                    <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start-date" required>
-                    <label for="end-date">End Date:</label>
-                    <input type="date" id="end-date" name="end-date" required>
-                    <button type="submit">Filter</button>
-                </form>
+                    <!-- Date Range Form -->
+                    <div class="spacer"></div>
+                    <form method="post" action="">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
 
-                <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Partner</th>
-                            <th>Amount</th>
-                            <th>Account Number</th>
-                            <th>Bank</th>
-                            <th>Account Name</th>
-                            <th>Date</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
+                    <div class="spacer"></div>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Amount</th>
+                                <th>Account Number</th>
+                                <th>Bank</th>
+                                <th>Account Name</th>
+                                <th>Date</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
                             require '../config.php';
 
                             // Initialize variables for the date range
@@ -413,57 +413,57 @@ if (!isset($_SESSION['userType'])) {
                                 $date = $row['date'];
                                 $payID = $row['payID'];
                                 ?>
-                                <tr>
-                                    <td><?php echo $serialNumber; ?></td>
-                                    <td><?php echo $partner; ?></td>
-                                    <td><?php echo $totalAmount; ?></td>
-                                    <td><?php echo $accountNumber; ?></td>
-                                    <td><?php echo $bank; ?></td>
-                                    <td><?php echo $accountName; ?></td>
-                                    <td><?php echo $date; ?></td>
-                                    <td><a
-                                            href="eric.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
-                                    </td>
-                                </tr>
-                                <?php $serialNumber++;
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td>
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $totalAmount; ?></td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
+                                <td><?php echo $date; ?></td>
+                                <td><a
+                                        href="eric.php?partner=<?php echo urlencode($partner); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
+                                </td>
+                            </tr>
+                            <?php $serialNumber++;
                             } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-           
+
             <div id="captainPayment" class="tab-content">
                 <div class="recent-sales">
-                <div class="spacer"></div>
-                <h2>Captain Payments</h2>
+                    <div class="spacer"></div>
+                    <h2>Captain Payments</h2>
 
-                <!-- Date Range Form -->
-                <div class="spacer"></div>
-                <form method="post" action="">
-                    <label for="start-date">Start Date:</label>
-                    <input type="date" id="start-date" name="start-date" required>
-                    <label for="end-date">End Date:</label>
-                    <input type="date" id="end-date" name="end-date" required>
-                    <button type="submit">Filter</button>
-                </form>
+                    <!-- Date Range Form -->
+                    <div class="spacer"></div>
+                    <form method="post" action="">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
 
-                <div class="spacer"></div>
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>SN</th>
-                            <th>Captain</th>
-                            <th>Amount</th>
-                            <th>Account Number</th>
-                            <th>Bank</th>
-                            <th>Account Name</th>
-                            <th>Date</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <?php
+                    <div class="spacer"></div>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Captain</th>
+                                <th>Amount</th>
+                                <th>Account Number</th>
+                                <th>Bank</th>
+                                <th>Account Name</th>
+                                <th>Date</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
                             require '../config.php';
 
                             // Initialize variables for the date range
@@ -500,24 +500,104 @@ if (!isset($_SESSION['userType'])) {
                                 $date = $row['date'];
                                 $payID = $row['payID'];
                                 ?>
-                                <tr>
-                                    <td><?php echo $serialNumber; ?></td>
-                                    <td><?php echo $captain; ?></td>
-                                    <td><?php echo $amount; ?></td>
-                                    <td><?php echo $accountNumber; ?></td>
-                                    <td><?php echo $bank; ?></td>
-                                    <td><?php echo $accountName; ?></td>
-                                    <td><?php echo $date; ?></td>
-                                    <td><a
-                                            href="eri1.php?oluwa=<?php echo urlencode($captain); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($amount); ?>">View</a>
-                                    </td>
-                                </tr>
-                                <?php $serialNumber++;
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td>
+                                <td><?php echo $captain; ?></td>
+                                <td><?php echo $amount; ?></td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
+                                <td><?php echo $date; ?></td>
+                                <td><a
+                                        href="eri1.php?oluwa=<?php echo urlencode($captain); ?>&eri=<?php echo urlencode($payID); ?>&oro=<?php echo urlencode($amount); ?>">View</a>
+                                </td>
+                            </tr>
+                            <?php $serialNumber++;
                             } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <div id="wayBill" class="tab-content">
+                <div class="recent-sales">
+                    <div class="spacer"></div>
+                    <h2>Waybill Remittance </h2>
+
+
+                    <!-- Date Range Form -->
+                    <div class="spacer"></div>
+                    <form method="post" action="">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
+
+                    <div class="spacer"></div>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Partner</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                            require '../config.php';
+
+                            // Initialize variables for the date range
+                            $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                            $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                            // Debugging: Print the received dates
+                            //echo "Start Date: $start_date, End Date: $end_date";
+                            
+                            // Build the query based on the date range
+                            $query2_string = "SELECT partner, totalAmount, date, payID
+                            FROM onahistory";
+                            if ($start_date && $end_date) {
+                                $query2_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                            }
+                            $query2_string .= " ORDER BY partner DESC";
+
+                            // Debugging: Print the query2 string
+                            //echo $query2_string;
+                            
+                            $query2 = mysqli_query($conn, $query2_string);
+
+                            if (!$query2) {
+                                // Debugging: Print the MySQL error
+                                //echo "Error: " . mysqli_error($conn);
+                            }
+                            $serialNumber1 = 1;
+                            while ($row = mysqli_fetch_array($query2)) {
+                                $partner1 = $row['partner'];
+                                $totalAmount = $row['totalAmount'];
+                                $date = $row['date'];
+                                $payID1 = $row['payID'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $serialNumber1; ?></td>
+                                    <td><?php echo $partner1; ?></td>
+                                    <td><?php echo $totalAmount; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    <td><a
+                                            href="erid.php?partner=<?php echo urlencode($partner1); ?>&eri=<?php echo urlencode($payID1); ?>&oro=<?php echo urlencode($totalAmount); ?>">View</a>
+                                    </td>
+                                </tr>
+                                <?php $serialNumber1++;
+                            } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </main>
 
         <!-- ----------END OF MAIN----------- -->
@@ -549,65 +629,65 @@ if (!isset($_SESSION['userType'])) {
 
 
 <script>
-    function filterTable() {
-        // Get the value of the input field
-        let input = document.getElementById('filterInput');
-        let filter = input.value.toUpperCase();
+function filterTable() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput');
+    let filter = input.value.toUpperCase();
 
-        // Get the table and its rows
-        let table = document.getElementById('shipmentTable');
-        let tr = table.getElementsByTagName('tr');
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable');
+    let tr = table.getElementsByTagName('tr');
 
-        // Loop through all table rows, except the first (header) row
-        for (let i = 1; i < tr.length; i++) {
-            // Get the first cell (product name) in the row
-            let td = tr[i].getElementsByTagName('td')[1];
-            if (td) {
-                // Check if the product name contains the filter text
-                let txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = '';
-                } else {
-                    tr[i].style.display = 'none';
-                }
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[1];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
             }
         }
     }
+}
 </script>
 <script>
-    document.querySelectorAll('.paymentMethod-dropdown').forEach(function (dropdown) {
-        dropdown.addEventListener('change', function () {
-            var shipmentId = this.getAttribute('data-id');
-            var newPaymentMethod = this.value;
+document.querySelectorAll('.paymentMethod-dropdown').forEach(function(dropdown) {
+    dropdown.addEventListener('change', function() {
+        var shipmentId = this.getAttribute('data-id');
+        var newPaymentMethod = this.value;
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'update_paymentMethod.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert('Payment method updated successfully.');
-                }
-            };
-            xhr.send('id=' + shipmentId + '&paymentMethod=' + newPaymentMethod);
-        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'update_paymentMethod.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Payment method updated successfully.');
+            }
+        };
+        xhr.send('id=' + shipmentId + '&paymentMethod=' + newPaymentMethod);
     });
+});
 
-    document.querySelectorAll('.partner-dropdown').forEach(function (dropdown) {
-        dropdown.addEventListener('change', function () {
-            var shipmentId = this.getAttribute('data-id');
-            var newremitanceKind = this.value;
+document.querySelectorAll('.partner-dropdown').forEach(function(dropdown) {
+    dropdown.addEventListener('change', function() {
+        var shipmentId = this.getAttribute('data-id');
+        var newremitanceKind = this.value;
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'remitanceKind.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert('Success.');
-                }
-            };
-            xhr.send('id=' + shipmentId + '&remitanceKind=' + newremitanceKind);
-        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'remitanceKind.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Success.');
+            }
+        };
+        xhr.send('id=' + shipmentId + '&remitanceKind=' + newremitanceKind);
     });
+});
 </script>
 
 <script>
@@ -638,7 +718,7 @@ function openTab(evt, tabName) {
 // Function to load the last opened tab
 function loadLastOpenedTab() {
     var activeTab = localStorage.getItem('activeTab');
-    
+
     if (activeTab) {
         // If there's a stored tab, open it
         document.getElementById(activeTab).style.display = "block";
@@ -654,21 +734,21 @@ window.onload = loadLastOpenedTab;
 </script>
 
 <script>
-    function confirmShipment(id) {
-        if (confirm("Please confirm the data is correct before proceeding")) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'update_captain.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert('Shipment confirmed');
-                    // Reload the table data
-                    window.location.href = 'records.php';
-                }
-            };
-            xhr.send('id=' + id);
-        } else {
-            alert("Shipment confirmation canceled.");
-        }
+function confirmShipment(id) {
+    if (confirm("Please confirm the data is correct before proceeding")) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'update_captain.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Shipment confirmed');
+                // Reload the table data
+                window.location.href = 'records.php';
+            }
+        };
+        xhr.send('id=' + id);
+    } else {
+        alert("Shipment confirmation canceled.");
     }
+}
 </script>

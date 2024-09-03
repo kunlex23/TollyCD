@@ -192,10 +192,11 @@ if (!isset($_SESSION['userType'])) {
 
             <!-- Unprocessed Shipments content -->
             <div id="UnprocessedShipments" class="tab-content">
+
                 <div class="recent-sales">
                     <div class="spacer"></div>
                     <h2>Unconfirmed Shipments</h2>
-
+                        <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
                         <thead>
                             <tr>
@@ -306,8 +307,8 @@ if (!isset($_SESSION['userType'])) {
                 <div class="recent-sales">
                     <div class="spacer"></div>
                     <h2>Confirmed Shipments</h2>
-
-                    <table id="shipmentTable" style="width: 100%;">
+                     <input type="text" id="filterInput1" placeholder="Search for shipment..." onkeyup="filterTable1()">
+                    <table id="shipmentTable1" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -557,8 +558,7 @@ if (!isset($_SESSION['userType'])) {
                                 AND remitanceKind = 'WP2P'
                                 AND partnerRemitance = 'rara'
                                 AND status = 'completed' 
-                                AND accCaptain = 'beni' 
-                                AND partnerPayStatus = 'rara'");
+                                AND accCaptain = 'beni' ");
 
                             if (!$query) {
                                 echo "Error fetching data: " . mysqli_error($conn);
@@ -576,8 +576,7 @@ if (!isset($_SESSION['userType'])) {
                                     AND partnerRemitance = 'rara'
                                     AND partner = '$partner'
                                     AND status = 'completed' 
-                                    AND accCaptain = 'beni' 
-                                    AND partnerPayStatus = 'rara'";
+                                    AND accCaptain = 'beni' ";
 
                                     $resulta = mysqli_query($conn, $sqla);
                                     $rowa = mysqli_fetch_array($resulta);
@@ -791,6 +790,55 @@ function filterTable() {
 
     // Get the table and its rows
     let table = document.getElementById('shipmentTable');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[8];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+function filterTable1() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput1');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable1');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[1];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+
+function filterTable2() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput2');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable2');
     let tr = table.getElementsByTagName('tr');
 
     // Loop through all table rows, except the first (header) row

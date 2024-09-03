@@ -223,6 +223,7 @@ if (!isset($_SESSION['userType'])) {
                 $bank = $row2['bankName'] ?? 'N/A'; // Default to 'N/A' if no result
                 $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
                 ?>
+                
                 <form action="save_paymentCap.php" method="post">
                     <div class="productDetails">
                         <div class="itemPD">
@@ -239,7 +240,11 @@ if (!isset($_SESSION['userType'])) {
                         </div>
                         <div class="itemPD">
                             Account Name: <b><?php echo htmlspecialchars($accountName); ?></b>
-                        </div>
+                        </div><br>
+                        
+                    <div id="totalSelected" class="totalSelected">
+                        Total Selected: <b>₦0.00</b>
+                    </div>
 
                         <!-- Hidden inputs to pass additional data -->
                         <input type="hidden" name="oluwa" value="<?php echo htmlspecialchars($captain); ?>">
@@ -290,9 +295,13 @@ if (!isset($_SESSION['userType'])) {
                                     $date = $row['date'];
                                     ?>
                                     <tr>
-                                        <td><input type="checkbox" name="selectedShipments[]"
-                                                   value="<?php echo htmlspecialchars($id); ?>" style="display:block;"></td>
-                                        <td><?php echo $serialNumber; ?></td>
+                                        <td>
+                                <input type="checkbox" name="selectedShipments[]"
+                                    value="<?php echo htmlspecialchars($id); ?>"
+                                                style="display:block;" onclick="calculateTotal(this)">
+                                            <input type="hidden" class="captainRew" value="<?php echo htmlspecialchars($captainRew); ?>">
+                                        </td>
+                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                                         <td><?php echo htmlspecialchars($product); ?></td>
                                         <td><?php echo htmlspecialchars($destination); ?></td>
                                         <td><?php echo htmlspecialchars($amount); ?></td>
@@ -320,7 +329,20 @@ if (!isset($_SESSION['userType'])) {
     } else {
         echo "No captain specified.";
     }
-    ?>
+    ?><script>
+    function calculateTotal() {
+        var checkboxes = document.querySelectorAll('input[name="selectedShipments[]"]:checked');
+        var total = 0;
+        checkboxes.forEach(function (checkbox) {
+            var captainRew = checkbox.parentElement.querySelector('.captainRew').value;
+            total += parseFloat(captainRew);
+        });
+
+        document.getElementById('totalSelected').innerHTML =
+            'Total Selected: <b>₦' + total.toFixed(2) + '</b>';
+    }
+</script>
+    
 </main>
 
     <!-- ----------END OF MAIN----------- -->

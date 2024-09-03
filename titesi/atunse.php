@@ -144,16 +144,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        
-        $partnerReward = $amount - $dispatcherPrice;
+        $newParnerReward = $amount - $partnerPrice;
+        echo "Partner Reward: $newParnerReward";
         // update the 'gbigbe' table
         $gbigbeQuery = "UPDATE gbigbe 
                         SET customerContact = '$customerContact', 
                             destination = '$destination', 
                             amount = '$amount',
                             product = '$productQuantityString',
+                            partnerReward = '$newParnerReward',
                             deliveryFee = '$partnerPrice',
-                            partnerReward = '$partnerReward',
                             profitReward = '$profit',
                             riderReward = '$dispatcherPrice'
                             

@@ -17,7 +17,7 @@ require '../config.php';
 
 $sql = "SELECT SUM(profitReward) AS amountIn
 FROM gbigbe
-WHERE shipmentType = 'Delivery'
+WHERE shipmentType = 'Waybill'
 AND date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
 if ($result = $conn->query($sql)) {
     while ($row = $result->fetch_assoc()) {

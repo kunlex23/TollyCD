@@ -241,10 +241,10 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                     <div class="itemPD">
                         <b>Account Name: <?php echo htmlspecialchars($accountName); ?></b>
-                    </div>
+                    </div><br>
                     <div id="totalSelected" class="totalSelected">
-                    Total Selected: <b>₦0.00</b>
-                </div>
+                        Total Selected: <b>₦0.00</b>
+                    </div>
 
                     <!-- Hidden inputs to pass additional data -->
                     <input type="hidden" name="partner" value="<?php echo htmlspecialchars($partner); ?>">
@@ -307,7 +307,7 @@ if (!isset($_SESSION['userType'])) {
                                 <input type="checkbox" name="selectedShipments[]"
                                     value="<?php echo htmlspecialchars($id); ?>"
                                     style="display:block;" onclick="calculateTotal(this)">
-                                <input type="hidden" class="deliveryFee" value="<?php echo htmlspecialchars($partnerReward); ?>">
+                                <input type="hidden" class="partnerRew" value="<?php echo htmlspecialchars($partnerRew); ?>">
                             </td>
                             <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                             <td><?php echo htmlspecialchars($product); ?></td>
@@ -341,13 +341,13 @@ if (!isset($_SESSION['userType'])) {
         echo "No partner specified.";
     }
     ?>
-    <script>
+            <script>
             function calculateTotal() {
                 var checkboxes = document.querySelectorAll('input[name="selectedShipments[]"]:checked');
                 var total = 0;
                 checkboxes.forEach(function(checkbox) {
-                    var deliveryFee = checkbox.parentElement.querySelector('.deliveryFee').value;
-                    total += parseFloat(deliveryFee);
+                    var partnerRew = checkbox.parentElement.querySelector('.partnerRew').value;
+                    total += parseFloat(partnerRew);
                 });
 
                 document.getElementById('totalSelected').innerHTML =
