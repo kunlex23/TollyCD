@@ -100,6 +100,10 @@ if (!isset($_SESSION['userType'])) {
                         <input type="hidden" name="captainPayStatus" value="rara">
                         <input type="hidden" name="shipmentType" value="Waybill">
                         <input type="hidden" name="status" value="Sent">
+                        <?php
+                        $detailse = $_SESSION['details'];
+                        echo '<input type="hidden" name="details" value="' . $detailse . '">';
+                        ?>
 
                         <div class="tray0">
                             <label for="customersName">Receiver:</label>

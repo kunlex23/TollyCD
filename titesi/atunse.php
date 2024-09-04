@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $oldProductStr = sanitize_input($_POST['oldProduct'][0]);
     $productz = (array) $_POST['orunoloun'];
     $quantitz = (array) $_POST['quantity'];
+    $detailse = $_SESSION['details'];
 
     // Concatenate products and quantities
     $productQuantityList = [];
@@ -155,7 +156,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             partnerReward = '$newParnerReward',
                             deliveryFee = '$partnerPrice',
                             profitReward = '$profit',
-                            riderReward = '$dispatcherPrice'
+                            riderReward = '$dispatcherPrice', 
+                            editedBy = '$detailse'
                             
                         WHERE id = '$rira'";
 

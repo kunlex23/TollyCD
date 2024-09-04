@@ -106,6 +106,22 @@ if (!isset($_SESSION['userType'])) {
     .modal-content button {
         align-self: flex-end;
     }
+    form{
+        display: flex;
+        gap: 2rem;
+        width: 40rem;
+    }
+    #start-date,#end-date{
+        padding: 1rem;
+    }
+
+    button{
+        background-color: gray;
+        padding: 1rem;
+        border-radius: 0.6rem;
+        color: white;
+
+    }
     </style>
 </head>
 
@@ -156,11 +172,11 @@ if (!isset($_SESSION['userType'])) {
         <main>
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
-                <div class="spacer"></div>
+                <br>
                 <h2>Returned Shipments</h2>
 
                 <!-- Date Range Form -->
-                <div class="spacer"></div>
+                <br>
                 <form method="post" action="">
                     <label for="start-date">Start Date:</label>
                     <input type="date" id="start-date" name="start-date" required>
@@ -169,7 +185,7 @@ if (!isset($_SESSION['userType'])) {
                     <button type="submit">Filter</button>
                 </form>
 
-                <div class="spacer"></div>
+                <br>
                 <table style="width: 100%;">
                     <thead>
                         <tr>

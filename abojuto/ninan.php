@@ -85,7 +85,7 @@ if (!isset($_SESSION['userType'])) {
         <!------------ END OF ASIDE ------------>
         <main>
             <div class="recent-sales">
-                <h1>Location and Pricing</h1>
+                <h1>Location and Pricing</h1><br>
                 <form class="five-column-form" action="ninawowole.php" method="POST">
                     <div id="fields-container">
                         <div class="field-container">
@@ -116,9 +116,9 @@ if (!isset($_SESSION['userType'])) {
                         </div>
                         <button type="button" class="add-button" onclick="addDataField()">Add More</button>
                     </div>
-                </form>
+                </form><br>
 
-                <div class="spacer"></div>
+                <br>
                 <table style="width: 100%;">
                     <thead>
                         <tr>

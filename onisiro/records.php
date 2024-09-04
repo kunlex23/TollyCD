@@ -204,7 +204,6 @@ if (!isset($_SESSION['userType'])) {
                                 <th>Partner</th>
                                 <th>Type</th>
                                 <th>Product</th>
-                                <th>Qty</th>
                                 <th>Amount</th>
                                 <th>Client</th>
                                 <th>Location</th>
@@ -214,6 +213,7 @@ if (!isset($_SESSION['userType'])) {
                                 <th>Remittance</th>
                                 <th>Action</th>
                                 <th>Recall</th>
+                                <th>Edited By</th>
                             </tr>
                         </thead>
                         <tbody id="table-body">
@@ -221,7 +221,7 @@ if (!isset($_SESSION['userType'])) {
                             require '../config.php';
 
                             $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, 
-                            customersName, destination, customerContact, captain, paymentMethod, remitanceKind, date 
+                            customersName, destination, customerContact, captain, paymentMethod, remitanceKind, date, editedBy
                             FROM gbigbe 
                             WHERE status = 'completed' 
                             AND accCaptain = 'rara' 
@@ -247,13 +247,13 @@ if (!isset($_SESSION['userType'])) {
                                     $paymentMethod = $row['paymentMethod'];
                                     $date = $row['date'];
                                     $remitanceKind = $row['remitanceKind'];
+                                    $editedBy = $row['editedBy'];
                                     ?>
                             <tr>
                                 <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                                 <td><?php echo $partner; ?></td>
                                 <td><?php echo $shipmentType; ?></td>
                                 <td><?php echo $product; ?></td>
-                                <td><?php echo $quantity; ?></td>
                                 <td><?php echo $amount; ?></td>
                                 <td><?php echo $customersName; ?></td>
                                 <td><?php echo $destination; ?></td>
@@ -289,6 +289,7 @@ if (!isset($_SESSION['userType'])) {
                                 <td><button onclick="recaller(<?php echo $id; ?>)"
                                         style="padding:0.5rem; background-color: red; border-radius:0.4rem;"><b>Recall</b></button>
                                 </td>
+                                <td><?php echo $editedBy; ?></td>
                             </tr>
                             <?php
                                     $serialNumber++; // Increment the serial number

@@ -186,7 +186,11 @@ if (!isset($_SESSION['userType'])) {
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date, agentName, agentContact, park  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Sent' ORDER BY partner DESC ");
+                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date, agentName, agentContact, park  
+                        FROM gbigbe 
+                        WHERE shipmentType = 'Waybill' 
+                        AND status IN ('Sent', 'Pending')
+                        ORDER BY partner DESC ");
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id = $row['id'];

@@ -39,6 +39,11 @@ if (!isset($_SESSION['userType'])) {
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
     }
+    select{
+        width: 10rem;
+        padding: 0.4rem;
+        border-radius: 0.2rem;
+    }
     </style>
 </head>
 
@@ -74,7 +79,7 @@ if (!isset($_SESSION['userType'])) {
                     <span class="material-icons-sharp">bar_chart</span>
                     <h3>Reports</h3>
                 </a>
-                
+
 
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
@@ -118,13 +123,12 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                     <div class="button-container">
                         <div class="job">
-                            <input type="submit" name="submit" value="Sign Up" style="background-color: #025a1a; color:white">
+                            <input type="submit" name="submit" value="Sign Up"
+                                style="background-color: #025a1a; color:white">
                         </div>
-                        
-                    </div>
+                    </div><br><br>
                 </form>
 
-                <div class="spacer"></div>
                 <table style="width: 100%;">
                     <thead>
                         <tr>
@@ -139,12 +143,13 @@ if (!isset($_SESSION['userType'])) {
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT fullName, userId, userType, date FROM users ORDER BY fullName DESC");
+                        $query = mysqli_query($conn, "SELECT id, fullName, userId, userType, date FROM users ORDER BY fullName DESC");
                         if (!$query) {
                             die('Query Failed: ' . mysqli_error($conn));
                         }
 
                         while ($row = mysqli_fetch_array($query)) {
+                            $id = $row['id'];
                             $fullName = $row['fullName'];
                             $userId = $row['userId'];
                             $userType = $row['userType'];
@@ -155,9 +160,17 @@ if (!isset($_SESSION['userType'])) {
                             <td><?php echo htmlspecialchars($userId); ?></td>
                             <td><?php echo htmlspecialchars($userType); ?></td>
                             <td><?php echo htmlspecialchars($date); ?></td>
-                            
+                            <td>
+                                <form action="yo_OMOSE.php" method="post"
+                                    onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
                         </tr>
-                        <?php } ?>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
 

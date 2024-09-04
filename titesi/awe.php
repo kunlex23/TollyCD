@@ -168,7 +168,6 @@ if (!isset($_SESSION['userType'])) {
                             <th>Type</th>
                             <th>Product</th>
                             <th>Avail. Qty</th>
-                            <th>Qty</th>
                             <th>Amount</th>
                             <th>Client</th>
                             <th>Destination</th>
@@ -207,7 +206,6 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $shipmentType; ?></td>
                                 <td><?php echo $product; ?></td>
                                 <td><?php echo $availableUnit; ?></td>
-                                <td><?php echo $quantity; ?></td>
                                 <td><?php echo $amount; ?></td>
                                 <td><?php echo $customersName; ?></td>
                                 <td><?php echo $destination; ?></td>
@@ -265,7 +263,7 @@ function filterTable() {
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
         // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[0];
+        let td = tr[i].getElementsByTagName('td')[8];
         if (td) {
             // Check if the product name contains the filter text
             let txtValue = td.textContent || td.innerText;

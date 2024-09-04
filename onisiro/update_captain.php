@@ -11,14 +11,17 @@ if (!isset($_SESSION['userType'])) {
 } else {
     header("location: ../index.php");
 }
-
+$detailse = $_SESSION['details'];
 require '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
 
     // Update the captain status
-    $query = "UPDATE gbigbe SET accCaptain = 'beni' WHERE id = ?";
+    $query = "UPDATE gbigbe SET 
+    accCaptain = 'beni', 
+    confirmedBy = '$detailse' 
+    WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {

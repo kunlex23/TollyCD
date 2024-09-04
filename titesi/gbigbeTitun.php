@@ -5,7 +5,6 @@ if (!isset($_SESSION['userType'])) {
 } elseif (($_SESSION['userType']) == "Inventory") {
     header("Location: ../okojooja");
 } elseif (($_SESSION['userType']) == "Data_Entry") {
-    header("Location: ../titesi");
 } elseif (($_SESSION['userType']) == "Accountant") {
     header("Location: ../onisiro");
 } elseif (($_SESSION['userType']) == "Admin") {
@@ -80,6 +79,10 @@ if (!isset($_SESSION['userType'])) {
                         <input type="hidden" name="captainPayStatus" value="rara">
                         <input type="hidden" name="shipmentType" value="Delivery">
                         <input type="hidden" name="status" value="Pending">
+                        <?php
+                        $detailse = $_SESSION['details'];
+                        echo '<input type="hidden" name="details" value="' . $detailse . '">';
+                        ?>
                         <div class="tray0">
                             <label for="customersName">Customer Name:</label>
                             <input type="text" name="customersName[]" required><br>

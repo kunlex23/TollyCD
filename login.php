@@ -27,10 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->fetch();
         
         // Set session variables
-        $_SESSION['userType'] = $userType;
-        $_SESSION['fullName'] = $fullName;
+            $_SESSION['userType'] = $userType;
+            $_SESSION['fullName'] = $fullName;
+            $details = "$fullName ($userType)";
+            $_SESSION['details'] = $details;
 
-        // Redirect based on userType
+
+            // Redirect based on userType
         if ($_SESSION['userType'] == "Inventory") {
             header("Location: ./okojooja");
         } elseif ($_SESSION['userType'] == "Data_Entry") {
