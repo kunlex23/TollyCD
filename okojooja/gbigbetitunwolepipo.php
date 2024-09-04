@@ -65,14 +65,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // echo $avaiListString;
 
         // Prepare the SQL statement for inserting into 'gbigbe' table
-        $sqlInsert = "INSERT INTO gbigbe (partner, shipmentType, product, quantity, availableUnit, customersName, destination, customerContact, status, accCaptain, accPartner, partnerReward, deliveryFee, riderReward, profitReward, partnerPayStatus, captainPayStatus,agentName,agentContact,park, createdBy) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sqlInsert = "INSERT INTO gbigbe (
+        partner, shipmentType, product, quantity, 
+        availableUnit, customersName, destination, customerContact, 
+        status, accCaptain, accPartner,
+        deliveryFee, riderReward, profitReward, partnerPayStatus, 
+        captainPayStatus,agentName,agentContact,park, createdBy) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmtInsert = $conn->prepare($sqlInsert);
 
         // Check if the statement was prepared successfully
         if ($stmtInsert) {
             // Bind parameters to the insert SQL query
-            $stmtInsert->bind_param("sssssssssssssssssssss", $partner, $shipmentType, $productQuantityString, $productQuantityString, $avaiListString, $customerNames[0], $destinations[0], $customerContacts[0], $statuses[0], $accCaptain[0], $accPartner[0], $partnerPrices[0], $deliveryFee[0], $dispatcherPrices[0], $profits[0], $partnerPayStatus[0], $captainPayStatus[0], $agentName[0], $agentContact[0], $park[0], $details[0]);
+            $stmtInsert->bind_param("ssssssssssssssssssss", 
+            $partner, $shipmentType, $productQuantityString, $productQuantityString, 
+            $avaiListString, $customerNames[0], $destinations[0], $customerContacts[0], 
+            $statuses[0], $accCaptain[0], $accPartner[0],  
+            $deliveryFee[0], $dispatcherPrices[0], $profits[0], $partnerPayStatus[0], 
+            $captainPayStatus[0], $agentName[0], $agentContact[0], $park[0], $details[0]);
 
             // Execute the insert statement
             if (!$stmtInsert->execute()) {
