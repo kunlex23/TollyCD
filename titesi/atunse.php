@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $productQuantityString = implode(', ', $productQuantityList);
     // echo $productQuantityString;
 
-    
+
     // Parse oldProduct string into an associative array
     $oldProductArr = [];
     $pairs = explode(',', $oldProductStr);

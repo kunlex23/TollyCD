@@ -31,7 +31,7 @@ if ($result = $conn->query($sql)) {
   $result->free();
 }
 
-// Query to sum the records from the last 7 days for others_gifts
+// Query to sum the records from the last 7 days for others_w2p2
 $sql1 = "SELECT SUM(amount) AS amount 
         FROM gbigbe  
         WHERE shipmentType= 'Delivery' 
@@ -41,16 +41,16 @@ $sql1 = "SELECT SUM(amount) AS amount
 
 if ($result1 = $conn->query($sql1)) {
   while ($row1 = $result1->fetch_assoc()) {
-    $gifts = $row1['amount'] ?? 0;  // Handle null case
+    $w2p2 = $row1['amount'] ?? 0;  // Handle null case
   }
   $result1->free();
 }
 
 // Displaying the results
-echo '<h1>D: ' . number_format($tClients, 0, '.', ',') . '</h1>';
-echo '<h1>O: ' . number_format($gifts, 0, '.', ',') . '</h1>';
+// echo '<h1>Norm: ' . number_format($tClients, 0, '.', ',') . '</h1>';
+// echo '<h1>WP: ' . number_format($w2p2, 0, '.', ',') . '</h1>';
 
-$totalAmount = $tClients + $gifts;
+$totalAmount = $tClients + $w2p2;
 $totalFormatted = number_format($totalAmount, 0, '.', ',');
 echo '<h1>' . $totalFormatted . '</h1>';
 

@@ -27,85 +27,85 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-    table,
-    th,
-    td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
-        padding: 8px;
-    }
+        table,
+        th,
+        td {
+            /* border: 1px solid black; */
+            /* border-collapse: collapse; */
+            padding: 8px;
+        }
 
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        tr:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
 
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        td:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
 
-    /* Center the modal content */
-    #returnReasonModal {
-        padding-top: 15%;
-        padding-left: 35%;
-        display: none;
-        /* Hidden by default */
-        position: fixed;
-        /* Stay in place */
-        z-index: 1;
-        /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%;
-        /* Full width */
-        height: 100%;
-        /* Full height */
-        overflow: auto;
-        /* Enable scroll if needed */
-        background-color: rgba(0, 0, 0, 0.4);
-        /* Black w/ opacity */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        /* Center the modal content */
+        #returnReasonModal {
+            padding-top: 15%;
+            padding-left: 35%;
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .modal-content {
-        background-color: #fefefe;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 40%;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        border-radius: 8px;
-        /* Rounded corners for a modern look */
-    }
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            /* Rounded corners for a modern look */
+        }
 
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-    .modal-content form {
-        display: flex;
-        flex-direction: column;
-    }
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .modal-content textarea {
-        resize: vertical;
-        min-height: 100px;
-        margin-bottom: 20px;
-    }
+        .modal-content textarea {
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 20px;
+        }
 
-    .modal-content button {
-        align-self: flex-end;
-    }
+        .modal-content button {
+            align-self: flex-end;
+        }
     </style>
 </head>
 
@@ -159,7 +159,12 @@ if (!isset($_SESSION['userType'])) {
                 <div class="spacer"></div>
                 <h2>Shipments Records</h2>
                 <div class="spacer"></div>
-                <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                <input type="text" id="filterInput" placeholder="Search for shipment by Partner"
+                    onkeyup="filterTable()">
+                <input type="text" id="filterInput1" placeholder="Search for shipment by Status"
+                    onkeyup="filterTable1()">
+                <input type="text" id="filterInput2" placeholder="Search for shipment by Contact"
+                    onkeyup="filterTable2()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
@@ -178,7 +183,7 @@ if (!isset($_SESSION['userType'])) {
                         </tr>
                     </thead>
                     <tbody id="table-body">
-    <?php
+                        <?php
                         require '../config.php';
 
                         $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date FROM gbigbe WHERE shipmentType = 'Delivery' ORDER BY partner ASC");
@@ -251,28 +256,78 @@ if (!isset($_SESSION['userType'])) {
 </html>
 
 <script>
-function filterTable() {
-    // Get the value of the input field
-    let input = document.getElementById('filterInput');
-    let filter = input.value.toUpperCase();
+    function filterTable() {
+        // Get the value of the input field
+        let input = document.getElementById('filterInput');
+        let filter = input.value.toUpperCase();
 
-    // Get the table and its rows
-    let table = document.getElementById('shipmentTable');
-    let tr = table.getElementsByTagName('tr');
+        // Get the table and its rows
+        let table = document.getElementById('shipmentTable');
+        let tr = table.getElementsByTagName('tr');
 
-    // Loop through all table rows, except the first (header) row
-    for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[8];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
+        // Loop through all table rows, except the first (header) row
+        for (let i = 1; i < tr.length; i++) {
+            // Get the first cell (product name) in the row
+            let td = tr[i].getElementsByTagName('td')[1];
+            if (td) {
+                // Check if the product name contains the filter text
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
+                }
             }
         }
     }
-}
+
+    function filterTable1() {
+        // Get the value of the input field
+        let input = document.getElementById('filterInput1');
+        let filter = input.value.toUpperCase();
+
+        // Get the table and its rows
+        let table = document.getElementById('shipmentTable');
+        let tr = table.getElementsByTagName('tr');
+
+        // Loop through all table rows, except the first (header) row
+        for (let i = 1; i < tr.length; i++) {
+            // Get the first cell (product name) in the row
+            let td = tr[i].getElementsByTagName('td')[10];
+            if (td) {
+                // Check if the product name contains the filter text
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
+                }
+            }
+        }
+    }
+
+    function filterTable2() {
+        // Get the value of the input field
+        let input = document.getElementById('filterInput2');
+        let filter = input.value.toUpperCase();
+
+        // Get the table and its rows
+        let table = document.getElementById('shipmentTable');
+        let tr = table.getElementsByTagName('tr');
+
+        // Loop through all table rows, except the first (header) row
+        for (let i = 1; i < tr.length; i++) {
+            // Get the first cell (product name) in the row
+            let td = tr[i].getElementsByTagName('td')[8];
+            if (td) {
+                // Check if the product name contains the filter text
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
+                }
+            }
+        }
+    }
 </script>
