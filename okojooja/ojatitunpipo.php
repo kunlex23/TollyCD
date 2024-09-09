@@ -26,22 +26,22 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-        .button-container {
-            height: 5rem;
-            /* text-align: center; */
-            margin-top: 20px;
-            display: flex;
-            gap: 5rem;
-        }
+    .button-container {
+        height: 5rem;
+        /* text-align: center; */
+        margin-top: 20px;
+        display: flex;
+        gap: 5rem;
+    }
 
-        .button-container button {
-            margin-top: 20px;
-            background-color: blue;
-            height: 2.7rem;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            color: white;
-        }
+    .button-container button {
+        margin-top: 20px;
+        background-color: blue;
+        height: 2.7rem;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        color: white;
+    }
     </style>
 </head>
 
@@ -79,7 +79,7 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Waybills</h3>
                 </a>
 
-                <a href="awe.php" >
+                <a href="awe.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Waybill History</h3>
                 </a>
@@ -115,10 +115,17 @@ if (!isset($_SESSION['userType'])) {
                                 <label for="productName0">Product Name:</label>
                                 <input type="text" name="productName[]" required><br>
                             </div>
-                            <div>
-                                <label for="quantity0">Quantity:</label>
-                                <input type="text" name="quantity[]" required><br>
+                            <!-- =============== -->
+                            <div class="tray2">
+                                Received: <input type="number" name="rQuantity[]"><br>
                             </div>
+                            <div class="tray2">
+                                Bad condition: <input type="number" name="bQuantity[]"><br>
+                            </div>
+                            <div class="tray2">
+                                Good Condition: <input type="number" name="quantity[]"><br>
+                            </div>
+                            <!-- ===================== -->
                             <button type="button" class="remove-button"
                                 onclick="removeProductField(this)">Remove</button>
                         </div>
@@ -173,30 +180,35 @@ if (!isset($_SESSION['userType'])) {
 </body>
 
 </html>
-
 <script>
-    function addProductField() {
-        const container = document.getElementById('productsContainer');
-        const index = container.getElementsByClassName('product-field').length;
+function addProductField() {
+    const container = document.getElementById('productsContainer');
+    const index = container.getElementsByClassName('product-field').length;
 
-        const productField = document.createElement('div');
-        productField.className = 'product-field';
-        productField.innerHTML = `
+    const productField = document.createElement('div');
+    productField.className = 'product-field';
+    productField.innerHTML = `
         <div>
             <label for="productName${index}">Product Name:</label>
             <input type="text" name="productName[]" required><br>
         </div>
-        <div>
-            <label for="quantity${index}">Quantity:</label>
+        <div class="tray2">
+            Received: <input type="number" name="rQuantity[]" required><br>
+        </div>
+        <div class="tray2">
+            Bad condition: <input type="number" name="bQuantity[]" required><br>
+        </div>
+        <div class="tray2">
+            <label for="quantity${index}">Good Condition::</label>
             <input type="text" name="quantity[]" required><br>
         </div>
         <button type="button" class="remove-button" onclick="removeProductField(this)">Remove</button>
     `;
-        container.appendChild(productField);
-    }
+    container.appendChild(productField);
+}
 
-    function removeProductField(button) {
-        const field = button.parentElement;
-        field.remove();
-    }
+function removeProductField(button) {
+    const field = button.parentElement;
+    field.remove();
+}
 </script>

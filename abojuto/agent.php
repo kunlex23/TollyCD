@@ -26,19 +26,19 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styls.css">
     <style>
-        table,
-        th,
-        td {
-            padding: 8px;
-        }
+    table,
+    th,
+    td {
+        padding: 8px;
+    }
 
-        tr:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
 
-        td:nth-child(even) {
-            background-color: rgba(150, 212, 212, 0.4);
-        }
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
     </style>
 </head>
 
@@ -66,11 +66,11 @@ if (!isset($_SESSION['userType'])) {
                     <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Users</h3>
                 </a>
-                <a href="newCaptain.php" class="active">
+                <a href="newCaptain.php">
                     <span class="material-icons-sharp">pedal_bike</span>
                     <h3>Captain</h3>
                 </a>
-                <a href="agent.php">
+                <a href="agent.php" class="active">
                     <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Agent</h3>
                 </a>
@@ -87,71 +87,118 @@ if (!isset($_SESSION['userType'])) {
             </div>
         </aside>
         <!------------ END OF ASIDE ------------>
+        <?php
+        require '../config.php';
+
+        // Insert new agent
+        if (isset($_POST['submit'])) {
+            $fullname = mysqli_real_escape_string($conn, $_POST['fullName']);
+            $contact = mysqli_real_escape_string($conn, $_POST['contact']);
+
+            $query = "INSERT INTO agent (fullname, contact, date) VALUES ('$fullname', '$contact', NOW())";
+
+            if (mysqli_query($conn, $query)) {
+                echo '<script>window.location.href = "./agent.php";</script>';
+            } else {
+                die('Error: ' . mysqli_error($conn));
+            }
+        }
+
+        // Edit agent
+        if (isset($_POST['edit'])) {
+            $id = $_POST['id'];
+            $fullname = mysqli_real_escape_string($conn, $_POST['fullName']);
+            $contact = mysqli_real_escape_string($conn, $_POST['contact']);
+
+            $query = "UPDATE agent SET fullname='$fullname', contact='$contact' WHERE id='$id'";
+
+            if (mysqli_query($conn, $query)) {
+                echo '<script>window.location.href = "./agent.php";</script>';
+            } else {
+                die('Error: ' . mysqli_error($conn));
+            }
+        }
+
+        // Delete agent
+        if (isset($_POST['delete'])) {
+            $id = $_POST['id'];
+
+            $query = "DELETE FROM agent WHERE id='$id'";
+
+            if (mysqli_query($conn, $query)) {
+                echo '<script>window.location.href = "./agent.php";</script>';
+            } else {
+                die('Error: ' . mysqli_error($conn));
+            }
+        }
+        ?>
+        
         <main>
             <div class="recent-sales">
-                <h1>Captains</h1><br>
-                
+                <h1>Agents</h1><br><br>
+                <h3>New Agent</h3><br>
+        
+                <form class="five-column-form" action="" method="POST" enctype="multipart/form-data" autocomplete="off">
+                    <div class="error-text"></div>
+                    <div id="fields-container">
+                        <div class="field-container">
+                            <div class="field-group">
+                                <label for="name">Full Name:</label>
+                                <input type="text" name="fullName" required>
+                            </div>
+                            <div class="field-group">
+                                <label for="contact">Contact:</label>
+                                <input type="text" name="contact" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <div class="job">
+                            <input type="submit" name="submit" value="Add Agent" style="background-color: #025a1a; color:white">
+                        </div>
+                    </div><br><br>
+                </form>
+        
                 <div class="spacer"></div>
                 <table style="width: 100%;">
-    <thead>
-        <tr>
-            <th>Fullname</th>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Acc. Number</th>
-            <th>Acc. Name</th>
-            <th>Bank</th>
-            <th>Guarantor's Fullname</th>
-            <th>Guarantor's Contact</th>
-            <th>Guarantor's Address</th>
-            <th>Occupation</th>
-            <th>Relationship</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="table-body">
-        <?php
-                        require '../config.php';
-
-                        $query = mysqli_query($conn, "SELECT fullname, contact, address, accountNumber, accountName, bankName, gFullname, gContact, gAddress, occupation, relationship FROM oluwa ORDER BY fullname ASC");
+                    <thead>
+                        <tr>
+                            <th>Fullname</th>
+                            <th>Contact</th>
+                            <th>Date</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <?php
+                        $query = mysqli_query($conn, "SELECT id, fullname, contact, date FROM agent ORDER BY fullname ASC");
                         if (!$query) {
                             die('Query Failed: ' . mysqli_error($conn));
                         }
 
                         while ($row = mysqli_fetch_array($query)) {
+                            $id = $row['id'];
                             $fullname = $row['fullname'];
                             $contact = $row['contact'];
-                            $address = $row['address'];
-                            $accountNumber = $row['accountNumber'];
-                            $accountName = $row['accountName'];
-                            $bankName = $row['bankName'];
-                            $gFullname = $row['gFullname'];
-                            $gContact = $row['gContact'];
-                            $gAddress = $row['gAddress'];
-                            $occupation = $row['occupation'];
-                            $relationship = $row['relationship'];
+                            $date = $row['date'];
                             ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($fullname); ?></td>
                                 <td><?php echo htmlspecialchars($contact); ?></td>
-                                <td><?php echo htmlspecialchars($address); ?></td>
-                                <td><?php echo htmlspecialchars($accountNumber); ?></td>
-                                <td><?php echo htmlspecialchars($accountName); ?></td>
-                                <td><?php echo htmlspecialchars($bankName); ?></td>
-                                <td><?php echo htmlspecialchars($gFullname); ?></td>
-                                <td><?php echo htmlspecialchars($gContact); ?></td>
-                                <td><?php echo htmlspecialchars($gAddress); ?></td>
-                                <td><?php echo htmlspecialchars($occupation); ?></td>
-                                <td><?php echo htmlspecialchars($relationship); ?></td>
-                                <td><a href="tunokadase.php?fullname=<?php echo urlencode($fullname); ?>">Edit</a></td>
+                                <td><?php echo htmlspecialchars($date); ?></td>
+                                                               <td>
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                        <input type="submit" name="delete" value="Delete">
+                                    </form>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
-
-        
             </div>
         </main>
+
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">
@@ -178,7 +225,7 @@ if (!isset($_SESSION['userType'])) {
                         </div>
                     </div>
                 </a>
-                
+
 
                 <span>
                     <center>
@@ -204,11 +251,11 @@ if (!isset($_SESSION['userType'])) {
                             $productName = $row['productName'];
                             $quantity = $row['quantity'];
                             ?>
-                            <tr>
-                                <td><?php echo $partner; ?></td>
-                                <td><?php echo $productName; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                            </tr>
+                        <tr>
+                            <td><?php echo $partner; ?></td>
+                            <td><?php echo $productName; ?></td>
+                            <td><?php echo $quantity; ?></td>
+                        </tr>
                         <?php } ?>
                     </tbody>
                 </table>

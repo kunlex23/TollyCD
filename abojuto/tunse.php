@@ -99,7 +99,7 @@ if (!isset($_SESSION['userType'])) {
                     $location = urldecode($_GET['location']);
 
                     // Fetch the current data
-                    $query = mysqli_query($conn, "SELECT * FROM ninawo WHERE location = '$location'");
+                    $query = mysqli_query($conn, "SELECT * FROM ninawo WHERE id = '$location'");
                     if (!$query) {
                         die('Query Failed: ' . mysqli_error($conn));
                     }
@@ -112,7 +112,7 @@ if (!isset($_SESSION['userType'])) {
                         $newProfit = $newPartnerPrice - $newDispatcherPrice;
 
                         // Update the record
-                        $updateQuery = "UPDATE ninawo SET partnerPrice = '$newPartnerPrice', dispatcherPrice = '$newDispatcherPrice', profit = '$newProfit' WHERE location = '$location'";
+                        $updateQuery = "UPDATE ninawo SET partnerPrice = '$newPartnerPrice', dispatcherPrice = '$newDispatcherPrice', profit = '$newProfit' WHERE id = '$location'";
                         if (mysqli_query($conn, $updateQuery)) {
                             echo '<script>alert("Record updated successfully!");</script>';
                             echo '<script>window.location.href = "ninan.php";</script>';

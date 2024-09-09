@@ -466,7 +466,7 @@ label {
 
 /* Style for input fields */
 input[type="text"],
-input[type="date"] {
+input[type="date"]{
     flex-basis: 33.33%;
     /* Distribute input fields evenly in the three columns */
     width: 100%;

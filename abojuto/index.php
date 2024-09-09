@@ -74,6 +74,10 @@ if (!isset($_SESSION['userType'])) {
                     <span class="material-icons-sharp">manage_accounts</span>
                     <h3>Captain</h3>
                 </a>
+                <a href="agent.php">
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Agent</h3>
+                </a>
 
                 <a href="iroeri.php">
                     <span class="material-icons-sharp">bar_chart</span>

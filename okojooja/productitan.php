@@ -98,7 +98,7 @@ if (!isset($_SESSION['userType'])) {
                 <div class="spacer"></div>
                 <h2>Product History</h2>
 
-                <input type="text" id="filterInput" placeholder="Search for product..." onkeyup="filterTable()">
+                <input type="text" id="filterInput" placeholder="Search by Partner" onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
@@ -276,7 +276,7 @@ function filterTable() {
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
         // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[2];
+        let td = tr[i].getElementsByTagName('td')[1];
         if (td) {
             // Check if the product name contains the filter text
             let txtValue = td.textContent || td.innerText;

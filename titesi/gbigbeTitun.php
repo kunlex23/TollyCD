@@ -92,61 +92,26 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                         <div class="tray1">
-                            <label for="state">State:</label>
-                            <select id="state" name="state" required onchange="toggleLocationInput(this.value)">
-                                <option value="">...</option>
-                                <option value="FCT">Federal Capital Territory</option>
-                                <!-- <option value="Abia">Abia</option>
-                                <option value="Adamawa">Adamawa</option>
-                                <option value="Akwa Ibom">Akwa Ibom</option>
-                                <option value="Anambra">Anambra</option>
-                                <option value="Bauchi">Bauchi</option>
-                                <option value="Bayelsa">Bayelsa</option> -->
-                                <option value="Benue">Benue</option>
-                                <!-- <option value="Borno">Borno</option>
-                                <option value="Cross River">Cross River</option>
-                                <option value="Delta">Delta</option>
-                                <option value="Ebonyi">Ebonyi</option>
-                                <option value="Edo">Edo</option>
-                                <option value="Ekiti">Ekiti</option>
-                                <option value="Enugu">Enugu</option>
-                                <option value="Gombe">Gombe</option>
-                                <option value="Imo">Imo</option>
-                                <option value="Jigawa">Jigawa</option> -->
-                                <option value="Kaduna">Kaduna</option>
-                                <!-- <option value="Kano">Kano</option>
-                                <option value="Katsina">Katsina</option>
-                                <option value="Kebbi">Kebbi</option> -->
-                                <option value="Kogi">Kogi</option>
-                                <option value="Kwara">Kwara</option>
-                                <!-- <option value="Lagos">Lagos</option> -->
-                                <option value="Nasarawa">Nasarawa</option>
-                                <option value="Niger">Niger</option>
-                                <!-- <option value="Ogun">Ogun</option>
-                                <option value="Ondo">Ondo</option>
-                                <option value="Osun">Osun</option>
-                                <option value="Oyo">Oyo</option>
-                                <option value="Plateau">Plateau</option>
-                                <option value="Rivers">Rivers</option> -->
-                            </select><br>
+                            <label for="sod">State:</label>
+                            <select name="sod" required onchange="fetchState(this.value)">
+                                <option value="">Select a State</option>
+                                <?php
+                                require '../config.php';
+                                $sql = "SELECT sod FROM ninawo";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["sod"] . '">' . $row["sod"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
 
                             <div>
                                 <label for="destination">Location:</label>
-                                <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)"
-                                    style="display: none;">
-                                    <option value=""></option>
-                                    <?php
-                                    require '../config.php';
-                                    $sql = "SELECT location FROM ninawo";
-                                    $result = $conn->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<option value="' . $row["location"] . '">' . $row["location"] . '</option>';
-                                        }
-                                    }
-                                    ?>
+                                <select id="locationDropdown" name="destination" onchange="fetchPrice(this.value)">
+                                    <option value="">Select a Location</option>
                                 </select>
-                                <input type="text" id="locationInput" name="destination" style="display: block;">
                             </div>
                         </div>
 
@@ -189,10 +154,9 @@ if (!isset($_SESSION['userType'])) {
                         <div>
                             <label for="dispatcherPrice">Captain Price:</label>
                             <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
-                            <label for="profit">Profit:</label>
-                            <input type="text" id="profit" name="profit[]" required><br>
-                            <label for="partnerPrice">Partner Price:</label>
-                            <input type="text" id="partnerPrice" name="partnerPrice[]" required readonly><br>
+                            
+                            <input type="hidden" id="profit" name="profit[]" required><br>
+                            <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
                         </div>
                     </div>
 
@@ -380,6 +344,37 @@ if (!isset($_SESSION['userType'])) {
             }
         };
         xhr.send("captain=" + captain);
+    }
+
+
+    function fetchState(sod) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "get_state.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+
+                const locationDropdown = document.getElementById('locationDropdown');
+                locationDropdown.style.display = 'block'; // Show the location dropdown
+
+                // Clear the existing options in the dropdown
+                locationDropdown.innerHTML = '<option value="">Select a Location</option>';
+
+                if (response.length > 0) {
+                    response.forEach(function(location) {
+                        const option = document.createElement('option');
+                        option.value = location;
+                        option.text = location;
+                        locationDropdown.add(option);
+                    });
+                } else {
+                    // If no locations are found, hide the dropdown again
+                    locationDropdown.style.display = 'none';
+                }
+            }
+        };
+        xhr.send("sod=" + encodeURIComponent(sod));
     }
     </script>
     <script>

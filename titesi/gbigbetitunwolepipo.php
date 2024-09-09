@@ -16,9 +16,9 @@ if (!isset($_SESSION['userType'])) {
 require '../config.php';
 
 // Debug: print POST data
-// echo '<pre>';
-// print_r($_POST);
-// echo '</pre>';
+echo '<pre>';
+print_r($_POST);
+echo '</pre>';
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $profits = (array) $_POST['profit'];
         $partnerPayStatus = (array) $_POST['partnerPayStatus'];
         $captainPayStatus = (array) $_POST['captainPayStatus'];
-        $state = $_POST['state'];
+        $state = $_POST['sod'];
         $deliveryFee = (array) $_POST['partnerPrice'];
         $details = (array) $_POST['details'];
         

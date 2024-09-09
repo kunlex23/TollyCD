@@ -20,7 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
 
     // Update the captain status
-    $query = "UPDATE gbigbe SET status = 'Pending', partnerRemitance = 'rara', accCaptain = 'rara', accPartner = 'rara', partnerPayStatus = 'rara', captainPayStatus='rara', recalledBy = '$detailse' WHERE id = ?";
+    $query = "UPDATE gbigbe 
+    SET status = 'Pending', 
+    partnerRemitance = 'rara', 
+    accCaptain = 'rara', 
+    accPartner = 'rara', 
+    partnerPayStatus = 'rara', 
+    captainPayStatus='rara', 
+    recalledBy = '$detailse' WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {

@@ -118,16 +118,7 @@ header("Location: ../onisiro");
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <?php
-        if ($_SESSION['userType'] == "Admin") {
-            echo "<div class='navbar'>";
-            echo "<a href='../okojooja' class='nav-button'>Inventory</a>";
-            echo "<a href='../titesi' class='nav-button'>Data Entry</a>";
-            echo "<a href='../onisiro' class='nav-button'>Accounting</a>";
-            echo "<a href='../abojuto' class='nav-button'>Admin</a>";
-            echo "</div>";
-        }
-        ?>
+           
             <h1>Inventory</h1>
             <div class="insight">
                 <div class="sales">
@@ -181,6 +172,19 @@ header("Location: ../onisiro");
                     </div>
                     <!-- <small class="text-muted">Last 7 days</small> -->
                 </div>
+                
+                <div class="income">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Total Waybill</h3>
+                            <div id="link_wrapper4">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 7 days</small> -->
+                </div>
 
                 <!-- END OF INCOME -->
             </div>
@@ -223,6 +227,7 @@ header("Location: ../onisiro");
         </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
+           
             <div class="top">
                 <button id="menu-btn">
                     <span class="material-icons-sharp">menu</span>
@@ -238,7 +243,16 @@ header("Location: ../onisiro");
                     </div>
                 </div>
             </div>
-
+<?php
+if ($_SESSION['userType'] == "Admin") {
+    echo "<div class='navbar'>";
+    echo "<a href='../okojooja' class='nav-button'>I</a>";
+    echo "<a href='../titesi' class='nav-button'>D</a>";
+    echo "<a href='../onisiro' class='nav-button'>A</a>";
+    echo "<a href='../abojuto' class='nav-button'>AD</a>";
+    echo "</div>";
+}
+?>
             <div class="sales-analytics">
                 <a href="newalabasepo.php">
                     <div class="item add-product">
@@ -390,4 +404,23 @@ setInterval(function() {
 }, 1000);
 
 window.onload = loadXMLDoc3;
+</script>
+<script>
+function loadXMLDoc4() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper4").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server4.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc4();
+    // 1sec
+}, 1000);
+
+window.onload = loadXMLDoc4;
 </script>

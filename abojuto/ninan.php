@@ -39,6 +39,15 @@ if (!isset($_SESSION['userType'])) {
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
     }
+    select {
+    flex-basis: 33.33%;
+    /* Distribute input fields evenly in the three columns */
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 7px;
+}
     </style>
 </head>
 
@@ -90,6 +99,49 @@ if (!isset($_SESSION['userType'])) {
                     <div id="fields-container">
                         <div class="field-container">
                             <div class="field-group">
+                                <label for="sod">State:</label>
+                                <select id="sod" name="sod[]" required>
+                                    <option value="">Select a state</option>
+                                    <option value="FCT">FCT</option>
+                                    <option value="Abia">Abia</option>
+                                    <option value="Adamawa">Adamawa</option>
+                                    <option value="Akwa Ibom">Akwa Ibom</option>
+                                    <option value="Anambra">Anambra</option>
+                                    <option value="Bauchi">Bauchi</option>
+                                    <option value="Bayelsa">Bayelsa</option>
+                                    <option value="Benue">Benue</option>
+                                    <option value="Borno">Borno</option>
+                                    <option value="Cross River">Cross River</option>
+                                    <option value="Delta">Delta</option>
+                                    <option value="Ebonyi">Ebonyi</option>
+                                    <option value="Edo">Edo</option>
+                                    <option value="Ekiti">Ekiti</option>
+                                    <option value="Enugu">Enugu</option>
+                                    <option value="Gombe">Gombe</option>
+                                    <option value="Imo">Imo</option>
+                                    <option value="Jigawa">Jigawa</option>
+                                    <option value="Kaduna">Kaduna</option>
+                                    <option value="Kano">Kano</option>
+                                    <option value="Katsina">Katsina</option>
+                                    <option value="Kebbi">Kebbi</option>
+                                    <option value="Kogi">Kogi</option>
+                                    <option value="Kwara">Kwara</option>
+                                    <option value="Lagos">Lagos</option>
+                                    <option value="Nasarawa">Nasarawa</option>
+                                    <option value="Niger">Niger</option>
+                                    <option value="Ogun">Ogun</option>
+                                    <option value="Ondo">Ondo</option>
+                                    <option value="Osun">Osun</option>
+                                    <option value="Oyo">Oyo</option>
+                                    <option value="Plateau">Plateau</option>
+                                    <option value="Rivers">Rivers</option>
+                                    <option value="Sokoto">Sokoto</option>
+                                    <option value="Taraba">Taraba</option>
+                                    <option value="Yobe">Yobe</option>
+                                    <option value="Zamfara">Zamfara</option>
+                                </select><br>
+                            </div>
+                            <div class="field-group">
                                 <label for="location">Location:</label>
                                 <input type="text" name="location[]" required>
                             </div>
@@ -122,34 +174,40 @@ if (!isset($_SESSION['userType'])) {
                 <table style="width: 100%;">
                     <thead>
                         <tr>
+                            <th>State</th>
                             <th>location</th>
                             <th>partnerPrice</th>
                             <th>dispatcherPrice</th>
                             <th>profit</th>
-                            <th>Action</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT location, partnerPrice, dispatcherPrice, profit FROM ninawo ORDER BY location DESC");
+                        $query = mysqli_query($conn, "SELECT id, sod, location, partnerPrice, dispatcherPrice, profit FROM ninawo ORDER BY location DESC");
                         if (!$query) {
                             die('Query Failed: ' . mysqli_error($conn));
                         }
 
                         while ($row = mysqli_fetch_array($query)) {
+                            $id = $row['id'];
+                            $sod = $row['sod'];
                             $location = $row['location'];
                             $partnerPrice = $row['partnerPrice'];
                             $dispatcherPrice = $row['dispatcherPrice'];
                             $profit = $row['profit'];
                             ?>
                         <tr>
+                            <td><?php echo htmlspecialchars($sod); ?></td>
                             <td><?php echo htmlspecialchars($location); ?></td>
                             <td><?php echo htmlspecialchars($partnerPrice); ?></td>
                             <td><?php echo htmlspecialchars($dispatcherPrice); ?></td>
                             <td><?php echo htmlspecialchars($profit); ?></td>
-                            <td><a href="tunse.php?location=<?php echo urlencode($location); ?>">Edit</a></td>
+                            <td><a href="tunse.php?location=<?php echo urlencode($id); ?>">Edit</a></td>
+                            <td><a href="yokuro.php?location=<?php echo urlencode($id); ?>">Delete</a></td>
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -245,6 +303,49 @@ function addDataField() {
     newFieldContainer.classList.add('field-container');
 
     newFieldContainer.innerHTML = `
+        <div class="field-group">
+                                <label for="sod">State:</label>
+                                <select id="sod" name="sod[]" required>
+                                    <option value="">Select a state</option>
+                                    <option value="FCT">FCT</option>
+                                    <option value="Abia">Abia</option>
+                                    <option value="Adamawa">Adamawa</option>
+                                    <option value="Akwa Ibom">Akwa Ibom</option>
+                                    <option value="Anambra">Anambra</option>
+                                    <option value="Bauchi">Bauchi</option>
+                                    <option value="Bayelsa">Bayelsa</option>
+                                    <option value="Benue">Benue</option>
+                                    <option value="Borno">Borno</option>
+                                    <option value="Cross River">Cross River</option>
+                                    <option value="Delta">Delta</option>
+                                    <option value="Ebonyi">Ebonyi</option>
+                                    <option value="Edo">Edo</option>
+                                    <option value="Ekiti">Ekiti</option>
+                                    <option value="Enugu">Enugu</option>
+                                    <option value="Gombe">Gombe</option>
+                                    <option value="Imo">Imo</option>
+                                    <option value="Jigawa">Jigawa</option>
+                                    <option value="Kaduna">Kaduna</option>
+                                    <option value="Kano">Kano</option>
+                                    <option value="Katsina">Katsina</option>
+                                    <option value="Kebbi">Kebbi</option>
+                                    <option value="Kogi">Kogi</option>
+                                    <option value="Kwara">Kwara</option>
+                                    <option value="Lagos">Lagos</option>
+                                    <option value="Nasarawa">Nasarawa</option>
+                                    <option value="Niger">Niger</option>
+                                    <option value="Ogun">Ogun</option>
+                                    <option value="Ondo">Ondo</option>
+                                    <option value="Osun">Osun</option>
+                                    <option value="Oyo">Oyo</option>
+                                    <option value="Plateau">Plateau</option>
+                                    <option value="Rivers">Rivers</option>
+                                    <option value="Sokoto">Sokoto</option>
+                                    <option value="Taraba">Taraba</option>
+                                    <option value="Yobe">Yobe</option>
+                                    <option value="Zamfara">Zamfara</option>
+                                </select><br>
+                            </div>
         <div class="field-group">
             <label for="location">Location:</label>
             <input type="text" name="location[]" required>

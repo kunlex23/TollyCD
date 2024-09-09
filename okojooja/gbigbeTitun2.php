@@ -156,13 +156,22 @@ if (!isset($_SESSION['userType'])) {
                         </div>
                         <div>
                             <label for="agentName">Agent Name:</label>
-                            <input type="text" name="agentName[]" required><br>
+                            <select  name="agentName[]" required onchange="fetchProducts(this.value)">
+                            <option value="">Select Agent</option>
+                            <?php
+                                require '../config.php';
+                                $sql = "SELECT fullname FROM agent";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo '<option value="' . $row["fullname"] . '">' . $row["fullname"] . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
 
                             <label for="agentContact">Agent Number:</label>
                             <input type="text" name="agentContact[]" required><br>
-
-                            <label for="park">Park:</label>
-                            <input type="text" name="park[]" required><br>
 
                         </div>
 
