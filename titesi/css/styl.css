@@ -67,7 +67,7 @@ body {
     width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
-    grid-template-columns: 13rem auto 4.5rem;
+    grid-template-columns: 13rem auto 11rem;
 }
 
 a {

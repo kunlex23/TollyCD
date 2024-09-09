@@ -173,8 +173,6 @@ if (!isset($_SESSION['userType'])) {
                             <th>Destination</th>
                             <th>Products</th>
                             <th>Agent</th>
-                            <th>Agent Contact</th>
-                            <th>Park</th>
                             <th>Driver Price</th>
                             <th>Profit</th>
                             <th>Partner Price</th>
@@ -217,8 +215,6 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $destination; ?></td>
                                 <td><?php echo $product; ?></td>
                                 <td><?php echo $agentName; ?></td>
-                                <td><?php echo $agentContact; ?></td>
-                                <td><?php echo $park; ?></td>
                                 <td><?php echo $riderReward; ?></td>
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>

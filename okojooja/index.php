@@ -44,21 +44,24 @@ header("Location: ../onisiro");
      .navbar {
             display: flex;
             justify-content: center;
-            padding: 1px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
 
         /* Styling for individual navigation buttons */
         .nav-button {
             margin: 0 15px; /* Space between buttons */
-            padding: 10px 20px;
+            padding: 0.8rem;
             font-size: 16px;
             color: white;
             background-color: #007BFF;
             border: none;
-            border-radius: 5px;
+            border-radius: 2rem;
             text-align: center;
             text-decoration: none;
             cursor: pointer;
+            width: 3rem;
+            height: 3rem;
         }
 
         /* Styling for button hover effect */

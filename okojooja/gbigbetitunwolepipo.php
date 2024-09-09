@@ -44,8 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $captainPayStatus = (array) $_POST['captainPayStatus'];
         $deliveryFee = (array) $_POST['partnerPrice'];
         $agentName = (array) $_POST['agentName'];
-        $park = (array) $_POST['park'];
-        $agentContact = (array) $_POST['agentContact'];
         $details = (array) $_POST['details'];
 
         // Concatenate products and quantities
@@ -70,19 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         availableUnit, customersName, destination, customerContact, 
         status, accCaptain, accPartner,
         deliveryFee, riderReward, profitReward, partnerPayStatus, 
-        captainPayStatus,agentName,agentContact,park, createdBy) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        captainPayStatus,agentName, createdBy) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmtInsert = $conn->prepare($sqlInsert);
 
         // Check if the statement was prepared successfully
         if ($stmtInsert) {
             // Bind parameters to the insert SQL query
-            $stmtInsert->bind_param("ssssssssssssssssssss", 
+            $stmtInsert->bind_param("ssssssssssssssssss", 
             $partner, $shipmentType, $productQuantityString, $productQuantityString, 
             $avaiListString, $customerNames[0], $destinations[0], $customerContacts[0], 
             $statuses[0], $accCaptain[0], $accPartner[0],  
             $deliveryFee[0], $dispatcherPrices[0], $profits[0], $partnerPayStatus[0], 
-            $captainPayStatus[0], $agentName[0], $agentContact[0], $park[0], $details[0]);
+            $captainPayStatus[0], $agentName[0], $details[0]);
 
             // Execute the insert statement
             if (!$stmtInsert->execute()) {

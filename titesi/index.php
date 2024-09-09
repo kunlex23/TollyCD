@@ -45,21 +45,25 @@ header("Location: ../onisiro");
      .navbar {
             display: flex;
             justify-content: center;
-            padding: 1px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
         }
 
         /* Styling for individual navigation buttons */
         .nav-button {
-            margin: 0 15px; /* Space between buttons */
-            padding: 10px 20px;
+            
+            padding: 0.5rem;
             font-size: 16px;
             color: white;
             background-color: #007BFF;
             border: none;
-            border-radius: 5px;
+            border-radius: 2rem;
             text-align: center;
             text-decoration: none;
             cursor: pointer;
+            width: 2.5rem;
+            height: 2.5rem;
         }
 
         /* Styling for button hover effect */
@@ -115,16 +119,7 @@ header("Location: ../onisiro");
         <!------------ END OF ASIDE ------------>
         <main>
             
-            <?php
-           if ($_SESSION['userType'] == "Admin") {
-               echo "<div class='navbar'>";
-               echo "<a href='../okojooja' class='nav-button'>Inventory</a>";
-               echo "<a href='../titesi' class='nav-button'>Data Entry</a>";
-               echo "<a href='../onisiro' class='nav-button'>Accounting</a>";
-               echo "<a href='../abojuto' class='nav-button'>Admin</a>";
-               echo "</div>";
-           }
-           ?>
+           
             <h1>Data Entry</h1>
             <div class="insight">
                 <div class="sales">
@@ -255,12 +250,20 @@ header("Location: ../onisiro");
                 <div class="profile">
                     <div class="info">
                         <div class="details">
-                            <?php $fullName = $_SESSION['fullName']; echo $fullName ?>
                         </div>
                     </div>
                 </div>
             </div>
-
+<?php
+if ($_SESSION['userType'] == "Admin") {
+    echo "<div class='navbar'>";
+    echo "<a href='../okojooja' class='nav-button'>I</a>";
+    echo "<a href='../titesi' class='nav-button'>D</a>";
+    echo "<a href='../onisiro' class='nav-button'>A</a>";
+    echo "<a href='../abojuto' class='nav-button'>AD</a>";
+    echo "</div>";
+}
+?>
 
         </div>
     </div>

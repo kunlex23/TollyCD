@@ -77,22 +77,7 @@ if (!isset($_SESSION['userType'])) {
                 <h1>New Waybill</h1>
                 <form action="gbigbetitunwolepipo.php" method="POST">
                     <!-- Form fields -->
-                    <div>
-                        <label for="Name">Partner:</label>
-                        <select name="Name" required onchange="fetchProducts(this.value)">
-                            <option value="">Select a Partner</option>
-                            <?php
-                                    require '../config.php';
-                                    $sql = "SELECT Name FROM alabasepo";
-                                    $result = $conn->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
-                                        }
-                                    }
-                                    ?>
-                        </select>
-                    </div>
+
                     <div class="five-column-form">
                         <input type="hidden" name="accPartner" value="rara">
                         <input type="hidden" name="accCaptain" value="rara">
@@ -106,11 +91,32 @@ if (!isset($_SESSION['userType'])) {
                         ?>
 
                         <div class="tray0">
+                            <div>
+                                <label for="Name">Partner:</label>
+                                <select name="Name" required onchange="fetchProducts(this.value)">
+                                    <option value="">Select a Partner</option>
+                                    <?php
+                                    require '../config.php';
+                                    $sql = "SELECT Name FROM alabasepo";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<option value="' . $row["Name"] . '">' . $row["Name"] . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
                             <label for="customersName">Receiver:</label>
                             <input type="text" name="customersName[]" required><br>
 
                             <label for="customerContact">Receiver Contact:</label>
                             <input type="text" name="customerContact[]" required><br>
+
+                        </div>
+                        <div>
+
                             <label for="destination">Destination:</label>
                             <select id="destination" name="destination" required>
                                 <option value="">...</option>
@@ -153,26 +159,20 @@ if (!isset($_SESSION['userType'])) {
                                 <option value="Zamfara">Zamfara</option>
                             </select><br>
 
-                        </div>
-                        <div>
                             <label for="agentName">Agent Name:</label>
-                            <select  name="agentName[]" required onchange="fetchProducts(this.value)">
-                            <option value="">Select Agent</option>
-                            <?php
+                            <select name="agentName[]" required onchange="fetchProducts(this.value)">
+                                <option value="">Select Agent</option>
+                                <?php
                                 require '../config.php';
-                                $sql = "SELECT fullname FROM agent";
+                                $sql = "SELECT fullname, contact FROM agent";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
-                                        echo '<option value="' . $row["fullname"] . '">' . $row["fullname"] . '</option>';
+                                        echo '<option value="' . $row["fullname"] . " (" . $row["contact"] .")". '">' . $row["fullname"] ." (". $row["contact"] .")". '</option>';
                                     }
                                 }
                                 ?>
                             </select>
-
-                            <label for="agentContact">Agent Number:</label>
-                            <input type="text" name="agentContact[]" required><br>
-
                         </div>
 
                         <div>
@@ -206,7 +206,7 @@ if (!isset($_SESSION['userType'])) {
                     </div>
 
                     <div class="baseForm">
-                         <div class="button-container">
+                        <div class="button-container">
                             <div class="job"><input type="submit" value="Submit"></div>
                         </div>
                         <button type="button" class="add-product" onclick="addProduct()">Add</button>

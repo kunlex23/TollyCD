@@ -42,30 +42,32 @@ if (!isset($_SESSION['userType'])) {
     }
 
     .navbar {
-        display: flex;
-        justify-content: center;
-        padding: 1px;
-    }
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
 
-    /* Styling for individual navigation buttons */
-    .nav-button {
-        margin: 0 15px;
-        /* Space between buttons */
-        padding: 10px 20px;
-        font-size: 16px;
-        color: white;
-        background-color: #007BFF;
-        border: none;
-        border-radius: 5px;
-        text-align: center;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        /* Styling for individual navigation buttons */
+        .nav-button {
+            padding: 0.6rem;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 2rem;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            width: 3rem;
+            height: 3rem;
+        }
 
-    /* Styling for button hover effect */
-    .nav-button:hover {
-        background-color: #0056b3;
-    }
+        /* Styling for button hover effect */
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -122,16 +124,7 @@ if (!isset($_SESSION['userType'])) {
         <!------------ END OF ASIDE ------------>
         <main>
 
-            <?php
-           if ($_SESSION['userType'] == "Admin") {
-               echo "<div class='navbar'>";
-               echo "<a href='../okojooja' class='nav-button'>Inventory</a>";
-               echo "<a href='../titesi' class='nav-button'>Data Entry</a>";
-               echo "<a href='../onisiro' class='nav-button'>Accounting</a>";
-               echo "<a href='../abojuto' class='nav-button'>Admin</a>";
-               echo "</div>";
-           }
-           ?>
+           
             <h1>Accounting</h1><br>
             <div class="insight">
 
@@ -326,9 +319,19 @@ if (!isset($_SESSION['userType'])) {
                         <!-- <small class="text-muted">Admin</small> -->
                     </div>
                 </div>
+                
             </div>
 
-
+<?php
+if ($_SESSION['userType'] == "Admin") {
+    echo "<div class='navbar'>";
+    echo "<a href='../okojooja' class='nav-button'>I</a>";
+    echo "<a href='../titesi' class='nav-button'>D</a>";
+    echo "<a href='../onisiro' class='nav-button'>A</a>";
+    echo "<a href='../abojuto' class='nav-button'>AD</a>";
+    echo "</div>";
+}
+?>
         </div>
     </div>
 
