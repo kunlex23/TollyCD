@@ -25,6 +25,37 @@ if (!isset($_SESSION['userType'])) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
+    <style>
+    form {
+        display: flex;
+        padding-left: 30%;
+        padding-right: 30%;
+        gap: 0.5rem;
+    }
+      input[type="date"] {
+            font-size: 16px;
+            padding: 10px;
+            width: 200px;
+            height: 1rem;
+        }
+button{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #757577;
+    height: 1.5rem;
+    color: white;
+    border-radius: 5px;
+}
+    .breakDown {
+        display: flex;
+        gap: 25%;
+        text-align: center;
+    }
+
+    .breakOne {
+        gap: 4rem;
+    }
+    </style>
 </head>
 
 <body>
@@ -79,78 +110,120 @@ if (!isset($_SESSION['userType'])) {
         <main>
             <h2>Product History</h2><br>
             <?php
-               
-           if (isset($_GET['ewo']) && isset($_GET['tani'])) {
+            if (isset($_GET['ewo']) && isset($_GET['tani'])) {
                 $productID = $_GET['ewo'];
                 $partner = $_GET['tani'];
                 $availableUnit = $_GET['loku'];
                 $eruwo = $_GET['eruwo'];
-           }
-                echo "Partner: <b>" . $partner . "</b><br>";
-                echo "Available Unit: <b>" . $availableUnit . "</b><br>";
-                echo "Product ID: <b>" . $productID . "</b><br>";
-                echo "Product: <b>" . $eruwo . "</b><br>";
+            }
+            echo "Partner: <b>" . $partner . "</b><br>";
+            echo "Available Unit: <h2>" . $availableUnit . "</h2><br>";
+            echo "Product: <h2>" . $eruwo . "</h2><br>";
+            ?><br>
+
+            <form method="post" action="">
+                <h2>Start</h2>
+                <input type="date" id="start-date" name="start-date" required>
+                <h2>End</h2>
+                <input type="date" id="end-date" name="end-date" required>
+                <button type="submit">Filter</button>
+            </form><br>
+            <div class="breakDown">
+                <div class="breakOne">
+                    <?php
+                    require '../config.php';
+
+                    // Initialize variables for the date range
+                    $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                    $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                    // Create a query to sum different columns: rQuantity, bQuantity, and quantity
+                    $query_string = "SELECT SUM(rQuantity) AS totalReceived, 
+                            SUM(bQuantity) AS totalBad, 
+                            SUM(quantity) AS totalGood
+                     FROM afikun 
+                     WHERE partner = '$partner' AND productName = '$eruwo'";
+
+                    if ($start_date && $end_date) {
+                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                    }
+
+                    $query_string .= " ORDER BY partner DESC";
+
+                    // Execute the query
+                    $query = mysqli_query($conn, $query_string);
+
+                    if (!$query) {
+                        echo "Error fetching data: " . mysqli_error($conn);
+                    } else {
+                        while ($row = mysqli_fetch_array($query)) {
+                            $totalReceived = $row['totalReceived'];
+                            $totalBad = $row['totalBad'];
+                            $totalGood = $row['totalGood'];
+
+                            echo "Received: <h1>" . ($totalReceived ? $totalReceived : 0) . "</h1><br>";
+                           
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="breakOne">
+                   <?php echo "Bad: <h1>" . ($totalBad ? $totalBad : 0) . "</h1><br>";?>
+
+                </div>
+                <div class="breakOne">
+                    <?php echo "Good: <h1>" . ($totalGood ? $totalGood : 0) . "</h1><br>";?>
+                </div>
+                <div class="breakTwo">
+                    <?php
+                // Sanitize input to prevent SQL injection
+                $partner = mysqli_real_escape_string($conn, $partner);
+                $eruwo = mysqli_real_escape_string($conn, $eruwo);
+
+                // Build the base query to get the product
+                $query_string = "SELECT product
+                     FROM gbigbe 
+                     WHERE partner = '$partner' AND product LIKE '$eruwo%'";
+
+                // Add date filtering if start_date and end_date are set
+                if (!empty($start_date) && !empty($end_date)) {
+                    $start_date = mysqli_real_escape_string($conn, $start_date);
+                    $end_date = mysqli_real_escape_string($conn, $end_date);
+                    $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                }
+
+                // Order the results by partner in descending order
+                $query_string .= " ORDER BY partner DESC";
+
+                // Execute the query
+                $query = mysqli_query($conn, $query_string);
+
+                // Check for query execution errors
+                if (!$query) {
+                    echo "Error fetching data: " . mysqli_error($conn);
+                } else {
+                    // Initialize total quantity
+                    $total_quantity = 0;
+
+                    // Fetch and process the product(s)
+                    while ($row = mysqli_fetch_array($query)) {
+                        // Extract product and quantity
+                        $product_data = explode('=', $row['product']);
+                        $quantity = isset($product_data[1]) ? (int) trim($product_data[1]) : 0; // Convert quantity to integer
+                
+                        // Add to total quantity
+                        $total_quantity += $quantity;
+                    }
+
+                    // Display the total quantity delivered
+                    echo "Total Delivered: <h1>$total_quantity</h1>";
+                }
                 ?>
-            <table id="shipmentTable" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>SN</th>
-                        <th>Product</th>
-                        <th>Shipment Type</th>
-                        <!-- <th>Avl. Qty</th> -->
-                        <th>Destination</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <?php
-        require '../config.php';
 
-        // Prepare the statement
-        $stmt = $conn->prepare("SELECT shipmentType, product, availableUnit, destination, date  
-                                FROM gbigbe 
-                                WHERE partner = ? 
-                                AND product LIKE ?");
-
-        // Prepare the parameters
-        $likeEruwo = "%$eruwo%";
-        
-        // Bind the parameters to the SQL query
-        $stmt->bind_param("ss", $partner, $likeEruwo);
-        
-        // Execute the query
-        $stmt->execute();
-        
-        // Get the result
-        $result = $stmt->get_result();
-
-        // Initialize the serial number
-        $serialNumber = 1;
-
-        // Fetch and display the results in the table
-        while ($row = $result->fetch_assoc()) {
-            $shipmentType = $row['shipmentType'];
-            $availableUnit = $row['availableUnit'];
-            $destination = $row['destination'];
-            $date = $row['date'];
-            $product = $row['product'];
-            ?>
-                    <tr>
-                        <td><?php echo $serialNumber; ?></td>
-                        <td><?php echo htmlspecialchars($product); ?></td>
-                        <td><?php echo htmlspecialchars($shipmentType); ?></td>
-                        <!-- <td><?php echo htmlspecialchars($availableUnit); ?></td> -->
-                        <td><?php echo htmlspecialchars($destination); ?></td>
-                        <td><?php echo htmlspecialchars($date); ?></td>
-                    </tr>
-                    <?php
-            $serialNumber++;
-        }
-        ?>
-                </tbody>
-            </table>
-
+                </div>
+            </div>
         </main>
+
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">

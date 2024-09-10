@@ -160,9 +160,15 @@ if (!isset($_SESSION['userType'])) {
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Waybills History</h2>
-                <div class="spacer"></div>
-                <input type="text" id="filterInput" placeholder="Search for Waybill contact..." onkeyup="filterTable()">
+                <h2>Waybills History</h2><br>
+                <form method="post" action="">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form>
+                <input type="text" id="filterInput" placeholder="Search for Waybill by Contact or Partner" onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
@@ -184,7 +190,27 @@ if (!isset($_SESSION['userType'])) {
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' ORDER BY partner DESC ");
+                        // Initialize variables for the date range
+                        $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                        $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+
+                        $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
+                        FROM gbigbe 
+                        WHERE shipmentType = 'Waybill'";
+
+                        if ($start_date && $end_date) {
+                            $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                        }
+
+                        $query_string .= " ORDER BY partner DESC";
+
+                        // Execute the query
+                        $query = mysqli_query($conn, $query_string);
+
+                        if (!$query) {
+                            echo "Error fetching data: " . mysqli_error($conn);
+                        } else {
                         $serialNumber = 1;
                         while ($row = mysqli_fetch_array($query)) {
                             $id = $row['id'];
@@ -215,7 +241,7 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $status; ?></td>
                                 <td><?php echo $date; ?></td>
                                 </tr>
-                        <?php $serialNumber++;  } ?>
+                        <?php $serialNumber++;  } }?>
                     </tbody>
                 </table>
                 <div id="returnReasonModal" style="display:none;">
@@ -269,12 +295,14 @@ function filterTable() {
 
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[2];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        // Get the cells in the 2nd and 3rd columns (index 1 and 2)
+        let td2 = tr[i].getElementsByTagName('td')[1]; // 2nd column
+        let td3 = tr[i].getElementsByTagName('td')[2]; // 3rd column
+        if (td2 || td3) {
+            // Check if either column contains the filter text
+            let txtValue2 = td2 ? (td2.textContent || td2.innerText) : '';
+            let txtValue3 = td3 ? (td3.textContent || td3.innerText) : '';
+            if (txtValue2.toUpperCase().indexOf(filter) > -1 || txtValue3.toUpperCase().indexOf(filter) > -1) {
                 tr[i].style.display = '';
             } else {
                 tr[i].style.display = 'none';
@@ -282,4 +310,5 @@ function filterTable() {
         }
     }
 }
+
 </script>

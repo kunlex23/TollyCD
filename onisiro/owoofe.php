@@ -24,6 +24,30 @@ if (!isset($_SESSION['userType'])) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
+     <style>
+    .form1 {
+        display: flex;
+        padding-left: 30%;
+        padding-right: 30%;
+        gap: 0.5rem;
+    }
+
+    input[type="date"] {
+        font-size: 16px;
+        padding: 10px;
+        width: 200px;
+        height: 1rem;
+    }
+
+    button {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        background-color: #757577;
+        height: 1.5rem;
+        color: white;
+        border-radius: 5px;
+    }
+    </style>
 </head>
 
 <body>
@@ -102,11 +126,19 @@ if (!isset($_SESSION['userType'])) {
                 <div class="spacer"></div><br>  
                 <h2>Gifts Records</h2>
                 <div class="spacer"></div>
+                
+                <form method="post" action="" class="form1">
+                    <h2>Start</h2>
+                    <input type="date" id="start-date" name="start-date" required>
+                    <h2>End</h2>
+                    <input type="date" id="end-date" name="end-date" required>
+                    <button type="submit">Filter</button>
+                </form><br>
                 <input type="text" id="filterInput" placeholder="Search..." onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
-                            <!-- <th>ID</th> -->
+                            <th>SN</th>
                             <th>From</th>
                             <th>Amount</th>
                             <th>Purpose</th>
@@ -117,7 +149,31 @@ if (!isset($_SESSION['userType'])) {
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT id, fromW, amount, purpose, date  FROM others_gifts ORDER BY purpose DESC ");
+                        // Initialize variables for the date range and sanitize inputs
+                        $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                        $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                        // Base query
+                        $query_string = "SELECT id, fromW, amount, purpose, date  
+                        FROM others_gifts";
+                        // Check if date range is provided and add a WHERE clause if necessary
+                        if ($start_date && $end_date) {
+                            $query_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                        }
+
+                        // Order the results by id in descending order
+                        $query_string .= " ORDER BY id DESC";
+
+                        // Execute the query
+                        $query = mysqli_query($conn, $query_string);
+
+                        if (!$query) {
+                            // Handle the query error
+                            echo "Error fetching data: " . mysqli_error($conn);
+                        } else {
+                            // Initialize a serial number
+                            $serialNumber = 1;
+
                         while ($row = mysqli_fetch_array($query)) {
                             $fromW = $row['fromW'];
                             $amount = $row['amount'];
@@ -125,12 +181,17 @@ if (!isset($_SESSION['userType'])) {
                             $date = $row['date'];
                             ?>
                             <tr>
+                                <td><?php echo $serialNumber; ?></td>
                                 <td><?php echo $fromW; ?></td>
                                 <td><?php echo $amount; ?></td>
                                 <td><?php echo $purpose; ?></td>
                                 <td><?php echo $date; ?></td>
                             </tr>
-                        <?php } ?>
+                                <?php
+                                   $serialNumber++;
+                            }
+                        }
+                        ?>
                     </tbody>
                 </table>
 
@@ -157,28 +218,28 @@ if (!isset($_SESSION['userType'])) {
 
 
     <script>
-        function filterTable() {
-            // Get the value of the input field
-            let input = document.getElementById('filterInput');
-            let filter = input.value.toUpperCase();
+    function filterTable() {
+        // Get the value of the input field
+        let input = document.getElementById('filterInput');
+        let filter = input.value.toUpperCase();
 
-            // Get the table and its rows
-            let table = document.getElementById('shipmentTable');
-            let tr = table.getElementsByTagName('tr');
+        // Get the table and its rows
+        let table = document.getElementById('shipmentTable');
+        let tr = table.getElementsByTagName('tr');
 
-            // Loop through all table rows, except the first (header) row
-            for (let i = 1; i <script tr.length; i++) {
-                // Get the first cell (product name) in the row
-                let td = tr[i].getElementsByTagName('td')[0];
-                if (td) {
-                    // Check if the product name contains the filter text
-                    let txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
+        // Loop through all table rows, except the first (header) row
+        for (let i = 1; i < tr.length; i++) {
+            // Get the first cell (product name) in the row
+            let td = tr[i].getElementsByTagName('td')[1];
+            if (td) {
+                // Check if the product name contains the filter text
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
                 }
             }
         }
+    }
     </script>

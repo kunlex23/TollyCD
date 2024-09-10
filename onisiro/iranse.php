@@ -102,6 +102,7 @@ if (!isset($_SESSION['userType'])) {
                 <button class="tablinks" onclick="openTab(event, 'UnprocessedWaybills')">Unconfirmed</button>
                 <button class="tablinks" onclick="openTab(event, 'ProcessedWaybills')">Confirmed</button>
                 <button class="tablinks" onclick="openTab(event, 'partnerPayment')">Partner Remittance</button>
+                <button class="tablinks" onclick="openTab(event, 'agentPayment')">Agent Payments</button>
             </div>
             <!-- ---------END OF EXAM-------- -->
             <div id="AllWaybills" class="tab-content">
@@ -386,6 +387,58 @@ if (!isset($_SESSION['userType'])) {
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div id="agentPayment" class="tab-content">
+                <div class="recent-sales">
+                    <div class="spacer"></div>
+                    <h2>Agent Payment</h2>
+                    
+                    <input type="text" id="filterInput7" placeholder="Search for shipment by agent" onkeyup="filterTable7()">
+                    <table id="shipmentTable7" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Agent</th>
+                                <th>Total Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                            require '../config.php';
+
+                            $query = mysqli_query($conn, "SELECT DISTINCT agentName FROM gbigbe WHERE shipmentType='Waybill' AND status = 'sent' AND captainPayStatus = 'rara' ORDER BY captain DESC ");
+                            if (!$query) {
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
+                                $serialNumber = 1; // Initialize the serial number outside the while loop
+                                while ($row = mysqli_fetch_array($query)) {
+                                    $agentName = $row['agentName'];
+
+                                    // Query to calculate total partner reward
+                                    $sqla = "SELECT SUM(riderReward) AS totalReward FROM gbigbe WHERE shipmentType='Waybill' AND agentName = '$agentName' AND status = 'sent' AND accCaptain = 'beni' AND captainPayStatus = 'rara'";
+                                    $resulta = mysqli_query($conn, $sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    $riderReward = $rowa['totalReward'];
+
+                                    
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                        <td><?php echo $agentName; ?></td>
+                                        <td><?php echo $riderReward; ?></td>
+                                        <td><a href="wiwoIroOlugbe.php?olugbe=<?php echo urlencode($agentName); ?>">Details</a>
+                                        </td>
+            
+                                    </tr>
+                                    <?php
+                                    $serialNumber++; // Increment the serial number
+                                }
+                            } ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
