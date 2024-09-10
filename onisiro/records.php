@@ -25,8 +25,6 @@ if (!isset($_SESSION['userType'])) {
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
     <style>
-   
-
     table,
     th,
     td {
@@ -41,6 +39,49 @@ if (!isset($_SESSION['userType'])) {
 
     td:nth-child(even) {
         background-color: rgba(150, 212, 212, 0.4);
+    }
+
+    form {
+        display: flex;
+        padding-left: 30%;
+        padding-right: 30%;
+        gap: 0.5rem;
+    }
+
+    input[type="date"],
+    option {
+        font-size: 16px;
+        padding: 10px;
+        width: 200px;
+        height: 1rem;
+    }
+
+    form button {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        background-color: #757577;
+        height: 1.5rem;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .fillers {
+        text-align: center;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .fillers .btn a {
+        margin-top: 0;
+        padding: 0.6rem;
+        background-color: #757577;
+        height: 2.5rem;
+        color: white;
+        border-radius: 5px;
+        margin-left: 1rem;
+        font-size: 16px;
+        text-decoration: none;
+        color: white;
     }
     </style>
 </head>
@@ -116,7 +157,8 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>All Shipments</h2>
 
-                    <input type="text" id="filterInput" placeholder="Search for shipment by contact" onkeyup="filterTable()">
+                    <input type="text" id="filterInput" placeholder="Search for shipment by contact"
+                        onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
                         <thead>
                             <tr>
@@ -132,7 +174,7 @@ if (!isset($_SESSION['userType'])) {
                                 <th>Captain</th>
                                 <th>Payment Method</th>
                                 <th>Date</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody id="table-body">
@@ -177,7 +219,7 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $paymentMethod; ?></td>
                                 <td><?php echo $date; ?></td>
-                                
+
                             </tr>
                             <?php
                                     $serialNumber++; // Increment the serial number
@@ -196,7 +238,13 @@ if (!isset($_SESSION['userType'])) {
                 <div class="recent-sales">
                     <div class="spacer"></div>
                     <h2>Unconfirmed Shipments</h2>
-                        <input type="text" id="filterInput2" placeholder="Search for shipment by client name" onkeyup="filterTable2()">
+                    <div class="fillers">
+                        <input type="text" id="filterInput2" placeholder="Search for shipment by receiver"
+                            onkeyup="filterTable2()">
+                        <input type="text" id="filterInput3" placeholder="Search for shipment by captain"
+                            onkeyup="filterTable3()">
+                        <div class="btn"><a href="./records.php">Reset</a></div>
+                    </div>
                     <table id="shipmentTable2" style="width: 100%;">
                         <thead>
                             <tr>
@@ -308,8 +356,25 @@ if (!isset($_SESSION['userType'])) {
                 <div class="recent-sales">
                     <div class="spacer"></div>
                     <h2>Confirmed Shipments</h2>
-                     <input type="text" id="filterInput1" placeholder="Search for shipment by client name" onkeyup="filterTable1()">
-                    <table id="shipmentTable1" style="width: 100%;">
+                    <form method="post" action="">
+                        <h2>Start</h2>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <h2>End</h2>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
+                    <div class="fillers">
+
+                        <input type="text" id="filterInput4" placeholder="Search for shipment by partner"
+                            onkeyup="filterTable4()">
+                        <input type="text" id="filterInput5" placeholder="Search for shipment by captain"
+                            onkeyup="filterTable5()">
+                        <input type="text" id="filterInput6" placeholder="Search for shipment by contact"
+                            onkeyup="filterTable6()">
+                        
+                            <div class="btn"><a href="./records.php">Reset</a></div>
+                    </div>
+                    <table id="shipmentTable3" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -321,6 +386,7 @@ if (!isset($_SESSION['userType'])) {
                                 <th>Client</th>
                                 <th>Location</th>
                                 <th>Captain</th>
+                                <th>Contact</th>
                                 <th>Payment Method</th>
                                 <th>Date</th>
                             </tr>
@@ -329,9 +395,29 @@ if (!isset($_SESSION['userType'])) {
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date FROM gbigbe WHERE status = 'completed' AND accCaptain = 'beni' ORDER BY partner DESC");
+                             // Initialize variables for the date range
+                        $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                        $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                        // Create a query to sum different columns: rQuantity, bQuantity, and quantity
+                        $query_string ="SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date 
+                        FROM gbigbe 
+                        WHERE status = 'completed' 
+                        AND accCaptain = 'beni'";
+
+                            // Check if date range is provided and add an additional condition to the WHERE clause
+                            if ($start_date && $end_date) {
+                                $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                            }
+
+                            // Order the results by partner in descending order
+                            $query_string .= " ORDER BY partner DESC";
+
+                            // Execute the query
+                            $query = mysqli_query($conn, $query_string);
 
                             if (!$query) {
+                                // Handle the query error
                                 echo "Error fetching data: " . mysqli_error($conn);
                             } else {
                                 $serialNumber = 1; // Initialize the serial number outside the while loop
@@ -361,6 +447,7 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $customersName; ?></td>
                                 <td><?php echo $destination; ?></td>
                                 <td><?php echo $captain; ?></td>
+                                <td><?php echo $customerContact; ?></td>
                                 <td><?php echo $paymentMethod; ?></td>
                                 <td><?php echo $date; ?></td>
                             </tr>
@@ -380,7 +467,8 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Partner Payment</h2>
 
-                    <input type="text" id="filterInput3" placeholder="Search for shipment by partner" onkeyup="filterTable3()">
+                    <input type="text" id="filterInput3" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable3()">
                     <table id="shipmentTable3" style="width: 100%;">
                         <thead>
                             <tr>
@@ -459,13 +547,14 @@ if (!isset($_SESSION['userType'])) {
 
                 </div>
             </div>
-            
+
             <div id="partnerPayment_M" class="tab-content">
                 <div class="recent-sales">
                     <div class="spacer"></div>
                     <h2>Partner Monthly Remittance </h2>
 
-                    <input type="text" id="filterInput4" placeholder="Search for shipment by partner" onkeyup="filterTable4()">
+                    <input type="text" id="filterInput4" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable4()">
                     <table id="shipmentTable4" style="width: 100%;">
                         <thead>
                             <tr>
@@ -512,20 +601,21 @@ if (!isset($_SESSION['userType'])) {
 
                                     
                                     ?>
-                                    <tr>
-                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                        <td><?php echo $partner; ?></td>
-                                        <td><?php echo $remitance2US; ?></td>
-                                        <td><a href="wiwoIrokeji.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
-                                        
-                                    </tr>
-                                    <?php
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $remitance2US; ?></td>
+                                <td><a href="wiwoIrokeji.php?partner=<?php echo urlencode($partner); ?>">Details</a>
+                                </td>
+
+                            </tr>
+                            <?php
                                     $serialNumber++; // Increment the serial number
                                 }
                             }
                             ?>
                         </tbody>
-                    
+
                     </table>
 
 
@@ -537,7 +627,8 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Partner Monthly Remittance (Weekly Payments) </h2>
 
-                    <input type="text" id="filterInput5" placeholder="Search for shipment by partner" onkeyup="filterTable5()">
+                    <input type="text" id="filterInput5" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable5()">
 
                     <table id="shipmentTable5" style="width: 100%;">
                         <thead>
@@ -584,20 +675,20 @@ if (!isset($_SESSION['userType'])) {
 
                                     
                                     ?>
-                                    <tr>
-                                        <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                        <td><?php echo $partner; ?></td>
-                                        <td><?php echo $remitance2US; ?></td>
-                                        <td><a href="wiwoIroket.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
-                                        
-                                    </tr>
-                                    <?php
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $remitance2US; ?></td>
+                                <td><a href="wiwoIroket.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
+
+                            </tr>
+                            <?php
                                     $serialNumber++; // Increment the serial number
                                 }
                             }
                             ?>
                         </tbody>
-                    
+
                     </table>
 
 
@@ -609,7 +700,8 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Partner Weekly Payment </h2>
 
-                    <input type="text" id="filterInput6" placeholder="Search for shipment by partner" onkeyup="filterTable6()">
+                    <input type="text" id="filterInput6" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable6()">
                     <table id="shipmentTable6" style="width: 100%;">
                         <thead>
                             <tr>
@@ -666,25 +758,26 @@ if (!isset($_SESSION['userType'])) {
                                         $bank = $row2['bank'];
                                         $accountName = $row2['accountName'];
                                         ?>
-                                        <tr>
-                                            <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
-                                            <td><?php echo $partner; ?></td>
-                                            <td><?php echo $partnerReward; ?></td>
-                                            <td><?php echo $accountNumber; ?></td>
-                                            <td><?php echo $bank; ?></td>
-                                            <td><?php echo $accountName; ?></td>
-                                            <td><a href="wiwoIroketa.php?partner=<?php echo urlencode($partner); ?>">Details</a></td>
-                                            
-                                        </tr>
-                                        <?php
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                <td><?php echo $partner; ?></td>
+                                <td><?php echo $partnerReward; ?></td>
+                                <td><?php echo $accountNumber; ?></td>
+                                <td><?php echo $bank; ?></td>
+                                <td><?php echo $accountName; ?></td>
+                                <td><a href="wiwoIroketa.php?partner=<?php echo urlencode($partner); ?>">Details</a>
+                                </td>
+
+                            </tr>
+                            <?php
                                         $serialNumber++; // Increment the serial number
                                     }
                                 }
                                 ?>
-                            </tbody>
-                    
-                        </table>
-                    
+                        </tbody>
+
+                    </table>
+
                 </div>
 
             </div>
@@ -693,8 +786,9 @@ if (!isset($_SESSION['userType'])) {
                 <div class="recent-sales">
                     <div class="spacer"></div>
                     <h2>Captain Payment</h2>
-                    
-                    <input type="text" id="filterInput7" placeholder="Search for shipment by captain" onkeyup="filterTable7()">
+
+                    <input type="text" id="filterInput7" placeholder="Search for shipment by captain"
+                        onkeyup="filterTable7()">
                     <table id="shipmentTable7" style="width: 100%;">
                         <thead>
                             <tr>
@@ -784,6 +878,7 @@ if (!isset($_SESSION['userType'])) {
 
 
 <script>
+// =======all shippment=======
 function filterTable() {
     // Get the value of the input field
     let input = document.getElementById('filterInput');
@@ -808,57 +903,8 @@ function filterTable() {
         }
     }
 }
-function filterTable1() {
-    // Get the value of the input field
-    let input = document.getElementById('filterInput1');
-    let filter = input.value.toUpperCase();
 
-    // Get the table and its rows
-    let table = document.getElementById('shipmentTable1');
-    let tr = table.getElementsByTagName('tr');
-
-    // Loop through all table rows, except the first (header) row
-    for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[6];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
-    }
-}
-
-
-function filterTable3() {
-    // Get the value of the input field
-    let input = document.getElementById('filterInput3');
-    let filter = input.value.toUpperCase();
-
-    // Get the table and its rows
-    let table = document.getElementById('shipmentTable3');
-    let tr = table.getElementsByTagName('tr');
-
-    // Loop through all table rows, except the first (header) row
-    for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[1];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
-    }
-}
-
+// =====================unconfirmed=====================
 function filterTable2() {
     // Get the value of the input field
     let input = document.getElementById('filterInput2');
@@ -870,43 +916,71 @@ function filterTable2() {
 
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[6];
+        let td = tr[i].getElementsByTagName('td')[5]; // First column (adjust index as needed)
         if (td) {
-            // Check if the product name contains the filter text
             let txtValue = td.textContent || td.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
+                tr[i].style.display = ''; // Show row
             } else {
-                tr[i].style.display = 'none';
+                tr[i].style.display = 'none'; // Hide row
             }
         }
     }
+    // Call the next filter to act on the filtered results
+    filterTable3();
 }
 
+function filterTable3() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput3');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable2');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Apply this filter only to rows that are still visible
+        if (tr[i].style.display !== 'none') {
+            let td = tr[i].getElementsByTagName('td')[7]; // Adjust index as needed
+            if (td) {
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ''; // Show row
+                } else {
+                    tr[i].style.display = 'none'; // Hide row
+                }
+            }
+        }
+    }
+    // Call the next filter to act on the filtered results
+    // filterTable2();
+}
+// =====================Confirmed=====================
 function filterTable4() {
     // Get the value of the input field
     let input = document.getElementById('filterInput4');
     let filter = input.value.toUpperCase();
 
     // Get the table and its rows
-    let table = document.getElementById('shipmentTable4');
+    let table = document.getElementById('shipmentTable3');
     let tr = table.getElementsByTagName('tr');
 
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[1];
+        let td = tr[i].getElementsByTagName('td')[1]; // First column (adjust index as needed)
         if (td) {
-            // Check if the product name contains the filter text
             let txtValue = td.textContent || td.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
+                tr[i].style.display = ''; // Show row
             } else {
-                tr[i].style.display = 'none';
+                tr[i].style.display = 'none'; // Hide row
             }
         }
     }
+    // Call the next filter to act on the filtered results
+    filterTable5();
 }
 
 function filterTable5() {
@@ -915,23 +989,26 @@ function filterTable5() {
     let filter = input.value.toUpperCase();
 
     // Get the table and its rows
-    let table = document.getElementById('shipmentTable5');
+    let table = document.getElementById('shipmentTable3');
     let tr = table.getElementsByTagName('tr');
 
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[1];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
+        // Apply this filter only to rows that are still visible
+        if (tr[i].style.display !== 'none') {
+            let td = tr[i].getElementsByTagName('td')[8]; // Adjust index as needed
+            if (td) {
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ''; // Show row
+                } else {
+                    tr[i].style.display = 'none'; // Hide row
+                }
             }
         }
     }
+    // Call the next filter to act on the filtered results
+    filterTable6();
 }
 
 function filterTable6() {
@@ -940,49 +1017,27 @@ function filterTable6() {
     let filter = input.value.toUpperCase();
 
     // Get the table and its rows
-    let table = document.getElementById('shipmentTable6');
+    let table = document.getElementById('shipmentTable3');
     let tr = table.getElementsByTagName('tr');
 
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[1];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
+        // Apply this filter only to rows that are still visible
+        if (tr[i].style.display !== 'none') {
+            let td = tr[i].getElementsByTagName('td')[9]; // Adjust index as needed
+            if (td) {
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ''; // Show row
+                } else {
+                    tr[i].style.display = 'none'; // Hide row
+                }
             }
         }
     }
 }
 
-function filterTable7() {
-    // Get the value of the input field
-    let input = document.getElementById('filterInput7');
-    let filter = input.value.toUpperCase();
 
-    // Get the table and its rows
-    let table = document.getElementById('shipmentTable7');
-    let tr = table.getElementsByTagName('tr');
-
-    // Loop through all table rows, except the first (header) row
-    for (let i = 1; i < tr.length; i++) {
-        // Get the first cell (product name) in the row
-        let td = tr[i].getElementsByTagName('td')[1];
-        if (td) {
-            // Check if the product name contains the filter text
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-            } else {
-                tr[i].style.display = 'none';
-            }
-        }
-    }
-}
 </script>
 <script>
 document.querySelectorAll('.paymentMethod-dropdown').forEach(function(dropdown) {
@@ -1048,7 +1103,7 @@ function openTab(evt, tabName) {
 // Function to load the last opened tab
 function loadLastOpenedTab() {
     var activeTab = localStorage.getItem('activeTab');
-    
+
     if (activeTab) {
         // If there's a stored tab, open it
         document.getElementById(activeTab).style.display = "block";

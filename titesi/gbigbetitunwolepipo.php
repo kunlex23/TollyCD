@@ -16,9 +16,9 @@ if (!isset($_SESSION['userType'])) {
 require '../config.php';
 
 // Debug: print POST data
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

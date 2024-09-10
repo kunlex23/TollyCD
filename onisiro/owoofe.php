@@ -134,7 +134,7 @@ if (!isset($_SESSION['userType'])) {
                     <input type="date" id="end-date" name="end-date" required>
                     <button type="submit">Filter</button>
                 </form><br>
-                <input type="text" id="filterInput" placeholder="Search..." onkeyup="filterTable()">
+                <input type="text" id="filterInput" placeholder="Search by name" onkeyup="filterTable()">
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
