@@ -104,6 +104,7 @@ if (!isset($_SESSION['userType'])) {
                 <button class="tablinks" onclick="openTab(event, 'monthlyRemitance')">Partner Remitting(M)</button>
                 <button class="tablinks" onclick="openTab(event, 'wayBill')">Waybill Remittance</button>
                 <button class="tablinks" onclick="openTab(event, 'captainPayment')">Captain Payments</button>
+                <button class="tablinks" onclick="openTab(event, 'AgentPayment')">Agent Payments</button>
             </div>
 
             <!-- All Shipments content -->
@@ -597,6 +598,86 @@ if (!isset($_SESSION['userType'])) {
                 </div>
             </div>
 
+            <div id="AgentPayment" class="tab-content">
+                <div class="recent-sales">
+                    <div class="spacer"></div>
+                    <h2>Agent Payments</h2>
+
+                    <!-- Date Range Form -->
+                    <div class="spacer"></div>
+                    <form method="post" action="">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date" required>
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date" required>
+                        <button type="submit">Filter</button>
+                    </form>
+
+                    <div class="spacer"></div>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Agent</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                         <?php
+                require '../config.php';
+
+                // Initialize variables for the date range
+                $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                // Debugging: Print the received dates
+                //echo "Start Date: $start_date, End Date: $end_date";
+                
+                // Build the query based on the date range
+                $query5_string = "SELECT agent, totalAmount, payID, date
+                            FROM agenthistory";
+                if ($start_date && $end_date) {
+                    $query5_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                }
+                $query5_string .= " ORDER BY agent DESC";
+
+                // Debugging: Print the query5 string
+                //echo $query5_string;
+                
+                $query5 = mysqli_query($conn, $query5_string);
+
+                if (!$query5) {
+                    // Debugging: Print the MySQL error
+                    //echo "Error: " . mysqli_error($conn);
+                }
+                $serialNumber = 1;
+                while ($row = mysqli_fetch_array($query5)) {
+                    $agent = $row['agent'];
+                    $amount = $row['totalAmount'];
+                    $date = $row['date'];
+                    $payID = $row['payID'];
+                    ?>
+                    <tr>
+                        <td><?php echo $serialNumber; ?></td>
+                        <td><?php echo $agent; ?></td>
+                        <td><?php echo $amount; ?></td>
+                        <td><?php echo $date; ?></td>
+                        <td><a
+                                href="eriagent.php?
+                                oluwa=<?php echo urlencode($agent); ?>
+                                &eri=<?php echo urlencode($payID); ?>
+                                &oro=<?php echo urlencode($amount); ?>
+                                ">View</a>
+                        </td>
+                    </tr>
+                    <?php $serialNumber++;
+                } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
         </main>
 

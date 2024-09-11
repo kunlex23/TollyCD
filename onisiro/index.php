@@ -193,20 +193,6 @@ if (!isset($_SESSION['userType'])) {
                     <small class="text-muted">Last 7 Days</small>
                 </div>
           
-                <div class="sales">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Revenue</h3>
-                            <div id="link_wrapper">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="tex">Last 7 Days</small>
-                </div>
-
-
                 <div class="income">
                     <div class="middle">
                         <div class="left">
@@ -220,23 +206,6 @@ if (!isset($_SESSION['userType'])) {
                     <small class="text-muted">Last 7 Days</small>
                 </div>
                 <!-- ================================== -->
-                
-                
-                
-                
-                
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Net Profit</h3>
-                            <div id="link_wrapper4">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
 
                 <div class="expensis">
                     <div class="middle">
@@ -279,6 +248,18 @@ if (!isset($_SESSION['userType'])) {
                     <small class="text-muted">Last 7 Days</small>
                 </div>
 
+                <div class="sales">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Total Revenue</h3>
+                            <div id="link_wrapper">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="tex">Last 7 Days</small>
+                </div>
 
                 <div class="expensis">
                     <div class="middle">
@@ -293,11 +274,18 @@ if (!isset($_SESSION['userType'])) {
                     <small class="text-muted">Last 7 Days</small>
                 </div>
 
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Net Profit</h3>
+                            <div id="link_wrapper4">
 
+                            </div>
+                        </div>
 
-
-
-
+                    </div>
+                    <small class="text-muted">Last 7 Days</small>
+                </div>
             </div>
 
 

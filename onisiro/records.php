@@ -467,9 +467,9 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Partner Payment</h2>
 
-                    <input type="text" id="filterInput3" placeholder="Search for shipment by partner"
-                        onkeyup="filterTable3()">
-                    <table id="shipmentTable3" style="width: 100%;">
+                    <input type="text" id="filterInput7" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable7()">
+                    <table id="shipmentTable4" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -553,9 +553,9 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Partner Monthly Remittance </h2>
 
-                    <input type="text" id="filterInput4" placeholder="Search for shipment by partner"
-                        onkeyup="filterTable4()">
-                    <table id="shipmentTable4" style="width: 100%;">
+                    <input type="text" id="filterInput9" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable9()">
+                    <table id="shipmentTable6" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -627,10 +627,10 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Partner Monthly Remittance (Weekly Payments) </h2>
 
-                    <input type="text" id="filterInput5" placeholder="Search for shipment by partner"
-                        onkeyup="filterTable5()">
+                    <input type="text" id="filterInput10" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable10()">
 
-                    <table id="shipmentTable5" style="width: 100%;">
+                    <table id="shipmentTable7" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -700,9 +700,9 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Partner Weekly Payment </h2>
 
-                    <input type="text" id="filterInput6" placeholder="Search for shipment by partner"
-                        onkeyup="filterTable6()">
-                    <table id="shipmentTable6" style="width: 100%;">
+                    <input type="text" id="filterInput8" placeholder="Search for shipment by partner"
+                        onkeyup="filterTable8()">
+                    <table id="shipmentTable5" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -787,9 +787,9 @@ if (!isset($_SESSION['userType'])) {
                     <div class="spacer"></div>
                     <h2>Captain Payment</h2>
 
-                    <input type="text" id="filterInput7" placeholder="Search for shipment by captain"
-                        onkeyup="filterTable7()">
-                    <table id="shipmentTable7" style="width: 100%;">
+                    <input type="text" id="filterInput11" placeholder="Search for shipment by captain"
+                        onkeyup="filterTable11()">
+                    <table id="shipmentTable8" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -1037,6 +1037,133 @@ function filterTable6() {
     }
 }
 
+
+function filterTable7() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput7');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable4');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[1];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+
+
+function filterTable8() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput8');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable5');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[1];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+
+function filterTable9() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput9');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable6');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[1];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+
+function filterTable10() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput10');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable7');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[1];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
+
+
+function filterTable11() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput11');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable8');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Get the first cell (product name) in the row
+        let td = tr[i].getElementsByTagName('td')[1];
+        if (td) {
+            // Check if the product name contains the filter text
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+}
 
 </script>
 <script>

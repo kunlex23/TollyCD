@@ -15,9 +15,9 @@ if (!isset($_SESSION['userType'])) {
 
 require '../config.php';
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
 // Function to generate a unique payID
 function generatePaymentId()
@@ -35,7 +35,7 @@ function generatePaymentId()
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $partner = $_POST['tani'];
+    $partner = $_POST['oluwa'];
     $selectedShipments = $_POST['selectedShipments'];
     if (!is_array($selectedShipments)) {
         echo "No shipments selected.";
@@ -51,12 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Sanitize shipmentId to prevent SQL injection
         $shipmentId = mysqli_real_escape_string($conn, $shipmentId);
 
-        $query = "SELECT deliveryFee FROM gbigbe WHERE id = '$shipmentId'";
+        $query = "SELECT riderReward FROM gbigbe WHERE id = '$shipmentId'";
         $result = mysqli_query($conn, $query);
 
         if ($result && mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            $totalAmount += intval($row['deliveryFee']);
+            $totalAmount += intval($row['riderReward']);
         } else {
             // Handle case where the query fails or no result is returned
             echo "Failed to retrieve data for shipment ID: $shipmentId";
@@ -67,23 +67,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     // Insert the new record with the generated payID
-    $insertQuery = "INSERT INTO onahistory (partner, totalAmount, payID) 
+    $insertQuery = "INSERT INTO agenthistory (agent, totalAmount, payID) 
                     VALUES ('$partner', '$totalAmount', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {
         // Update the relevant records with the generated payID
         foreach ($selectedShipments as $shipmentId) {
             $updateQuery = "UPDATE gbigbe 
-                            SET partnerPayStatus = 'beni', 
-                            partnerRemitance = 'beni',
-                            payID5 = '$payID' 
+                            SET captainPayStatus = 'beni', 
+                            payID6 = '$payID' 
                             WHERE id = '$shipmentId'";
             mysqli_query($conn, $updateQuery);
         }
- 
-// echo "<script>alert('Success');</script>";
 
-echo '<script>window.location.href = "./iranse.php";</script>';
+        // echo "<script>alert('Success');</script>";
+
+        echo '<script>window.location.href = "./iranse.php";</script>';
     } else {
         echo "Error: " . mysqli_error($conn);
     }

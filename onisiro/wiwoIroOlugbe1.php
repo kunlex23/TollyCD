@@ -1,3 +1,4 @@
+`
 <?php
 session_start();
 if (!isset($_SESSION['userType'])) {
@@ -24,7 +25,7 @@ if (!isset($_SESSION['userType'])) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
     <link rel="stylesheet" href="css/styl.css">
-    <style>
+      <style>
     /* Tab styles */
     .tab {
         overflow: hidden;
@@ -169,6 +170,7 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Waybill</h3>
                 </a>
 
+
                 <a href="owoofe.php">
                     <span class="material-icons-sharp">paid</span>
                     <h3>Other Income</h3>
@@ -192,51 +194,61 @@ if (!isset($_SESSION['userType'])) {
             <h2>Payment Details</h2><br>
 
             <?php
-            require '../config.php'; // Ensure the database connection is properly set up
-            
-            if (isset($_GET['partner'])) {
-                $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
-            
-                // Query to calculate total partner reward
-                $sqla = "SELECT SUM(COALESCE(deliveryFee, 0)) AS totalReward 
-                 FROM gbigbe 
-                 WHERE shipmentType = 'Waybill' 
-                 AND status ='Completed' 
-                 AND partnerRemitance = 'rara'
-                 AND partner = '$partner'";
-                $resulta = mysqli_query($conn, $sqla);
+    require '../config.php'; // Ensure the database connection is properly set up
 
-                if ($resulta) {
-                    $rowa = mysqli_fetch_array($resulta);
-                    $partnerReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
-                    ?>
-            <div class="productDetails">
-                <div class="itemPD">
-                    Partner: <b><?php echo htmlspecialchars($partner); ?></b>
-                </div>
-                <div class="itemPD">
-                    Total Amount: <b><?php echo htmlspecialchars(number_format($partnerReward, 2)); ?></b>
-                </div>
-                <div id="totalSelected" class="totalSelected">
-                    Total Selected: <b>₦0.00</b>
-                </div>
-            </div>
-            <?php
-                } else {
-                    echo "Error fetching partner reward: " . mysqli_error($conn);
-                }
-            } else {
-                echo "No partner specified.";
-            }
-            ?>
+    if (isset($_GET['olugbe'])) {
+        $captain = mysqli_real_escape_string($conn, $_GET['olugbe']); // Sanitize input
 
-            <form action="kagbo1.php" method="post">
-                <div class="payBTN">
-                    <button type="submit">Confirm Payment</button>
-                </div>
+        // Query to calculate total captain reward
+        $sqla = "SELECT SUM(COALESCE(riderReward, 0)) AS totalReward 
+                  FROM gbigbe 
+                  WHERE shipmentType='Waybill' 
+                  AND agentName = '$captain' 
+                  AND status = 'completed' 
+                  AND accCaptain = 'beni' 
+                  AND captainPayStatus = 'rara'";
+        $resulta = mysqli_query($conn, $sqla);
 
-                <input type="hidden" name="tani" value="<?php echo htmlspecialchars($partner); ?>">
-                <input type="hidden" name="elo" value="<?php echo htmlspecialchars($partnerReward); ?>">
+        if ($resulta) {
+            $rowa = mysqli_fetch_array($resulta);
+            $captainReward = $rowa['totalReward'] ?? 0; // Default to 0 if no result
+
+            // Query to fetch account details
+            $query2 = "SELECT accountNumber, bankName, accountName 
+                       FROM oluwa 
+                       WHERE fullname = '$captain'";
+            $result2 = mysqli_query($conn, $query2);
+
+            if ($result2) {
+                $row2 = mysqli_fetch_array($result2);
+
+                $accountNumber = $row2['accountNumber'] ?? 'N/A'; // Default to 'N/A' if no result
+                $bank = $row2['bankName'] ?? 'N/A'; // Default to 'N/A' if no result
+                $accountName = $row2['accountName'] ?? 'N/A'; // Default to 'N/A' if no result
+                ?>
+
+            <form action="kagbo2.php" method="post">
+                <div class="productDetails">
+                    <div class="itemPD">
+                        Agent: <b><?php echo htmlspecialchars($captain); ?></b>
+                    </div>
+                    <div class="itemPD">
+                        Total Amount: <b><?php echo htmlspecialchars(number_format($captainReward, 2)); ?></b>
+                    </div>
+
+
+                    <div id="totalSelected" class="totalSelected">
+                        Total Selected: <b>₦0.00</b>
+                    </div>
+
+                    <!-- Hidden inputs to pass additional data -->
+                    <input type="hidden" name="oluwa" value="<?php echo htmlspecialchars($captain); ?>">
+
+                    <!-- Submit button -->
+                    <div class="payBTN">
+                        <button type="submit">Make Payment</button>
+                    </div>
+                </div>
 
                 <table id="shipmentTable" style="padding-left:5%; width: 90%;">
                     <thead>
@@ -245,33 +257,33 @@ if (!isset($_SESSION['userType'])) {
                             <th>SN</th>
                             <th>Product</th>
                             <th>Location</th>
-                            <th>Cost</th>
-                            <th>Delivery fee</th>
+                            <th>Agents's Pay</th>
+                            <th>Delivery Fee</th>
                             <th>Date</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <?php
-                        if (isset($_GET['partner'])) {
-                            
-                            $sqlb = "SELECT id, product, amount, destination, deliveryFee, partnerReward, date 
-                             FROM gbigbe 
-                             WHERE shipmentType = 'Waybill' 
-                             AND status ='Completed' 
-                             AND partnerRemitance = 'rara'
-                             AND partner = '$partner'";
+                            // Get data
+                            $sqlb = "SELECT id, product, amount, destination, deliveryFee, riderReward, date 
+                                    FROM gbigbe 
+                                    WHERE shipmentType='Waybill' 
+                                    AND agentName = '$captain' 
+                                    AND status = 'completed' 
+                                    AND accCaptain = 'beni' 
+                                    AND captainPayStatus = 'rara'";
                             $result = mysqli_query($conn, $sqlb); // Execute the query
-                        
+
                             if ($result) {
                                 $serialNumber = 1; // Initialize the serial number outside the while loop
-                        
+
                                 while ($row = mysqli_fetch_array($result)) { // Fetch the results
                                     $id = $row['id'];
                                     $product = $row['product'];
                                     $amount = $row['amount'];
                                     $destination = $row['destination'];
                                     $deliveryFee = $row['deliveryFee'];
-                                    $partnerRew = $row['partnerReward'];
+                                    $captainRew = $row['riderReward'];
                                     $date = $row['date'];
                                     ?>
                         <tr>
@@ -279,49 +291,51 @@ if (!isset($_SESSION['userType'])) {
                                 <input type="checkbox" name="selectedShipments[]"
                                     value="<?php echo htmlspecialchars($id); ?>" style="display:block;"
                                     onclick="calculateTotal(this)">
-                                <input type="hidden" class="deliveryFee"
-                                    value="<?php echo htmlspecialchars($deliveryFee); ?>">
+                                <input type="hidden" class="captainRew"
+                                    value="<?php echo htmlspecialchars($captainRew); ?>">
                             </td>
-                            <td><?php echo $serialNumber; ?></td>
+                            <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                             <td><?php echo htmlspecialchars($product); ?></td>
                             <td><?php echo htmlspecialchars($destination); ?></td>
-                            <td><?php echo htmlspecialchars($amount); ?></td>
+                            <td><?php echo htmlspecialchars($captainRew); ?></td>
                             <td><?php echo htmlspecialchars($deliveryFee); ?></td>
                             <td><?php echo htmlspecialchars($date); ?></td>
                         </tr>
-
                         <?php
                                     $serialNumber++; // Increment the serial number
                                 }
                             } else {
                                 echo "Error fetching shipment data: " . mysqli_error($conn);
                             }
-                        } else {
-                            echo "No partner specified.";
-                        }
-                        ?>
+                            ?>
                     </tbody>
                 </table>
             </form>
-
-            <script>
+            <?php
+            } else {
+                echo "Error fetching account details: " . mysqli_error($conn);
+            }
+        } else {
+            echo "Error fetching captain reward: " . mysqli_error($conn);
+        }
+    } else {
+        echo "No captain specified.";
+    }
+    ?><script>
             function calculateTotal() {
                 var checkboxes = document.querySelectorAll('input[name="selectedShipments[]"]:checked');
                 var total = 0;
                 checkboxes.forEach(function(checkbox) {
-                    var deliveryFee = checkbox.parentElement.querySelector('.deliveryFee').value;
-                    total += parseFloat(deliveryFee);
+                    var captainRew = checkbox.parentElement.querySelector('.captainRew').value;
+                    total += parseFloat(captainRew);
                 });
 
                 document.getElementById('totalSelected').innerHTML =
                     'Total Selected: <b>₦' + total.toFixed(2) + '</b>';
             }
             </script>
+
         </main>
-
-
-
-
 
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
@@ -346,7 +360,6 @@ if (!isset($_SESSION['userType'])) {
     </div>
 
     <script src="../script/scrip.js"></script>
-
 </body>
 
 </html>

@@ -191,7 +191,13 @@ if (!isset($_SESSION['userType'])) {
                             <?php
                                     require '../config.php';
 
-                                    $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  FROM gbigbe WHERE shipmentType = 'Waybill' AND status ='Completed' AND captainPayStatus='rara' ORDER BY partner DESC ");
+                                    $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
+                                    FROM gbigbe
+                                    WHERE shipmentType = 'Waybill' 
+                                    AND status ='Completed' 
+                                    AND accCaptain='rara' 
+                                    ORDER BY partner DESC ");
+
                                     $serialNumber = 1;
                                     while ($row = mysqli_fetch_array($query)) {
                                         $id = $row['id'];
@@ -218,8 +224,9 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>
                                 <td><?php echo $date; ?></td>
-                                <td><a
-                                        href="owowole.php?olubasepo=<?php echo urlencode($partner); ?>&eni=<?php echo urlencode($id); ?>&owo=<?php echo urlencode($profitReward); ?>">Confirm</a></td>
+                                <td><button onclick="confirmShipment(<?php echo $id; ?>)"
+                                        style="padding:0.5rem; background-color:  #7380ec; border-radius:0.4rem;"><b>Confirm</b></button>
+                                </td>
                             </tr>
                             <?php $serialNumber++;
                                     } ?>
@@ -241,7 +248,7 @@ if (!isset($_SESSION['userType'])) {
 
             <div id="ProcessedWaybills" class="tab-content">
                 <div class="recent-sales"><br>
-                    <h2>Unconfirmed Waybill</h2>
+                    <h2>Confirmed Waybill</h2>
                     <input type="text" id="filterInput" placeholder="Search for Waybill contact..."
                         onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
@@ -266,7 +273,7 @@ if (!isset($_SESSION['userType'])) {
                             FROM gbigbe 
                             WHERE shipmentType = 'Waybill' 
                             AND status ='Completed' 
-                            AND captainPayStatus='beni' 
+                            AND accCaptain='beni' 
                             ORDER BY partner DESC ");
                             $serialNumber = 1;
                             while ($row = mysqli_fetch_array($query)) {
@@ -316,7 +323,7 @@ if (!isset($_SESSION['userType'])) {
 
             <div id="partnerPayment" class="tab-content">
                 <div class="recent-sales"><br>
-                    <h2>Unconfirmed Waybill</h2>
+                    <h2>Partner Remittance</h2>
                     <input type="text" id="filterInput" placeholder="Search for Waybill contact..."
                         onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
@@ -336,8 +343,8 @@ if (!isset($_SESSION['userType'])) {
                                 FROM gbigbe 
                                 WHERE shipmentType = 'Waybill' 
                                 AND status ='Completed' 
-                                AND captainPayStatus='beni'
                                 AND partnerRemitance = 'rara'
+                                AND accCaptain='beni' 
                                 ");
 
                             if (!$query) {
@@ -353,8 +360,8 @@ if (!isset($_SESSION['userType'])) {
                                     FROM gbigbe 
                                     WHERE shipmentType = 'Waybill' 
                                     AND status ='Completed' 
-                                    AND captainPayStatus='beni'
-                                    ";
+                                    AND partnerRemitance = 'rara'
+                                    AND partner = '$partner'";
 
                                     $resulta = mysqli_query($conn, $sqla);
                                     $rowa = mysqli_fetch_array($resulta);
@@ -409,7 +416,13 @@ if (!isset($_SESSION['userType'])) {
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT DISTINCT agentName FROM gbigbe WHERE shipmentType='Waybill' AND status = 'sent' AND captainPayStatus = 'rara' ORDER BY captain DESC ");
+                            $query = mysqli_query($conn, "SELECT DISTINCT agentName
+                            FROM gbigbe 
+                            WHERE shipmentType='Waybill' 
+                            AND status = 'Completed' 
+                            AND captainPayStatus = 'rara' 
+                            
+                            ORDER BY captain DESC ");
                             if (!$query) {
                                 echo "Error fetching data: " . mysqli_error($conn);
                             } else {
@@ -418,7 +431,15 @@ if (!isset($_SESSION['userType'])) {
                                     $agentName = $row['agentName'];
 
                                     // Query to calculate total partner reward
-                                    $sqla = "SELECT SUM(riderReward) AS totalReward FROM gbigbe WHERE shipmentType='Waybill' AND agentName = '$agentName' AND status = 'sent' AND accCaptain = 'beni' AND captainPayStatus = 'rara'";
+                                    $sqla = "SELECT SUM(riderReward) AS totalReward 
+                                    FROM gbigbe 
+                                    WHERE shipmentType='Waybill' 
+                                    AND agentName = '$agentName' 
+                                    AND status = 'completed' 
+                                    AND accCaptain = 'beni' 
+                                    AND captainPayStatus = 'rara'
+                                    
+                                    ";
                                     $resulta = mysqli_query($conn, $sqla);
                                     $rowa = mysqli_fetch_array($resulta);
                                     $riderReward = $rowa['totalReward'];
@@ -429,7 +450,7 @@ if (!isset($_SESSION['userType'])) {
                                         <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                                         <td><?php echo $agentName; ?></td>
                                         <td><?php echo $riderReward; ?></td>
-                                        <td><a href="wiwoIroOlugbe.php?olugbe=<?php echo urlencode($agentName); ?>">Details</a>
+                                        <td><a href="wiwoIroOlugbe1.php?olugbe=<?php echo urlencode($agentName); ?>">Details</a>
                                         </td>
             
                                     </tr>
@@ -601,4 +622,23 @@ function loadLastOpenedTab() {
 
 // Call the loadLastOpenedTab function on page load
 window.onload = loadLastOpenedTab;
+</script>
+<script>
+function confirmShipment(id) {
+    if (confirm("Please confirm the data is correct before proceeding")) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'update_captain1.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Shipment confirmed');
+                // Reload the table data
+                window.location.href = 'iranse.php';
+            }
+        };
+        xhr.send('id=' + id);
+    } else {
+        alert("Shipment confirmation canceled.");
+    }
+}
 </script>

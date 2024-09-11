@@ -107,6 +107,47 @@ if (!isset($_SESSION['userType'])) {
     .modal-content button {
         align-self: flex-end;
     }
+     .fillers {
+        text-align: center;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .fillers .btn a {
+        margin-top: 0;
+        padding: 0.6rem;
+        background-color: #757577;
+        height: 2.5rem;
+        color: white;
+        border-radius: 5px;
+        margin-left: 1rem;
+        font-size: 16px;
+        text-decoration: none;
+        color: white;
+    }
+     form {
+        display: flex;
+        padding-left: 30%;
+        padding-right: 30%;
+        gap: 0.5rem;
+    }
+
+    input[type="date"],
+    option {
+        font-size: 16px;
+        padding: 10px;
+        width: 200px;
+        height: 1rem;
+    }
+
+    form button {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        background-color: #757577;
+        height: 1.5rem;
+        color: white;
+        border-radius: 5px;
+    }
     </style>
 </head>
 
@@ -160,7 +201,7 @@ if (!isset($_SESSION['userType'])) {
             <!-- ---------END OF EXAM-------- -->
             <div class="recent-sales">
                 <div class="spacer"></div>
-                <h2>Waybills History</h2><br>
+                <h2>Waybills History</h2>
                 <form method="post" action="">
                     <label for="start-date">Start Date:</label>
                     <input type="date" id="start-date" name="start-date" required>
@@ -168,7 +209,15 @@ if (!isset($_SESSION['userType'])) {
                     <input type="date" id="end-date" name="end-date" required>
                     <button type="submit">Filter</button>
                 </form>
-                <input type="text" id="filterInput" placeholder="Search for Waybill by Contact or Partner" onkeyup="filterTable()">
+                <div class="fillers">
+                        <input type="text" id="filterInput2" placeholder="Search for shipment by Partner"
+                            onkeyup="filterTable2()">
+                        <input type="text" id="filterInput3" placeholder="Search for shipment by Agent"
+                            onkeyup="filterTable3()">
+                        <input type="text" id="filterInput4" placeholder="Search for shipment by Receiver"
+                            onkeyup="filterTable4()">
+                        <div class="btn"><a href="./awe.php">Reset</a></div>
+                    </div>
                 <table id="shipmentTable" style="width: 100%;">
                     <thead>
                         <tr>
@@ -177,6 +226,7 @@ if (!isset($_SESSION['userType'])) {
                             <th>Receiver</th>
                             <th>Contact</th>
                             <th>Destination</th>
+                            <th>Agent</th>
                             <th>Products</th>
                             <th>Avl Qty</th>
                             <th>Driver Price</th>
@@ -195,7 +245,7 @@ if (!isset($_SESSION['userType'])) {
                         $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
 
 
-                        $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
+                        $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, agentName, date  
                         FROM gbigbe 
                         WHERE shipmentType = 'Waybill'";
 
@@ -219,6 +269,7 @@ if (!isset($_SESSION['userType'])) {
                             $availableUnit = $row['availableUnit'];
                             $quantity = $row['quantity'];
                             $deliveryFee = $row['deliveryFee'];
+                            $agentName = $row['agentName'];
                             $riderReward = $row['riderReward'];
                             $customersName = $row['customersName'];
                             $destination = $row['destination'];
@@ -233,6 +284,7 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $customersName; ?></td>
                                 <td><?php echo $customerContact; ?></td>
                                 <td><?php echo $destination; ?></td>
+                                <td><?php echo $agentName; ?></td>
                                 <td><?php echo $product; ?></td>
                                 <td><?php echo $availableUnit; ?></td>
                                 <td><?php echo $riderReward; ?></td>
@@ -284,9 +336,9 @@ if (!isset($_SESSION['userType'])) {
 </html>
 
 <script>
-function filterTable() {
+function filterTable2() {
     // Get the value of the input field
-    let input = document.getElementById('filterInput');
+    let input = document.getElementById('filterInput2');
     let filter = input.value.toUpperCase();
 
     // Get the table and its rows
@@ -295,20 +347,72 @@ function filterTable() {
 
     // Loop through all table rows, except the first (header) row
     for (let i = 1; i < tr.length; i++) {
-        // Get the cells in the 2nd and 3rd columns (index 1 and 2)
-        let td2 = tr[i].getElementsByTagName('td')[1]; // 2nd column
-        let td3 = tr[i].getElementsByTagName('td')[2]; // 3rd column
-        if (td2 || td3) {
-            // Check if either column contains the filter text
-            let txtValue2 = td2 ? (td2.textContent || td2.innerText) : '';
-            let txtValue3 = td3 ? (td3.textContent || td3.innerText) : '';
-            if (txtValue2.toUpperCase().indexOf(filter) > -1 || txtValue3.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
+        let td = tr[i].getElementsByTagName('td')[1]; // First column (adjust index as needed)
+        if (td) {
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = ''; // Show row
             } else {
-                tr[i].style.display = 'none';
+                tr[i].style.display = 'none'; // Hide row
             }
         }
     }
+    // Call the next filter to act on the filtered results
+    filterTable3();
+}
+
+function filterTable3() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput3');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Apply this filter only to rows that are still visible
+        if (tr[i].style.display !== 'none') {
+            let td = tr[i].getElementsByTagName('td')[5]; // Adjust index as needed
+            if (td) {
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ''; // Show row
+                } else {
+                    tr[i].style.display = 'none'; // Hide row
+                }
+            }
+        }
+    }
+    // Call the next filter to act on the filtered results
+    // filterTable2();
+}function filterTable4() {
+    // Get the value of the input field
+    let input = document.getElementById('filterInput4');
+    let filter = input.value.toUpperCase();
+
+    // Get the table and its rows
+    let table = document.getElementById('shipmentTable');
+    let tr = table.getElementsByTagName('tr');
+
+    // Loop through all table rows, except the first (header) row
+    for (let i = 1; i < tr.length; i++) {
+        // Apply this filter only to rows that are still visible
+        if (tr[i].style.display !== 'none') {
+            let td = tr[i].getElementsByTagName('td')[2]; // Adjust index as needed
+            if (td) {
+                let txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ''; // Show row
+                } else {
+                    tr[i].style.display = 'none'; // Hide row
+                }
+            }
+        }
+    }
+    // Call the next filter to act on the filtered results
+    // filterTable2();
 }
 
 </script>
