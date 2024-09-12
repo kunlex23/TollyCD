@@ -2,17 +2,20 @@
 session_start();
 if (!isset($_SESSION['userType'])) {
     header("location: ../index.php");
-} elseif (($_SESSION['userType']) == "Inventory") {
+    exit();
+} elseif ($_SESSION['userType'] == "Inventory") {
     header("Location: ../okojooja");
-} elseif (($_SESSION['userType']) == "Data_Entry") {
+    exit();
+} elseif ($_SESSION['userType'] == "Data_Entry") {
     header("Location: ../titesi");
-} elseif (($_SESSION['userType']) == "Accountant") {
+    exit();
+} elseif ($_SESSION['userType'] == "Accountant") {
     header("Location: ../onisiro");
-} elseif (($_SESSION['userType']) == "Admin") {
-} else {
+    exit();
+} elseif ($_SESSION['userType'] !== "Admin") {
     header("location: ../index.php");
+    exit();
 }
-
 
 include_once "config.php";
 
@@ -31,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<script>alert("This account already exists! Kindly sign in.");</script>';
             echo '<script>window.location.href = "./newUser.php";</script>';
         } else {
-            // Encrypt the password
+            // Encrypt the password using MD5
             $encrypt_pass = md5($password);
 
             // Prepare the insert statement
@@ -43,7 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo '<script>alert("New User Created!");</script>';
                 echo '<script>window.location.href = "./newUser.php";</script>';
             } else {
-                echo "Error: " . $stmt->error;
+                // Log the error instead of displaying it
+                error_log("Error: " . $stmt->error);
+                echo "An error occurred. Please try again.";
             }
 
             // Close the statement

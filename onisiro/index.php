@@ -115,6 +115,11 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Expenses</h3>
                 </a>
 
+                <a href="iroyinowo.php">
+                    <span class="material-icons-sharp">payments</span>
+                    <h3>Report</h3>
+                </a>
+
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -277,8 +282,21 @@ if (!isset($_SESSION['userType'])) {
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Net Profit</h3>
+                            <h3>Gross Profit</h3>
                             <div id="link_wrapper4">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 7 Days</small>
+                </div>
+
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Net Profit</h3>
+                            <div id="link_wrapper12">
 
                             </div>
                         </div>
@@ -548,4 +566,22 @@ setInterval(function() {
 }, 1000);
 
 window.onload = loadXMLDoc11;
+
+function loadXMLDoc12() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper12").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server12.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc12();
+    // 1sec
+}, 1000);
+
+window.onload = loadXMLDoc12;
 </script>
