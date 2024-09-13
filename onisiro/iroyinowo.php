@@ -23,7 +23,7 @@ if (!isset($_SESSION['userType'])) {
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styler.css">
     <style>
     table,
     th,
@@ -107,7 +107,7 @@ if (!isset($_SESSION['userType'])) {
                 </div>
             </div>
             <div class="sideBar">
-                <a href="index.php" class="active">
+                <a href="index.php">
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -138,7 +138,7 @@ if (!isset($_SESSION['userType'])) {
                     <h3>Expenses</h3>
                 </a>
 
-                <a href="iroyinowo.php">
+                <a href="iroyinowo.php" class="active">
                     <span class="material-icons-sharp">payments</span>
                     <h3>Report</h3>
                 </a>
@@ -166,31 +166,43 @@ if (!isset($_SESSION['userType'])) {
                         <div class="left">
                             <h3>Delivery</h3>
                             <div>
-                                <div id="link_wrapper11">
-                                <?php
+                                    <?php
                                     require '../config.php';
 
-                                    // Query to sum the records from the last 7 days for Delivery shipments
-                                    $sql = "SELECT SUM(amount) AS amountIn
-                                FROM gbigbe
-                                WHERE shipmentType= 'Delivery'
-                                AND status = 'Completed'";
-                                    // AND partnerPayStatus = 'rara'
-                                    
-                                    if ($result = $conn->query($sql)) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            $tClients = $row['amountIn'] ?? 0; // Handle null case
-                                        }
-                                        $result->free();
+                                    // Initialize variables for the date range and sanitize inputs
+                                    $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                    $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                                    // Base query
+                                    $query_string = "SELECT SUM(profitReward) AS amountIn
+                                    FROM gbigbe
+                                    WHERE shipmentType = 'Delivery'
+                                    AND status = 'Completed'";
+
+                                    // Check if date range is provided and append a condition using AND
+                                    if ($start_date && $end_date) {
+                                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
                                     }
 
-                                    echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+                                    // Execute the query
+                                    $query = mysqli_query($conn, $query_string);
+
+                                    if (!$query) {
+                                        // Handle the query error
+                                        echo "Error fetching data: " . mysqli_error($conn);
+                                    } else {
+                                        $row = $query->fetch_assoc(); // Use $query instead of $result
+                                        $tClients = $row['amountIn'] ?? 0; // Handle null case
+                                    
+                                        echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+
+                                        $query->free(); // Free the query result
+                                    }
 
                                     $conn->close();
-
                                     ?>
-                                </div>
                             </div>
+                           
                         </div>
 
                     </div>
@@ -201,7 +213,43 @@ if (!isset($_SESSION['userType'])) {
                     <div class="middle">
                         <div class="left">
                             <h3>Waybill</h3>
-                            
+                            <div>
+                                    <?php
+                                    require '../config.php';
+
+                                    // Initialize variables for the date range and sanitize inputs
+                                    $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                    $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                                    // Base query
+                                    $query_string = "SELECT SUM(profitReward) AS amountIn
+                                    FROM gbigbe
+                                    WHERE shipmentType = 'Waybill'
+                                    AND status = 'Completed'";
+
+                                    // Check if date range is provided and append a condition using AND
+                                    if ($start_date && $end_date) {
+                                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                                    }
+
+                                    // Execute the query
+                                    $query = mysqli_query($conn, $query_string);
+
+                                    if (!$query) {
+                                        // Handle the query error
+                                        echo "Error fetching data: " . mysqli_error($conn);
+                                    } else {
+                                        $row = $query->fetch_assoc(); // Use $query instead of $result
+                                        $tClients = $row['amountIn'] ?? 0; // Handle null case
+                                    
+                                        echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+
+                                        $query->free(); // Free the query result
+                                    }
+
+                                    $conn->close();
+                                    ?>
+                            </div>
                         </div>
 
                     </div>
@@ -212,7 +260,39 @@ if (!isset($_SESSION['userType'])) {
                     <div class="middle">
                         <div class="left">
                             <h3>Other Income</h3>
-                            <div id="link_wrapper7">
+                            <div>
+                                   <?php
+                                        require '../config.php';
+
+                                        // Initialize variables for the date range and sanitize inputs
+                                        $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                        $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                                        // Base query
+                                        $query_string = "SELECT SUM(amount) AS amountIn FROM others_gifts";
+
+                                        // Check if date range is provided and append a condition using WHERE
+                                        if ($start_date && $end_date) {
+                                            $query_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                                        }
+
+                                        // Execute the query
+                                        $query = mysqli_query($conn, $query_string);
+
+                                        if (!$query) {
+                                            // Handle the query error
+                                            echo "Error fetching data: " . mysqli_error($conn);
+                                        } else {
+                                            $row = $query->fetch_assoc(); // Fetch the query result
+                                            $tClients = $row['amountIn'] ?? 0; // Handle null case (e.g., no results)
+                                            
+                                            echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+
+                                            $query->free(); // Free the query result
+                                        }
+
+                                        $conn->close();
+                                    ?>
 
                             </div>
                         </div>
@@ -224,9 +304,42 @@ if (!isset($_SESSION['userType'])) {
                 <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Partner Remit</h3>
-                            <div id="link_wrapper1">
+                            <h3>Partner Payment</h3>
+                            <div>
+                                    <?php
+                                    require '../config.php';
 
+                                    // Initialize variables for the date range and sanitize inputs
+                                    $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                    $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                                    // Base query
+                                    $query_string = "SELECT SUM(partnerReward) AS amountIn
+                                    FROM gbigbe
+                                    WHERE status = 'Completed'";
+
+                                    // Check if date range is provided and append a condition using AND
+                                    if ($start_date && $end_date) {
+                                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                                    }
+
+                                    // Execute the query
+                                    $query = mysqli_query($conn, $query_string);
+
+                                    if (!$query) {
+                                        // Handle the query error
+                                        echo "Error fetching data: " . mysqli_error($conn);
+                                    } else {
+                                        $row = $query->fetch_assoc(); // Use $query instead of $result
+                                        $tClients = $row['amountIn'] ?? 0; // Handle null case
+                                    
+                                        echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+
+                                        $query->free(); // Free the query result
+                                    }
+
+                                    $conn->close();
+                                    ?>
                             </div>
                         </div>
 
@@ -239,7 +352,85 @@ if (!isset($_SESSION['userType'])) {
                     <div class="middle">
                         <div class="left">
                             <h3>Captains</h3>
-                            <div id="link_wrapper2">
+                            <div>
+                                    <?php
+                                    require '../config.php';
+
+                                    // Initialize variables for the date range and sanitize inputs
+                                    $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                    $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                                    // Base query
+                                    $query_string = "SELECT SUM(riderReward) AS amountIn
+                                    FROM gbigbe
+                                    WHERE status = 'Completed'";
+
+                                    // Check if date range is provided and append a condition using AND
+                                    if ($start_date && $end_date) {
+                                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                                    }
+
+                                    // Execute the query
+                                    $query = mysqli_query($conn, $query_string);
+
+                                    if (!$query) {
+                                        // Handle the query error
+                                        echo "Error fetching data: " . mysqli_error($conn);
+                                    } else {
+                                        $row = $query->fetch_assoc(); // Use $query instead of $result
+                                        $tClients = $row['amountIn'] ?? 0; // Handle null case
+                                    
+                                        echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+
+                                        $query->free(); // Free the query result
+                                    }
+
+                                    $conn->close();
+                                    ?>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <small class="text-muted">Last 7 Days</small> -->
+                </div>
+
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Expenses</h3>
+                            <div>
+                                   <?php
+                                        require '../config.php';
+
+                                        // Initialize variables for the date range and sanitize inputs
+                                        $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                        $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                                        // Base query
+                                        $query_string = "SELECT SUM(amount) AS amountIn FROM inawo";
+
+                                        // Check if date range is provided and append a condition using WHERE
+                                        if ($start_date && $end_date) {
+                                            $query_string .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                                        }
+
+                                        // Execute the query
+                                        $query = mysqli_query($conn, $query_string);
+
+                                        if (!$query) {
+                                            // Handle the query error
+                                            echo "Error fetching data: " . mysqli_error($conn);
+                                        } else {
+                                            $row = $query->fetch_assoc(); // Fetch the query result
+                                            $expen = $row['amountIn'] ?? 0; // Handle null case (e.g., no results)
+                                            
+                                            echo '<h1>' . number_format($expen, 0, '.', ',') . '</h1>';
+
+                                            $query->free(); // Free the query result
+                                        }
+
+                                        $conn->close();
+                                    ?>
 
                             </div>
                         </div>
@@ -251,9 +442,65 @@ if (!isset($_SESSION['userType'])) {
                 <div class="sales">
                     <div class="middle">
                         <div class="left">
-                            <h3>Total Revenue</h3>
-                            <div id="link_wrapper">
+                            <h3>Gross Profit</h3>
+                            <div>
+                                <?php
+                                    require '../config.php';
 
+                                    // Initialize variables for the date range and sanitize inputs
+                                    $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                    $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
+
+                                    // Base query
+                                    $query_string = "SELECT SUM(profitReward) AS amountIn
+                                    FROM gbigbe
+                                    WHERE status = 'Completed'";
+
+                                    // Check if date range is provided and append a condition using AND
+                                    if ($start_date && $end_date) {
+                                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                                    }
+                                    // ===============================
+                                    $query_string1 = "SELECT SUM(amount) AS other
+                                    FROM others_gifts";
+
+                                    // Check if date range is provided and append a condition using AND
+                                    if ($start_date && $end_date) {
+                                        $query_string1 .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+                                    }   
+
+                                    // Execute the query
+                                    $query = mysqli_query($conn, $query_string);
+                                    $query1 = mysqli_query($conn, $query_string1);
+
+                                    if (!$query) {
+                                        // Handle the query error
+                                        echo "Error fetching data: " . mysqli_error($conn);
+                                    } else {
+                                        $row = $query->fetch_assoc(); // Use $query instead of $result
+                                        $tClients = $row['amountIn'] ?? 0; // Handle null case
+                                    
+                                        // echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+
+                                        $query->free(); // Free the query result
+                                    }
+
+                                    if (!$query1) {
+                                        // Handle the query1 error
+                                        echo "Error fetching data: " . mysqli_error($conn);
+                                    } else {
+                                        $row = $query1->fetch_assoc(); // Use $query1 instead of $result
+                                        $others = $row['other'] ?? 0; // Handle null case
+                                    
+                                        // echo '<h1>' . number_format($others, 0, '.', ',') . '</h1>';
+
+                                        $query1->free(); // Free the query1 result
+                                    }
+                                    $totalRevenue = $tClients + $others;
+                                    echo '<h1>' . number_format($totalRevenue, 0, '.', ',') . '</h1>';
+
+                                    $conn->close();
+                                ?>
                             </div>
                         </div>
 
@@ -264,35 +511,15 @@ if (!isset($_SESSION['userType'])) {
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Expenses</h3>
-                            <div id="link_wrapper3">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 7 Days</small> -->
-                </div>
-
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Gross Profit</h3>
-                            <div id="link_wrapper4">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- <small class="text-muted">Last 7 Days</small> -->
-                </div>
-
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
                             <h3>Net Profit</h3>
-                            <div id="link_wrapper12">
+                            <div>
+                                <?php
+                                
+                                $netPP = $totalRevenue - $expen;
+                                echo '<h1>' . number_format($netPP, 0, '.', ',') . '</h1>';
 
+                                
+                                ?>
                             </div>
                         </div>
 
