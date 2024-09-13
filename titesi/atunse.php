@@ -2,19 +2,14 @@
 session_start();
 if (!isset($_SESSION['userType'])) {
     header("location: ../index.php");
-    exit();
 } elseif (($_SESSION['userType']) == "Inventory") {
     header("Location: ../okojooja");
-    exit();
 } elseif (($_SESSION['userType']) == "Data_Entry") {
-    header("Location: ../titesi");
-    exit();
 } elseif (($_SESSION['userType']) == "Accountant") {
     header("Location: ../onisiro");
-    exit();
-} elseif ($_SESSION['userType'] != "Admin") {
+} elseif (($_SESSION['userType']) == "Admin") {
+} else {
     header("location: ../index.php");
-    exit();
 }
 
 require '../config.php';

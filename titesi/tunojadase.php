@@ -5,7 +5,6 @@ if (!isset($_SESSION['userType'])) {
 } elseif (($_SESSION['userType']) == "Inventory") {
     header("Location: ../okojooja");
 } elseif (($_SESSION['userType']) == "Data_Entry") {
-    header("Location: ../titesi");
 } elseif (($_SESSION['userType']) == "Accountant") {
     header("Location: ../onisiro");
 } elseif (($_SESSION['userType']) == "Admin") {
@@ -124,7 +123,7 @@ if (!isset($_SESSION['userType'])) {
                                 <option value="<?php echo htmlspecialchars($SOD1); ?>"><?php echo htmlspecialchars($SOD1); ?></option>
                                 <?php
                                 require '../config.php';
-                                $sql = "SELECT sod FROM ninawo";
+                                $sql = "SELECT DISTINCT (sod) FROM ninawo";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
@@ -163,7 +162,7 @@ if (!isset($_SESSION['userType'])) {
 
                         <div>
                             <label for="dispatcherPrice">Captain Price:</label>
-                            <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
+                            <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
                             <input type="hidden" id="profit" name="profit[]" required><br>
                             <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
                         </div>

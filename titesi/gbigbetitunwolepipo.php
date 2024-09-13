@@ -5,7 +5,6 @@ if (!isset($_SESSION['userType'])) {
 } elseif (($_SESSION['userType']) == "Inventory") {
     header("Location: ../okojooja");
 } elseif (($_SESSION['userType']) == "Data_Entry") {
-    header("Location: ../titesi");
 } elseif (($_SESSION['userType']) == "Accountant") {
     header("Location: ../onisiro");
 } elseif (($_SESSION['userType']) == "Admin") {
