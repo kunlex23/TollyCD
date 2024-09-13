@@ -221,7 +221,86 @@ button{
                 ?>
 
                 </div>
-            </div>
+            </div><br>
+            <table id="shipmentTable3" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Type</th>
+                                <th>Product</th>
+                                <th>Client</th>
+                                <th>Location</th>
+                                <th>Captain</th>
+                                <th>Contact</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <?php
+                            require '../config.php';
+
+                             // Initialize variables for the date range
+                        $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
+                        $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
+
+                            $productName = explode('=', $eruwo)[0];  // Get the product name before the '='
+                            
+                            $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date 
+                            FROM gbigbe 
+                            WHERE status = 'completed' 
+                            AND product LIKE '$productName%'";
+
+
+                            // Check if date range is provided and add an additional condition to the WHERE clause
+                            if ($start_date && $end_date) {
+                                $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                            }
+
+                            // Order the results by partner in descending order
+                            $query_string .= " ORDER BY partner DESC";
+
+                            // Execute the query
+                            $query = mysqli_query($conn, $query_string);
+
+                            if (!$query) {
+                                // Handle the query error
+                                echo "Error fetching data: " . mysqli_error($conn);
+                            } else {
+                                $serialNumber = 1; // Initialize the serial number outside the while loop
+                            
+                                while ($row = mysqli_fetch_array($query)) {
+                                    $id = $row['id'];
+                                    $partner = $row['partner'];
+                                    $shipmentType = $row['shipmentType'];
+                                    $product = $row['product'];
+                                    $quantity = $row['quantity'];
+                                    $unitPrice = $row['unitPrice'];
+                                    $amount = $row['amount'];
+                                    $customersName = $row['customersName'];
+                                    $destination = $row['destination'];
+                                    $customerContact = $row['customerContact'];
+                                    $captain = $row['captain'];
+                                    $paymentMethod = $row['paymentMethod'];
+                                    $date = $row['date'];
+                                    ?>
+                            <tr>
+                                <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                <td><?php echo $shipmentType; ?></td>
+                                <td><?php echo $product; ?></td>
+                                <td><?php echo $customersName; ?></td>
+                                <td><?php echo $destination; ?></td>
+                                <td><?php echo $captain; ?></td>
+                                <td><?php echo $customerContact; ?></td>
+                                <td><?php echo $date; ?></td>
+                            </tr>
+                            <?php
+                                    $serialNumber++; // Increment the serial number
+                                }
+                            }
+                            ?>
+                        </tbody>
+
+                    </table>
         </main>
 
         <!-- ----------END OF MAIN----------- -->
