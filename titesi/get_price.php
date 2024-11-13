@@ -14,10 +14,34 @@ if (!isset($_SESSION['userType'])) {
 
 require '../config.php';
 
+if (isset($_POST['getLocations']) && $_POST['getLocations'] === 'true') {
+    // Retrieve all locations in alphabetical order
+    $sql = "SELECT DISTINCT location FROM ninawo ORDER BY location ASC";
+    $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        echo json_encode(['error' => 'Failed to prepare statement']);
+        exit();
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $locations = [];
+    while ($row = $result->fetch_assoc()) {
+        $locations[] = $row['location'];
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    echo json_encode($locations);
+    exit();
+}
+
 if (isset($_POST['location'])) {
     $location = $_POST['location'];
 
-    // Prepared statement to prevent SQL injection
+    // Prepared statement to fetch price details for a specific location
     $sql = "SELECT location, partnerPrice, dispatcherPrice, profit FROM ninawo WHERE location = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
@@ -44,7 +68,5 @@ if (isset($_POST['location'])) {
     $conn->close();
 
     echo json_encode($response);
-} else {
-    echo json_encode(['error' => 'Location not set']);
 }
 ?>

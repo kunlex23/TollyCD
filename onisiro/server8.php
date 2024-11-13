@@ -20,7 +20,8 @@ $sql = "SELECT SUM(Amount) AS amountIn
       WHERE shipmentType= 'Delivery' 
       AND remitanceKind = 'NORMs' 
       AND status = 'Completed' 
-      AND date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
+      AND date > DATE_SUB(NOW(), INTERVAL 1 MONTH)";
+
 // AND partnerPayStatus = 'rara'
 
 if ($result = $conn->query($sql)) {

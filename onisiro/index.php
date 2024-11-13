@@ -119,6 +119,11 @@ if (!isset($_SESSION['userType'])) {
                     <span class="material-icons-sharp">payments</span>
                     <h3>Report</h3>
                 </a>
+                
+                <a href="abawole.php">
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Change Password</h3>
+                </a>
 
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
@@ -143,7 +148,20 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                     </div>
-                    <small class="tex">Last 7 Days</small>
+                    <small class="tex">Last 1 Month</small>
+                </div>
+                
+                <div class="sales">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Normal Delivery (Profit)</h3>
+                            <div id="link_wrapper3">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="tex">Last 1 Month</small>
                 </div>
                 
                 <div class="expensis">
@@ -156,7 +174,20 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
+                </div>
+
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Delivery Without Payment (Profit)</h3>
+                            <div id="link_wrapper4">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
                 
                 <div class="income">
@@ -169,34 +200,22 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
                 
-               <div class="income">
-                    <div class="middle">    
-                        <div class="left">
-                            <h3>Waybill (In)</h3>
-                            <div id="link_wrapper11">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
-                
-               <div class="expensis">
+                <div class="income">
                     <div class="middle">
                         <div class="left">
-                            <h3>Other Income</h3>
-                            <div id="link_wrapper7">
+                            <h3>Delievery With Weekly Remitance to Partners (Profit)</h3>
+                            <div id="link_wrapper13">
 
                             </div>
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
+                
           
                 <div class="income">
                     <div class="middle">
@@ -208,7 +227,47 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
+                </div>
+
+               <div class="income">
+                    <div class="middle">    
+                        <div class="left">
+                            <h3>Waybill</h3>
+                            <div id="link_wrapper11">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 1 Month</small>
+                </div>
+                
+
+                <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Waybill (Profit)</h3>
+                            <div id="link_wrapper6">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 1 Month</small>
+                </div>
+
+               <div class="expensis">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Other Income</h3>
+                            <div id="link_wrapper7">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
                 <!-- ================================== -->
 
@@ -222,36 +281,23 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
 
                 
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
-                            <h3>Delivery</h3>
+                            <h3>Overall Delivery Profit</h3>
                             <div id="link_wrapper5">
 
                             </div>
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
 
-
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Waybill</h3>
-                            <div id="link_wrapper6">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
 
                 <div class="sales">
                     <div class="middle">
@@ -263,34 +309,22 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                     </div>
-                    <small class="tex">Last 7 Days</small>
+                    <small class="tex">Last 1 Month</small>
                 </div>
 
                 <div class="expensis">
                     <div class="middle">
                         <div class="left">
                             <h3>Expenses</h3>
-                            <div id="link_wrapper3">
+                            <div id="link_wrapper14">
 
                             </div>
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
 
-                <div class="expensis">
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Gross Profit</h3>
-                            <div id="link_wrapper4">
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <small class="text-muted">Last 7 Days</small>
-                </div>
 
                 <div class="expensis">
                     <div class="middle">
@@ -302,7 +336,7 @@ if (!isset($_SESSION['userType'])) {
                         </div>
 
                     </div>
-                    <small class="text-muted">Last 7 Days</small>
+                    <small class="text-muted">Last 1 Month</small>
                 </div>
             </div>
 
@@ -584,4 +618,40 @@ setInterval(function() {
 }, 1000);
 
 window.onload = loadXMLDoc12;
+
+function loadXMLDoc13() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper13").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server13.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc13();
+    // 1sec
+}, 1000);
+
+window.onload = loadXMLDoc13;
+
+function loadXMLDoc14() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("link_wrapper14").innerHTML =
+                this.responseText;
+        }
+    };
+    xhttp.open("GET", "server14.php", true);
+    xhttp.send();
+}
+setInterval(function() {
+    loadXMLDoc14();
+    // 1sec
+}, 1000);
+
+window.onload = loadXMLDoc14;
 </script>

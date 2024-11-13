@@ -44,7 +44,7 @@ foreach ($productNames as $index => $productName) {
     } else {
         // The record does not exist, so proceed with inserting the data into the products table
         $sql = "INSERT INTO products (partner, productName, quantity)
-                VALUES ('$partner', '$productName', '$quantity')";
+                VALUES ('$partner', '$productName', '$rQty')";
 
         // Insert into the afikun table
         $insertSql = "INSERT INTO afikun (partner, productName, oQuantity, rQuantity, bQuantity, quantity)

@@ -14,9 +14,9 @@ if (!isset($_SESSION['userType'])) {
 }
 
   $hostname = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "cdtolly";
+  $username = "u476938761_cdtolly_app";
+  $password = "Px4@vuCfB";
+  $dbname = "u476938761_cdtolly";
 
   $conn = mysqli_connect($hostname, $username, $password, $dbname);
   if(!$conn){

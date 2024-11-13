@@ -15,14 +15,19 @@ if (!isset($_SESSION['userType'])) {
 
 require '../config.php';
 
-$sql = "SELECT SUM(amount) AS amountIn 
-FROM inawo
-WHERE date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
+$sql = "SELECT SUM(profitreward) AS amountIn 
+      FROM gbigbe 
+      WHERE shipmentType= 'Delivery' 
+      AND remitanceKind = 'NORMs' 
+      AND status = 'Completed' 
+      AND date > DATE_SUB(NOW(), INTERVAL 1 MONTH)";
+
+// AND partnerPayStatus = 'rara'
+
 if ($result = $conn->query($sql)) {
   while ($row = $result->fetch_assoc()) {
     $tClients = $row['amountIn'] !== null ? $row['amountIn'] : 0;
-
-  $total = number_format($tClients, 0, '.', ',');
+    $total = number_format($tClients, 0, '.', ',');
     echo '<h1>' . $total . '</h1>';
   }
   $result->free();

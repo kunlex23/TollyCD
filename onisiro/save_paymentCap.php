@@ -14,9 +14,9 @@ if (!isset($_SESSION['userType'])) {
 
 require '../config.php';
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
 // Function to generate a unique payID
 function generatePaymentId()
@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $totalAmount += $row['riderReward'];
         }
     }
-    echo $totalAmount;
-    $insertQuery = "INSERT INTO olokadaHistory (captain, amount, accountNumber, bank, accountName, payID) 
+    // echo $totalAmount;
+    $insertQuery = "INSERT INTO olokadahistory (captain, amount, accountNumber, bank, accountName, payID) 
                     VALUES ('$oluwa', '$totalAmount', '$accountNumber', '$bank', '$accountName', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {

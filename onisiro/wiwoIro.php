@@ -263,6 +263,7 @@ if (!isset($_SESSION['userType'])) {
                         <tr>
                             <th>Select</th>
                             <th>SN</th>
+                            <th>Client</th>
                             <th>Product</th>
                             <th>Location</th>
                             <th>Cost</th>
@@ -279,7 +280,7 @@ if (!isset($_SESSION['userType'])) {
                                 $partner = mysqli_real_escape_string($conn, $_GET['partner']); // Sanitize input
                             
                                 // Get data
-                                $sqlb = "SELECT id, product, amount, destination, deliveryFee, partnerReward, date 
+                                $sqlb = "SELECT id, product, customersName, amount, destination, deliveryFee, partnerReward, date 
                                 FROM gbigbe 
                                 WHERE shipmentType='Delivery' 
                                 AND partner = '$partner' 
@@ -297,6 +298,7 @@ if (!isset($_SESSION['userType'])) {
                                         $id = $row['id'];
                                         $product = $row['product'];
                                         $amount = $row['amount'];
+                                        $customersName = $row['customersName'];
                                         $destination = $row['destination'];
                                         $deliveryFee = $row['deliveryFee'];
                                         $partnerRew = $row['partnerReward'];
@@ -310,6 +312,7 @@ if (!isset($_SESSION['userType'])) {
                                 <input type="hidden" class="partnerRew" value="<?php echo htmlspecialchars($partnerRew); ?>">
                             </td>
                             <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                            <td><?php echo htmlspecialchars($customersName); ?></td>
                             <td><?php echo htmlspecialchars($product); ?></td>
                             <td><?php echo htmlspecialchars($destination); ?></td>
                             <td><?php echo htmlspecialchars($amount); ?></td>

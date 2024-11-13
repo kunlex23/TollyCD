@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Prepare and execute the update statement
         if ($updateStmt = $conn->prepare($updateSql)) {
-            $updateStmt->bind_param('ssii', $partner, $productName, $quantity, $id);
+            $updateStmt->bind_param('ssii', $partner, $productName, $rQuantity, $id);
             if (!$updateStmt->execute()) {
                 throw new Exception("Error updating client data: " . $updateStmt->error);
             }

@@ -164,15 +164,19 @@ if (!isset($_SESSION['userType'])) {
                             <tr>
                                 <th>SN</th>
                                 <th>Partner</th>
-                                <th>Type</th>
+                                <!--<th>Type</th>-->
                                 <th>Product</th>
-                                <th>Qty</th>
+                                <!--<th>Qty</th>-->
                                 <th>Amount</th>
                                 <th>Client</th>
                                 <th>Location</th>
                                 <th>Contact</th>
                                 <th>Captain</th>
                                 <th>Payment Method</th>
+                                <th>Created By</th>
+                                <th>Edited By</th>
+                                <th>Recalled By</th>
+                                <th>Confirmed By</th>
                                 <th>Date</th>
 
                             </tr>
@@ -181,9 +185,10 @@ if (!isset($_SESSION['userType'])) {
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date 
+                            $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date, createdBy, editedBy, recalledBy, confirmedBy
                             FROM gbigbe 
                             WHERE status = 'Completed' 
+                            AND shipmentType = 'delivery'
                             ORDER BY partner DESC");
 
                             if (!$query) {
@@ -205,19 +210,27 @@ if (!isset($_SESSION['userType'])) {
                                     $captain = $row['captain'];
                                     $paymentMethod = $row['paymentMethod'];
                                     $date = $row['date'];
+                                    $createdBy = $row['createdBy'];
+                                    $editedBy = $row['editedBy'];
+                                    $recalledBy = $row['recalledBy'];
+                                    $confirmedBy = $row['confirmedBy'];
                                     ?>
                             <tr>
                                 <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
                                 <td><?php echo $partner; ?></td>
-                                <td><?php echo $shipmentType; ?></td>
+                                <!--<td><?php echo $shipmentType; ?></td>-->
                                 <td><?php echo $product; ?></td>
-                                <td><?php echo $quantity; ?></td>
+                                <!--<td><?php echo $quantity; ?></td>-->
                                 <td><?php echo $amount; ?></td>
                                 <td><?php echo $customersName; ?></td>
                                 <td><?php echo $destination; ?></td>
                                 <td><?php echo $customerContact; ?></td>
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $paymentMethod; ?></td>
+                                <td><?php echo $createdBy; ?></td>
+                                <td><?php echo $editedBy; ?></td>
+                                <td><?php echo $recalledBy; ?></td>
+                                <td><?php echo $confirmedBy; ?></td>
                                 <td><?php echo $date; ?></td>
 
                             </tr>
@@ -261,7 +274,10 @@ if (!isset($_SESSION['userType'])) {
                                 <th>Remittance</th>
                                 <th>Action</th>
                                 <th>Recall</th>
+                                <th>Created By</th>
                                 <th>Edited By</th>
+                                <th>Recalled By</th>
+                                <th>Confirmed By</th>
                             </tr>
                         </thead>
                         <tbody id="table-body">
@@ -269,10 +285,11 @@ if (!isset($_SESSION['userType'])) {
                             require '../config.php';
 
                             $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, 
-                            customersName, destination, customerContact, captain, paymentMethod, remitanceKind, date, editedBy
+                            customersName, destination, customerContact, captain, paymentMethod, remitanceKind, date, createdBy, editedBy, recalledBy, confirmedBy
                             FROM gbigbe 
                             WHERE status = 'completed' 
-                            AND accCaptain = 'rara' 
+                            AND accCaptain = 'rara'
+                            AND shipmentType = 'delivery'
                             ORDER BY partner DESC");
 
                             if (!$query) {
@@ -295,7 +312,10 @@ if (!isset($_SESSION['userType'])) {
                                     $paymentMethod = $row['paymentMethod'];
                                     $date = $row['date'];
                                     $remitanceKind = $row['remitanceKind'];
+                                    $createdBy = $row['createdBy'];
                                     $editedBy = $row['editedBy'];
+                                    $recalledBy = $row['recalledBy'];
+                                    $confirmedBy = $row['confirmedBy'];
                                     ?>
                             <tr>
                                 <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
@@ -337,7 +357,10 @@ if (!isset($_SESSION['userType'])) {
                                 <td><button onclick="recaller(<?php echo $id; ?>)"
                                         style="padding:0.5rem; background-color: red; border-radius:0.4rem;"><b>Recall</b></button>
                                 </td>
+                                <td><?php echo $createdBy; ?></td>
                                 <td><?php echo $editedBy; ?></td>
+                                <td><?php echo $recalledBy; ?></td>
+                                <td><?php echo $confirmedBy; ?></td>
                             </tr>
                             <?php
                                     $serialNumber++; // Increment the serial number
@@ -1194,7 +1217,7 @@ document.querySelectorAll('.partner-dropdown').forEach(function(dropdown) {
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                alert('Success.');
+                // alert('Success.');
             }
         };
         xhr.send('id=' + shipmentId + '&remitanceKind=' + newremitanceKind);
@@ -1253,7 +1276,7 @@ function confirmShipment(id) {
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                alert('Shipment confirmed');
+                // alert('Shipment confirmed');
                 // Reload the table data
                 window.location.href = 'records.php';
             }

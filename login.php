@@ -23,28 +23,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if the user exists
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($userType, $fullName); // Fetch both userType and fullName
-            $stmt->fetch();
-
-            // Set session variables
+        $stmt->bind_result($userType, $fullName); // Fetch both userType and fullName
+        $stmt->fetch();
+        
+        // Set session variables
             $_SESSION['userType'] = $userType;
             $_SESSION['fullName'] = $fullName;
             $details = "$fullName ($userType)";
             $_SESSION['details'] = $details;
+            $_SESSION['userId'] = $uname;
 
 
             // Redirect based on userType
-            if ($_SESSION['userType'] == "Inventory") {
-                header("Location: ./okojooja");
-            } elseif ($_SESSION['userType'] == "Data_Entry") {
-                header("Location: ./titesi");
-            } elseif ($_SESSION['userType'] == "Accountant") {
-                header("Location: ./onisiro");
-            } elseif ($_SESSION['userType'] == "Admin") {
-                header("Location: ./abojuto");
-            }
-
-            exit();
+        if ($_SESSION['userType'] == "Inventory") {
+            header("Location: ./okojooja");
+        } elseif ($_SESSION['userType'] == "Data_Entry") {
+            header("Location: ./titesi");
+        } elseif ($_SESSION['userType'] == "Accountant") {
+            header("Location: ./onisiro");
+        } elseif ($_SESSION['userType'] == "Admin") {
+            header("Location: ./abojuto");
+        }
+        
+        exit();
 
 
         } else {

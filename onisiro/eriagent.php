@@ -182,11 +182,16 @@ if (!isset($_SESSION['userType'])) {
                 <thead>
                     <tr>
                         <th>Product</th>
+                        <th>Client</th>
                         <th>Cost</th>
                         <th>Location</th>
                         <th>Delivery fee</th>
                         <th>Captain Fee</th>
                         <th>Profit</th>
+                                <th>Created By</th>
+                                <th>Edited By</th>
+                                <th>Recalled By</th>
+                                <th>Confirmed By</th>
                         <th>Date</th>
                     </tr>
                 </thead>
@@ -199,7 +204,7 @@ if (!isset($_SESSION['userType'])) {
                         $payID = mysqli_real_escape_string($conn, $_GET['eri']); // Sanitize input
                     
                         // Get data
-                        $sqlb = "SELECT product, amount, destination, deliveryFee, riderReward, profitReward, date 
+                        $sqlb = "SELECT product, amount, destination, customersName, deliveryFee, riderReward, profitReward, date, createdBy, editedBy, recalledBy, confirmedBy 
                         FROM gbigbe 
                         WHERE payID6=$payID";
                         $result = mysqli_query($conn, $sqlb); // Execute the query
@@ -212,15 +217,25 @@ if (!isset($_SESSION['userType'])) {
                                 $deliveryFee = $row['deliveryFee'];
                                 $riderReward = $row['riderReward'];
                                 $profitReward = $row['profitReward'];
+                                $customersName = $row['customersName'];
+                                    $createdBy = $row['createdBy'];
+                                    $editedBy = $row['editedBy'];
+                                    $recalledBy = $row['recalledBy'];
+                                    $confirmedBy = $row['confirmedBy'];
                                 $date = $row['date'];
                                 ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($product); ?></td>
+                                    <td><?php echo htmlspecialchars($customersName); ?></td>
                                     <td><?php echo htmlspecialchars($amount); ?></td>
                                     <td><?php echo htmlspecialchars($destination); ?></td>
                                     <td><?php echo htmlspecialchars($deliveryFee); ?></td>
                                     <td><?php echo htmlspecialchars($riderReward); ?></td>
                                     <td><?php echo htmlspecialchars($profitReward); ?></td>
+                                <td><?php echo $createdBy; ?></td>
+                                <td><?php echo $editedBy; ?></td>
+                                <td><?php echo $recalledBy; ?></td>
+                                <td><?php echo $confirmedBy; ?></td>
                                     <td><?php echo htmlspecialchars($date); ?></td>
 
                                 </tr>

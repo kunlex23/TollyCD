@@ -263,6 +263,7 @@ if (!isset($_SESSION['userType'])) {
                             <tr>
                                 <th>Select</th>
                                 <th>SN</th>
+                                <th>Client</th>
                                 <th>Product</th>
                                 <th>Location</th>
                                 <th>Cost</th>
@@ -274,7 +275,7 @@ if (!isset($_SESSION['userType'])) {
                         <tbody id="table-body">
                             <?php
                             // Get data
-                            $sqlb = "SELECT id, product, amount, destination, deliveryFee, riderReward, date 
+                            $sqlb = "SELECT id, product, customersName, amount, destination, deliveryFee, riderReward, date 
                                      FROM gbigbe 
                                      WHERE captain = '$captain' 
                                      AND status = 'completed' 
@@ -287,6 +288,7 @@ if (!isset($_SESSION['userType'])) {
 
                                 while ($row = mysqli_fetch_array($result)) { // Fetch the results
                                     $id = $row['id'];
+                                    $customersName = $row['customersName'];
                                     $product = $row['product'];
                                     $amount = $row['amount'];
                                     $destination = $row['destination'];
@@ -302,6 +304,7 @@ if (!isset($_SESSION['userType'])) {
                                             <input type="hidden" class="captainRew" value="<?php echo htmlspecialchars($captainRew); ?>">
                                         </td>
                                         <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                        <td><?php echo htmlspecialchars($customersName); ?></td>
                                         <td><?php echo htmlspecialchars($product); ?></td>
                                         <td><?php echo htmlspecialchars($destination); ?></td>
                                         <td><?php echo htmlspecialchars($amount); ?></td>

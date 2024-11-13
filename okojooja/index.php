@@ -99,12 +99,12 @@ header("Location: ../onisiro");
 
                 <a href="gbigbeTitun2.php">
                     <span class="material-icons-sharp">add</span>
-                    <h3>New Waybill</h3>
+                    <h3>Create Waybill</h3>
                 </a>
 
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Waybills</h3>
+                    <h3>Active Waybills</h3>
                 </a>
 
 
@@ -113,6 +113,18 @@ header("Location: ../onisiro");
                     <h3>Waybill History</h3>
                 </a>
 
+
+                <a href="abawole.php">
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Change Password</h3>
+                </a>
+
+
+                <a href="iroyin.php">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Report</h3>
+                </a>
+                
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>

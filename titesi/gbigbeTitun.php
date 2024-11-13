@@ -43,7 +43,7 @@ if (!isset($_SESSION['userType'])) {
 
                 <a href="gbigbeTitun.php" class="active">
                     <span class="material-icons-sharp">add_circle</span>
-                    <h3>New Delivery</h3>
+                    <h3>Create Shipment</h3>
                 </a>
 
                 <a href="records.php">
@@ -69,7 +69,7 @@ if (!isset($_SESSION['userType'])) {
 
         <main>
             <div class="recent-sales">
-                <h1>New Delivery</h1>
+                <h1>Create Delivery</h1>
                 <form action="gbigbetitunwolepipo.php" method="POST">
                     <!-- Form fields -->
                     <div class="five-column-form">
@@ -97,7 +97,7 @@ if (!isset($_SESSION['userType'])) {
                                 <option value="">Select a State</option>
                                 <?php
                                 require '../config.php';
-                                $sql = "SELECT sod FROM ninawo";
+                                $sql = "SELECT DISTINCT sod FROM ninawo";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
@@ -121,7 +121,7 @@ if (!isset($_SESSION['userType'])) {
                                 <select name="Name" required onchange="fetchProducts(this.value)">
                                     <option value="">Select a Partner</option>
                                     <?php
-                                    require '../config.php';
+                                    // require '../config.php';
                                     $sql = "SELECT Name FROM alabasepo";
                                     $result = $conn->query($sql);
                                     if ($result->num_rows > 0) {
@@ -153,7 +153,7 @@ if (!isset($_SESSION['userType'])) {
 
                         <div>
                             <label for="dispatcherPrice">Captain Price:</label>
-                            <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required><br>
+                            <input type="text" id="dispatcherPrice" name="dispatcherPrice[]" required readonly><br>
                             
                             <input type="hidden" id="profit" name="profit[]" required><br>
                             <input type="hidden" id="partnerPrice" name="partnerPrice[]" required readonly><br>
@@ -310,24 +310,60 @@ if (!isset($_SESSION['userType'])) {
         }
     }
 
-    function fetchPrice(location) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "get_price.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                if (response.error) {
-                    console.error(response.error);
-                } else {
-                    document.getElementById("partnerPrice").value = response.partnerPrice;
-                    document.getElementById("dispatcherPrice").value = response.dispatcherPrice;
-                    document.getElementById("profit").value = response.profit;
-                }
+  // Call this function on page load to populate the dropdown with locations
+function fetchLocations() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "get_price.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (Array.isArray(response)) {
+                // Sort locations alphabetically
+                response.sort();
+
+                const dropdown = document.getElementById("locationDropdown");
+                dropdown.innerHTML = '<option value="">Select a Location</option>'; // Reset options
+                response.forEach(location => {
+                    const option = document.createElement("option");
+                    option.value = location;
+                    option.textContent = location;
+                    dropdown.appendChild(option);
+                });
+            } else {
+                console.error(response.error || 'Error fetching locations');
             }
-        };
-        xhr.send("location=" + location);
-    }
+        }
+    };
+    xhr.send("getLocations=true");
+}
+
+
+// Fetch the price details when a location is selected
+function fetchPrice(location) {
+    if (!location) return; // Exit if no location is selected
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "get_price.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.error) {
+                console.error(response.error);
+            } else {
+                document.getElementById("partnerPrice").value = response.partnerPrice;
+                document.getElementById("dispatcherPrice").value = response.dispatcherPrice;
+                document.getElementById("profit").value = response.profit;
+            }
+        }
+    };
+    xhr.send("location=" + location);
+}
+
+// Call fetchLocations on page load
+document.addEventListener("DOMContentLoaded", fetchLocations);
+
 
     function fetchCaptain(captain) {
         const xhr = new XMLHttpRequest();

@@ -20,7 +20,7 @@ if (isset($_POST['id']) && isset($_POST['paymentMethod'])) {
 
     $query = "UPDATE gbigbe SET paymentMethod='$paymentMethod' WHERE id='$id'";
     if (mysqli_query($conn, $query)) {
-        echo "paymentMethod updated successfully.";
+        // echo "paymentMethod updated successfully.";
     } else {
         echo "Error updating paymentMethod: " . mysqli_error($conn);
     }

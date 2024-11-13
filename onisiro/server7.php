@@ -17,7 +17,7 @@ require '../config.php';
 
 $sql = "SELECT SUM(amount) AS amountIn
 FROM others_gifts
-WHERE date > DATE_SUB(NOW(), INTERVAL 7 DAY)";
+WHERE date > DATE_SUB(NOW(), INTERVAL 1 MONTH)";
 if ($result = $conn->query($sql)) {
     while ($row = $result->fetch_assoc()) {
         $tClients = $row['amountIn'] !== null ? $row['amountIn'] : 0;
