@@ -160,7 +160,7 @@ if (!isset($_SESSION['userType'])) {
                             </select><br>
 
                             <label for="agentName">Agent Name:</label>
-                            <select name="agentName[]" required onchange="fetchAgent(this.value)">
+                            <select name="agentName[]" required >
                                 <option value="">Select Agent</option>
                                 <?php
                                 require '../config.php';

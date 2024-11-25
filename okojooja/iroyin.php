@@ -2,12 +2,12 @@
 session_start();
 if (!isset($_SESSION['userType'])) {
     header("location: ../index.php");
-} elseif (($_SESSION['userType']) == "Inventory") {
-} elseif (($_SESSION['userType']) == "Data_Entry") {
-    header("Location: ../titesi");
-} elseif (($_SESSION['userType']) == "Accountant") {
-    header("Location: ../onisiro");
-} elseif (($_SESSION['userType']) == "Admin") {
+}elseif (($_SESSION['userType']) == "Inventory"){
+}elseif (($_SESSION['userType']) == "Data_Entry"){
+header("Location: ../titesi");
+ }elseif (($_SESSION['userType']) == "Accountant"){
+header("Location: ../onisiro");
+}elseif (($_SESSION['userType']) == "Admin"){
     // echo "<button>check</button>";
 } else {
     header("location: ../index.php");
@@ -24,36 +24,73 @@ if (!isset($_SESSION['userType'])) {
     <!-- Material app -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <!-- style -->
-    <link rel="stylesheet" href="css/styl.css">
+    <link rel="stylesheet" href="css/styler.css">
     <style>
-    form {
+    table,
+    th,
+    td {
+        border: 1px solid blanchedalmond;
+        border-collapse: collapse;
+        padding: 2px;
+    }
+
+    tr:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
+
+    td:nth-child(even) {
+        background-color: rgba(150, 212, 212, 0.4);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        gap: 1rem;
+    }
+
+    /* Styling for individual navigation buttons */
+    .nav-button {
+        padding: 0.6rem;
+        font-size: 16px;
+        color: white;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 2rem;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        width: 3rem;
+        height: 3rem;
+    }
+
+    /* Styling for button hover effect */
+    .nav-button:hover {
+        background-color: #0056b3;
+    }
+
+    .form1 {
         display: flex;
         padding-left: 30%;
         padding-right: 30%;
         gap: 0.5rem;
     }
-      input[type="date"] {
-            font-size: 16px;
-            padding: 10px;
-            width: 200px;
-            height: 1rem;
-        }
-button{
-    padding-left: 1rem;
-    padding-right: 1rem;
-    background-color: #757577;
-    height: 1.5rem;
-    color: white;
-    border-radius: 5px;
-}
-    .breakDown {
-        display: flex;
-        gap: 25%;
-        text-align: center;
+
+    input[type="date"] {
+        font-size: 16px;
+        padding: 10px;
+        width: 200px;
+        height: 1rem;
     }
 
-    .breakOne {
-        gap: 4rem;
+    button {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        background-color: #757577;
+        height: 1.5rem;
+        color: white;
+        border-radius: 5px;
     }
     </style>
 </head>
@@ -64,8 +101,6 @@ button{
             <div class="top">
                 <div class="logo">
                     <img src="./images/logo.png">
-                    <!-- <h2>ZIB<span class="compel">AH</span></h2> -->
-                    <!-- <h2>Name</h2> -->
                 </div>
                 <div class="closeBTN" id="close-btn"><span class="material-icons-sharp">close</span>
                 </div>
@@ -75,7 +110,7 @@ button{
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="alabasepo.php" class="active">
+                <a href="alabasepo.php">
                     <span class="material-icons-sharp">groups</span>
                     <h3>Partners</h3>
                 </a>
@@ -83,7 +118,6 @@ button{
                     <span class="material-icons-sharp">inventory</span>
                     <h3>Products</h3>
                 </a>
-
 
                 <a href="gbigbeTitun2.php">
                     <span class="material-icons-sharp">add</span>
@@ -95,11 +129,24 @@ button{
                     <h3>Active Waybills</h3>
                 </a>
 
+
                 <a href="awe.php">
                     <span class="material-icons-sharp">history</span>
                     <h3>Waybill History</h3>
                 </a>
 
+
+                <a href="abawole.php">
+                    <span class="material-icons-sharp">manage_accounts</span>
+                    <h3>Change Password</h3>
+                </a>
+
+
+                <a href="iroyin.php" class="active">
+                    <span class="material-icons-sharp">history</span>
+                    <h3>Report</h3>
+                </a>
+                
                 <a href="../logout.php">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Logout</h3>
@@ -108,130 +155,83 @@ button{
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-            <h2>Product History</h2><br>
-            <?php
-            if (isset($_GET['ewo']) && isset($_GET['tani'])) {
-                $productID = $_GET['ewo'];
-                $partner = $_GET['tani'];
-                $availableUnit = $_GET['loku'];
-                $eruwo = $_GET['eruwo'];
-            }
-            echo "Partner: <b>" . $partner . "</b><br>";
-            echo "Available Unit: <h2>" . $availableUnit . "</h2><br>";
-            echo "Product: <h2>" . $eruwo . "</h2><br>";
-            ?><br>
-
-            <form method="post" action="">
+            <h1>Report</h1><br>
+            <form method="post" action="" class="form1">
                 <h2>Start</h2>
                 <input type="date" id="start-date" name="start-date" required>
                 <h2>End</h2>
                 <input type="date" id="end-date" name="end-date" required>
                 <button type="submit">Filter</button>
             </form><br>
-            <div class="breakDown">
-                <div class="breakOne">
-                    <?php
-                    require '../config.php';
+            <div class="insight">
 
-                    // Initialize variables for the date range
-                    $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
-                    $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
-
-                    // Create a query to sum different columns: rQuantity, bQuantity, and quantity
-                    $query_string = "SELECT SUM(rQuantity) AS totalReceived, 
-                            SUM(bQuantity) AS totalBad, 
-                            SUM(quantity) AS totalGood
-                     FROM afikun 
-                     WHERE partner = '$partner' AND productName = '$eruwo'";
-
-                    if ($start_date && $end_date) {
-                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
-                    }
-
-                    $query_string .= " ORDER BY partner DESC";
-
-                    // Execute the query
-                    $query = mysqli_query($conn, $query_string);
-
-                    if (!$query) {
-                        echo "Error fetching data: " . mysqli_error($conn);
-                    } else {
-                        while ($row = mysqli_fetch_array($query)) {
-                            $totalReceived = $row['totalReceived'];
-                            $totalBad = $row['totalBad'];
-                            $totalGood = $row['totalGood'];
-
-                            echo "Received: <h1>" . ($totalReceived ? $totalReceived : 0) . "</h1><br>";
-                           
-                        }
-                    }
-                    ?>
-                </div>
-                <div class="breakOne">
-                   <?php echo "Bad: <h1>" . ($totalBad ? $totalBad : 0) . "</h1><br>";?>
-
-                </div>
-                <div class="breakOne">
-                    <?php echo "Good: <h1>" . ($totalGood ? $totalGood : 0) . "</h1><br>";?>
-                </div>
-                <div class="breakTwo">
-                    <?php
-                // Sanitize input to prevent SQL injection
-                $partner = mysqli_real_escape_string($conn, $partner);
-                $eruwo = mysqli_real_escape_string($conn, $eruwo);
-
-                // Build the base query to get the product
-                $query_string = "SELECT product
-                     FROM gbigbe 
-                     WHERE partner = '$partner' AND product LIKE '$eruwo%'";
-
-                // Add date filtering if start_date and end_date are set
-                if (!empty($start_date) && !empty($end_date)) {
-                    $start_date = mysqli_real_escape_string($conn, $start_date);
-                    $end_date = mysqli_real_escape_string($conn, $end_date);
-                    $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
-                }
-
-                // Order the results by partner in descending order
-                $query_string .= " ORDER BY partner DESC";
-
-                // Execute the query
-                $query = mysqli_query($conn, $query_string);
-
-                // Check for query execution errors
-                if (!$query) {
-                    echo "Error fetching data: " . mysqli_error($conn);
-                } else {
-                    // Initialize total quantity
-                    $total_quantity = 0;
-
-                    // Fetch and process the product(s)
-                    while ($row = mysqli_fetch_array($query)) {
-                        // Extract product and quantity
-                        $product_data = explode('=', $row['product']);
-                        $quantity = isset($product_data[1]) ? (int) trim($product_data[1]) : 0; // Convert quantity to integer
                 
-                        // Add to total quantity
-                        $total_quantity += $quantity;
-                    }
+                
+                <div class="sales">
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Waybill</h3>
+                            <div>
+                                    <?php
+                                    require '../config.php';
 
-                    // Display the total quantity delivered
-                    echo "Total Delivered: <h1>$total_quantity</h1>";
-                }
-                ?>
+                                    // Initialize variables for the date range and sanitize inputs
+                                    $start_date = isset($_POST['start-date']) ? mysqli_real_escape_string($conn, $_POST['start-date']) : null;
+                                    $end_date = isset($_POST['end-date']) ? mysqli_real_escape_string($conn, $_POST['end-date']) : null;
 
+                                    // Base query
+                                    // SELECT COUNT(*) AS totalClients
+                                    $query_string = "SELECT COUNT(*) AS amountIn
+                                    FROM gbigbe
+                                    WHERE shipmentType = 'waybill'";
+
+                                    // Check if date range is provided and append a condition using AND
+                                    if ($start_date && $end_date) {
+                                        $query_string .= " AND date BETWEEN '$start_date' AND '$end_date'";
+                                    }
+
+                                    // Execute the query
+                                    $query = mysqli_query($conn, $query_string);
+
+                                    if (!$query) {
+                                        // Handle the query error
+                                        echo "Error fetching data: " . mysqli_error($conn);
+                                    } else {
+                                        $row = $query->fetch_assoc(); // Use $query instead of $result
+                                        $tClients = $row['amountIn'] ?? 0; // Handle null case
+                                    
+                                        echo '<h1>' . number_format($tClients, 0, '.', ',') . '</h1>';
+
+                                        $query->free(); // Free the query result
+                                    }
+
+                                    $conn->close();
+                                    ?>
+                            </div>
+                           
+                        </div>
+
+                    </div>
+                    <!-- <small class="tex">Last 7 Days</small> -->
                 </div>
-            </div><br>
+                
+                
+            </div><br><br>
+
             <table id="shipmentTable3" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>SN</th>
+                                <th>Partner</th>
                                 <th>Type</th>
                                 <th>Product</th>
-                                <th>Receiver</th>
+                                <!--<th>Qty</th>-->
+                                <!--<th>Amount</th>-->
+                                <th>Client</th>
                                 <th>Location</th>
-                                <th>Agent</th>
+                                <th>Captain</th>
                                 <th>Contact</th>
+                                <!--<th>Payment Method</th>-->
                                 <th>Date</th>
                             </tr>
                         </thead>
@@ -243,13 +243,10 @@ button{
                         $start_date = isset($_POST['start-date']) ? $_POST['start-date'] : null;
                         $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
 
-                            $productName = explode('=', $eruwo)[0];  // Get the product name before the '='
-                            
-                            $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date 
-                            FROM gbigbe 
-                            WHERE status = 'completed' 
-                            AND product LIKE '$productName%'";
-
+                        // Create a query to sum different columns: rQuantity, bQuantity, and quantity
+                        $query_string ="SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, paymentMethod, date 
+                        FROM gbigbe 
+                        WHERE shipmentType = 'waybill'";
 
                             // Check if date range is provided and add an additional condition to the WHERE clause
                             if ($start_date && $end_date) {
@@ -285,12 +282,16 @@ button{
                                     ?>
                             <tr>
                                 <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
+                                <td><?php echo $partner; ?></td>
                                 <td><?php echo $shipmentType; ?></td>
                                 <td><?php echo $product; ?></td>
+                                <!--<td><?php echo $quantity; ?></td>-->
+                                <!--<td><?php echo $amount; ?></td>-->
                                 <td><?php echo $customersName; ?></td>
                                 <td><?php echo $destination; ?></td>
                                 <td><?php echo $captain; ?></td>
                                 <td><?php echo $customerContact; ?></td>
+                                <!--<td><?php echo $paymentMethod; ?></td>-->
                                 <td><?php echo $date; ?></td>
                             </tr>
                             <?php
@@ -301,8 +302,9 @@ button{
                         </tbody>
 
                     </table>
-        </main>
 
+
+        </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
             <div class="top">
@@ -310,23 +312,21 @@ button{
                     <span class="material-icons-sharp">menu</span>
                 </button>
                 <div class="theme-toggler">
-                    <span class="material-icons-sharp active">light_mode</span>
-                    <span class="material-icons-sharp">dark_mode</span>
+                    <span id="light-mode-icon" class="material-icons-sharp active">light_mode</span>
+                    <span id="dark-mode-icon" class="material-icons-sharp">dark_mode</span>
                 </div>
-            </div> <!-- -----------END OF RECENT UPDATE--------------- -->
-
-            <div class="sales-analytics">
-                <a href="ojatitunpipo.php">
-                    <div class="item add-product">
-                        <div>
-                            <span class="material-icons-sharp">add</span>
-                            <h3>New Product</h3>
-                        </div>
+                <div class="profile">
+                    <div class="info">
+                        <p> <b></b></p>
+                        <!-- <small class="text-muted">Admin</small> -->
                     </div>
-                </a>
+                </div>
+
             </div>
+
         </div>
     </div>
+
     <script src="../script/scrip.js"></script>
 </body>
 

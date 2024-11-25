@@ -14,7 +14,7 @@ if (!isset($_SESSION['userType'])) {
     header("location: ../index.php");
 }
 
-require '../config.php';
+include_once "config.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sods = $_POST['sod'];

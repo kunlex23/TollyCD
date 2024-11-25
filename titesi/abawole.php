@@ -2,13 +2,12 @@
 session_start();
 if (!isset($_SESSION['userType'])) {
     header("location: ../index.php");
-} elseif (($_SESSION['userType']) == "Inventory") {
-} elseif (($_SESSION['userType']) == "Data_Entry") {
-    header("Location: ../titesi");
-} elseif (($_SESSION['userType']) == "Accountant") {
-    header("Location: ../onisiro");
-} elseif (($_SESSION['userType']) == "Admin") {
-    // echo "<button>check</button>";
+} elseif (($_SESSION['userType']) == "Inventory"){
+header("Location: ../okojooja");
+}elseif (($_SESSION['userType']) == "Data_Entry"){
+ }elseif (($_SESSION['userType']) == "Accountant"){
+header("Location: ../onisiro");
+}elseif (($_SESSION['userType']) == "Admin"){
 } else {
     header("location: ../index.php");
 }
@@ -114,37 +113,23 @@ if (!isset($_SESSION['userType'])) {
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="alabasepo.php">
-                    <span class="material-icons-sharp">groups</span>
-                    <h3>Partners</h3>
-                </a>
-                <a href="oja.php">
-                    <span class="material-icons-sharp">inventory</span>
-                    <h3>Products</h3>
-                </a>
-
-                <a href="gbigbeTitun2.php">
-                    <span class="material-icons-sharp">add</span>
-<<<<<<< HEAD
-                    <h3>New Waybill</h3>
-=======
-                    <h3>Create Waybill</h3>
->>>>>>> 438e7786b64c654f6174992bd89b7813079ba0e1
+              <a href="gbigbeTitun.php">
+                    <span class="material-icons-sharp">add_circle</span>
+                    <h3>Create Shipment</h3>
                 </a>
 
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
-<<<<<<< HEAD
-                    <h3>Waybills</h3>
-=======
-                    <h3>Active Waybills</h3>
->>>>>>> 438e7786b64c654f6174992bd89b7813079ba0e1
+                    <h3>Active Shipments</h3>
                 </a>
-
+                <a href="dapada.php">
+                    <span class="material-icons-sharp">assignment_return</span>
+                    <h3>Returned Shipments</h3>
+                </a>
 
                 <a href="awe.php">
                     <span class="material-icons-sharp">history</span>
-                    <h3>Waybill History</h3>
+                    <h3>Shipments History</h3>
                 </a>
 
                 <a href="abawole.php" class="active">
@@ -199,76 +184,7 @@ if (!isset($_SESSION['userType'])) {
                     </div>
                 </div>
             </div>
-<?php
-    if ($_SESSION['userType'] == "Admin") {
-        echo "<div class='navbar'>";
-        echo "<a href='../okojooja' class='nav-button'>I</a>";
-        echo "<a href='../titesi' class='nav-button'>D</a>";
-        echo "<a href='../onisiro' class='nav-button'>A</a>";
-        echo "<a href='../abojuto' class='nav-button'>AD</a>";
-        echo "</div>";
-    }
-    ?>
-    <div class="sales-analytics">
-        <a href="newalabasepo.php">
-            <div class="item add-product">
-                <div>
-                    <span class="material-icons-sharp">add</span>
-                    <h3>New Partner</h3>
-                </div>
-            </div>
-        </a>
-        <a href="ojatitunpipo.php">
-            <div class="item add-product">
-                <div>
-                    <span class="material-icons-sharp">add</span>
-                    <h3>New Product</h3>
-                </div>
-            </div>
-        </a>
 
-        <span>
-            <center>
-                <h2>Products running low</h2>
-            </center>
-        </span>
-        <table style="width: 100%;">
-            <thead>
-                <tr>
-                    <th>Partner</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <?php
-                require '../config.php';
-
-                $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products WHERE quantity < 5 ORDER BY partner DESC LIMIT 10");
-
-                while ($row = mysqli_fetch_array($query)) {
-                    $partner = $row['partner'];
-                    $productName = $row['productName'];
-                    $quantity = $row['quantity'];
-                    ?>
-                    <tr>
-                        <td> <?php echo $partner; ?></td>
-                        <td><?php echo $productName; ?></td>
-                        <td><?php echo $quantity; ?></td>
-
-                    </tr>
-
-
-
-                <?php } ?>
-            </tbody>
-        </table>
-        <div class="item-online">
-            <div class="right">
-                <table style="width: 100%;" class="due_client">
-
-
-                </table>
 
             </div>
         </div>

@@ -145,7 +145,7 @@ if (!isset($_SESSION['userType'])) {
 
                 <a href="gbigbeTitun.php">
                     <span class="material-icons-sharp">add_circle</span>
-                    <h3>New Delivery</h3>
+                    <h3>Create Delivery</h3>
                 </a>
 
                 <a href="records.php">

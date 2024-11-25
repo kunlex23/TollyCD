@@ -170,7 +170,7 @@ if (!isset($_SESSION['userType'])) {
 
                 <a href="gbigbeTitun.php">
                     <span class="material-icons-sharp">add_circle</span>
-                    <h3>New Delivery</h3>
+                    <h3>Create Shipment</h3>
                 </a>
 
                 <a href="records.php">
@@ -232,6 +232,10 @@ if (!isset($_SESSION['userType'])) {
                             <th>Contact</th>
                             <th>Captain</th>
                             <th>Status</th>
+                                <th>Created By</th>
+                                <th>Edited By</th>
+                                <th>Recalled By</th>
+                                <th>Confirmed By</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -244,7 +248,7 @@ if (!isset($_SESSION['userType'])) {
                         $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
 
                         // Create a query to sum different columns: rQuantity, bQuantity, and quantity
-                        $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date 
+                        $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, amount, customersName, destination, customerContact, captain, status, paymentMethod, date, createdBy, editedBy, recalledBy, confirmedBy
                      FROM gbigbe 
                      WHERE shipmentType = 'Delivery'";
 
@@ -281,6 +285,10 @@ if (!isset($_SESSION['userType'])) {
                                 $captain = $row['captain'];
                                 $status = $row['status'];
                                 $date = $row['date'];
+                                    $createdBy = $row['createdBy'];
+                                    $editedBy = $row['editedBy'];
+                                    $recalledBy = $row['recalledBy'];
+                                    $confirmedBy = $row['confirmedBy'];
                                 ?>
                         <tr>
                             <td><?php echo $serialNumber; ?></td> <!-- Display the serial number -->
@@ -294,6 +302,10 @@ if (!isset($_SESSION['userType'])) {
                             <td><?php echo $customerContact; ?></td>
                             <td><?php echo $captain; ?></td>
                             <td><?php echo $status; ?></td>
+                                <td><?php echo $createdBy; ?></td>
+                                <td><?php echo $editedBy; ?></td>
+                                <td><?php echo $recalledBy; ?></td>
+                                <td><?php echo $confirmedBy; ?></td>
                             <td><?php echo $date; ?></td>
                         </tr>
                         <?php

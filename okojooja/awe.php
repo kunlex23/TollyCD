@@ -176,12 +176,12 @@ if (!isset($_SESSION['userType'])) {
 
                 <a href="gbigbeTitun2.php">
                     <span class="material-icons-sharp">add</span>
-                    <h3>New Waybill</h3>
+                    <h3>Create Waybill</h3>
                 </a>
 
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Waybills</h3>
+                    <h3>Active Waybills</h3>
                 </a>
 
                 <a href="awe.php"  class="active">
@@ -233,6 +233,10 @@ if (!isset($_SESSION['userType'])) {
                             <th>Profit</th>
                             <th>Partner Price</th>
                             <th>Status</th>
+                                <th>Created By</th>
+                                <!--<th>Edited By</th>-->
+                                <!--<th>Recalled By</th>-->
+                                <th>Confirmed By</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -245,7 +249,7 @@ if (!isset($_SESSION['userType'])) {
                         $end_date = isset($_POST['end-date']) ? $_POST['end-date'] : null;
 
 
-                        $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, agentName, date  
+                        $query_string = "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, agentName, date, createdBy, editedBy, recalledBy, confirmedBy
                         FROM gbigbe 
                         WHERE shipmentType = 'Waybill'";
 
@@ -277,6 +281,10 @@ if (!isset($_SESSION['userType'])) {
                             $profitReward = $row['profitReward'];
                             $status = $row['status'];
                             $date = $row['date'];
+                                    $createdBy = $row['createdBy'];
+                                    $editedBy = $row['editedBy'];
+                                    $recalledBy = $row['recalledBy'];
+                                    $confirmedBy = $row['confirmedBy'];
                             ?>
                             <tr>
                                 <td><?php echo $serialNumber; ?></td>
@@ -291,6 +299,10 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>
                                 <td><?php echo $status; ?></td>
+                                <td><?php echo $createdBy; ?></td>
+                                <!--<td><?php echo $editedBy; ?></td>-->
+                                <!--<td><?php echo $recalledBy; ?></td>-->
+                                <td><?php echo $confirmedBy; ?></td>
                                 <td><?php echo $date; ?></td>
                                 </tr>
                         <?php $serialNumber++;  } }?>

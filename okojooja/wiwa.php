@@ -73,12 +73,12 @@ if (!isset($_SESSION['userType'])) {
 
                 <a href="gbigbeTitun2.php">
                     <span class="material-icons-sharp">add</span>
-                    <h3>New Waybill</h3>
+                    <h3>Create Waybill</h3>
                 </a>
 
                 <a href="records.php">
                     <span class="material-icons-sharp">local_shipping</span>
-                    <h3>Waybills</h3>
+                    <h3>Active Waybills</h3>
                 </a>
 
                 <a href="awe.php">
