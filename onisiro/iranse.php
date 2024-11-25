@@ -109,7 +109,7 @@ if (!isset($_SESSION['userType'])) {
                 <div class="recent-sales"><br>
                     <h2>All Waybill</h2>
 
-                    <input type="text" id="filterInput" placeholder="Search for shipment..." onkeyup="filterTable()">
+                    <input type="text" id="filterInput" placeholder="Search for waybill by contact" onkeyup="filterTable()">
                     <table id="shipmentTable" style="width: 100%;">
                         <thead>
                             <tr>
@@ -121,6 +121,8 @@ if (!isset($_SESSION['userType'])) {
                                 <th>Driver Price</th>
                                 <th>Profit</th>
                                 <th>Partner Price</th>
+                                <th>Created By</th>
+                                <th>Confirmed By</th>
                                 <th>Date</th>
 
                             </tr>
@@ -129,7 +131,7 @@ if (!isset($_SESSION['userType'])) {
                             <?php
                             require '../config.php';
 
-                            $query = mysqli_query($conn, "SELECT id, partner,  product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
+                            $query = mysqli_query($conn, "SELECT id, partner,  product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, createdBy, confirmedBy, date  
                             FROM gbigbe 
                             WHERE shipmentType = 'Waybill'
                             ORDER BY partner DESC ");
@@ -145,6 +147,8 @@ if (!isset($_SESSION['userType'])) {
                                 $customerContact = $row['customerContact'];
                                 $profitReward = $row['profitReward'];
                                 $status = $row['status'];
+                                $createdBy = $row['createdBy'];
+                                $confirmedBy = $row['confirmedBy'];
                                 $date = $row['date'];
                                 ?>
                             <tr>
@@ -156,6 +160,8 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $riderReward; ?></td>
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>
+                                <td><?php echo $createdBy; ?></td>
+                                <td><?php echo $confirmedBy; ?></td>
                                 <td><?php echo $date; ?></td>
 
                             </tr>
@@ -183,6 +189,7 @@ if (!isset($_SESSION['userType'])) {
                                 <th>Driver Price</th>
                                 <th>Profit</th>
                                 <th>Partner Price</th>
+                                <th>Created By</th>
                                 <th>Date</th>
                                 <th>Action</th>
                             </tr>
@@ -191,7 +198,7 @@ if (!isset($_SESSION['userType'])) {
                             <?php
                                     require '../config.php';
 
-                                    $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, deliveryFee, date  
+                                    $query = mysqli_query($conn, "SELECT id, partner, shipmentType, product, availableUnit, quantity, unitPrice, riderReward, customersName, destination, customerContact, profitReward, status, createdBy, deliveryFee, date  
                                     FROM gbigbe
                                     WHERE shipmentType = 'Waybill' 
                                     AND status ='Completed' 
@@ -212,6 +219,7 @@ if (!isset($_SESSION['userType'])) {
                                         $customerContact = $row['customerContact'];
                                         $profitReward = $row['profitReward'];
                                         $status = $row['status'];
+                                        $createdBy = $row['createdBy'];
                                         $date = $row['date'];
                                         ?>
                             <tr>
@@ -223,6 +231,7 @@ if (!isset($_SESSION['userType'])) {
                                 <td><?php echo $riderReward; ?></td>
                                 <td><?php echo $profitReward; ?></td>
                                 <td><?php echo $deliveryFee; ?></td>
+                                <td><?php echo $createdBy; ?></td>
                                 <td><?php echo $date; ?></td>
                                 <td><button onclick="confirmShipment(<?php echo $id; ?>)"
                                         style="padding:0.5rem; background-color:  #7380ec; border-radius:0.4rem;"><b>Confirm</b></button>

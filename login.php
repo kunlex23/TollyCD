@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['fullName'] = $fullName;
             $details = "$fullName ($userType)";
             $_SESSION['details'] = $details;
+            $_SESSION['userId'] = $uname;
 
 
             // Redirect based on userType

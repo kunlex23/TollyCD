@@ -51,11 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result) {
             $row = mysqli_fetch_assoc($result);
             $totalAmount += $row['partnerReward'];
+            // echo $totalAmount;
         }
     }
 
     // Insert the new record with the generated payID
-    $insertQuery = "INSERT INTO owoAlabasepoHistory (partner, totalAmount, accountNumber, bank, accountName, payID) 
+    $insertQuery = "INSERT INTO owoalabasepohistory (partner, totalAmount, accountNumber, bank, accountName, payID) 
                     VALUES ('$partner', '$totalAmount', '$accountNumber', '$bank', '$accountName', '$payID')";
 
     if (mysqli_query($conn, $insertQuery)) {

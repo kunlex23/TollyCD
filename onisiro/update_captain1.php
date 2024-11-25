@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Update the captain status
     $query = "UPDATE gbigbe SET 
     accCaptain = 'beni', 
-    confirmedBy = '$detailse' 
+    confirmedBy = '$detailse',
+    status = 'Completed'
     WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
