@@ -109,7 +109,7 @@ if (!isset($_SESSION['userType'])) {
                         <?php
                         require '../config.php';
 
-                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM products ORDER BY partner DESC");
+                        $query = mysqli_query($conn, "SELECT partner, productName, quantity FROM eru ORDER BY partner DESC");
                         while ($row = mysqli_fetch_array($query)) {
                             $partner = $row['partner'];
                             $productName = $row['productName'];

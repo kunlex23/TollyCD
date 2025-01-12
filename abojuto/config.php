@@ -13,10 +13,10 @@ if (!isset($_SESSION['userType'])) {
   header("location: ../index.php");
 }
 
-  $hostname = "localhost";
-  $username = "u476938761_cdtolly_app";
-  $password = "Px4@vuCfB";
-  $dbname = "u476938761_cdtolly";
+$hostname = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "cdtolly";
 
   $conn = mysqli_connect($hostname, $username, $password, $dbname);
   if(!$conn){

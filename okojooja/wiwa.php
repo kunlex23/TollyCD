@@ -104,7 +104,7 @@ if (!isset($_SESSION['userType'])) {
 
                 if (isset($_GET['Name'])) {
                     $Name = $conn->real_escape_string($_GET['Name']);
-                    $sql = "SELECT * FROM products WHERE partner = ?";
+                    $sql = "SELECT * FROM eru WHERE partner = ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("s", $Name);
                     $stmt->execute();
@@ -183,7 +183,7 @@ if (!isset($_SESSION['userType'])) {
                 $delete_eru = urldecode($_GET['delete_eru']);
                 // Perform the deletion query here
                 $deleteSql = "DELETE FROM alabasepo WHERE id = $deleteId";
-                $deleteSql1 = "DELETE FROM products WHERE partner = $delete_eru";
+                $deleteSql1 = "DELETE FROM eru WHERE partner = $delete_eru";
 
                 if ($conn->query($deleteSql) === TRUE) {
                     echo '<script>alert("Partner removed successfully!");</script>';

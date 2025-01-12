@@ -2,12 +2,12 @@
 session_start();
 if (!isset($_SESSION['userType'])) {
     header("location: ../index.php");
-} elseif (($_SESSION['userType']) == "Inventory"){
-header("Location: ../okojooja");
-}elseif (($_SESSION['userType']) == "Data_Entry"){
- }elseif (($_SESSION['userType']) == "Accountant"){
-header("Location: ../onisiro");
-}elseif (($_SESSION['userType']) == "Admin"){
+} elseif (($_SESSION['userType']) == "Inventory") {
+    header("Location: ../okojooja");
+} elseif (($_SESSION['userType']) == "Data_Entry") {
+} elseif (($_SESSION['userType']) == "Accountant") {
+    header("Location: ../onisiro");
+} elseif (($_SESSION['userType']) == "Admin") {
 } else {
     header("location: ../index.php");
 }
@@ -25,22 +25,23 @@ header("Location: ../onisiro");
     <!-- style -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-    table,
-    th,
-    td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
-        padding: 8px;
-    }
+        table,
+        th,
+        td {
+            /* border: 1px solid black; */
+            /* border-collapse: collapse; */
+            padding: 8px;
+        }
 
-    tr:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
+        tr:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
 
-    td:nth-child(even) {
-        background-color: rgba(150, 212, 212, 0.4);
-    }
-     .navbar {
+        td:nth-child(even) {
+            background-color: rgba(150, 212, 212, 0.4);
+        }
+
+        .navbar {
             display: flex;
             justify-content: center;
             margin-top: 2rem;
@@ -49,7 +50,8 @@ header("Location: ../onisiro");
 
         /* Styling for individual navigation buttons */
         .nav-button {
-            margin: 0 15px; /* Space between buttons */
+            margin: 0 15px;
+            /* Space between buttons */
             padding: 0.8rem;
             font-size: 16px;
             color: white;
@@ -67,32 +69,35 @@ header("Location: ../onisiro");
         .nav-button:hover {
             background-color: #0056b3;
         }
-        .wole{
+
+        .wole {
             margin-top: 5rem;
             font-size: 16px;
             padding: 2rem;
         }
-        .wole input{
+
+        .wole input {
             width: 300px;
             height: 2rem;
         }
+
         /* Button Styles */
-.btn {
-    background-color: #4CAF50; 
-    color: white;              
-    padding: 10px 20px;        
-    border: none;              
-    border-radius: 5px;        
-    cursor: pointer;           
-    font-size: 16px;           
-    margin-left: 2rem;
-}
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 2rem;
+        }
 
-/* Add a hover effect */
-.btn:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
-
+        /* Add a hover effect */
+        .btn:hover {
+            background-color: #45a049;
+            /* Darker green on hover */
+        }
     </style>
 </head>
 
@@ -113,7 +118,7 @@ header("Location: ../onisiro");
                     <span class="material-icons-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
-              <a href="gbigbeTitun.php">
+                <a href="gbigbeTitun.php">
                     <span class="material-icons-sharp">add_circle</span>
                     <h3>Create Shipment</h3>
                 </a>
@@ -145,30 +150,30 @@ header("Location: ../onisiro");
         </aside>
         <!------------ END OF ASIDE ------------>
         <main>
-           
 
-    <h2>Change Password</h2>
-    <form action="abawolee.php" method="POST">
-        <div class="wole">
-            <label for="oldPassword">Current Password:</label><br>
-        <input type="password" id="oldPassword" name="oldPassword" required><br><br>
 
-        <label for="newPassword">New Password:</label><br>
-        <input type="password" id="newPassword" name="newPassword" required><br><br>
+            <h2>Change Password</h2>
+            <form action="abawolee.php" method="POST">
+                <div class="wole">
+                    <label for="oldPassword">Current Password:</label><br>
+                    <input type="password" id="oldPassword" name="oldPassword" required><br><br>
 
-        <label for="confirmPassword">Confirm New Password:</label><br>
-        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+                    <label for="newPassword">New Password:</label><br>
+                    <input type="password" id="newPassword" name="newPassword" required><br><br>
 
-        </div>
-        <div class="woleBTN">
-            <input type="submit" value="Change Password" class="btn">
+                    <label for="confirmPassword">Confirm New Password:</label><br>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
 
-        </div>
-    </form>
-</main>
+                </div>
+                <div class="woleBTN">
+                    <input type="submit" value="Change Password" class="btn">
+
+                </div>
+            </form>
+        </main>
         <!-- ----------END OF MAIN----------- -->
         <div class="right">
-           
+
             <div class="top">
                 <button id="menu-btn">
                     <span class="material-icons-sharp">menu</span>
@@ -186,14 +191,14 @@ header("Location: ../onisiro");
             </div>
 
 
-            </div>
         </div>
+    </div>
 
     </div>
-</div>
-</div>
+    </div>
+    </div>
 
-<script src="../script/scrip.js"></script>
+    <script src="../script/scrip.js"></script>
 </body>
 
 </html>
